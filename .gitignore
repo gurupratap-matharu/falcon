@@ -1,5 +1,7 @@
 # Local
 ssl/
+dashboard/
+
 
 # Macos
 .DS_Store
