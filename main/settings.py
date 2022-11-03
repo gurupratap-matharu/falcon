@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     # Third party
     "django_extensions",
+    # Local
+    "pages.apps.PagesConfig",
 ]
 
 MIDDLEWARE = [
