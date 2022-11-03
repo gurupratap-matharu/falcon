@@ -1,0 +1,40 @@
+### Get JSON formatted lists of a site's datasets
+
+### GET all packages
+GET http://datos.gob.ar/api/3/action/package_list HTTP/1.1
+content-type: application/json
+
+### See one package
+GET http://datos.gob.ar/api/3/action/package_show?id=energia-operadores-glp HTTP/1.1
+content-type: application/json
+
+### See one package
+GET http://datos.gob.ar/api/3/action/package_show?id=agroindustria-inv---produccion-uvas HTTP/1.1
+content-type: application/json
+
+
+
+### See all groups
+GET http://datos.gob.ar/api/3/action/group_list HTTP/1.1
+content-type: application/json
+
+
+### See one group
+GET http://datos.gob.ar/api/3/action/group_show?id=agri HTTP/1.1
+content-type: application/json
+
+
+### See all tags
+GET http://datos.gob.ar/api/3/action/tag_list HTTP/1.1
+content-type: application/json
+
+### See one tag
+GET http://datos.gob.ar/api/3/action/tag_show?id=Acero HTTP/1.1
+content-type: application/json
+
+
+
+### Get an activity stream of recently changed datasets on a site:
+
+GET http://datos.gob.ar/api/3/action/recently_changed_packages_activity_list
+

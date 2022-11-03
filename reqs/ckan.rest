@@ -1,0 +1,27 @@
+### Get JSON formatted lists of a site's datasets
+
+GET http://demo.ckan.org/api/3/action/package_list HTTP/1.1
+content-type: application/json
+
+###
+GET http://demo.ckan.org/api/3/action/group_list HTTP/1.1
+content-type: application/json
+
+###
+GET http://demo.ckan.org/api/3/action/tag_list HTTP/1.1
+content-type: application/json
+
+
+### Get full JSON representation of a dataset
+
+GET http://demo.ckan.org/api/3/action/package_show?id=newcastle-city-council-spending-over-f250
+
+
+### 
+GET http://demo.ckan.org/api/3/action/tag_show?id=books
+
+
+### Get an activity stream of recently changed datasets on a site:
+
+GET http://demo.ckan.org/api/3/action/recently_changed_packages_activity_list
+
