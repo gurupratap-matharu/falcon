@@ -1,0 +1,54 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9"]
+        poetry-version: ["1.2.2"]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Deploy to server
+        # don't run locally
+        if: ${{ !env.ACT }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          script: |
+            cd ${{ secrets.PROJECT_PATH }}
+
+            echo "Veer: running git pull..."
+            git pull origin master
+
+            echo "Veer: collecting static..."
+            /home/veer/.pyenv/versions/educa/bin/python manage.py collectstatic --noinput
+
+            echo "Veer: showing migrations..."
+            /home/veer/.pyenv/versions/educa/bin/python manage.py showmigrations
+
+            echo "Veer: applying migrations..."
+            /home/veer/.pyenv/versions/educa/bin/python manage.py migrate
+
+            echo "Veer: running tests..."
+            /home/veer/.pyenv/versions/educa/bin/python manage.py test -v 2
+
+            echo "Veer: reloading daemon..."
+            sudo systemctl daemon-reload
+
+            echo "Veer: restarting gunicorn..."
+            sudo systemctl restart gunicorn.service
+
+            echo "Veer: reloading nginx..."
+            sudo nginx -s reload
+
+            echo "Veer: All done! 💅💫💖"
