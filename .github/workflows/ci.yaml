@@ -31,9 +31,9 @@ jobs:
       - name: install dependencies
         run: poetry install
       - name: run tests
-        run: |
-        coverage run manage.py test -v 2
-        coverage xml
+        run: coverage run manage.py test -v 2
+      - name: generate xml report
+        run: coverage xml
       - name: upload coverage to codecov
         uses: codecov/codecov-action@v2
 
