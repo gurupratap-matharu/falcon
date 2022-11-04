@@ -322,10 +322,17 @@
                 href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard">Online Builder</a>
             </li>
             <li class="nav-item d-flex align-items-center">
+              {% if request.user.is_authenticated %}
+              <a href="{% url 'account_logout' %}" class="nav-link text-body font-weight-bold px-0">
+                <i class="fa fa-user me-sm-1"></i>
+                <span class="d-sm-inline d-none">Sign Out</span>
+              </a>
+              {% else %}
               <a href="{% url 'account_login' %}" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
                 <span class="d-sm-inline d-none">Sign In</span>
               </a>
+              {% endif %}
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
