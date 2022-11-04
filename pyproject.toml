@@ -23,3 +23,14 @@ coverage = "^6.5.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+skip = ["docs", "migrations"]
+
+[tool.black]
+exclude = '''
+/(
+  | migrations
+)/
+'''
