@@ -9,4 +9,9 @@ urlpatterns = [
     path("", views.DashboardPageView.as_view(), name="home"),
     path("about/", views.AboutPageView.as_view(), name="about"),
     path("base/", views.BasePageView.as_view(), name="base"),  # TODO: Veer remove this!
+    path(
+        "base-fullscreen/",
+        views.BaseFullScreenPageView.as_view(),
+        name="base-fullscreen",
+    ),  # TODO: Veer remove this!
 ]

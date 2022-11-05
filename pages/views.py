@@ -11,3 +11,7 @@ class AboutPageView(TemplateView):
 
 class BasePageView(TemplateView):
     template_name = "layouts/base.html"
+
+
+class BaseFullScreenPageView(TemplateView):
+    template_name = "layouts/base-fullscreen.html"
