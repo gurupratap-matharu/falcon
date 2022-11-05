@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'layouts/base-fullscreen.html' %}
 {% load i18n %}
 {% load account %}
 
 {% block title %}{% trans "Confirm E-mail Address" %}{% endblock title %}
 
 {% block content %}
-<h1>{% trans "Confirm E-mail Address" %}</h1>
-<div class="module">
+<h3 class="font-weight-bolder text-info text-gradient">{% trans "Confirm E-mail Address" %}</h3>
+
+<div>
     {% if confirmation %}
     {% user_display confirmation.email_address.user as user_display %}
     <p>
@@ -17,7 +18,9 @@
     </p>
     <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
         {% csrf_token %}
-        <input type="submit" value="{% trans 'Confirm' %}"></input>
+        <div class="text-center">
+            <input type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0" value="{% trans 'Confirm' %}"></input>
+        </div>
     </form>
     {% else %}
     {% url 'account_email' as email_url %}
