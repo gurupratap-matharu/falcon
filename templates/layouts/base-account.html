@@ -112,7 +112,7 @@
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                             {% block content %}
-                            
+
                             {% endblock content %}
                         </div>
                         <div class="col-md-6">
@@ -135,7 +135,7 @@
                     <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
                         Company
                     </a>
-                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                    <a href="{% url 'pages:about' %}" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
                         About Us
                     </a>
                     <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">

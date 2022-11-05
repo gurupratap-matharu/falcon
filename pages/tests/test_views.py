@@ -141,7 +141,7 @@ class ContactPageTests(SimpleTestCase):
 
     def test_contact_page_renders_contactform(self):
         form = self.response.context["form"]
-        self.assertIsInstance(form, ContactForm)
+        self.assertIsInstance(form, ContactForm)  # type: ignore
 
     @tag("email")
     def test_contact_page_sends_email_for_valid_data(self):
