@@ -20,7 +20,7 @@ class HomePageTests(SimpleTestCase):
     def setUp(self):
         self.url = reverse("pages:home")
         self.response = self.client.get(self.url)
-        self.template_name = "pages/home.html"
+        self.template_name = "pages/dashboard.html"
 
     def test_homepage_status_code(self):
         self.assertEqual(self.response.status_code, HTTPStatus.OK)
@@ -29,7 +29,7 @@ class HomePageTests(SimpleTestCase):
         self.assertTemplateUsed(self.response, self.template_name)
 
     def test_homepage_contains_correct_html(self):
-        self.assertContains(self.response, "Home")
+        self.assertContains(self.response, "Falcon")
 
     def test_homepage_does_not_contain_incorrect_html(self):
         self.assertNotContains(self.response, "Hi there! I should not be on this page.")
