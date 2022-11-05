@@ -1,0 +1,17 @@
+<!-- Start Alert -->
+{% if messages %}
+{% for message in messages %}
+<div class="container-fluid py-4">
+    <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %} alert-dismissible fade show"
+        role="alert">
+        <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+        <span class="alert-text"><strong>{% if message.tags %}{{ message.tags|title }}:
+                {% endif %}</strong>{{ message }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+<!-- End Alert -->
