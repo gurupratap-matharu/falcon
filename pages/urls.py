@@ -6,8 +6,11 @@ app_name = "pages"
 
 
 urlpatterns = [
-    path("", views.DashboardPageView.as_view(), name="home"),
+    path("", views.HomePageView.as_view(), name="home"),
     path("about/", views.AboutPageView.as_view(), name="about"),
+    path("terms/", views.TermsPageView.as_view(), name="terms"),
+    path("privacy/", views.PrivacyPageView.as_view(), name="privacy"),
+    path("contact/", views.ContactPageView.as_view(), name="contact"),
     path("base/", views.BasePageView.as_view(), name="base"),  # TODO: Veer remove this!
     path(
         "base-fullscreen/",
