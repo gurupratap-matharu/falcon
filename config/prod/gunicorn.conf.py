@@ -10,7 +10,7 @@ max_requests_jitter = 50
 
 
 # Bind to a unix socket (created by systemd)
-bind = "unix:/run/gunicorn.sock"
+bind = "unix:/run/falcon-gunicorn.sock"
 
 
 # Define the number of workers
