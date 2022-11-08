@@ -12,8 +12,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+import sentry_sdk
 from django.urls import reverse_lazy
 from dotenv import load_dotenv
+from sentry_sdk.integrations.django import DjangoIntegration
+
+from .username_blacklist import USERNAME_BLACKLIST
 
 load_dotenv()
 
@@ -82,33 +86,44 @@ AUTHENTICATION_BACKENDS = (
 # Django allauth
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_LOGOUT_REDIRECT = reverse_lazy("pages:home")
+ACCOUNT_USERNAME_BLACKLIST = USERNAME_BLACKLIST  # <- This is not working Veer
 
 LOGIN_REDIRECT_URL = reverse_lazy("pages:home")
 
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "smtp.mailgun.org"
-# EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = "admin@falcon.xyz"
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
+
+
+DEFAULT_FROM_EMAIL = "admin@falconhunt.xyz"
 DEFAULT_TO_EMAIL = "gurupratap.matharu@gmail.com"
-SERVER_EMAIL = "no-reply@falcon.xyz"
+SERVER_EMAIL = "no-reply@falconhunt.xyz"
 RECIPIENT_LIST = ["gurupratap.matharu@gmail.com", "veerplaying@gmail.com"]
 
 
 ADMINS = [
-    ("Falcon Support", "support@falcon.xyz"),
+    ("Falcon Support", "support@falconhunt.xyz"),
     ("Veer", "veerplaying@gmail.com"),
     ("Gurupratap", "gurupratap.matharu@gmail.com"),
 ]
@@ -195,12 +210,12 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "noreply@falcon.xyz"
-DEFAULT_TO_EMAIL = "support@falcon.xyz"
-SERVER_EMAIL = "django@falcon.xyz"
+DEFAULT_FROM_EMAIL = "noreply@falconhunt.xyz"
+DEFAULT_TO_EMAIL = "support@falconhunt.xyz"
+SERVER_EMAIL = "django@falconhunt.xyz"
 RECIPIENT_LIST = ["gurupratap.matharu@gmail.com"]
 ADMINS = [
-    ("Falcon Support", "support@falcon.xyz"),
+    ("Falcon Support", "support@falconhunt.xyz"),
     ("Veer", "veerplaying@gmail.com"),
 ]
 # Default primary key field type
@@ -209,4 +224,26 @@ ADMINS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-CSRF_TRUSTED_ORIGINS = ["https://*.falcon.xyz", "https://*.127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://*.falconhunt.xyz", "https://*.127.0.0.1"]
+
+if not DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.mailgun.org"
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+
+    # Sentry
+    sentry_sdk.init(
+        dsn=os.getenv("SENTRY_DSN"),
+        integrations=[DjangoIntegration()],
+        environment="production",
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=0.1,
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )

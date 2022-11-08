@@ -19,6 +19,7 @@ django-extensions = "^3.2.1"
 django-allauth = "^0.51.0"
 coverage = "^6.5.0"
 factory-boy = "^3.2.1"
+sentry-sdk = "^1.10.1"
 
 
 [build-system]
