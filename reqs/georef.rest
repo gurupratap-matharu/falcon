@@ -1,0 +1,2 @@
+GET https://apis.datos.gob.ar/georef/api/provincias?nombre=Sgo. del Estero HTTP/1.1
+
