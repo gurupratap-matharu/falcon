@@ -31,7 +31,7 @@ jobs:
             git pull origin master
 
             echo "Veer: running poetry install..."
-            /home/veer/.local/bin/poetry install
+            /home/veer/.local/bin/poetry install --verbose
 
             echo "Veer: collecting static..."
             /home/veer/.pyenv/versions/falcon/bin/python manage.py collectstatic --noinput
