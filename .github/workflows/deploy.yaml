@@ -30,9 +30,6 @@ jobs:
             echo "Veer: running git pull..."
             git pull origin master
 
-            echo "Veer: setting global pyenv python version to 3.10.0 ..."
-            /home/veer/.pyenv/bin/pyenv global 3.10.0
-
             echo "Veer: running poetry install..."
             /home/veer/.local/bin/poetry install --verbose
 
