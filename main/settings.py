@@ -100,8 +100,6 @@ ACCOUNT_USERNAME_BLACKLIST = USERNAME_BLACKLIST  # <- This is not working Veer
 
 LOGIN_REDIRECT_URL = reverse_lazy("pages:home")
 
-# Email
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -115,18 +113,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
-DEFAULT_FROM_EMAIL = "admin@falconhunt.xyz"
-DEFAULT_TO_EMAIL = "gurupratap.matharu@gmail.com"
-SERVER_EMAIL = "no-reply@falconhunt.xyz"
-RECIPIENT_LIST = ["gurupratap.matharu@gmail.com", "veerplaying@gmail.com"]
-
-
-ADMINS = [
-    ("Falcon Support", "support@falconhunt.xyz"),
-    ("Veer", "veerplaying@gmail.com"),
-    ("Gurupratap", "gurupratap.matharu@gmail.com"),
-]
 
 AUTH_USER_MODEL = "users.CustomUser"
 
@@ -213,11 +199,14 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "noreply@falconhunt.xyz"
 DEFAULT_TO_EMAIL = "support@falconhunt.xyz"
 SERVER_EMAIL = "django@falconhunt.xyz"
-RECIPIENT_LIST = ["gurupratap.matharu@gmail.com"]
+RECIPIENT_LIST = ["gurupratap.matharu@gmail.com", "veerplaying@gmail.com"]
 ADMINS = [
     ("Falcon Support", "support@falconhunt.xyz"),
     ("Veer", "veerplaying@gmail.com"),
+    ("Gurupratap", "gurupratap.matharu@gmail.com"),
 ]
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -225,6 +214,40 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 CSRF_TRUSTED_ORIGINS = ["https://*.falconhunt.xyz", "https://*.127.0.0.1"]
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {"format": "%(levelname)s %(message)s"},
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(message)s"
+        },
+        "superverbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(process)d %(thread)d %(message)s"
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+        "formatter": "verbose",
+    },
+    "loggers": {
+        "django": {
+            "level": os.getenv("DJANGO_LOG_LEVEL", default="INFO"),
+            "handlers": ["console"],
+            "propagate": False,
+        },
+    },
+}
+
 
 if not DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
