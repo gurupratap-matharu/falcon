@@ -20,6 +20,7 @@ django-allauth = "^0.51.0"
 coverage = "^6.5.0"
 factory-boy = "^3.2.1"
 sentry-sdk = "^1.10.1"
+pillow = "^9.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
