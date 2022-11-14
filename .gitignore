@@ -1,7 +1,7 @@
 # Local
 ssl/
 dashboard/
-
+static/
 
 # Macos
 .DS_Store
