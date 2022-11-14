@@ -41,6 +41,7 @@
   const add_form_classes = () => {
     const email = document.querySelector('#id_email');
     email.classList.add('form-control');
+    email.readOnly = true;
   }
   document.addEventListener("DOMContentLoaded", add_form_classes);
 </script>
