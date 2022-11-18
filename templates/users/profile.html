@@ -19,10 +19,10 @@
       <div class="col-auto my-auto">
         <div class="h-100">
           <h5 class="mb-1">
-            Alec Thompson
+            {{ request.user }}
           </h5>
           <p class="mb-0 font-weight-bold text-sm">
-            CEO / Co-Founder
+            {{ request.user.email }}
           </p>
         </div>
       </div>
@@ -198,7 +198,7 @@
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; (44)
               123 1234 123</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp;
-              alecthompson@mail.com</li>
+              {{ request.user.email }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong> &nbsp;
               USA</li>
             <li class="list-group-item border-0 ps-0 pb-0">
