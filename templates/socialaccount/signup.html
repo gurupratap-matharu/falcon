@@ -22,7 +22,11 @@
       {% for field in form.visible_fields %}
 
       <div class="mb-3">
-        {{ field.errors }}
+        
+        <div class="alert alert-primary text-white" role="alert">
+          <span class="alert-text">{{ field.errors }}</span>
+        </div>
+        
         {{ field }}
         {{ field.help_text }}
       </div>
