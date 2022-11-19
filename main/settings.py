@@ -204,9 +204,8 @@ DEFAULT_TO_EMAIL = "support@falconhunt.xyz"
 SERVER_EMAIL = "django@falconhunt.xyz"
 RECIPIENT_LIST = ["gurupratap.matharu@gmail.com", "veerplaying@gmail.com"]
 ADMINS = [
-    ("Falcon Support", "support@falconhunt.xyz"),
-    ("Veer", "veerplaying@gmail.com"),
     ("Gurupratap", "gurupratap.matharu@gmail.com"),
+    ("Veer", "veerplaying@gmail.com"),
 ]
 
 
@@ -259,6 +258,16 @@ if not DEBUG:
     EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
+
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
+
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    X_FRAME_OPTIONS = "DENY"
 
     # Sentry
     sentry_sdk.init(
