@@ -228,24 +228,36 @@ LOGGING = {
         "superverbose": {
             "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(process)d %(thread)d %(message)s"
         },
+        "elegant": {
+            "format": (
+                "%(asctime)s [%(levelname)-8s] " "(%(module)s.%(funcName)s) %(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
     },
     "handlers": {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "formatter": "verbose",
+            "formatter": "elegant",
+        },
+        "file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": "./django-falcon.log",
+            "formatter": "elegant",
         },
     },
     "root": {
-        "handlers": ["console"],
+        "handlers": ["console", "file"],
         "level": "INFO",
-        "formatter": "verbose",
+        "formatter": "elegant",
     },
     "loggers": {
         "django": {
             "level": os.getenv("DJANGO_LOG_LEVEL", default="INFO"),
-            "handlers": ["console"],
-            "propagate": False,
+            "handlers": ["console", "file"],
+            "propagate": True,
         },
     },
 }
