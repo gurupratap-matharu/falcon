@@ -42,3 +42,22 @@ exclude = '''
   | migrations
 )/
 '''
+
+[tool.djlint]
+exclude=".venv,venv,.tox,.eggs,.git"
+extend_exclude=".custom"
+blank_line_before_tag="load,extends,include,block"
+blank_line_after_tag="load,extends,include,endblock"
+profile="django"
+max_line_length=120
+max_attribute_length=60
+use_gitignore=true
+format_attribute_template_tags=true
+format_js=true
+format_css=true
+
+[tool.djlint.css]
+indent_size=5
+
+[tool.djlint.js]
+indent_size=5
