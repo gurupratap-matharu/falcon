@@ -1,6 +1,34 @@
-<h1>Delete your account</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Confirm Delete">
-</form>
+{% extends "layouts/base-account.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans "Delete Account" %}
+{% endblock title %}
+
+{% block content %}
+    <div class="card card-plain mt-8">
+        <div class="card-header pb-0 text-left bg-transparent">
+            <h3 class="font-weight-bolder text-primary text-gradient">{% trans "We're sorry to see you go" %}</h3>
+            <p>
+                If you'd like to reduce your email notifications, you can disable them here or if you just want to change your username, you can do that too.
+            </p>
+            <p>
+                Be advised, <strong>account deletion is final</strong>. There will be no way to restore your account.
+            </p>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                    <div class="mb-3">
+                        <p>Confirm Deletion {{ field }}</p>
+                        {{ field.help_text }}
+                    </div>
+                {% endfor %}
+                <a href="{% url 'pages:home' %}" class="btn bg-gradient-primary">Nevermind</a>
+                <button type="submit" name="action" class="btn btn-default mx-3">{% trans "Delete" %}</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
