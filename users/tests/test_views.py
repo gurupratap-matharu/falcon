@@ -24,7 +24,7 @@ class AccountDeleteTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_account_delete_view_works_for_logged_in_user(self):
-        self.client.force_login(self.user)
+        self.client.force_login(self.user)  # type: ignore
 
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, "users/account_delete.html")
@@ -36,15 +36,15 @@ class AccountDeleteTests(TestCase):
         self.assertEqual(view.func.__name__, AccountDeleteView.as_view().__name__)
 
     def test_account_delete_view_renders_accountdeleteform(self):
-        self.client.force_login(self.user)
+        self.client.force_login(self.user)  # type: ignore
 
         response = self.client.get(self.url)
         form = response.context["form"]
         self.assertIsInstance(form, AccountDeleteForm)
 
-    @tag("delete")
+    @tag("delete", "important")
     def test_account_delete_view_deletes_user_on_successful_post(self):
-        self.client.force_login(self.user)
+        self.client.force_login(self.user)  # type: ignore
         response = self.client.post(self.url, data=self.valid_data)
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -60,7 +60,7 @@ class AccountDeleteTests(TestCase):
 
     @tag("messages")
     def test_account_delete_view_sends_valid_message_after_successul_deletion(self):
-        self.client.force_login(self.user)
+        self.client.force_login(self.user)  # type: ignore
         response = self.client.post(self.url, data=self.valid_data)
 
         messages = list(get_messages(response.wsgi_request))
