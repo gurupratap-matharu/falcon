@@ -27,7 +27,7 @@
                         {{ field.help_text }}
                     </div>
                 {% endfor %}
-                <a href="{% url 'pages:home' %}" class="btn bg-gradient-primary">Nevermind</a>
+                <a href="{% url 'users:profile' %}" class="btn bg-gradient-primary">Nevermind</a>
                 <button type="submit" name="action" class="btn btn-default mx-3">{% trans "Delete" %}</button>
             </form>
         </div>
