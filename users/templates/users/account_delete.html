@@ -21,8 +21,9 @@
             <form method="post">
                 {% csrf_token %}
                 {% for field in form.visible_fields %}
-                    <div class="mb-3">
-                        <p>Confirm Deletion {{ field }}</p>
+                    <div class="form-check mb-3">
+                        {{ field }}
+                        <label class="custom-control-label" for="customCheck1">Confirm delete</label>
                         {{ field.help_text }}
                     </div>
                 {% endfor %}
@@ -31,4 +32,11 @@
             </form>
         </div>
     </div>
+    <script>
+        const add_form_classes = () => {
+            const delete_checkbox = document.querySelector('#id_delete');
+            delete_checkbox.classList.add('form-check-input');
+        }
+        document.addEventListener("DOMContentLoaded", add_form_classes);
+    </script>
 {% endblock content %}
