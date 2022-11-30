@@ -24,6 +24,12 @@ check:
 check-deploy:
 	python manage.py check --deploy
 
+install:
+	poetry install
+
+update:
+	poetry update
+	
 setup_test_data:
 	python manage.py setup_test_data
 	
