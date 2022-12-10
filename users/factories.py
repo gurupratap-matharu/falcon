@@ -14,6 +14,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     )
     email = factory.LazyAttribute(lambda obj: "%s@email.com" % (obj.username))
     password = factory.PostGenerationMethodCall("set_password", "testpass123")
+    location = factory.Faker("address")
+    bio = factory.Faker("job")
+    personal_website = factory.Faker("url")
 
 
 class StaffuserFactory(UserFactory):
