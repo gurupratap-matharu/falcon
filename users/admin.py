@@ -30,7 +30,7 @@ class CustomUserAdmin(UserAdmin):
                 "fields": ("location", "bio", "personal_website"),
             },
         ),
-    )
+    )  # type: ignore
     list_display = (
         "email",
         "username",
