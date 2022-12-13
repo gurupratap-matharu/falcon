@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
 from django.views.generic import FormView, TemplateView
 
-from .forms import ContactForm
+from .forms import ContactForm, FeedbackForm
 
 
 class HomePageView(TemplateView):
@@ -30,6 +30,17 @@ class ContactPageView(SuccessMessageMixin, FormView):
     form_class = ContactForm
     success_url = reverse_lazy("pages:home")
     success_message: str = "Message sent successfully 🤞"
+
+    def form_valid(self, form) -> HttpResponse:
+        form.send_mail()  # type: ignore
+        return super().form_valid(form)
+
+
+class FeedbackPageView(SuccessMessageMixin, FormView):
+    template_name: str = "pages/feedback.html"
+    form_class = FeedbackForm
+    success_url = reverse_lazy("pages:home")
+    success_message: str = "Thank you for your feedback 💓"
 
     def form_valid(self, form) -> HttpResponse:
         form.send_mail()  # type: ignore
