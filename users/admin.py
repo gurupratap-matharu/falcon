@@ -23,6 +23,14 @@ CustomUser = get_user_model()
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
+    fieldsets = UserAdmin.fieldsets + (
+        (
+            "Profile",
+            {
+                "fields": ("location", "bio", "personal_website"),
+            },
+        ),
+    )
     list_display = (
         "email",
         "username",
