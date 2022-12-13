@@ -3,11 +3,7 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    location = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text="We are big on real names around here, so people know who is who.",
-    )
+    location = models.CharField(max_length=255, blank=True)
     bio = models.TextField(
         blank=True,
         help_text="Brief description for your profile. URLs are hyperlinked.",
