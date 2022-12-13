@@ -11,6 +11,7 @@ urlpatterns = [
     path("terms/", views.TermsPageView.as_view(), name="terms"),
     path("privacy/", views.PrivacyPageView.as_view(), name="privacy"),
     path("contact/", views.ContactPageView.as_view(), name="contact"),
+    path("feedback/", views.FeedbackPageView.as_view(), name="feedback"),
     path("favicon.ico", views.favicon),
     path("base/", views.BasePageView.as_view(), name="base"),  # TODO: Veer remove this!
     path(
