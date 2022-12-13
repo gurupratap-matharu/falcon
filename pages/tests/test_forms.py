@@ -1,7 +1,76 @@
 from django.core import mail
 from django.test import SimpleTestCase
 
-from pages.forms import ContactForm
+from pages.forms import ContactForm, FeedbackForm
+
+
+class FeedbackFormTests(SimpleTestCase):
+    def setUp(self):
+        self.field_required_msg = "This field is required."
+        self.form_data = {
+            "email": "guestuser@email.com",
+            "message": "Hey I have been thinking about you a lot! Would you like to hang around during the weekend?",
+        }
+
+    def test_form_email_field_label(self):
+        form = FeedbackForm(data=self.form_data)
+        label = form.fields["email"].label
+
+        self.assertTrue(label is None or label == "email")
+
+    def test_form_message_field_label(self):
+        form = FeedbackForm(data=self.form_data)
+        label = form.fields["message"].label
+
+        self.assertTrue(label is None or label == "message")
+
+    def test_feedback_form_sends_email_for_valid_data(self):
+        form = FeedbackForm(data=self.form_data)
+
+        self.assertTrue(form.is_valid())
+
+        with self.assertLogs(logger="pages.forms", level="INFO") as cm:
+            form.send_mail()
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, FeedbackForm.subject)
+
+        self.assertGreaterEqual(len(cm.output), 1)
+        self.assertEqual(cm.output, ["INFO:pages.forms:sending feedback..."])
+
+    def test_empty_feedback_form_raises_valid_errors(self):
+        form = FeedbackForm({})
+        self.assertEqual(form.errors["email"][0], self.field_required_msg)
+        self.assertEqual(form.errors["message"][0], self.field_required_msg)
+
+    def test_feedback_form_is_invalid_for_missing_email_field(self):
+        self.form_data.pop("email")
+        form = FeedbackForm(data=self.form_data)
+
+        self.assertFalse(form.is_valid())
+
+    def test_feedback_form_is_invalid_for_missing_message_field(self):
+        self.form_data.pop("message")
+        form = FeedbackForm(data=self.form_data)
+
+        self.assertFalse(form.is_valid())
+
+    def test_feedback_form_for_invalid_field_length_raises_valid_errors(self):
+        invalid_data = {
+            "email": "a@b.com",
+            "message": "-",
+        }
+
+        form = FeedbackForm(data=invalid_data)
+
+        self.assertEqual(
+            form.errors["email"][0],
+            "Ensure this value has at least 10 characters (it has 7).",
+        )
+        self.assertEqual(
+            form.errors["message"][0],
+            "Ensure this value has at least 20 characters (it has 1).",
+        )
 
 
 class ContactFormTests(SimpleTestCase):
