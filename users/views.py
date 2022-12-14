@@ -33,7 +33,6 @@ class ProfileEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
 
     def form_valid(self, form) -> HttpResponse:
         logger.info("updating profile for: %s " % self.request.user)
-        logger.info("form: %s" % form)
         cd = form.cleaned_data
         user = self.request.user
 
