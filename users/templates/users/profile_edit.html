@@ -1,0 +1,54 @@
+{% extends "layouts/base-account.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans "Edit Profile" %}
+{% endblock title %}
+
+{% block content %}
+    <div class="card card-plain mt-8">
+        <div class="card-header pb-0 text-left bg-transparent">
+            <h3 class="font-weight-bolder text-primary text-gradient">{% trans "Edit Profile" %}</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'users:profile-edit' %}">
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                    <div class="mb-4">
+                        <div class="text-danger">{{ field.errors }}</div>
+                        <p>
+                            <strong>{{ field.label }}</strong>
+                        </p>
+                        {{ field }}
+                        <p class="small">{{ field.help_text }}</p>
+                    </div>
+                {% endfor %}
+                <div class="text-center">
+                    <button type="submit" name="action" class="btn bg-gradient-primary w-100 mt-4 mb-0">{% trans "Save Profile" %}</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center pt-0 px-lg-2 px-1">
+            <p class="mb-4 text-sm mx-auto">
+                <a href="{% url 'users:profile' %}" class="text-primary text-gradient font-weight-bold">{% trans "View Profile" %}</a>
+            </p>
+        </div>
+    </div>
+    <script>
+    const add_form_classes = () => {
+        const first_name = document.querySelector('#id_first_name');
+        const last_name = document.querySelector('#id_last_name');
+        const bio = document.querySelector('#id_bio');
+        const location = document.querySelector('#id_location');
+        const personal_website = document.querySelector('#id_personal_website');
+
+        first_name.classList.add('form-control');
+        last_name.classList.add('form-control');
+        bio.classList.add('form-control');
+        location.classList.add('form-control');
+        personal_website.classList.add('form-control');
+    }
+    document.addEventListener("DOMContentLoaded", add_form_classes);
+    </script>
+{% endblock content %}
