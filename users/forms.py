@@ -21,5 +21,11 @@ class CustomUserChangeForm(UserChangeForm):
         )
 
 
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ("first_name", "last_name", "bio", "location", "personal_website")
+
+
 class AccountDeleteForm(forms.Form):
     delete = forms.BooleanField(required=True)
