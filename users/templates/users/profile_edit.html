@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Edit Profile" %}
+    {{ user.get_full_name }} | {% trans "Edit Profile" %} | Falcon
 {% endblock title %}
 
 {% block content %}
