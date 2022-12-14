@@ -327,10 +327,25 @@
             </li>
             <li class="nav-item d-flex align-items-center">
               {% if request.user.is_authenticated %}
-                <a href="{% url 'account_logout' %}" class="nav-link text-body font-weight-bold px-0">
-                  <i class="fa fa-user me-sm-1"></i>
-                  <span class="d-sm-inline d-none">Sign Out</span>
-                </a>
+                <div class="dropdown nav-link">
+                  <div class="avatar avatar-sm rounded-circle position-relative dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" type="button">
+                    <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm" />
+                  </div>
+                  <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownMenuButton">
+                    <li>
+                      <a class="dropdown-item border-radius-md" href="{% url 'users:profile' %}">Profile</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item border-radius-md" href="{% url 'users:profile-edit' %}">Edit Profile</a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                      <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Sign out</a>
+                    </li>
+                  </ul>
+                </div>
               {% else %}
                 <a href="{% url 'account_login' %}" class="nav-link text-body font-weight-bold px-0">
                   <i class="fa fa-user me-sm-1"></i>

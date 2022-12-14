@@ -13,6 +13,7 @@ urlpatterns = [
     path("contact/", views.ContactPageView.as_view(), name="contact"),
     path("feedback/", views.FeedbackPageView.as_view(), name="feedback"),
     path("favicon.ico", views.favicon),
+    path("<str:slug>/", views.PublicProfilePageView.as_view(), name="profile"),
     path("base/", views.BasePageView.as_view(), name="base"),  # TODO: Veer remove this!
     path(
         "base-fullscreen/",

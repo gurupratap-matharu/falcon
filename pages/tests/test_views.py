@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from django.contrib.messages import get_messages
 from django.core import mail
-from django.test import SimpleTestCase, tag
+from django.test import SimpleTestCase, TestCase, tag
 from django.urls import resolve, reverse
 
 from pages.forms import ContactForm, FeedbackForm
@@ -12,8 +12,10 @@ from pages.views import (
     FeedbackPageView,
     HomePageView,
     PrivacyPageView,
+    PublicProfilePageView,
     TermsPageView,
 )
+from users.factories import UserFactory
 
 
 @tag("pages", "fast")
@@ -247,3 +249,30 @@ class FeedbackPageTests(SimpleTestCase):
         response = self.client.post(self.url, data={})
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertContains(response, "This field is required.")
+
+
+class PublicProfilePageTests(TestCase):
+    """Public profile page view test suite"""
+
+    def setUp(self):
+        self.user = UserFactory()
+        self.url = reverse("pages:profile", args=[self.user.username])
+        self.response = self.client.get(self.url)
+        self.template_name = "pages/public_profile.html"
+
+    def test_profile_page_status_code(self):
+        self.assertEqual(self.response.status_code, HTTPStatus.OK)
+
+    def test_profile_page_template(self):
+        self.assertTemplateUsed(self.response, self.template_name)
+
+    def test_profile_page_contains_correct_html(self):
+        self.assertContains(self.response, "Falcon")
+        self.assertContains(self.response, self.user.username)  # type: ignore
+
+    def test_profile_page_does_not_contain_incorrect_html(self):
+        self.assertNotContains(self.response, "Hi there! I should not be on this page.")
+
+    def test_profile_page_url_resolves_homepageview(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PublicProfilePageView.as_view().__name__)

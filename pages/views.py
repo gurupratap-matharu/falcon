@@ -1,12 +1,20 @@
+import logging
+
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import FileResponse, HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
-from django.views.generic import FormView, TemplateView
+from django.views.generic import DetailView, FormView, TemplateView
 
 from .forms import ContactForm, FeedbackForm
+
+logger = logging.getLogger(__name__)
+
+
+CustomUser = get_user_model()
 
 
 class HomePageView(TemplateView):
@@ -23,6 +31,23 @@ class TermsPageView(TemplateView):
 
 class PrivacyPageView(TemplateView):
     template_name: str = "pages/privacy.html"
+
+
+class PublicProfilePageView(DetailView):
+    """
+    Renders a public profile view which is accessible at
+    domain.com/<username-slug>/
+
+    This view is meant to be accessible for anyone even anonymous users
+    The endpoint serves as a handle for our site.
+
+    We only show very basic info of a user in the corresponding template.
+    """
+
+    model = CustomUser
+    context_object_name: str = "user"
+    template_name: str = "pages/public_profile.html"
+    slug_field: str = "username"
 
 
 class ContactPageView(SuccessMessageMixin, FormView):
