@@ -2,46 +2,39 @@
 
 {% load i18n %}
 
-{% block title %}Contact{% endblock title %}
+{% block title %}
+    Contact
+{% endblock title %}
 
 {% block content %}
-
-<div class="card card-plain mt-8">
-    <div class="card-header pb-0 text-left bg-transparent">
-        <h3 class="font-weight-bolder text-info text-gradient">Contact Us</h3>
-        <p>{% trans "Enter your message below, and we'll contact your shortly." %}
-        </p>
+    <div class="card card-plain mt-8">
+        <div class="card-header pb-0 text-left bg-transparent">
+            <h3 class="font-weight-bolder text-primary text-gradient">Contact Us</h3>
+            <p>{% trans "Enter your message below, and we'll contact your shortly." %}</p>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                    <div class="mb-3">
+                        {{ field.errors }}
+                        {{ field }}
+                        {{ field.help_text }}
+                    </div>
+                {% endfor %}
+                <div class="text-center">
+                    <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">{% trans 'Send' %}</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center pt-0 px-lg-2 px-1">
+            <p class="mb-4 text-sm mx-auto">
+                Go back
+                <a href="{% url 'pages:home' %}" class="text-primary text-gradient font-weight-bold">Home</a>
+            </p>
+        </div>
     </div>
-    <div class="card-body">
-
-        <form method="POST">
-            {% csrf_token %}
-
-            {% for field in form.visible_fields %}
-
-            <div class="mb-3">
-                {{ field.errors }}
-                {{ field }}
-                {{ field.help_text }}
-            </div>
-
-            {% endfor %}
-
-            <div class="text-center">
-                <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">
-                    {% trans 'Send' %}
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="card-footer text-center pt-0 px-lg-2 px-1">
-        <p class="mb-4 text-sm mx-auto">
-            Go back
-            <a href="{% url 'pages:home' %}" class="text-info text-gradient font-weight-bold">Home</a>
-        </p>
-    </div>
-</div>
-<script>
+    <script>
     const add_form_classes = () => {
         const name = document.querySelector('#id_name');
         const email = document.querySelector('#id_email');
@@ -54,5 +47,5 @@
         message.classList.add('form-control');
     }
     document.addEventListener("DOMContentLoaded", add_form_classes);
-</script>
+    </script>
 {% endblock content %}

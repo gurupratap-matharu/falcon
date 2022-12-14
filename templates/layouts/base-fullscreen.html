@@ -56,13 +56,7 @@
         <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
             <div class="container">
                 <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="{% url 'pages:home' %}">Falcon</a>
-                <button class="navbar-toggler shadow-none ms-2"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navigation"
-                        aria-controls="navigation"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
+                <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon mt-2">
                         <span class="navbar-toggler-bar bar1"></span>
                         <span class="navbar-toggler-bar bar2"></span>
@@ -110,8 +104,7 @@
         <!-- End Navbar -->
         <main class="main-content  mt-0">
             <section class="min-vh-80">
-                <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
-                     style="background-image: url({% static 'assets/img/curved-images/curved14.jpg' %})">
+                <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url({% static 'assets/img/curved-images/curved14.jpg' %})">
                     <span class="mask bg-gradient-dark opacity-6"></span>
                     <div class="container">
                         <div class="row justify-content-center">
@@ -140,47 +133,11 @@
                 {% endblock content %}
 
             </div>
-            <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
-            <footer class="footer py-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mb-4 mx-auto text-center">
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">Company</a>
-                            <a href="{% url 'pages:about' %}" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">About Us</a>
-                            <a href="javascript:;" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">Team</a>
-                            <a href="javascript:;" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">Products</a>
-                            <a href="javascript:;" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">Blog</a>
-                            <a href="javascript:;" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">Pricing</a>
-                        </div>
-                        <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-dribbble"></span>
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-twitter"></span>
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-instagram"></span>
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-pinterest"></span>
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-github"></span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8 mx-auto text-center mt-1">
-                            <p class="mb-0 text-secondary">
-                                Copyright © <script>document.write(new Date().getFullYear())</script>
-                                Falcon
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-            <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+            <div class="container">
+
+                {% include "includes/footer.html" %}
+
+            </div>
         </main>
         <!--   Core JS Files   -->
         <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
