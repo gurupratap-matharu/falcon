@@ -329,14 +329,14 @@
               {% if request.user.is_authenticated %}
                 <div class="dropdown nav-link">
                   <div class="avatar avatar-sm rounded-circle position-relative dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" type="button">
-                    <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm" />
+                    <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm" />
                   </div>
                   <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownMenuButton">
                     <li>
-                      <a class="dropdown-item border-radius-md" href="{% url 'users:profile' %}">Profile</a>
+                      <a class="dropdown-item border-radius-md" href="{% url 'pages:profile' request.user.username %}">Profile</a>
                     </li>
                     <li>
-                      <a class="dropdown-item border-radius-md" href="{% url 'users:profile-edit' %}">Edit Profile</a>
+                      <a class="dropdown-item border-radius-md" href="{% url 'users:profile' %}">Edit Profile</a>
                     </li>
                     <li>
                       <hr class="dropdown-divider" />
