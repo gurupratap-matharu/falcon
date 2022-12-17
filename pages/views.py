@@ -21,6 +21,10 @@ class HomePageView(TemplateView):
     template_name: str = "pages/home.html"
 
 
+class SearchResultsView(TemplateView):
+    template_name: str = "pages/search_results.html"
+
+
 class DashboardPageView(TemplateView):
     template_name: str = "pages/dashboard.html"
 
