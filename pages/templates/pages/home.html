@@ -1,1 +1,71 @@
-<h1>Home</h1>
+{% extends "layouts/base-account.html" %}
+
+{% block title %}
+    Falcon
+{% endblock title %}
+
+{% block content %}
+    <div class="card card-plain mt-8">
+        <div class="card-header pb-0 text-left bg-transparent">
+            <h3 class="font-weight-bolder text-primary text-gradient">Bienvenido</h3>
+            <div class="mt-2 position-relative text-left">
+                <p>Busca tu pasaje en micro</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Origen</label>
+                    <input class="form-control" type="text" value="Buenos Aires" id="example-text-input">
+                </div>
+                <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Destino</label>
+                    <input class="form-control" type="text" value="Bariloche" id="example-text-input">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio1">
+                            <label class="custom-control-label" for="customRadio1">Solo Ida</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio2">
+                            <label class="custom-control-label" for="customRadio2">Ida y Vuelta</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Pasajeros</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>
+                            1
+                        </option>
+                        <option>
+                            2
+                        </option>
+                        <option>
+                            3
+                        </option>
+                        <option>
+                            4
+                        </option>
+                        <option>
+                            5
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="example-date-input" class="form-control-label">Fecha Ida</label>
+                    <input class="form-control" type="date" value="2022-11-23" id="example-date-input">
+                    <label for="example-date-input" class="form-control-label">Fecha Vuelta</label>
+                    <input class="form-control" type="date" value="2022-11-29" id="example-date-input">
+                </div>
+                <div class="text-center">
+                    <a href="" class="btn bg-gradient-primary w-100 mt-4 mb-0">Search</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

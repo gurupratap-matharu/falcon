@@ -18,6 +18,10 @@ CustomUser = get_user_model()
 
 
 class HomePageView(TemplateView):
+    template_name: str = "pages/home.html"
+
+
+class DashboardPageView(TemplateView):
     template_name: str = "pages/dashboard.html"
 
 
