@@ -95,5 +95,5 @@ class BasePageView(TemplateView):
     template_name = "layouts/base.html"
 
 
-class BaseFullScreenPageView(TemplateView):
-    template_name = "layouts/base-fullscreen.html"
+class BaseHeroPageView(TemplateView):
+    template_name = "layouts/base-hero.html"

@@ -15,9 +15,9 @@ urlpatterns = [
     path("favicon.ico", views.favicon),
     path("base/", views.BasePageView.as_view(), name="base"),  # TODO: Veer remove this!
     path(
-        "base-fullscreen/",
-        views.BaseFullScreenPageView.as_view(),
-        name="base-fullscreen",
+        "base-hero/",
+        views.BaseHeroPageView.as_view(),
+        name="base-hero",
     ),  # TODO: Veer remove this!
     path("<str:slug>/", views.PublicProfilePageView.as_view(), name="profile"),
 ]
