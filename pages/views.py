@@ -25,6 +25,10 @@ class SearchResultsView(TemplateView):
     template_name: str = "pages/search_results.html"
 
 
+class SeatsView(TemplateView):
+    template_name: str = "pages/seats.html"
+
+
 class DashboardPageView(TemplateView):
     template_name: str = "pages/dashboard.html"
 
