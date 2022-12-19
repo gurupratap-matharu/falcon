@@ -463,8 +463,12 @@
 
     {% include "includes/alert.html" %}
 
-    {% block content %}
-    {% endblock content %}
+    <div class="container-fluid min-vh-85 py-4">
+
+      {% block content %}
+      {% endblock content %}
+
+    </div>
 
     {% include "includes/footer.html" %}
 
