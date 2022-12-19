@@ -29,6 +29,10 @@ class SeatsView(TemplateView):
     template_name: str = "pages/seats.html"
 
 
+class OrderView(TemplateView):
+    template_name: str = "pages/order.html"
+
+
 class DashboardPageView(TemplateView):
     template_name: str = "pages/dashboard.html"
 

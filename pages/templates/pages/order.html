@@ -1,0 +1,259 @@
+{% extends "layouts/base-sidebar.html" %}
+
+{% load static %}
+
+{% block title %}
+    Order
+{% endblock title %}
+
+{% block breadcrumb %}
+    Order
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="card mt-4" id="basic-info">
+        <div class="card-header">
+            <h5>Passenger Details</h5>
+        </div>
+        <div class="card-body pt-0">
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label">First Name</label>
+                    <div class="input-group">
+                        <input id="firstName"
+                               name="firstName"
+                               class="form-control"
+                               type="text"
+                               placeholder="Alec"
+                               required="required"
+                               onfocus="focused(this)"
+                               onfocusout="defocused(this)">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Last Name</label>
+                    <div class="input-group">
+                        <input id="lastName"
+                               name="lastName"
+                               class="form-control"
+                               type="text"
+                               placeholder="Thompson"
+                               required="required"
+                               onfocus="focused(this)"
+                               onfocusout="defocused(this)">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-6">
+                    <label for="exampleFormControlSelect1">Gender</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>
+                            Male
+                        </option>
+                        <option>
+                            Female
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-5 col-5">
+                            <div class="form-group">
+                                <label for="example-date-input" class="form-control-label">Birth Date</label>
+                                <input class="form-control" type="date" value="2018-11-23" id="example-date-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label mt-4">Email</label>
+                    <div class="input-group">
+                        <input id="email"
+                               name="email"
+                               class="form-control"
+                               type="email"
+                               placeholder="example@email.com"
+                               onfocus="focused(this)"
+                               onfocusout="defocused(this)">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label mt-4">Confirmation Email</label>
+                    <div class="input-group">
+                        <input id="confirmation"
+                               name="confirmation"
+                               class="form-control"
+                               type="email"
+                               placeholder="example@email.com"
+                               onfocus="focused(this)"
+                               onfocusout="defocused(this)">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label mt-4">Your location</label>
+                    <div class="input-group">
+                        <input id="location"
+                               name="location"
+                               class="form-control"
+                               type="text"
+                               placeholder="Sydney, A"
+                               onfocus="focused(this)"
+                               onfocusout="defocused(this)">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label mt-4">Phone Number</label>
+                    <div class="input-group">
+                        <input id="phone"
+                               name="phone"
+                               class="form-control"
+                               type="number"
+                               placeholder="+40 735 631 620"
+                               onfocus="focused(this)"
+                               onfocusout="defocused(this)">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 align-self-center">
+                    <label class="form-label mt-4">Language</label>
+                    <div class="choices"
+                         data-type="select-one"
+                         tabindex="0"
+                         role="combobox"
+                         aria-autocomplete="list"
+                         aria-haspopup="true"
+                         aria-expanded="false">
+                        <div class="choices__inner">
+                            <select class="form-control choices__input"
+                                    name="choices-language"
+                                    id="choices-language"
+                                    hidden=""
+                                    tabindex="-1"
+                                    data-choice="active">
+                                <option value="English">
+                                    English
+                                </option>
+                            </select>
+                            <div class="choices__list choices__list--single">
+                                <div class="choices__item choices__item--selectable"
+                                     data-item=""
+                                     data-id="1"
+                                     data-value="English"
+                                     data-custom-properties="null"
+                                     aria-selected="true">
+                                    English
+                                </div>
+                            </div>
+                        </div>
+                        <div class="choices__list choices__list--dropdown" aria-expanded="false">
+                            <input type="text"
+                                   class="choices__input choices__input--cloned"
+                                   autocomplete="off"
+                                   spellcheck="false"
+                                   role="textbox"
+                                   aria-autocomplete="list"
+                                   aria-label="false"
+                                   placeholder="">
+                            <div class="choices__list" role="listbox">
+                                <div id="choices--choices-language-item-choice-1"
+                                     class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted"
+                                     role="option"
+                                     data-choice=""
+                                     data-id="1"
+                                     data-value="English"
+                                     data-select-text="Press to select"
+                                     data-choice-selectable=""
+                                     aria-selected="true">
+                                    English
+                                </div>
+                                <div id="choices--choices-language-item-choice-2"
+                                     class="choices__item choices__item--choice choices__item--selectable"
+                                     role="option"
+                                     data-choice=""
+                                     data-id="2"
+                                     data-value="French"
+                                     data-select-text="Press to select"
+                                     data-choice-selectable="">
+                                    French
+                                </div>
+                                <div id="choices--choices-language-item-choice-3"
+                                     class="choices__item choices__item--choice choices__item--selectable"
+                                     role="option"
+                                     data-choice=""
+                                     data-id="3"
+                                     data-value="Spanish"
+                                     data-select-text="Press to select"
+                                     data-choice-selectable="">
+                                    Spanish
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label mt-4">Skills</label>
+                    <div class="choices" data-type="text" aria-haspopup="true" aria-expanded="false">
+                        <div class="choices__inner">
+                            <input class="form-control choices__input"
+                                   id="choices-skills"
+                                   type="text"
+                                   value="vuejs,angular,react"
+                                   placeholder="Enter something"
+                                   hidden=""
+                                   tabindex="-1"
+                                   data-choice="active"
+                                   onfocus="focused(this)"
+                                   onfocusout="defocused(this)">
+                            <div class="choices__list choices__list--multiple">
+                                <div class="choices__item choices__item--selectable"
+                                     data-item=""
+                                     data-id="1"
+                                     data-value="vuejs"
+                                     data-custom-properties="null"
+                                     aria-selected="true"
+                                     data-deletable="">
+                                    vuejs
+                                    <button type="button" class="choices__button" aria-label="Remove item: 'vuejs'" data-button="">Remove item</button>
+                                </div>
+                                <div class="choices__item choices__item--selectable"
+                                     data-item=""
+                                     data-id="2"
+                                     data-value="angular"
+                                     data-custom-properties="null"
+                                     aria-selected="true"
+                                     data-deletable="">
+                                    angular
+                                    <button type="button" class="choices__button" aria-label="Remove item: 'angular'" data-button="">Remove item</button>
+                                </div>
+                                <div class="choices__item choices__item--selectable"
+                                     data-item=""
+                                     data-id="3"
+                                     data-value="react"
+                                     data-custom-properties="null"
+                                     aria-selected="true"
+                                     data-deletable="">
+                                    react
+                                    <button type="button" class="choices__button" aria-label="Remove item: 'react'" data-button="">Remove item</button>
+                                </div>
+                            </div>
+                            <input type="text"
+                                   class="choices__input choices__input--cloned"
+                                   autocomplete="off"
+                                   spellcheck="false"
+                                   role="textbox"
+                                   aria-autocomplete="list"
+                                   aria-label="false">
+                        </div>
+                        <div class="choices__list choices__list--dropdown" aria-expanded="false"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
