@@ -10,7 +10,8 @@ max_requests_jitter = 50
 
 
 bind = "0.0.0.0:8000"
-workers = multiprocessing.cpu_count() * 2 + 1
+# workers = multiprocessing.cpu_count() * 2 + 1
+workers = 1  # <-- Change this later but for testing 1 is enough
 
 # Access log - records incoming HTTP requests
 accesslog = "-"

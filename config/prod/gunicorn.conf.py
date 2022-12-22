@@ -14,7 +14,8 @@ bind = "unix:/run/falcon-gunicorn.sock"
 
 
 # Define the number of workers
-workers = multiprocessing.cpu_count() * 2 + 1
+# workers = multiprocessing.cpu_count() * 2 + 1
+workers = 1  # <-- Change this later but for testing 1 is enough
 
 # Access log - records incoming HTTP requests
 accesslog = "-"
