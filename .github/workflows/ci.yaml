@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches:
@@ -10,34 +11,60 @@ on:
 
 jobs:
   test:
+    name: Tests
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.10"]
         poetry-version: ["1.2.2"]
+        database: [postgres]
         os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - name: Checkout git repo
+        uses: actions/checkout@v3
+
+      - name: Setup postgres database
+        uses: harmon758/postgresql-action@v1
+        if: matrix.database == 'postgres'
+        with:
+          postgresql version: "14.6"
+          postgresql db: "falcon"
+          postgresql user: "postgres"
+          postgresql password: "postgres"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: run image
-        uses: abatilo/actions-poetry@v2.1.4
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.1.6
         with:
           poetry-version: ${{ matrix.poetry-version }}
+
+      # Check if this is needed?
       - name: View poetry --help
-        run: poetry --help
-      - name: install dependencies
+        run: poetry --version && poetry --help
+
+      - name: Install dependencies
         run: poetry install
-      - name: run tests
+
+      - name: Run checks
+        run: python manage.py check
+
+      - name: Run tests
         run: coverage run --source='.' manage.py test -v 2
-      - name: generate xml report
+
+      - name: Generate xml report
         run: coverage xml
-      - name: upload coverage to codecov
+
+      - name: Upload coverage to codecov
         uses: codecov/codecov-action@v2
 
   code-quality:
+    name: Check linting and formatting
     strategy:
       fail-fast: false
       matrix:
@@ -45,20 +72,29 @@ jobs:
         poetry-version: ["1.2.2"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - name: Checkout git repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: run image
-        uses: abatilo/actions-poetry@v2.1.4
+
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2.1.6
         with:
           poetry-version: ${{ matrix.poetry-version }}
-      - name: install dependencies
+
+      - name: Install dependencies
         run: poetry install
-      - name: run black
+
+      - name: Run black
         run: poetry run black . --check
-      - name: run isort
+
+      - name: Run isort
         run: poetry run isort . --check-only --profile black
-      - name: run flake8
+
+      - name: Run flake8
         run: poetry run flake8 .
