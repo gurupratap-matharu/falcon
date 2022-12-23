@@ -2,7 +2,7 @@
 # https://docs.gunicorn.org/en/stable/configure.html#configuration-file
 # https://docs.gunicorn.org/en/stable/settings.html
 
-import multiprocessing
+import multiprocessing  # noqa
 
 # restart workers after so many requests with some variability
 max_requests = 1000
