@@ -52,19 +52,19 @@ jobs:
         run: poetry install
 
       - name: Run checks
-        run: python manage.py check
+        run: poetry run python manage.py check
 
       - name: Run tests
-        run: coverage run --source='.' manage.py test -v 2
+        run: poetry run coverage run --source='.' manage.py test -v 2
 
       - name: Generate xml report
-        run: coverage xml
+        run: poetry run coverage xml
 
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v2
 
   code-quality:
-    name: Check linting and formatting
+    name: Code quality
     strategy:
       fail-fast: false
       matrix:
