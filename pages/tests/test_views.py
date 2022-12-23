@@ -23,7 +23,7 @@ class HomePageTests(SimpleTestCase):
     def setUp(self):
         self.url = reverse("pages:home")
         self.response = self.client.get(self.url)
-        self.template_name = "pages/dashboard.html"
+        self.template_name = "pages/home.html"
 
     def test_homepage_status_code(self):
         self.assertEqual(self.response.status_code, HTTPStatus.OK)
