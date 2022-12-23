@@ -27,10 +27,10 @@ jobs:
 
       - name: Add environment variables to .env
         run: |
-          echo DEBUG=0 >> .env
+          echo DEBUG=1 >> .env
           echo DJANGO_ALLOWED_HOSTS=* >> .env
           echo DATABASE_NAME=falcon >> .env
-          echo DATABASE_USER=postgres>> .env
+          echo DATABASE_USER=postgres >> .env
           echo DATABASE_PASSWORD=postgres >> .env
           echo DATABASE_HOST=localhost >> .env
           echo SECRET_KEY=sEcReTKeYtORuNTeSts >> .env
