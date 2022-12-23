@@ -25,6 +25,15 @@ jobs:
       - name: Checkout git repo
         uses: actions/checkout@v3
 
+      - name: Add environment variables to .env
+        run: |
+          echo DEBUG=0 >> .env
+          echo DJANGO_ALLOWED_HOSTS=* >> .env
+          echo DATABASE_NAME=falcon >> .env
+          echo DATABASE_USER=postgres>> .env
+          echo DATABASE_PASSWORD=postgres >> .env
+          echo DATABASE_HOST=localhost >> .env
+
       - name: Setup postgres database
         uses: harmon758/postgresql-action@v1
         if: matrix.database == 'postgres'
