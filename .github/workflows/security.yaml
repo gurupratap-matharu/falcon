@@ -1,4 +1,5 @@
 name: Security
+
 on:
   push:
     branches:
@@ -10,25 +11,34 @@ on:
 
 jobs:
   security-check:
+    name: Security
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.10"]
         poetry-version: ["1.2.2"]
         os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - name: Checkout git repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: run image
-        uses: abatilo/actions-poetry@v2.1.4
+
+      - name: Install poetry ${{ matrix.poetry-version }}
+        uses: abatilo/actions-poetry@v2.1.6
         with:
           poetry-version: ${{ matrix.poetry-version }}
-      - name: install dependencies
+
+      - name: Install dependencies
         run: poetry install
-      - name: run bandit
+
+      - name: Run bandit
         run: poetry run bandit -r .
-      - name: run safety
+
+      - name: Run safety
         run: poetry run safety check
