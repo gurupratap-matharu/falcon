@@ -2,9 +2,11 @@
 
 What's happening in Argentina today?
 
+[![codecov](https://codecov.io/gh/gurupratap-matharu/falcon/branch/master/graph/badge.svg?token=DOIZxrPhqc)](https://codecov.io/gh/gurupratap-matharu/falcon)
+
 ## Demo
 
-- PLACE DOMAIN HERE
+[Live](https://falconhunt.xyz)
 
 ## Documentation
 
