@@ -1,4 +1,4 @@
-name: CI
+name: Tests
 
 on:
   push:
@@ -72,39 +72,3 @@ jobs:
 
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v2
-
-  code-quality:
-    name: Code quality
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10"]
-        poetry-version: ["1.2.2"]
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout git repo
-        uses: actions/checkout@v3
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install poetry
-        uses: abatilo/actions-poetry@v2.1.6
-        with:
-          poetry-version: ${{ matrix.poetry-version }}
-
-      - name: Install dependencies
-        run: poetry install
-
-      - name: Run black
-        run: poetry run black . --check
-
-      - name: Run isort
-        run: poetry run isort . --check-only --profile black
-
-      - name: Run flake8
-        run: poetry run flake8 .
