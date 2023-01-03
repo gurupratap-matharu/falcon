@@ -33,6 +33,10 @@ class OrderView(TemplateView):
     template_name: str = "pages/order.html"
 
 
+class PaymentView(TemplateView):
+    template_name: str = "pages/payment.html"
+
+
 class DashboardPageView(TemplateView):
     template_name: str = "pages/dashboard.html"
 
