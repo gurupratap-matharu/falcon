@@ -17,9 +17,87 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-4">
+                    <label for="documentType">Document</label>
+                    <select class="form-select form-select-lg" id="documentType">
+                        <option>
+                            DNI
+                        </option>
+                        <option>
+                            PASSPORT
+                        </option>
+                        <option>
+                            CEDULA
+                        </option>
+                        <option>
+                            LE
+                        </option>
+                        <option>
+                            LC
+                        </option>
+                        <option>
+                            CUIT
+                        </option>
+                        <option>
+                            NIE
+                        </option>
+                        <option>
+                            RG
+                        </option>
+                        <option>
+                            RNE
+                        </option>
+                        <option>
+                            CPF
+                        </option>
+                        <option>
+                            RUT
+                        </option>
+                        <option>
+                            CURP
+                        </option>
+                        <option>
+                            CNPJ
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="documentNumber" class="form-control-label">Number</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text">🔍</span>
+                            <input class="form-control" type="text" id="documentNumber" aria-label="document-number" aria-describedby="document-number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="nationalitySelect" class="form-label">Nationality</label>
+                    <select class="form-select form-select-lg" id="nationalitySelect">
+                        <option>
+                            Argentina
+                        </option>
+                        <option>
+                            Chile
+                        </option>
+                        <option>
+                            Brasil
+                        </option>
+                        <option>
+                            Paraguay
+                        </option>
+                        <option>
+                            Peru
+                        </option>
+                        <option>
+                            Other
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
                     <label class="form-label">First Name</label>
-                    <div class="input-group">
+                    <div class="input-group input-group-lg">
                         <input id="firstName"
                                name="firstName"
                                class="form-control"
@@ -30,9 +108,9 @@
                                onfocusout="defocused(this)">
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-4">
                     <label class="form-label">Last Name</label>
-                    <div class="input-group">
+                    <div class="input-group input-group-lg">
                         <input id="lastName"
                                name="lastName"
                                class="form-control"
@@ -43,34 +121,9 @@
                                onfocusout="defocused(this)">
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4 col-6">
-                    <label for="exampleFormControlSelect1">Gender</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option>
-                            Male
-                        </option>
-                        <option>
-                            Female
-                        </option>
-                    </select>
-                </div>
-                <div class="col-sm-8">
-                    <div class="row">
-                        <div class="col-sm-5 col-5">
-                            <div class="form-group">
-                                <label for="example-date-input" class="form-control-label">Birth Date</label>
-                                <input class="form-control" type="date" value="2018-11-23" id="example-date-input">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <label class="form-label mt-4">Email</label>
-                    <div class="input-group">
+                <div class="col-md-4">
+                    <label class="form-label">Email</label>
+                    <div class="input-group input-group-lg">
                         <input id="email"
                                name="email"
                                class="form-control"
@@ -80,45 +133,57 @@
                                onfocusout="defocused(this)">
                     </div>
                 </div>
-                <div class="col-6">
-                    <label class="form-label mt-4">Confirmation Email</label>
-                    <div class="input-group">
-                        <input id="confirmation"
-                               name="confirmation"
-                               class="form-control"
-                               type="email"
-                               placeholder="example@email.com"
-                               onfocus="focused(this)"
-                               onfocusout="defocused(this)">
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-2">
+                    <label for="exampleFormControlSelect1" class="form-label">Gender</label>
+                    <select class="form-select form-select-lg" id="exampleFormControlSelect1">
+                        <option>
+                            Male
+                        </option>
+                        <option>
+                            Female
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="birthDay">Day</label>
+                    <select class="form-select form-select-lg" id="birthDay">
+                        {% with ""|center:31 as range %}
+                            {% for _ in range %}
+                                <option value="">
+                                    {{ forloop.counter }}
+                                </option>
+                            {% endfor %}
+                        {% endwith %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="birthMonth">Month</label>
+                    <select class="form-select form-select-lg" id="birthMonth">
+                        {% with "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec" as list %}
+                            {% for i in list.split %}
+                                <option value="{{ i }}">
+                                    {{ i }}
+                                </option>
+                            {% endfor %}
+                        {% endwith %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="birthYear" class="form-control-label">Year</label>
+                        <input class="form-control form-control-lg" type="number" value="1980" id="birthYear" min="1922" max="2022">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="example-tel-input" class="form-control-label">Phone</label>
+                        <input class="form-control form-control-lg" type="tel" value="54-(11)-5025-4191" id="example-tel-input">
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <label class="form-label mt-4">Your location</label>
-                    <div class="input-group">
-                        <input id="location"
-                               name="location"
-                               class="form-control"
-                               type="text"
-                               placeholder="Sydney, A"
-                               onfocus="focused(this)"
-                               onfocusout="defocused(this)">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <label class="form-label mt-4">Phone Number</label>
-                    <div class="input-group">
-                        <input id="phone"
-                               name="phone"
-                               class="form-control"
-                               type="number"
-                               placeholder="+40 735 631 620"
-                               onfocus="focused(this)"
-                               onfocusout="defocused(this)">
-                    </div>
-                </div>
-            </div>
+            <div class="row"></div>
         </div>
     </div>
 {% endblock content %}
