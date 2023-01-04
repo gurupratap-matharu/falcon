@@ -37,6 +37,14 @@ class PaymentView(TemplateView):
     template_name: str = "pages/payment.html"
 
 
+class PaymentSuccessView(TemplateView):
+    template_name: str = "pages/payment_success.html"
+
+
+class PaymentFailView(TemplateView):
+    template_name: str = "pages/payment_fail.html"
+
+
 class DashboardPageView(TemplateView):
     template_name: str = "pages/dashboard.html"
 
