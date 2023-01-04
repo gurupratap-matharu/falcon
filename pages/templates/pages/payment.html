@@ -93,8 +93,11 @@
                                 <div class="col-6 d-flex align-items-center">
                                     <h6 class="mb-0">Non Argentine Card</h6>
                                 </div>
-                                <div class="col-6 text-end">
-                                    <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Card</a>
+                                <div class="col-3 text-end">
+                                    <a class="btn bg-gradient-danger mb-0" href="{% url 'pages:payment-fail' %}"><i class="fas fa-plus"></i>Test Payment failure</a>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <a class="btn bg-gradient-info mb-0" href="{% url 'pages:payment-success' %}"><i class="fas fa-plus"></i>Test Payment success</a>
                                 </div>
                             </div>
                         </div>
