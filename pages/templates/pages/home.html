@@ -1,44 +1,34 @@
-{% extends "layouts/base-account.html" %}
+{% extends "layouts/base-sidebar.html" %}
+
+{% load static %}
 
 {% block title %}
     Falcon
 {% endblock title %}
 
 {% block content %}
-    <div class="card card-plain mt-8">
-        <div class="card-header pb-0 text-left bg-transparent">
-            <h3 class="font-weight-bolder text-primary text-gradient">Bus</h3>
-            <div class="mt-2 position-relative text-left">
-                <p>Book you tickets here</p>
+    <div class="page-header min-height-300 border-radius-xl mt-4"
+         style="background-image: url({% static 'assets/img/curved-images/curved0.jpg' %});
+                background-position-y: 50%">
+        <span class="mask bg-gradient-primary opacity-6"></span>
+    </div>
+    <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+        <div class="row">
+            <div class="col-4 col-sm-2 col-lg-1">
+                <div class="form-group">
+                    <select class="form-control form-control-sm" id="trip-type">
+                        <option>
+                            Round trip
+                        </option>
+                        <option>
+                            One way
+                        </option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <form>
+            <div class="col-4 col-sm-2 col-lg-1">
                 <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Where From?</label>
-                    <input class="form-control form-control-lg" type="text" value="Buenos Aires" id="example-text-input">
-                </div>
-                <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Where To?</label>
-                    <input class="form-control form-control-lg" type="text" value="Bariloche" id="example-text-input">
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio1">
-                            <label class="custom-control-label" for="customRadio1">One way</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio2">
-                            <label class="custom-control-label" for="customRadio2">Round Trip</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Who</label>
-                    <select class="form-control form-control-lg" id="exampleFormControlSelect1">
+                    <select class="form-control form-control-sm" id="numOfPassengers">
                         <option>
                             1
                         </option>
@@ -56,18 +46,52 @@
                         </option>
                     </select>
                 </div>
-                <div>
+            </div>
+            <div class="col-4 col-sm-2 col-lg-1">
+                <div class="form-group">
+                    <select class="form-control form-control-sm" id="seatType">
+                        <option>
+                            Cama
+                        </option>
+                        <option>
+                            Semicama
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"></div>
+        <div class="row gx-4">
+            <div class="col-6 col-md-3">
+                <div class="form-group">
+                    <label for="departure-city" class="form-control-label">Where From?</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">☉</span>
+                        <input class="form-control form-control-lg" type="text" placeholder="From?" id="departure-city">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <label for="departure-city" class="form-control-label">Where to?</label>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">⚲</span>
+                        <input class="form-control form-control-lg" type="text" placeholder="Where to?" id="arrival-city">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="form-group">
                     <label for="departure-date-input" class="form-control-label">Departure</label>
                     <input class="form-control form-control-lg departure-date" type="text" id="departure-date-input">
                 </div>
-                <div>
-                    <label for="return-date-input" class="form-control-label">Return</label>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="form-group">
+                    <label for="departure-date-input" class="form-control-label">Return</label>
                     <input class="form-control form-control-lg return-date" type="text" id="return-date-input">
                 </div>
-                <div class="text-center">
-                    <a href="{% url 'pages:search-results' %}" class="btn bg-gradient-primary w-100 mt-4 mb-0">Search</a>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 {% endblock content %}
