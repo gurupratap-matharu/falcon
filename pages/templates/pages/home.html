@@ -17,10 +17,10 @@
             <div class="col-5 col-sm-3 col-lg-2">
                 <select class="form-select bg-transparent" id="trip-type" aria-label="Trip type">
                     <option value="round-trip" selected>
-                        &#8652; Round trip
+                        Round trip
                     </option>
                     <option value="one-way">
-                        &#8594; One way
+                        One way
                     </option>
                 </select>
             </div>
@@ -90,6 +90,77 @@
             <a href="{% url 'pages:search-results' %}" class="btn btn-lg bg-gradient-primary" type="submit">
                 <i class="fa fa-search me-3"></i>Search
             </a>
+        </div>
+    </div>
+    <div class="card mx-md-4 mt-4">
+        <div class="card-header">
+            <h3>Trips from Buenos Aires</h3>
+        </div>
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <a href="">
+                        <div class="card card-plain border border-light mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% static 'assets/img/places/mendoza.jpg' %}" class="img-fluid border-radius-xl" alt="Mendoza">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title mt-n3">Mendoza</h5>
+                                        <p class="card-text mt-n2">Apr 17-26</p>
+                                        <p class="card-text mt-n3">
+                                            <small class="text-muted">3 Stops - 27 Hs</small>
+                                        </p>
+                                        <h6 class="card-text d-flex justify-content-end">ARS 15700</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="card card-plain border border-light mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% static 'assets/img/places/cordoba.jpg' %}" class="img-fluid border-radius-xl" alt="Cordoba">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title mt-n3">Cordoba</h5>
+                                        <p class="card-text mt-n2">Apr 17-26</p>
+                                        <p class="card-text mt-n3">
+                                            <small class="text-muted">3 Stops - 13 Hs</small>
+                                        </p>
+                                        <h6 class="card-text d-flex justify-content-end">ARS 12610</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="card card-plain border border-light mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% static 'assets/img/places/mar-del-plata.jpg' %}" class="img-fluid border-radius-xl" alt="MarDelPlata">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title mt-n3">Mar Del Plata</h5>
+                                        <p class="card-text mt-n2">May 11-26</p>
+                                        <p class="card-text mt-n3">
+                                            <small class="text-muted">2 Stops - 5 Hs</small>
+                                        </p>
+                                        <h6 class="card-text d-flex justify-content-end">ARS 5700</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card card-body bg-light">Map</div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock content %}
