@@ -7,7 +7,6 @@ app_name = "pages"
 
 urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
-    path("search/", views.SearchResultsView.as_view(), name="search-results"),
     path("seats/", views.SeatsView.as_view(), name="seats"),
     path("order/", views.OrderView.as_view(), name="order"),
     path("payment/", views.PaymentView.as_view(), name="payment"),
@@ -28,5 +27,5 @@ urlpatterns = [
         views.BaseHeroPageView.as_view(),
         name="base-hero",
     ),  # TODO: Veer remove this!
-    path("<str:slug>/", views.PublicProfilePageView.as_view(), name="profile"),
+    path("profile/<str:slug>/", views.PublicProfilePageView.as_view(), name="profile"),
 ]

@@ -1,9 +1,9 @@
 from django.urls import path
 
-app_name = "trips"
-
 from . import views
 
-url_patterns = [
+app_name = "trips"
+
+urlpatterns = [
     path("", views.TripSearchView.as_view(), name="trip-search"),
 ]

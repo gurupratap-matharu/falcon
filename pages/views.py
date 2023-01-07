@@ -21,10 +21,6 @@ class HomePageView(TemplateView):
     template_name: str = "pages/home.html"
 
 
-class SearchResultsView(TemplateView):
-    template_name: str = "pages/search_results.html"
-
-
 class SeatsView(TemplateView):
     template_name: str = "pages/seats.html"
 
