@@ -26,6 +26,7 @@ urlpatterns = [
     path("account/", include("users.urls")),
     # Local apps
     path("", include("pages.urls")),
+    path("trips/", include("trips.urls")),
 ]
 
 if settings.DEBUG:
