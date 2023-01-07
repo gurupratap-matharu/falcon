@@ -1,8 +1,26 @@
-from django.views.generic import TemplateView
+import logging
+
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.views.generic import TemplateView, View
+
+logger = logging.getLogger(__name__)
 
 
-class TripSearchView(TemplateView):
-    template_name = "trips/trip_search.html"
+class TripSearchView(View):
+    """
+    The main search engine of our app to search for trips either in our database
+    or via an API.
+
+    This view holds the responsibility of getting the trip information from a user
+    and generative a list of trips which is passed as context to the trip list view.
+    """
+
+    def get(self, request):
+        logger.info("Veer url params: %s " % request.GET)
+        # TODO: Do API calls to get search results
+
+        return redirect(reverse("trips:trip-list"))
 
 
 class TripListView(TemplateView):

@@ -13,84 +13,100 @@
         <span class="mask bg-gradient-primary opacity-6"></span>
     </div>
     <div class="card card-body blur shadow-blur mx-md-4 mt-n6 overflow-hidden">
-        <div class="row gx-1 gx-md-3 mb-3">
-            <div class="col-5 col-sm-3 col-lg-2">
-                <select class="form-select bg-transparent" id="trip-type" aria-label="Trip type">
-                    <option value="round-trip" selected>
-                        Round trip
-                    </option>
-                    <option value="one-way">
-                        One way
-                    </option>
-                </select>
+        <form action="{% url 'trips:trip-search' %}" method="get" autocomplete="on">
+            <div class="row gx-1 gx-md-3 mb-3">
+                <div class="col-5 col-sm-3 col-lg-2">
+                    <select class="form-select bg-transparent" name="trip-type" id="trip-type" aria-label="Trip type" required>
+                        <option value="round-trip" selected>
+                            Round trip
+                        </option>
+                        <option value="one-way">
+                            One way
+                        </option>
+                    </select>
+                </div>
+                <div class="col-3 col-sm-2 col-lg-1">
+                    <select class="form-select bg-transparent"
+                            name="num-of-passengers"
+                            id="numOfPassengers"
+                            aria-label="Num of passangers"
+                            required>
+                        <option>
+                            1
+                        </option>
+                        <option selected>
+                            2
+                        </option>
+                        <option>
+                            3
+                        </option>
+                        <option>
+                            4
+                        </option>
+                        <option>
+                            5
+                        </option>
+                    </select>
+                </div>
+                <div class="col-4 col-sm-2 col-lg-2">
+                    <select class="form-select bg-transparent" name="seat-type" id="seatType" aria-label="Seat type" required>
+                        <option value="cama" selected>
+                            Cama
+                        </option>
+                        <option value="semicama">
+                            Semicama
+                        </option>
+                    </select>
+                </div>
             </div>
-            <div class="col-3 col-sm-2 col-lg-1">
-                <select class="form-select bg-transparent" id="numOfPassengers" aria-label="Num of passangers">
-                    <option>
-                        1
-                    </option>
-                    <option selected>
-                        2
-                    </option>
-                    <option>
-                        3
-                    </option>
-                    <option>
-                        4
-                    </option>
-                    <option>
-                        5
-                    </option>
-                </select>
-            </div>
-            <div class="col-4 col-sm-2 col-lg-2">
-                <select class="form-select bg-transparent" id="seatType" aria-label="Seat type">
-                    <option selected>
-                        Cama
-                    </option>
-                    <option>
-                        Semicama
-                    </option>
-                </select>
-            </div>
-        </div>
-        <div class="row gx-1 gx-md-3">
-            <div class="col-6 col-md-3">
-                <div class="form-group">
-                    <label for="departure-city" class="form-control-label">Where From?</label>
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">☉</span>
-                        <input class="form-control form-control-lg" type="text" placeholder="From?" id="departure-city">
+            <div class="row gx-1 gx-md-3">
+                <div class="col-6 col-md-3">
+                    <div class="form-group">
+                        <label for="departure-city" class="form-control-label">Where From?</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">☉</span>
+                            <input class="form-control form-control-lg"
+                                   type="text"
+                                   name="departure"
+                                   placeholder="Buenos Aires"
+                                   id="departure-city"
+                                   autofocus
+                                   required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <label for="departure-city" class="form-control-label">Where to?</label>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">⚲</span>
+                            <input class="form-control form-control-lg" type="text" name="arrival" placeholder="Mendoza" id="arrival-city" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="form-group">
+                        <label for="departure-date-input" class="form-control-label">Departure</label>
+                        <input class="form-control form-control-lg departure-date bg-white"
+                               type="text"
+                               name="departure-date"
+                               id="departure-date-input"
+                               required>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="form-group">
+                        <label for="departure-date-input" class="form-control-label">Return</label>
+                        <input class="form-control form-control-lg return-date bg-white" type="text" name="return-date" id="return-date-input">
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <label for="departure-city" class="form-control-label">Where to?</label>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">⚲</span>
-                        <input class="form-control form-control-lg" type="text" placeholder="Where to?" id="arrival-city">
-                    </div>
-                </div>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-lg bg-gradient-primary" type="submit">
+                    <i class="fa fa-search me-3"></i>Search
+                </button>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="form-group">
-                    <label for="departure-date-input" class="form-control-label">Departure</label>
-                    <input class="form-control form-control-lg departure-date bg-white" type="text" id="departure-date-input">
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="form-group">
-                    <label for="departure-date-input" class="form-control-label">Return</label>
-                    <input class="form-control form-control-lg return-date bg-white" type="text" id="return-date-input">
-                </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <a href="{% url 'trips:trip-search' %}" class="btn btn-lg bg-gradient-primary" type="submit">
-                <i class="fa fa-search me-3"></i>Search
-            </a>
-        </div>
+        </form>
     </div>
     <div class="card card-plain mx-md-4 mt-4">
         <div class="card-header bg-transparent">
