@@ -1,10 +1,7 @@
 import logging
-from typing import Any, Dict
 
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
-
-from cart.cart import Cart
 
 logger = logging.getLogger(__name__)
 
