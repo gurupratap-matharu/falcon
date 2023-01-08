@@ -49,7 +49,7 @@ jobs:
             /home/veer/.pyenv/versions/falcon/bin/python manage.py migrate
 
             echo "Veer: running tests..."
-            /home/veer/.pyenv/versions/falcon/bin/python manage.py test -v 2
+            /home/veer/.pyenv/versions/falcon/bin/python manage.py test --noinput -v 2
 
             echo "Veer: reloading daemon..."
             sudo systemctl daemon-reload
