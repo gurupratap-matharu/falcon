@@ -16,36 +16,26 @@
         <form action="{% url 'trips:trip-search' %}" method="get" autocomplete="on">
             <div class="row gx-md-3 mb-3">
                 <div class="col-8 col-sm-3 col-lg-2">
-                    <select class="form-select bg-transparent" name="trip-type" id="trip-type" aria-label="Trip type" required>
-                        <option value="round-trip" selected>
+                    <select class="form-select bg-transparent" name="trip_type" id="trip_type" aria-label="Trip type" required>
+                        <option value="round_trip" {% if not q.trip_type == "one_way" %}selected{% endif %}>
                             Round trip
                         </option>
-                        <option value="one-way">
+                        <option value="one_way" {% if q.trip_type == "one_way" %}selected{% endif %}>
                             One way
                         </option>
                     </select>
                 </div>
                 <div class="col-4 col-sm-2 col-lg-1">
                     <select class="form-select bg-transparent"
-                            name="num-of-passengers"
-                            id="num-of-passengers"
+                            name="num_of_passengers"
+                            id="num_of_passengers"
                             aria-label="Num of passengers"
                             required>
-                        <option>
-                            1
-                        </option>
-                        <option selected>
-                            2
-                        </option>
-                        <option>
-                            3
-                        </option>
-                        <option>
-                            4
-                        </option>
-                        <option>
-                            5
-                        </option>
+                        {% for i in '12345'|make_list %}
+                            <option value="{{ i }}" {% if q.num_of_passengers == i %}selected{% endif %}>
+                                {{ i }}
+                            </option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -55,7 +45,15 @@
                         <label for="origin" class="form-control-label">Where From?</label>
                         <div class="input-group input-group-lg">
                             <span class="input-group-text" id="basic-addon1">☉</span>
-                            <input class="form-control" type="text" name="origin" placeholder="Buenos Aires" id="origin" required>
+                            <input class="form-control"
+                                   type="text"
+                                   name="origin"
+                                   autocorrect="off"
+                                   autocapitalize="off"
+                                   placeholder="Buenos Aires"
+                                   id="origin"
+                                   value="{{ q.origin }}"
+                                   required/>
                         </div>
                     </div>
                 </div>
@@ -64,20 +62,33 @@
                     <div class="form-group">
                         <div class="input-group input-group-lg">
                             <span class="input-group-text" id="basic-addon1">⚲</span>
-                            <input class="form-control" type="text" name="destination" placeholder="Mendoza" id="destination" required>
+                            <input class="form-control"
+                                   type="text"
+                                   name="destination"
+                                   autocorrect="off"
+                                   autocapitalize="off"
+                                   placeholder="Mendoza"
+                                   id="destination"
+                                   value="{{ q.destination }}"
+                                   required>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="departure" class="form-control-label">Departure</label>
-                        <input class="form-control form-control-lg departure-date bg-white" type="text" name="departure" id="departure" required>
+                        <input class="form-control form-control-lg departure-date bg-white"
+                               type="text"
+                               name="departure"
+                               id="departure"
+                               value="{{ q.departure }}"
+                               required>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
                     <div class="form-group">
-                        <label for="return" class="form-control-label">Return</label>
-                        <input class="form-control form-control-lg return-date bg-white" type="text" name="return" id="return">
+                        <label for="return" class="form-control-label">Return (Optional)</label>
+                        <input class="form-control form-control-lg return-date bg-white" type="text" name="return" id="return" value="{{ q.return }}" />
                     </div>
                 </div>
             </div>

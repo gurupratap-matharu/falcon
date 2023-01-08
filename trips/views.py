@@ -1,8 +1,10 @@
 import logging
+from typing import Any, Dict
 
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.views.generic import TemplateView, View
+
+from cart.cart import Cart
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +19,12 @@ class TripSearchView(View):
     """
 
     def get(self, request):
+        # Add search query to session
+        request.session["q"] = request.GET
         logger.info("Veer url params: %s " % request.GET)
         # TODO: Do API calls to get search results
 
-        return redirect(reverse("trips:trip-list"))
+        return redirect("trips:trip-list")
 
 
 class TripListView(TemplateView):
