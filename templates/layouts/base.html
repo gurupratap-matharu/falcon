@@ -71,5 +71,6 @@
     <!-- Custom JS -->
     <script src="{% static 'assets/js/plugins/scroll.js' %}" defer></script>
     <script src={% static 'assets/js/dates/picker.js' %} defer></script>
+    {{ q|json_script:"q" }}
   </body>
 </html>
