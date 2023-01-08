@@ -1,4 +1,5 @@
 import logging
+from typing import Any, Dict
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -19,6 +20,12 @@ CustomUser = get_user_model()
 
 class HomePageView(TemplateView):
     template_name: str = "pages/home.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        q = self.request.session.get("q")
+        context["q"] = q or {}
+        return context
 
 
 class SeatsView(TemplateView):
