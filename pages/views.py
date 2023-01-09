@@ -23,8 +23,10 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
         q = self.request.session.get("q")
         context["q"] = q or {}
+
         return context
 
 
@@ -35,9 +37,24 @@ class SeatsView(TemplateView):
 class OrderView(TemplateView):
     template_name: str = "pages/order.html"
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        passenger = self.request.session.get("passenger")
+        context["passenger"] = passenger or {}
+
+        return context
+
 
 class PaymentView(TemplateView):
     template_name: str = "pages/payment.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        self.request.session["passenger"] = self.request.GET
+        logger.info("Veer storing passenger data in session: %s " % self.request.GET)
+
+        return context
 
 
 class PaymentSuccessView(TemplateView):

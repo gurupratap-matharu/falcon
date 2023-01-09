@@ -10,8 +10,12 @@
     Order
 {% endblock breadcrumb %}
 
+{% block page_title %}
+    Passenger Details
+{% endblock page_title %}
+
 {% block content %}
-    <div class="card mt-4">
+    <div class="card">
         <form action="{% url 'pages:payment' %}">
             <div class="card-header">
                 <h5>Passenger Details</h5>
@@ -19,162 +23,116 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="documentType">Document</label>
-                        <select class="form-select form-select-lg" id="documentType">
-                            <option>
-                                DNI
-                            </option>
-                            <option>
-                                PASSPORT
-                            </option>
-                            <option>
-                                CEDULA
-                            </option>
-                            <option>
-                                LE
-                            </option>
-                            <option>
-                                LC
-                            </option>
-                            <option>
-                                CUIT
-                            </option>
-                            <option>
-                                NIE
-                            </option>
-                            <option>
-                                RG
-                            </option>
-                            <option>
-                                RNE
-                            </option>
-                            <option>
-                                CPF
-                            </option>
-                            <option>
-                                RUT
-                            </option>
-                            <option>
-                                CURP
-                            </option>
-                            <option>
-                                CNPJ
-                            </option>
+                        <label for="document_type">Document</label>
+                        <select class="form-select form-select-lg" name="document_type" id="document_type" aria-label="Document Type" required>
+                            {% with "dni passport cedula le lc cuit nie rg rne cpf rut curp cnpj" as document_types %}
+                                {% for document in document_types.split %}
+                                    <option value="{{ document }}" {% if passenger.document_type == document %}selected{% endif %}>
+                                        {{ document|upper }}
+                                    </option>
+                                {% endfor %}
+                            {% endwith %}
                         </select>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="documentNumber" class="form-control-label">Number</label>
+                            <label for="document_number" class="form-control-label">Number</label>
                             <div class="input-group input-group-lg">
-                                <span class="input-group-text">🔍</span>
+                                <span class="input-group-text z-index-0">🔍</span>
                                 <input class="form-control"
                                        type="text"
-                                       id="documentNumber"
-                                       aria-label="document-number"
-                                       aria-describedby="document-number"
-                                       required="required">
+                                       name="document_number"
+                                       id="document_number"
+                                       value="{{ passenger.document_number }}"
+                                       aria-label="Document Number"
+                                       aria-describedby="Document Number"
+                                       required/>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <label for="nationalitySelect" class="form-label">Nationality</label>
-                        <select class="form-select form-select-lg" id="nationalitySelect">
-                            <option>
-                                Argentina
-                            </option>
-                            <option>
-                                Chile
-                            </option>
-                            <option>
-                                Brasil
-                            </option>
-                            <option>
-                                Paraguay
-                            </option>
-                            <option>
-                                Peru
-                            </option>
-                            <option>
-                                Other
-                            </option>
+                        <label for="nationality" class="form-label">Nationality</label>
+                        <select class="form-select form-select-lg" id="nationality" name="nationality" aria-label="Nationality">
+                            {% with "argentina chile brasil paraguay peru other" as nationalities %}
+                                {% for nationality in nationalities.split %}
+                                    <option value="{{ nationality }}" {% if passenger.nationality == nationality %}selected{% endif %}>
+                                        {{ nationality|title }}
+                                    </option>
+                                {% endfor %}
+                            {% endwith %}
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="form-label">First Name</label>
+                        <label class="form-label" for="first_name">First Name</label>
                         <div class="input-group input-group-lg">
-                            <input id="firstName"
-                                   name="firstName"
+                            <input id="first_name"
+                                   name="first_name"
                                    class="form-control"
                                    type="text"
                                    placeholder="Alec"
+                                   value="{{ passenger.first_name }}"
                                    required="required"
                                    onfocus="focused(this)"
-                                   onfocusout="defocused(this)">
+                                   onfocusout="defocused(this)"/>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Last Name</label>
+                        <label class="form-label" for="last_name">Last Name</label>
                         <div class="input-group input-group-lg">
-                            <input id="lastName"
-                                   name="lastName"
+                            <input id="last_name"
+                                   name="last_name"
                                    class="form-control"
                                    type="text"
                                    placeholder="Thompson"
+                                   value="{{ passenger.last_name }}"
                                    required="required"
                                    onfocus="focused(this)"
-                                   onfocusout="defocused(this)">
+                                   onfocusout="defocused(this)"/>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Email</label>
+                        <label class="form-label" for="email">Email</label>
                         <div class="input-group input-group-lg">
                             <input id="email"
                                    name="email"
                                    class="form-control"
                                    type="email"
                                    placeholder="example@email.com"
+                                   value="{{ passenger.email }}"
                                    required="required"
                                    onfocus="focused(this)"
-                                   onfocusout="defocused(this)">
+                                   onfocusout="defocused(this)"/>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-2">
                         <label for="gender" class="form-label">Gender</label>
-                        <select class="form-select form-select-lg" id="gender" required>
+                        <select class="form-select form-select-lg" id="gender" name="gender" required>
                             <option value="">
                                 None
                             </option>
-                            <option value="female">
+                            <option value="female" {% if passenger.gender == 'female' %}selected{% endif %}>
                                 Female
                             </option>
-                            <option value="male">
+                            <option value="male" {% if passenger.gender == 'male' %}selected{% endif %}>
                                 Male
                             </option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <label for="birthDay">Day</label>
-                        <select class="form-select form-select-lg" id="birthDay" required>
-                            {% with ""|center:31 as range %}
-                                {% for _ in range %}
-                                    <option value="">
-                                        {{ forloop.counter }}
-                                    </option>
-                                {% endfor %}
-                            {% endwith %}
-                        </select>
+                        <label for="birth_day">Day</label>
+                        <input class="form-control form-control-lg" type="number" name="birth_day" value={{ passenger.birth_day }} id="birth_day" min="1" max="31" />
                     </div>
                     <div class="col-md-2">
-                        <label for="birthMonth">Month</label>
-                        <select class="form-select form-select-lg" id="birthMonth">
-                            {% with "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec" as list %}
-                                {% for i in list.split %}
-                                    <option value="{{ i }}">
-                                        {{ i }}
+                        <label for="birth_month">Month</label>
+                        <select class="form-select form-select-lg" id="birth_month" name="birth_month">
+                            {% with "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec" as months %}
+                                {% for month in months.split %}
+                                    <option value="{{ month }}"{% if passenger.birth_month == month %}selected{% endif %}>
+                                        {{ month }}
                                     </option>
                                 {% endfor %}
                             {% endwith %}
@@ -182,21 +140,27 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label for="birthYear" class="form-control-label">Year</label>
-                            <input class="form-control form-control-lg" type="number" value="1980" id="birthYear" min="1922" max="2022">
+                            <label for="birth_year" class="form-control-label">Year</label>
+                            <input class="form-control form-control-lg" type="number" name="birth_year" value={{ passenger.birth_year }} id="birth_year" min="1922" max="2022" />
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="phone" class="form-control-label">Phone</label>
-                            <input class="form-control form-control-lg" type="tel" placeholder="54-(11)-5025-4191" id="phone" required>
+                            <input class="form-control form-control-lg"
+                                   name="phone"
+                                   type="tel"
+                                   placeholder="54-11-5025-4191"
+                                   value="{{ passenger.phone }}"
+                                   id="phone"
+                                   required/>
                         </div>
                     </div>
                 </div>
                 <div class="row"></div>
             </div>
-            <div class="card-footer d-flex justify-content-end">
-                <button class="btn btn-primary btn-lg" type="submit">Proceed to Payment</button>
+            <div class="card-footer d-flex justify-content-center">
+                <button class="btn btn-primary" type="submit">Proceed to Payment</button>
             </div>
         </form>
     </div>
