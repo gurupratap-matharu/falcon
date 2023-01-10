@@ -798,6 +798,21 @@ files = [
 ]
 
 [[package]]
+name = "mercadopago"
+version = "2.2.0"
+description = "Mercadopago SDK module for Payments integration"
+category = "main"
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "mercadopago-2.2.0-py3-none-any.whl", hash = "sha256:59582b2a8feb48100eccbd13502044a290ae3801f28c3a33ad9290d8281024db"},
+    {file = "mercadopago-2.2.0.tar.gz", hash = "sha256:703ec896eb4b23133ccfb86283d63aaf7c04e1e36dad89f90f2babde118bb6bf"},
+]
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
@@ -1722,4 +1737,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e823f229a5d458f92fd52195094a250050548a8b220969e928c38ce6427c9d95"
+content-hash = "7ba9848d6198792762ac0988f09c7ea404b7c881a68d4a7457bd412144825bd6"
