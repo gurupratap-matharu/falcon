@@ -17,273 +17,74 @@
 {% block content %}
     <div class="row justify-content-center mb-3 mt-4">
         <div class="col-md-12 col-xl-10">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-3 mb-4 mb-lg-0">
-                            <img src="{% static 'assets/img/bus/bus4.jpg' %}" class="img-fluid border-radius-xl shadow-xl"/>
-                            <a href="#!"></a>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-6 border-md-end">
-                            <h5>Andesmar</h5>
-                            <div class="d-flex flex-row">
-                                <div class="mb-1 me-2">
-                                    <i class="fa fa-thin fa-credit-card"></i>
-                                    <i class="fa fa-wallet"></i>
-                                </div>
-                                <span class="me-3">310</span>
-                                <span class="me-3">Cama</span>
+            {% for trip in trips %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-3 mb-4 mb-lg-0">
+                                <img src="{% static "assets/img/bus/"|add:trip.imageUrl %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo"/>
                             </div>
-                            <div class="row text-center mt-3">
-                                <div class="col">
-                                    <h4>08:00</h4>
+                            <div class="col-md-6 col-lg-6 col-xl-6 border-md-end">
+                                <h5>{{ trip.company }}</h5>
+                                <div class="d-flex flex-row">
+                                    <div class="mb-1 me-2">
+                                        <i class="fa fa-thin fa-credit-card"></i>
+                                        <i class="fa fa-wallet"></i>
+                                    </div>
+                                    <span class="me-3">{{ trip.availableSeats }}</span>
+                                    <span class="me-3">{{ trip.seatType }}</span>
                                 </div>
-                                <div class="col border-bottom">
-                                    <p>7Hs</p>
+                                <div class="row text-center mt-3">
+                                    <div class="col">
+                                        <h4>{{ trip.departure }}</h4>
+                                    </div>
+                                    <div class="col border-bottom">
+                                        <p>{{ trip.duration }}Hs</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4>{{ trip.arrival }}</h4>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <h4>17:00</h4>
-                                </div>
-                            </div>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <h4>BUE</h4>
-                                </div>
-                                <div class="col">
-                                    <p>Directo</p>
-                                </div>
-                                <div class="col">
-                                    <h4>MZA</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 col-xl-3 align-self-center">
-                            <div class="d-flex flex-column mt-4">
-                                <a href="{% url 'pages:seats' %}" class="btn btn-outline-primary btn-lg mt-2" type="button">$13.512,99</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-3 mb-4 mb-lg-0">
-                            <div class="bg-image border-radius-xl rounded">
-                                <img src="{% static 'assets/img/bus/bus2.jpg' %}" class="w-100 border-radius-xl shadow-xl"/>
-                                <a href="#!"></a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-6 border-md-end">
-                            <h5>Cata</h5>
-                            <div class="d-flex flex-row">
-                                <div class="mb-1 me-2">
-                                    <i class="fa fa-thin fa-credit-card"></i>
-                                    <i class="fa fa-wallet"></i>
-                                </div>
-                                <span class="me-3">201</span>
-                                <span class="me-3">SemiCama</span>
-                            </div>
-                            <div class="row text-center mt-3">
-                                <div class="col">
-                                    <h4>20:00</h4>
-                                </div>
-                                <div class="col border-bottom">
-                                    <p>17Hs</p>
-                                </div>
-                                <div class="col">
-                                    <h4>17:00</h4>
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <h4>{{ trip.origin }}</h4>
+                                    </div>
+                                    <div class="col">
+                                        <p>{{ trip.mode }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4>{{ trip.destination }}</h4>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <h4>BUE</h4>
+                            <div class="col-md-6 col-lg-3 col-xl-3 align-self-center">
+                                <div class="d-flex flex-column mt-4">
+                                    <a href="{% url 'pages:seats' %}" class="btn btn-outline-primary btn-lg mt-2" type="button">${{ trip.price }}</a>
                                 </div>
-                                <div class="col">
-                                    <p>Directo</p>
-                                </div>
-                                <div class="col">
-                                    <h4>MZA</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 col-xl-3 align-self-center">
-                            <div class="d-flex flex-column mt-4">
-                                <a href="{% url 'pages:seats' %}" class="btn btn-outline-primary btn-lg mt-2" type="button">$14.957,99</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-3 mb-4 mb-lg-0">
-                            <div class="bg-image border-radius-xl rounded">
-                                <img src="{% static 'assets/img/bus/bus2.jpg' %}" class="w-100 border-radius-xl shadow-xl"/>
-                                <a href="#!"></a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-6 border-md-end">
-                            <h5>Via Bariloche</h5>
-                            <div class="d-flex flex-row">
-                                <div class="mb-1 me-2">
-                                    <i class="fa fa-thin fa-credit-card"></i>
-                                    <i class="fa fa-wallet"></i>
-                                </div>
-                                <span class="me-3">104</span>
-                                <span class="me-3">Cama</span>
-                            </div>
-                            <div class="row text-center mt-3">
-                                <div class="col">
-                                    <h4>
-                                        14:00
-                                    </h4>
-                                </div>
-                                <div class="col border-bottom">
-                                    <p>
-                                        13Hs
-                                    </p>
-                                </div>
-                                <div class="col">
-                                    <h4>
-                                        01:00
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <h4>
-                                        BUE
-                                    </h4>
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        Directo
-                                    </p>
-                                </div>
-                                <div class="col">
-                                    <h4>
-                                        MZA
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 col-xl-3 align-self-center">
-                            <div class="d-flex flex-column mt-4">
-                                <a href="{% url 'pages:seats' %}" class="btn btn-outline-primary btn-lg mt-2" type="button">
-                                    $17.354,99
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-3 mb-4 mb-lg-0">
-                            <div class="bg-image border-radius-xl rounded">
-                                <img src="{% static 'assets/img/bus/bus4.jpg' %}" class="w-100 border-radius-xl shadow-xl"/>
-                                <a href="#!">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-6 border-md-end">
-                            <h5>
-                                Plusmar
-                            </h5>
-                            <div class="d-flex flex-row">
-                                <div class="mb-1 me-2">
-                                    <i class="fa fa-thin fa-credit-card"></i>
-                                    <i class="fa fa-wallet"></i>
-                                </div>
-                                <span class="me-3">852</span>
-                                <span class="me-3">SemiCama</span>
-                            </div>
-                            <div class="row text-center mt-3">
-                                <div class="col">
-                                    <h4>
-                                        10:00
-                                    </h4>
-                                </div>
-                                <div class="col border-bottom">
-                                    <p>
-                                        23Hs
-                                    </p>
-                                </div>
-                                <div class="col">
-                                    <h4>
-                                        16:00
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <h4>
-                                        BUE
-                                    </h4>
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        Directo
-                                    </p>
-                                </div>
-                                <div class="col">
-                                    <h4>
-                                        MZA
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 col-xl-3 align-self-center">
-                            <div class="d-flex flex-column mt-4">
-                                <a href="{% url 'pages:seats' %}" class="btn btn-outline-primary btn-lg mt-2" type="button">
-                                    $18.158,99
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <div class="card">
         <div class="card-header">
-            <h6>
-                More Results
-            </h6>
+            <h6>More Results</h6>
         </div>
         <div class="table-responsive">
             <table class="table table-hover table-borderless align-items-center align-middle mb-0">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            Empresa
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Salida
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            LLegada
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Duracion
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Comodidad
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Acepta
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Descuentos
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Precio
-                        </th>
-                        <th class="text-secondary opacity-7">
-                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Empresa</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Salida</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">LLegada</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Duracion</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Comodidad</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Acepta</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descuentos</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Precio</th>
+                        <th class="text-secondary opacity-7"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -294,27 +95,17 @@
                                     <img src="{% static 'assets/img/bus/bus1.jpg' %}" class="avatar avatar-sm me-3">
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-xs">
-                                        Chevalier
-                                    </h6>
+                                    <h6 class="mb-0 text-xs">Chevalier</h6>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <p class="text-xs font-weight-bold mb-0">
-                                13:00 Hs
-                            </p>
-                            <p class="text-xs text-secondary mb-0">
-                                Martes 20 Dic 2022
-                            </p>
+                            <p class="text-xs font-weight-bold mb-0">13:00 Hs</p>
+                            <p class="text-xs text-secondary mb-0">Martes 20 Dic 2022</p>
                         </td>
                         <td>
-                            <p class="text-xs font-weight-bold mb-0">
-                                17:00 Hs
-                            </p>
-                            <p class="text-xs text-secondary mb-0">
-                                Martes 21 Dic 2022
-                            </p>
+                            <p class="text-xs font-weight-bold mb-0">17:00 Hs</p>
+                            <p class="text-xs text-secondary mb-0">Martes 21 Dic 2022</p>
                         </td>
                         <td class="align-middle">
                             <span class="text-secondary text-xs font-weight-bold">27 Hs</span>
