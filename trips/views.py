@@ -1,5 +1,8 @@
+import json
 import logging
+from typing import Any, Dict
 
+from django.conf import settings
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
 
@@ -26,3 +29,11 @@ class TripSearchView(View):
 
 class TripListView(TemplateView):
     template_name = "trips/trip_list.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        with open(settings.TRIPS_PATH) as f:
+            context["trips"] = json.load(f)
+
+        return context
