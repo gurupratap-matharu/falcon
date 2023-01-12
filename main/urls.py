@@ -27,6 +27,7 @@ urlpatterns = [
     # Local apps
     path("", include("pages.urls")),
     path("trips/", include("trips.urls")),
+    # path("cart/", include("cart.urls")),
 ]
 
 if settings.DEBUG:
