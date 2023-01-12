@@ -1,12 +1,16 @@
 import logging
+from http import HTTPStatus
 from typing import Any, Dict
 
 import mercadopago
 import stripe
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 logger = logging.getLogger(__name__)
@@ -91,7 +95,7 @@ class PaymentView(TemplateView):
         return context
 
 
-class CreateCheckoutView(TemplateView):
+class CheckoutView(TemplateView):
     template_name: str = "pages/checkout.html"
 
     def post(self, request, *args, **kwargs):
@@ -109,7 +113,7 @@ class CreateCheckoutView(TemplateView):
             checkout_session = stripe.checkout.Session.create(
                 line_items=[
                     {
-                        "price": "1.23",
+                        "price": "price_1MPV6wLU90FTSGTO0EYxcBO0",
                         "quantity": 1,
                     },
                 ],
@@ -141,10 +145,51 @@ class PaymentFailView(TemplateView):
         return super().get_context_data(**kwargs)
 
 
-class PaymentCanceledView(TemplateView):
-    template_name: str = "payments/payment_canceled.html"
+class PaymentCancelView(TemplateView):
+    template_name: str = "payments/payment_cancel.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         logger.info("veer mercado pago says %s" % self.request.GET)
 
         return super().get_context_data(**kwargs)
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    """
+    Our internal webhook registered with stripe which listens for payment
+    notifications.
+
+    A confirmation on this hook is a guarantee that the payment is successful.
+    # TODO: May be store the confirmation data in a model or email
+    """
+
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    webhook_secret = settings.STRIPE_WEBHOOK_SIGNING_SECRET
+    payload = request.body
+    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+    event = None
+
+    logger.info(
+        "veer inside stripe webhook: payload: %s, sig_header: %s", payload, sig_header
+    )
+
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
+
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponseBadRequest()
+
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponseBadRequest()
+
+    logger.info("veer following event received: %s", event)
+
+    # Handle the checkout.session.completed event
+    if event["type"] == "checkout.session.completed":
+        logger.info("Stripe: Payment was successful!!! :D")
+        # TODO: run some custom code here
+
+    return HttpResponse(status=HTTPStatus.OK)
