@@ -22,7 +22,7 @@ class PaymentView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        
+
         self.request.session["passenger"] = self.request.GET
         logger.info("Veer storing passenger data in session: %s " % self.request.GET)
 
@@ -89,3 +89,62 @@ class PaymentView(TemplateView):
         context["preference"] = preference_response["response"]
         context["mp_public_key"] = settings.MP_PUBLIC_KEY
         return context
+
+
+class CreateCheckoutView(TemplateView):
+    template_name: str = "pages/checkout.html"
+
+    def post(self, request, *args, **kwargs):
+        current_site = get_current_site(self.request)
+        success_url = "http://%s%s" % (
+            current_site.domain,
+            reverse_lazy("pages:payment-success"),
+        )
+        cancel_url = "http://%s%s" % (
+            current_site.domain,
+            reverse_lazy("pages:payment-fail"),
+        )
+
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                line_items=[
+                    {
+                        "price": "1.23",
+                        "quantity": 1,
+                    },
+                ],
+                mode="payment",
+                success_url=success_url,
+                cancel_url=cancel_url,
+            )
+        except Exception as e:
+            return str(e)
+
+        return redirect(checkout_session.url, code=303)
+
+
+class PaymentSuccessView(TemplateView):
+    template_name: str = "pages/payment_success.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        logger.info("veer mercado pago says %s" % self.request.GET)
+
+        return super().get_context_data(**kwargs)
+
+
+class PaymentFailView(TemplateView):
+    template_name: str = "pages/payment_fail.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        logger.info("veer mercado pago says %s" % self.request.GET)
+
+        return super().get_context_data(**kwargs)
+
+
+class PaymentCanceledView(TemplateView):
+    template_name: str = "pages/payment_canceled.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        logger.info("veer mercado pago says %s" % self.request.GET)
+
+        return super().get_context_data(**kwargs)
