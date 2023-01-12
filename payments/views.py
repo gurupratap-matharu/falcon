@@ -18,7 +18,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class PaymentView(TemplateView):
     """A simple view that shows all payment options for our project"""
 
-    template_name: str = "pages/payment.html"
+    template_name: str = "payments/payment.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -30,11 +30,11 @@ class PaymentView(TemplateView):
 
         back_url_success = "http://%s%s" % (
             current_site.domain,
-            reverse_lazy("pages:payment-success"),
+            reverse_lazy("payments:success"),
         )
         back_url_failure = "http://%s%s" % (
             current_site.domain,
-            reverse_lazy("pages:payment-fail"),
+            reverse_lazy("payments:fail"),
         )
 
         picture_url = "http://%s%s" % (
@@ -98,11 +98,11 @@ class CreateCheckoutView(TemplateView):
         current_site = get_current_site(self.request)
         success_url = "http://%s%s" % (
             current_site.domain,
-            reverse_lazy("pages:payment-success"),
+            reverse_lazy("payments:success"),
         )
         cancel_url = "http://%s%s" % (
             current_site.domain,
-            reverse_lazy("pages:payment-fail"),
+            reverse_lazy("payments:fail"),
         )
 
         try:
@@ -124,7 +124,7 @@ class CreateCheckoutView(TemplateView):
 
 
 class PaymentSuccessView(TemplateView):
-    template_name: str = "pages/payment_success.html"
+    template_name: str = "payments/payment_success.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         logger.info("veer mercado pago says %s" % self.request.GET)
@@ -133,7 +133,7 @@ class PaymentSuccessView(TemplateView):
 
 
 class PaymentFailView(TemplateView):
-    template_name: str = "pages/payment_fail.html"
+    template_name: str = "payments/payment_fail.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         logger.info("veer mercado pago says %s" % self.request.GET)
@@ -142,7 +142,7 @@ class PaymentFailView(TemplateView):
 
 
 class PaymentCanceledView(TemplateView):
-    template_name: str = "pages/payment_canceled.html"
+    template_name: str = "payments/payment_canceled.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         logger.info("veer mercado pago says %s" % self.request.GET)
