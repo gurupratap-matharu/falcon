@@ -1,5 +1,4 @@
 import logging
-from pprint import pformat
 from typing import Any, Dict
 
 import mercadopago
