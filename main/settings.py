@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "trips.apps.TripsConfig",
     # "cart.apps.CartConfig",
+    "payments.apps.PaymentsConfig",
 ]
 
 MIDDLEWARE = [
@@ -300,6 +301,12 @@ MP_PUBLIC_KEY = os.getenv("MP_PUBLIC_KEY")
 MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN")
 MP_CLIENT_ID = os.getenv("MP_CLIENT_ID")
 MP_CLIENT_SECRET = os.getenv("MP_CLIENT_SECRET")
+
+
+# Stripe
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+
 
 if not DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
