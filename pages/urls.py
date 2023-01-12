@@ -9,11 +9,6 @@ urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
     path("seats/", views.SeatsView.as_view(), name="seats"),
     path("order/", views.OrderView.as_view(), name="order"),
-    path("payment/", views.PaymentView.as_view(), name="payment"),
-    path(
-        "payment/success/", views.PaymentSuccessView.as_view(), name="payment-success"
-    ),
-    path("payment/fail/", views.PaymentFailView.as_view(), name="payment-fail"),
     path("dashboard/", views.DashboardPageView.as_view(), name="dashboard"),
     path("about/", views.AboutPageView.as_view(), name="about"),
     path("terms/", views.TermsPageView.as_view(), name="terms"),
