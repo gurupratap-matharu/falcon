@@ -1,4 +1,5 @@
 import logging
+import random
 from http import HTTPStatus
 from typing import Any, Dict
 
@@ -109,13 +110,22 @@ class CheckoutView(TemplateView):
             reverse_lazy("payments:fail"),
         )
 
+        amount = random.randint(1000, 10000)
+
         try:
             checkout_session = stripe.checkout.Session.create(
+                customer_email="customer@example.com",
                 line_items=[
                     {
-                        "price": "price_1MPV6wLU90FTSGTO0EYxcBO0",
+                        "price_data": {
+                            "currency": "usd",
+                            "product_data": {
+                                "name": "Bus Ticket",
+                            },
+                            "unit_amount": amount,
+                        },
                         "quantity": 1,
-                    },
+                    }
                 ],
                 mode="payment",
                 success_url=success_url,
@@ -191,5 +201,7 @@ def stripe_webhook(request):
     if event["type"] == "checkout.session.completed":
         logger.info("Stripe: Payment was successful!!! :D")
         # TODO: run some custom code here
+        # Saving a copy of the order in your own database.
+        # Sending the customer a receipt email.
 
     return HttpResponse(status=HTTPStatus.OK)
