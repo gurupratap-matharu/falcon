@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 def generate_trip_data():
     """Helper method to generate fake trip data"""
 
+    CITIES = ["BUE", "MZA", "CBA", "ROS", "MDP", "BAR", "MIS", "CAL", "USH"]
+
     return {
         "company": random.choice(
             [
@@ -30,8 +32,8 @@ def generate_trip_data():
         "departure": f"{random.randint(0, 23):02}:{random.randint(0, 60):02}",
         "arrival": f"{random.randint(0, 23):02}:{random.randint(0, 60):02}",
         "duration": random.randint(1, 24),
-        "origin": "BUE",
-        "destination": "MZA",
+        "origin": random.choice(CITIES),
+        "destination": random.choice(CITIES),
         "mode": random.choice(["Direct", "SemiDirect"]),
         "price": random.randint(1000, 10000),
     }
