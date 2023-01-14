@@ -9,6 +9,15 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  MP_PUBLIC_KEY: ${{ secrets.MP_PUBLIC_KEY }}
+  MP_ACCESS_TOKEN: ${{ secrets.MP_ACCESS_TOKEN }}
+  MP_CLIENT_ID: ${{ secrets.MP_CLIENT_ID }}
+  MP_CLIENT_SECRET: ${{ secrets.MP_CLIENT_SECRET }}
+  STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+  STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+  STRIPE_WEBHOOK_SIGNING_SECRET: ${{ secrets.STRIPE_WEBHOOK_SIGNING_SECRET }}
+
 jobs:
   test:
     name: Tests
