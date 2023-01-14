@@ -343,6 +343,3 @@ if not DEBUG:
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True,
     )
-
-
-TRIPS_PATH = Path.cwd() / "static" / "assets" / "json" / "trips.json"
