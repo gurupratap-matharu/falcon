@@ -19,8 +19,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="apple-touch-icon" sizes="76x76" href="" />
+    {% comment %} <link rel="apple-touch-icon" sizes="76x76" href="" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'icons/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'icons/site.webmanifest' %}"> {% endcomment %}
     <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}" />
     <title>
 
@@ -35,6 +40,7 @@
       if (document.location.hostname.search("falconhunt.xyz") !== -1) {
         console.log('veer activating google analytics...');
         window.dataLayer = window.dataLayer || [];
+
         
         function gtag() {
           dataLayer.push(arguments);
@@ -76,16 +82,15 @@
     <script src="{% static 'assets/js/soft-ui-dashboard.min.js' %}" defer></script>
     <!-- Custom JS -->
     <script type="text/javascript" src="{% static 'assets/js/plugins/scroll.js' %}" defer></script>
+
+    {% block js %}
+    {% endblock js %}
+
     <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/sort/list.min.js' %}"></script>
-    <script type="text/javascript" src="https://sdk.mercadopago.com/js/v2" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/payment/mp.js' %}" defer></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    {{ q|json_script:"q" }}
-    {{ preference.id|json_script:"preference_id" }}
-    {{ mp_public_key|json_script:"mp_public_key" }}
+    {% comment %} <script type="text/javascript" src="{% static 'assets/js/sort/list.min.js' %}"></script> {% endcomment %}
+
+    {{ q|json_script:"q" }} 
   </body>
 </html>

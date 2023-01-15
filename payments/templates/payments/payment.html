@@ -252,3 +252,14 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block js %}
+    {% comment %} Mercado Pago {% endcomment %}
+    {{ preference.id|json_script:"preference_id" }}
+    {{ mp_public_key|json_script:"mp_public_key" }}
+    <script type="text/javascript" src="https://sdk.mercadopago.com/js/v2" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/payment/mp.js' %}" defer></script>
+    {% comment %} Stripe {% endcomment %}
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock js %}
