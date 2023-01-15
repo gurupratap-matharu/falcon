@@ -28,8 +28,11 @@ class PaymentView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        self.request.session["passenger"] = self.request.GET
-        logger.info("Veer storing passenger data in session: %s " % self.request.GET)
+        if self.request.GET:
+            self.request.session["passenger"] = self.request.GET
+            logger.info(
+                "Veer storing passenger data in session: %s " % self.request.GET
+            )
 
         current_site = get_current_site(self.request)
 

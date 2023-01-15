@@ -50,8 +50,9 @@ class TripSearchView(View):
 
     def get(self, request):
         # Add search query to session
-        request.session["q"] = request.GET
-        logger.info("Veer url params: %s " % request.GET)
+        if request.GET:
+            logger.info("Veer url params: %s " % request.GET)
+            request.session["q"] = request.GET
         # TODO: Do API calls to get search results
 
         return redirect("trips:trip-list")
