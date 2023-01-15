@@ -89,8 +89,6 @@
     <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
-    {% comment %} <script type="text/javascript" src="{% static 'assets/js/sort/list.min.js' %}"></script> {% endcomment %}
-
-    {{ q|json_script:"q" }} 
+    {{ q|json_script:"q" }}
   </body>
 </html>
