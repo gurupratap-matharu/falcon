@@ -186,3 +186,8 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block js %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
+{% endblock js %}
