@@ -20,6 +20,75 @@
 
     <div class="row justify-content-center mb-3 mt-4">
         <div class="col-md-12 col-xl-10">
+            <div class="d-flex justify-content-between mx-2 mx-md-0">
+                <a class="btn btn-white"
+                   data-bs-toggle="collapse"
+                   href="#filters"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseExample">
+                    Filters
+                </a>
+                <button class="btn btn-white"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample"
+                        aria-expanded="false"
+                        aria-controls="collapseExample">
+                    Sort
+                </button>
+            </div>
+            <div class="collapse mb-3 mx-2 mx-md-0" id="filters">
+                <div class="card card-plain">
+                    <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-between">
+                        <div class="dropdown">
+                            <a href="javascript:;" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" id="companies">Companies</a>
+                            <ul class="dropdown-menu p-4" aria-labelledby="companies">
+                                {% for trip in trips|dictsort:'company' %}
+                                    {% ifchanged %}
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="{{ trip.company }}" checked />
+                                                <label class="form-check-label" for="{{ trip.company }}">{{ trip.company }}</label>
+                                            </div>
+                                        </li>
+                                    {% endifchanged %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a href="javascript:;" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" id="categories">
+                                Categories
+                            </a>
+                            <ul class="dropdown-menu p-4" aria-labelledby="categories">
+                                {% for trip in trips|dictsort:'seatType' %}
+                                    {% ifchanged %}
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="{{ trip.seatType }}" checked />
+                                                <label class="form-check-label" for="{{ trip.seatType }}">{{ trip.seatType }}</label>
+                                            </div>
+                                        </li>
+                                    {% endifchanged %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a href="javascript:;" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" id="departure">Times</a>
+                            <ul class="dropdown-menu p-4" aria-labelledby="departure">
+                                <li>
+                                    <label for="departure" class="form-label">Departure</label>
+                                    <input type="range" class="form-range" id="departure" />
+                                </li>
+                                <li>
+                                    <label for="arrival" class="form-label">Arrival</label>
+                                    <input type="range" class="form-range" id="arrival" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% for trip in trips %}
                 <div class="card mb-3">
                     <div class="card-body">
@@ -85,9 +154,14 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Duracion</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Comodidad</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Acepta</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descuentos</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Precio</th>
-                        <th class="text-secondary opacity-7"></th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            Descuentos
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            Precio
+                        </th>
+                        <th class="text-secondary opacity-7">
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,17 +172,27 @@
                                     <img src="{% static 'assets/img/bus/bus1.jpg' %}" class="avatar avatar-sm me-3">
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-xs">Chevalier</h6>
+                                    <h6 class="mb-0 text-xs">
+                                        Chevalier
+                                    </h6>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <p class="text-xs font-weight-bold mb-0">13:00 Hs</p>
-                            <p class="text-xs text-secondary mb-0">Martes 20 Dic 2022</p>
+                            <p class="text-xs font-weight-bold mb-0">
+                                13:00 Hs
+                            </p>
+                            <p class="text-xs text-secondary mb-0">
+                                Martes 20 Dic 2022
+                            </p>
                         </td>
                         <td>
-                            <p class="text-xs font-weight-bold mb-0">17:00 Hs</p>
-                            <p class="text-xs text-secondary mb-0">Martes 21 Dic 2022</p>
+                            <p class="text-xs font-weight-bold mb-0">
+                                17:00 Hs
+                            </p>
+                            <p class="text-xs text-secondary mb-0">
+                                Martes 21 Dic 2022
+                            </p>
                         </td>
                         <td class="align-middle">
                             <span class="text-secondary text-xs font-weight-bold">27 Hs</span>
