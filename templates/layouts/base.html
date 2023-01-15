@@ -32,14 +32,19 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2GLN3JT3JD"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-2GLN3JT3JD');
+      if (document.location.hostname.search("falconhunt.xyz") !== -1) {
+        console.log('veer activating google analytics...');
+        window.dataLayer = window.dataLayer || [];
+        
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', c);
+      }
+      else {
+        console.log('veer not activating google analytics...');
+      }
     </script>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -74,6 +79,7 @@
     <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/sort/list.min.js' %}"></script>
     <script type="text/javascript" src="https://sdk.mercadopago.com/js/v2" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/payment/mp.js' %}" defer></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
