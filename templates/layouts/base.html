@@ -74,21 +74,20 @@
     <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/plugins/chartjs.min.js' %}" defer></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
-    <!-- Github buttons -->
-    <script async src="https://buttons.github.io/buttons.js" defer></script>
+    {% comment %}
+    Veer you might want to remove this if you are not building charts 
+    <script type="text/javascript" src="{% static 'assets/js/plugins/chartjs.min.js' %}" defer></script> 
+    {% endcomment %}
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{% static 'assets/js/soft-ui-dashboard.min.js' %}" defer></script>
     <!-- Custom JS -->
     <script type="text/javascript" src="{% static 'assets/js/plugins/scroll.js' %}" defer></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
 
     {% block js %}
     {% endblock js %}
 
-    <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
     {{ q|json_script:"q" }}
   </body>
 </html>
