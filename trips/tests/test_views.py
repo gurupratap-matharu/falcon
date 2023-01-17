@@ -1,12 +1,12 @@
 from http import HTTPStatus
 
-from django.test import SimpleTestCase
+from django.test import TestCase
 from django.urls import resolve, reverse
 
 from trips.views import TripListView
 
 
-class TripListViewTests(SimpleTestCase):
+class TripListViewTests(TestCase):
     """
     Test suite for trip list view.
     """

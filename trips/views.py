@@ -1,4 +1,5 @@
 import logging
+import pdb
 import random
 from typing import Any, Dict
 
@@ -68,11 +69,11 @@ class TripListView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        if not self.request.session["trips"]:
-            logger.info("loading trips in session...")
-            self.request.session["trips"] = [generate_trip_data() for _ in range(20)]
+        # Either get current trips from session or set default
 
-        context["trips"] = self.request.session["trips"]
+        context["trips"] = self.request.session.setdefault(
+            "trips", [generate_trip_data() for _ in range(20)]
+        )
 
         order_by = self.request.GET.get("order")
         if order_by:
