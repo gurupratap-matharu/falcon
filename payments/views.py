@@ -192,10 +192,13 @@ def stripe_webhook(request):
 
     except ValueError as e:
         # Invalid payload
+        logger.warning("Invalid payload received in stripe webhook: %s", e)
         return HttpResponseBadRequest()
 
-    except stripe.error.SignatureVerificationError as e:
+    except stripe.error.SignatureVerificationError as e:  # noqa
         # Invalid signature
+        logger.warning("Invalid signature received in stripe webhook: %s", e)
+
         return HttpResponseBadRequest()
 
     logger.info("veer following event received: %s", event)
