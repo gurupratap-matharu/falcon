@@ -53,6 +53,10 @@ class TripSearchView(View):
         if request.GET:
             logger.info("Veer url params: %s " % request.GET)
             request.session["q"] = request.GET
+
+            # clear earlier trips session
+            logger.info("clearing trips in session...")
+            request.session["trips"] = {}
         # TODO: Do API calls to get search results
 
         return redirect("trips:trip-list")
@@ -63,6 +67,18 @@ class TripListView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["trips"] = [generate_trip_data() for _ in range(20)]
+
+        if not self.request.session["trips"]:
+            logger.info("loading trips in session...")
+            self.request.session["trips"] = [generate_trip_data() for _ in range(20)]
+
+        context["trips"] = self.request.session["trips"]
+
+        order_by = self.request.GET.get("order")
+        if order_by:
+            reverse = order_by == "price"
+            context["trips"] = sorted(
+                context["trips"], key=lambda d: d["price"], reverse=reverse
+            )
 
         return context

@@ -29,14 +29,29 @@
                    aria-controls="collapseExample">
                     Filters
                 </a>
-                <button class="btn btn-white"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseExample"
-                        aria-expanded="false"
-                        aria-controls="collapseExample">
-                    Sort
-                </button>
+                <div class="dropdown">
+                    <button class="btn btn-white dropdown-toggle"
+                            type="button"
+                            id="sortPriceButton"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Price
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sortPriceButton">
+                        <li>
+                            <form action="{% url 'trips:trip-list' %}" method="get">
+                                <input type="hidden" name="order" value="-price" />
+                                <button type="submit" class="dropdown-item">Low to High</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form action="{% url 'trips:trip-list' %}" method="get">
+                                <input type="hidden" name="order" value="price" />
+                                <button type="submit" class="dropdown-item">High to Low</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="collapse mb-3 mx-2 mx-md-0" id="filters">
                 <div class="card card-plain">
@@ -75,7 +90,7 @@
                         </div>
                         <div class="dropdown">
                             <a href="javascript:;" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" id="departure">Times</a>
-                            <ul class="dropdown-menu p-4" aria-labelledby="departure">
+                            <ul class="dropdown-menu dropdown-menu-lg-end p-4" aria-labelledby="departure">
                                 <li>
                                     <label for="departure" class="form-label">Departure</label>
                                     <input type="range" class="form-range" id="departure" />
@@ -152,8 +167,12 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Salida</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">LLegada</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Duracion</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Comodidad</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Acepta</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            Comodidad
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            Acepta
+                        </th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                             Descuentos
                         </th>
