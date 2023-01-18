@@ -18,98 +18,16 @@
 
     {% include "includes/search.html" %}
 
+    {% comment %} Cards format {% endcomment %}
     <div class="row justify-content-center mb-3 mt-4">
         <div class="col-md-12 col-xl-10">
-            <div class="d-flex justify-content-between mx-2 mx-md-0">
-                <a class="btn btn-white"
-                   data-bs-toggle="collapse"
-                   href="#filters"
-                   role="button"
-                   aria-expanded="false"
-                   aria-controls="collapseExample">
-                    Filters
-                </a>
-                <div class="dropdown">
-                    <button class="btn btn-white dropdown-toggle"
-                            type="button"
-                            id="sortPriceButton"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        Price
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="sortPriceButton">
-                        <li>
-                            <form action="{% url 'trips:trip-list' %}" method="get">
-                                <input type="hidden" name="order" value="-price" />
-                                <button type="submit" class="dropdown-item">Low to High</button>
-                            </form>
-                        </li>
-                        <li>
-                            <form action="{% url 'trips:trip-list' %}" method="get">
-                                <input type="hidden" name="order" value="price" />
-                                <button type="submit" class="dropdown-item">High to Low</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="collapse mb-3 mx-2 mx-md-0" id="filters">
-                <div class="card card-plain">
-                    <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-between">
-                        <div class="dropdown">
-                            <a href="javascript:;" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" id="companies">Companies</a>
-                            <ul class="dropdown-menu p-4" aria-labelledby="companies">
-                                {% for trip in trips|dictsort:'company' %}
-                                    {% ifchanged %}
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="{{ trip.company }}" checked />
-                                                <label class="form-check-label" for="{{ trip.company }}">{{ trip.company }}</label>
-                                            </div>
-                                        </li>
-                                    {% endifchanged %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="dropdown">
-                            <a href="javascript:;" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" id="categories">
-                                Categories
-                            </a>
-                            <ul class="dropdown-menu p-4" aria-labelledby="categories">
-                                {% for trip in trips|dictsort:'seatType' %}
-                                    {% ifchanged %}
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="{{ trip.seatType }}" checked />
-                                                <label class="form-check-label" for="{{ trip.seatType }}">{{ trip.seatType }}</label>
-                                            </div>
-                                        </li>
-                                    {% endifchanged %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="dropdown">
-                            <a href="javascript:;" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" id="departure">Times</a>
-                            <ul class="dropdown-menu dropdown-menu-lg-end p-4" aria-labelledby="departure">
-                                <li>
-                                    <label for="departure" class="form-label">Departure</label>
-                                    <input type="range" class="form-range" id="departure" />
-                                </li>
-                                <li>
-                                    <label for="arrival" class="form-label">Arrival</label>
-                                    <input type="range" class="form-range" id="arrival" />
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% comment %} {% include "includes/filters.html" %} {% endcomment %}
             {% for trip in trips %}
-                <div class="card mb-3">
+                <div class="card my-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 col-lg-3 mb-4 mb-lg-0">
-                                <img src="{% static "assets/img/bus/"|add:trip.imageUrl %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo"/>
+                                <img src="{% static "assets/img/bus/"|add:trip.imageUrl %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo" />
                             </div>
                             <div class="col-md-6 col-lg-6 col-xl-6 border-md-end">
                                 <h5>{{ trip.company }}</h5>
@@ -146,7 +64,15 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xl-3 align-self-center">
                                 <div class="d-flex flex-column mt-4">
-                                    <a href="{% url 'pages:seats' %}" class="btn btn-outline-primary btn-lg mt-2" type="button">${{ trip.price }}</a>
+                                    <form action="{% url 'pages:order' %}" method="get">
+                                        <button class="btn btn-outline-dark btn-lg mt-2" type="submit">
+                                            <h5 class="font-weight-bolder mb-0">
+                                                ${{ trip.price|floatformat:"-3g" }}
+                                                <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                            </h5>
+                                        </button>
+                                        <input type="hidden" name="tripId" value={{ trip.tripId }} />
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +81,34 @@
             {% endfor %}
         </div>
     </div>
-    <div class="card">
+    {% comment %} Collapse format {% endcomment %}
+    <div class="row justify-content-center mt-4">
+        {% for trip in trips %}
+            <div class="col-md-12 col-xl-10 mb-2">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-4 bg-info">
+                                <img src="{% static "assets/img/bus/"|add:trip.imageUrl %}" class="avatar" alt="buslogo" />
+                            </div>
+                            <div class="col-2 bg-light"></div>
+                            <div class="col-6 text-end bg-warning">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">{{ trip.company }}</p>
+                                    <h5 class="font-weight-bolder mb-0">
+                                        ${{ trip.price|floatformat:"-3g" }}
+                                        <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% comment %} Table format {% endcomment %}
+    <div class="card mt-5">
         <div class="card-header">
             <h6>More Results</h6>
         </div>
@@ -167,20 +120,11 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Salida</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">LLegada</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Duracion</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Comodidad
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Acepta
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Descuentos
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Precio
-                        </th>
-                        <th class="text-secondary opacity-7">
-                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Comodidad</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Acepta</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descuentos</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Precio</th>
+                        <th class="text-secondary opacity-7"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -191,19 +135,13 @@
                                     <img src="{% static 'assets/img/bus/bus1.jpg' %}" class="avatar avatar-sm me-3">
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-xs">
-                                        Chevalier
-                                    </h6>
+                                    <h6 class="mb-0 text-xs">Chevalier</h6>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <p class="text-xs font-weight-bold mb-0">
-                                13:00 Hs
-                            </p>
-                            <p class="text-xs text-secondary mb-0">
-                                Martes 20 Dic 2022
-                            </p>
+                            <p class="text-xs font-weight-bold mb-0">13:00 Hs</p>
+                            <p class="text-xs text-secondary mb-0">Martes 20 Dic 2022</p>
                         </td>
                         <td>
                             <p class="text-xs font-weight-bold mb-0">
@@ -229,7 +167,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <a href="{% url 'pages:seats' %}"
+                            <a href="{% url 'pages:order' %}"
                                class="text-secondary font-weight-bold text-xs"
                                data-toggle="tooltip"
                                data-original-title="Edit user">
@@ -282,7 +220,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <a href="{% url 'pages:seats' %}"
+                            <a href="{% url 'pages:order' %}"
                                class="text-secondary font-weight-bold text-xs"
                                data-toggle="tooltip"
                                data-original-title="Edit user">
@@ -335,7 +273,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <a href="{% url 'pages:seats' %}"
+                            <a href="{% url 'pages:order' %}"
                                class="text-secondary font-weight-bold text-xs"
                                data-toggle="tooltip"
                                data-original-title="Edit user">
@@ -388,7 +326,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <a href="{% url 'pages:seats' %}"
+                            <a href="{% url 'pages:order' %}"
                                class="text-secondary font-weight-bold text-xs"
                                data-toggle="tooltip"
                                data-original-title="Edit user">
@@ -441,7 +379,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <a href="{% url 'pages:seats' %}"
+                            <a href="{% url 'pages:order' %}"
                                class="text-secondary font-weight-bold text-xs"
                                data-toggle="tooltip"
                                data-original-title="Edit user">
@@ -494,7 +432,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <a href="{% url 'pages:seats' %}"
+                            <a href="{% url 'pages:order' %}"
                                class="text-secondary font-weight-bold text-xs"
                                data-toggle="tooltip"
                                data-original-title="Edit user">
@@ -547,7 +485,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <a href="{% url 'pages:seats' %}"
+                            <a href="{% url 'pages:order' %}"
                                class="text-secondary font-weight-bold text-xs"
                                data-toggle="tooltip"
                                data-original-title="Edit user">
