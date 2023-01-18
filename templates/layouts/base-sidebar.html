@@ -479,6 +479,44 @@
       {% endblock content %}
 
     </div>
+    {% comment %} Session data {% endcomment %}
+    <div>
+      <button type="button" class="btn bg-gradient-info btn-lg" data-bs-toggle="modal" data-bs-target="#sessionModal">
+        Session data
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="sessionModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="font-weight-bolder text-primary text-gradient">
+                Session has...
+              </h3>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card card-plain">
+                <div class="card-header pb-0 text-left">
+                </div>
+                <div class="card-body pb-3">
+                  {% for k, v in request.session.items %}
+                    <p class="text-muted">
+                      {{ k }} : {{ v }}
+                    </p>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     {% include "includes/footer.html" %}
 
