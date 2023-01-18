@@ -1,5 +1,6 @@
 import logging
 import random
+import uuid
 from typing import Any, Dict
 
 from django.shortcuts import redirect
@@ -14,6 +15,7 @@ def generate_trip_data():
     CITIES = ["BUE", "MZA", "CBA", "ROS", "MDP", "BAR", "MIS", "CAL", "USH"]
 
     return {
+        "tripId": str(uuid.uuid4()),
         "company": random.choice(
             [
                 "Andesmar",
@@ -56,7 +58,7 @@ class TripSearchView(View):
 
             # clear earlier trips session
             logger.info("clearing trips in session...")
-            request.session["trips"] = {}
+            request.session.pop("trips", None)
         # TODO: Do API calls to get search results
 
         return redirect("trips:trip-list")
@@ -71,7 +73,7 @@ class TripListView(TemplateView):
         # Either get current trips from session or set default
 
         context["trips"] = self.request.session.setdefault(
-            "trips", [generate_trip_data() for _ in range(20)]
+            "trips", [generate_trip_data() for _ in range(10)]
         )
 
         order_by = self.request.GET.get("order")
