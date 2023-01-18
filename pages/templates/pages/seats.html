@@ -21,7 +21,7 @@
                 <div class="card-header pb-0">
                     <h6>Select Seats</h6>
                 </div>
-                <div class="card-body" id="seat-container"></div>
+                {% comment %} <div class="card-body" id="seat-container"></div> {% endcomment %}
             </div>
         </div>
         <div class="col-12 col-lg-4">
@@ -37,53 +37,91 @@
                     <div class="timeline timeline-one-side">
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
-                                <i class="ni ni-bell-55 text-success text-gradient"></i>
+                                <i class="ni ni-square-pin text-success text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">From Buenos Aires</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:20 PM</p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">From {{ request.session.q.origin|upper }}</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.departure|upper }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
-                                <i class="ni ni-html5 text-danger text-gradient"></i>
+                                <i class="ni ni-pin-3 text-danger text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">To Mendoza</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">23 DEC 8:05 AM</p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">To {{ request.session.q.destination|upper }}</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.arrival|upper }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
-                                <i class="ni ni-cart text-info text-gradient"></i>
+                                <i class="ni ni-bus-front-12 text-info text-gradient"></i>
                             </span>
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Andesmar</p>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.company }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
-                                <i class="ni ni-credit-card text-warning text-gradient"></i>
+                                <i class="ni ni-time-alarm text-warning text-gradient"></i>
                             </span>
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Duration</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">13 Hs</p>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.duration }} Hs</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
-                                <i class="ni ni-key-25 text-primary text-gradient"></i>
+                                <i class="ni ni-single-02 text-primary text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">E Ticket</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">18 DEC 4:54 AM</p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Passengers</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.q.num_of_passengers }} Adults</p>
+                            </div>
+                        </div>
+                        <div class="timeline-block mb-3">
+                            <span class="timeline-step">
+                                <i class="ni ni-money-coins text-primary text-dark"></i>
+                            </span>
+                            <div class="timeline-content">
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Price</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">${{ request.session.trip.price }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
                         <a href="{% url 'trips:trip-search' %}" type="button" class="btn btn-outline-default me-3">Back</a>
                         <a href="{% url 'pages:order' %}" type="button" class="btn btn-outline-primary">Continue</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn bg-gradient-primary btn-block" data-bs-toggle="modal" data-bs-target="#seatSelectModal">
+        Select Seat
+    </button>
+    <!-- Modal -->
+    <div class="modal fade"
+         id="seatSelectModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="seatSelectModal"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="card card-plain">
+                        <div class="card-header pb-0 text-left">
+                            <h3 class="font-weight-bolder text-primary text-gradient">Select your seat</h3>
+                        </div>
+                        <div class="card-body pb-3" id="seat-container"></div>
+                        <div class="card-footer text-center pt-0 px-sm-4 px-1">
+                            <p class="mb-4 mx-auto">
+                                <a href="" class="btn bg-gradient-primary font-weight-bold">Save</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -30,15 +30,27 @@ class HomePageView(TemplateView):
         return context
 
 
-class SeatsView(TemplateView):
-    template_name: str = "pages/seats.html"
-
-
 class OrderView(TemplateView):
     template_name: str = "pages/order.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
+        # Get the trip_id from the query parameter
+        trip_id = self.request.GET.get("tripId")
+
+        # Load all trips from session
+        trips = self.request.session.get("trips", [])
+
+        # Filter out the trip chosen by the user and save it to session
+        try:
+            trip = [d for d in trips if d.get("tripId") == trip_id][0]
+        except IndexError:
+            trip = {}
+
+        self.request.session["trip"] = trip
+        logger.info("veer order view received trip_id: %s" % trip_id)
+        logger.info("veer client chose this trip: %s" % trip)
 
         passenger = self.request.session.get("passenger")
         context["passenger"] = passenger or {}
