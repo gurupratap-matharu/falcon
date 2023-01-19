@@ -17,7 +17,7 @@
 {% block content %}
     <div class="row">
         <div class="col-12 col-lg-8">
-            <div class="card">
+            <div class="card mx-3 mx-md-0">
                 <form action="{% url 'payments:home' %}">
                     <div class="card-header pb-0">
                         <h6>Passenger Details</h6>
@@ -168,7 +168,7 @@
                                     <label for="seat" class="form-control-label">Seat</label>
                                     <div class="input-group input-group-lg">
                                         <span class="input-group-text z-index-0">💺</span>
-                                        <input class="form-control"
+                                        <input class="form-control bg-white"
                                                type="text"
                                                name="seat"
                                                id="seat"
@@ -177,7 +177,8 @@
                                                value="{{ passenger.seat }}"
                                                aria-label="Seat Number"
                                                aria-describedby="Seat Number"
-                                               required/>
+                                               required
+                                               readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -190,7 +191,7 @@
             </div>
         </div>
         <div class="col-12 col-lg-4">
-            <div class="card">
+            <div class="card m-3 m-md-0">
                 <div class="card-header pb-0">
                     <h6>Order overview</h6>
                     <p class="text-sm">
