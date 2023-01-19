@@ -26,10 +26,10 @@
                 <div class="card my-3">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12 col-lg-3 mb-4 mb-lg-0">
+                            <div class="col-md-3 mb-lg-0 mb-4">
                                 <img src="{% static "assets/img/bus/"|add:trip.imageUrl %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo" />
                             </div>
-                            <div class="col-md-6 col-lg-6 col-xl-6 border-md-end">
+                            <div class="col-md-6 border-md-end">
                                 <h5>{{ trip.company }}</h5>
                                 <div class="d-flex flex-row">
                                     <div class="mb-1 me-2">
@@ -62,18 +62,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 col-xl-3 align-self-center">
-                                <div class="d-flex flex-column mt-4">
-                                    <form action="{% url 'pages:order' %}" method="get">
-                                        <button class="btn btn-outline-dark btn-lg mt-2" type="submit">
-                                            <h5 class="font-weight-bolder mb-0">
-                                                ${{ trip.price|floatformat:"-3g" }}
-                                                <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                            </h5>
-                                        </button>
-                                        <input type="hidden" name="tripId" value={{ trip.tripId }} />
-                                    </form>
-                                </div>
+                            <div class="col-md-3 align-self-center text-end text-center">
+                                <form action="{% url 'pages:order' %}" method="get">
+                                    <button class="btn btn-outline-light mt-2" type="submit">
+                                        <h5 class="font-weight-bolder mb-0">
+                                            ${{ trip.price|floatformat:"-3g" }}
+                                            <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                        </h5>
+                                    </button>
+                                    <input type="hidden" name="tripId" value={{ trip.tripId }} />
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -92,7 +90,7 @@
                                 <img src="{% static "assets/img/bus/"|add:trip.imageUrl %}" class="avatar" alt="buslogo" />
                             </div>
                             <div class="col-2 bg-light"></div>
-                            <div class="col-6 text-end bg-warning">
+                            <div class="col-6 text-end">
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-capitalize font-weight-bold">{{ trip.company }}</p>
                                     <h5 class="font-weight-bolder mb-0">
