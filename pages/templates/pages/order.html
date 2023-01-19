@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <label for="nationality" class="form-label">Nationality</label>
                                 <select class="form-select form-select-lg" id="nationality" name="nationality" aria-label="Nationality">
                                     {% with "argentina chile brasil paraguay peru other" as nationalities %}
@@ -63,25 +63,6 @@
                                         {% endfor %}
                                     {% endwith %}
                                 </select>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="seat" class="form-control-label">Seat</label>
-                                    <div class="input-group input-group-lg">
-                                        <!-- Seat trigger modal -->
-                                        <span class="input-group-text z-index-0">💺</span>
-                                        <input class="form-control"
-                                               type="text"
-                                               name="seat"
-                                               id="seat"
-                                               value="{{ passenger.seat }}"
-                                               aria-label="Select Seat"
-                                               aria-describedby="Select Seat"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#seatSelectModal"
-                                               required/>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -181,7 +162,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row"></div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="seat" class="form-control-label">Seat</label>
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-text z-index-0">💺</span>
+                                        <input class="form-control"
+                                               type="text"
+                                               name="seat"
+                                               id="seat"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#seatSelectModal"
+                                               value="{{ passenger.seat }}"
+                                               aria-label="Seat Number"
+                                               aria-describedby="Seat Number"
+                                               required/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer d-flex justify-content-center">
                         <button class="btn btn-primary" type="submit">Proceed to Payment</button>
@@ -232,9 +232,7 @@
                                 <i class="ni ni-time-alarm text-warning text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Duration
-                                </h6>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Duration</h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
                                     {{ request.session.trip.duration }} Hs
                                 </p>
@@ -267,10 +265,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <a href="{% url 'trips:trip-search' %}" type="button" class="btn btn-outline-default me-3">Back</a>
-                        <a href="{% url 'pages:order' %}" type="button" class="btn btn-outline-primary">Continue</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -286,7 +280,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="font-weight-bolder text-primary text-gradient">
-                        Seat
+                        Choose your Seat
                     </h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
@@ -297,12 +291,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-none" id="modal-footer">
                     <button type="button" class="btn bg-gradient-default" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="btn bg-gradient-primary">
-                        Save
+                    <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" id="seat-submit">
+                        Confirm
                     </button>
                 </div>
             </div>
