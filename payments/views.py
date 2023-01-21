@@ -1,4 +1,5 @@
 import logging
+import pdb
 import random
 from http import HTTPStatus
 from typing import Any, Dict
@@ -27,7 +28,6 @@ class PaymentView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-
         if self.request.GET:
             self.request.session["passenger"] = self.request.GET
             logger.info(
@@ -91,6 +91,8 @@ class PaymentView(TemplateView):
             "external_reference": "Reference_1234",
             "binary_mode": True,
         }
+
+        logger.info("veer mercado pago preference_data: %s", preference_data)
 
         preference_response = mercado_pago.preference().create(preference_data)
 
