@@ -19,6 +19,18 @@
         <span class="mask bg-gradient-primary opacity-6"></span>
     </div>
     <div class="card card-body blur shadow-blur mx-md-4 mt-n6">
+        <datalist id="location">
+            <option value="Buenos Aires">
+            </option>
+            <option value="Cordoba">
+            </option>
+            <option value="Mendoza">
+            </option>
+            <option value="MarDelPlata">
+            </option>
+            <option value="Rosario">
+            </option>
+        </datalist>
         <form action="{% url 'trips:trip-search' %}" method="get" autocomplete="on">
             <div class="row gx-md-3 mb-3">
                 <div class="col-8 col-sm-3 col-lg-2">
@@ -59,6 +71,7 @@
                                    placeholder="Buenos Aires"
                                    id="origin"
                                    value="{{ q.origin }}"
+                                   list="location"
                                    required/>
                         </div>
                     </div>
@@ -76,6 +89,7 @@
                                    placeholder="Mendoza"
                                    id="destination"
                                    value="{{ q.destination }}"
+                                   list="location"
                                    required>
                         </div>
                     </div>
