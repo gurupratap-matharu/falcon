@@ -25,36 +25,41 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <label for="document_type">Document</label>
-                                <select class="form-select form-select-lg" name="document_type" id="document_type" aria-label="Document Type" required>
-                                    {% with "dni passport cedula le lc cuit nie rg rne cpf rut curp cnpj" as document_types %}
-                                        {% for document in document_types.split %}
-                                            <option value="{{ document }}" {% if request.session.order.document_type == document %}selected{% endif %}>
-                                                {{ document|upper }}
-                                            </option>
-                                        {% endfor %}
-                                    {% endwith %}
-                                </select>
+                                <div class="mb-3">
+                                    <select class="form-select" name="document_type" id="document_type" aria-label="Document Type" required>
+                                        <option value="">
+                                            Identification
+                                        </option>
+                                        {% with "dni passport cedula le lc cuit nie rg rne cpf rut curp cnpj" as document_types %}
+                                            {% for document in document_types.split %}
+                                                <option value="{{ document }}" {% if request.session.order.document_type == document %}selected{% endif %}>
+                                                    {{ document|upper }}
+                                                </option>
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="document_number" class="form-control-label">Number</label>
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-text z-index-0">🔍</span>
-                                        <input class="form-control"
-                                               type="text"
-                                               name="document_number"
-                                               id="document_number"
-                                               value="{{ request.session.order.document_number }}"
-                                               aria-label="Document Number"
-                                               aria-describedby="Document Number"
-                                               required/>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-text z-index-0">🔍</span>
+                                            <input class="form-control"
+                                                   type="text"
+                                                   name="document_number"
+                                                   placeholder="Identification Number"
+                                                   id="document_number"
+                                                   value="{{ request.session.order.document_number }}"
+                                                   aria-label="Document Number"
+                                                   aria-describedby="Document Number"
+                                                   required/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label for="nationality" class="form-label">Nationality</label>
-                                <div class="dropdown">
+                                <div class="dropdown mb-3">
                                     <input class="form-control"
                                            type="hidden"
                                            name="nationality"
@@ -63,7 +68,7 @@
                                            aria-label="Nationality"
                                            aria-describedby="Nationality"
                                            required/>
-                                    <button class="form-control form-control-lg dropdown-toggle"
+                                    <button class="form-control dropdown-toggle"
                                             type="button"
                                             id="nationality"
                                             data-bs-toggle="dropdown"
@@ -73,7 +78,7 @@
                                             {{ request.session.order.nationality }}
                                         {% else %}
                                             Select Nationality
-                                        {%  endif %}
+                                        {% endif %}
                                     </button>
                                     <ul class="dropdown-menu px-2 py-3 me-sm-n4"
                                         data-bs-popper="static"
@@ -93,13 +98,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label class="form-label" for="first_name">First Name</label>
-                                <div class="input-group input-group-lg">
+                                <div class="input-group mb-3">
                                     <input id="first_name"
                                            name="first_name"
                                            class="form-control"
                                            type="text"
-                                           placeholder="Alec"
+                                           placeholder="First Name"
                                            value="{{ request.session.order.first_name }}"
                                            required="required"
                                            onfocus="focused(this)"
@@ -107,13 +111,12 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label" for="last_name">Last Name</label>
-                                <div class="input-group input-group-lg">
+                                <div class="input-group mb-3">
                                     <input id="last_name"
                                            name="last_name"
                                            class="form-control"
                                            type="text"
-                                           placeholder="Thompson"
+                                           placeholder="Last Name"
                                            value="{{ request.session.order.last_name }}"
                                            required="required"
                                            onfocus="focused(this)"
@@ -121,13 +124,12 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label" for="email">Email</label>
-                                <div class="input-group input-group-lg">
+                                <div class="input-group mb-3">
                                     <input id="email"
                                            name="email"
                                            class="form-control"
                                            type="email"
-                                           placeholder="example@email.com"
+                                           placeholder="Email"
                                            value="{{ request.session.order.email }}"
                                            required="required"
                                            onfocus="focused(this)"
@@ -135,52 +137,43 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-2">
-                                <label for="gender" class="form-label">Gender</label>
-                                <select class="form-select form-select-lg" id="gender" name="gender" required>
-                                    <option value="">
-                                        None
-                                    </option>
-                                    <option value="female" {% if request.session.order.gender == 'female' %}selected{% endif %}>
-                                        Female
-                                    </option>
-                                    <option value="male" {% if request.session.order.gender == 'male' %}selected{% endif %}>
-                                        Male
-                                    </option>
-                                </select>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <select class="form-select" id="gender" name="gender" required>
+                                        <option value="">
+                                            Gender
+                                        </option>
+                                        <option value="female" {% if request.session.order.gender == 'female' %}selected{% endif %}>
+                                            Female
+                                        </option>
+                                        <option value="male" {% if request.session.order.gender == 'male' %}selected{% endif %}>
+                                            Male
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <label for="birth_day">Day</label>
-                                <input class="form-control form-control-lg" type="number" name="birth_day" value={{ request.session.order.birth_day }} id="birth_day" min="1" max="31" />
-                            </div>
-                            <div class="col-md-2">
-                                <label for="birth_month">Month</label>
-                                <select class="form-select form-select-lg" id="birth_month" name="birth_month">
-                                    {% with "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec" as months %}
-                                        {% for month in months.split %}
-                                            <option value="{{ month }}"{% if request.session.order.birth_month == month %}selected{% endif %}>
-                                                {{ month }}
-                                            </option>
-                                        {% endfor %}
-                                    {% endwith %}
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="birth_year" class="form-control-label">Year</label>
-                                    <input class="form-control form-control-lg" type="number" name="birth_year" value={{ request.session.order.birth_year }} id="birth_year" min="1922" max="2022" />
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <input class="form-control"
+                                           type="text"
+                                           name="birthDate"
+                                           id="birthDate"
+                                           placeholder="Birth date [ dd/mm/yyyy ]"
+                                           value="{{ request.session.order.birthDate }}"
+                                           aria-label="Birth Date"
+                                           aria-describedby="Birth Date"
+                                           required/>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="phone" class="form-control-label">Phone</label>
-                                    <div class="input-group input-group-lg">
+                                    <div class="input-group">
                                         <span class="input-group-text z-index-0">📞</span>
                                         <input class="form-control"
                                                name="phone"
                                                type="tel"
-                                               placeholder="54-11-5025-4191"
+                                               placeholder="Phone"
                                                value="{{ request.session.order.phone }}"
                                                id="phone"
                                                required/>
@@ -191,8 +184,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="seat" class="form-control-label">Seat</label>
-                                    <div class="input-group input-group-lg">
+                                    <div class="input-group">
                                         <span class="input-group-text z-index-0">💺</span>
                                         <input class="form-control bg-white"
                                                type="text"
@@ -309,8 +301,8 @@
                                 <i class="ni ni-square-pin text-success text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">From {{ request.session.q.origin|upper }}</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.departure|upper }}</p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">From {{ request.session.q.origin }}</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.departure }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -318,12 +310,8 @@
                                 <i class="ni ni-pin-3 text-danger text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    To {{ request.session.q.destination|upper }}
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    {{ request.session.trip.arrival|upper }}
-                                </p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">To {{ request.session.q.destination }}</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.arrival|upper }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -331,12 +319,8 @@
                                 <i class="ni ni-bus-front-12 text-info text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Company
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    {{ request.session.trip.company }}
-                                </p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.company }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -344,12 +328,8 @@
                                 <i class="ni ni-time-alarm text-warning text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Duration
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    {{ request.session.trip.duration }} Hs
-                                </p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Duration</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.duration }} Hs</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -357,12 +337,8 @@
                                 <i class="ni ni-single-02 text-primary text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Passengers
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    {{ request.session.q.num_of_passengers }} Adults
-                                </p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Passengers</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.q.num_of_passengers }} Adults</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -370,12 +346,8 @@
                                 <i class="ni ni-money-coins text-primary text-dark"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Price
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    ${{ request.session.trip.price }}
-                                </p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Price</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">${{ request.session.trip.price }}</p>
                             </div>
                         </div>
                     </div>
@@ -393,11 +365,8 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="font-weight-bolder text-primary text-gradient">
-                        Choose your Seat
-                    </h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
+                    <h3 class="font-weight-bolder text-primary text-gradient">Choose your Seat</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="card card-plain">
