@@ -52,8 +52,6 @@ class OrderView(TemplateView):
         logger.info("veer order view received trip_id: %s" % trip_id)
         logger.info("veer client chose this trip: %s" % trip)
 
-        context["passenger"] = self.request.session.get("passenger", None)
-
         return context
 
 

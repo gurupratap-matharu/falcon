@@ -1,11 +1,8 @@
 import logging
-import pdb
 import random
 from http import HTTPStatus
 from typing import Any, Dict
 
-import mercadopago
-import stripe
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -14,6 +11,9 @@ from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+
+import mercadopago
+import stripe
 
 logger = logging.getLogger(__name__)
 
@@ -29,10 +29,8 @@ class PaymentView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         if self.request.GET:
-            self.request.session["passenger"] = self.request.GET
-            logger.info(
-                "Veer storing passenger data in session: %s " % self.request.GET
-            )
+            self.request.session["order"] = self.request.GET
+            logger.info("Veer storing order data in session: %s " % self.request.GET)
 
         current_site = get_current_site(self.request)
 
