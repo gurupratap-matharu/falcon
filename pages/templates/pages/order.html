@@ -17,10 +17,10 @@
 {% block content %}
     <div class="row">
         <div class="col-12 col-lg-8">
-            <div class="card mx-3 mx-md-0">
-                <form action="{% url 'payments:home' %}" method="get" autocomplete="on">
+            <form action="{% url 'payments:home' %}" method="get" autocomplete="on">
+                <div class="card mx-3 mx-md-0">
                     <div class="card-header pb-0">
-                        <h6>Passenger Details</h6>
+                        <h5>Passenger Details</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -210,11 +210,84 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-center">
-                        <button class="btn btn-primary" type="submit">Proceed to Payment</button>
+                </div>
+                <div class="card mx-3 mx-md-0 mt-3">
+                    <div class="card-header pb-0 pt-4">
+                        <h5>Your contact information</h5>
                     </div>
-                </form>
-            </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Name"
+                                   aria-label="Name"
+                                   aria-describedby="name-addon"
+                                   name="payerName"
+                                   required/>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email"
+                                   class="form-control"
+                                   placeholder="Email"
+                                   aria-label="Email"
+                                   aria-describedby="emailHelp"
+                                   name="payerEmail"
+                                   required/>
+                            <div id="emailHelp" class="form-text ms-2">
+                                <small>We'll email the ticket to this email id.</small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="phone"
+                                   class="form-control"
+                                   placeholder="Phone"
+                                   aria-label="Phone"
+                                   aria-describedby="phone-addon"
+                                   name="payerPhone"
+                                   required/>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select bg-transparent"
+                                    name="payerResidence"
+                                    aria-label="Residence"
+                                    aria-describedby="residenceHelp"
+                                    name="payerResidence"
+                                    required>
+                                <option value="">
+                                    Country of residence
+                                </option>
+                                <option value="Argentina">
+                                    Argentina
+                                </option>
+                                <option value="Chile">
+                                    Chile
+                                </option>
+                                <option value="Brazil">
+                                    Brazil
+                                </option>
+                                <option value="Peru">
+                                    Peru
+                                </option>
+                                <option value="Other">
+                                    Other
+                                </option>
+                            </select>
+                            <div id="residenceHelp" class="form-text ms-2">
+                                <small>This helps us to show you the best payment options.</small>
+                            </div>
+                        </div>
+                        <div class="form-check form-check-info text-left ms-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required/>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="btn btn-primary btn-lg" type="submit">Checkout</button>
+                </div>
+            </form>
         </div>
         <div class="col-12 col-lg-4">
             <div class="card m-3 m-md-0">
@@ -241,8 +314,12 @@
                                 <i class="ni ni-pin-3 text-danger text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">To {{ request.session.q.destination|upper }}</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.arrival|upper }}</p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">
+                                    To {{ request.session.q.destination|upper }}
+                                </h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                    {{ request.session.trip.arrival|upper }}
+                                </p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -250,8 +327,12 @@
                                 <i class="ni ni-bus-front-12 text-info text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.company }}</p>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">
+                                    Company
+                                </h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                    {{ request.session.trip.company }}
+                                </p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -336,20 +417,5 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
-    <script>
-        function dropdownSet(val) {
-            const ddButton = document.getElementById('nationality');
-            const nationalityInput = document.getElementById('nationality_input');
-            
-            if ( val.innerHTML != "" )
-                {
-                    nationalityInput.value = val.innerHTML;
-                    ddButton.innerHTML = val.innerHTML;
-                }
-            else {
-                    nationalityInput.value = '';
-                    ddButton.innerHTML = 'Select Nationality';
-            }
-        }
-    </script>
+    <script type="text/javascript" src="{% static 'assets/js/orders/orders.js' %}" defer></script>
 {% endblock js %}
