@@ -54,15 +54,29 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="nationality" class="form-label">Nationality</label>
-                                <select class="form-select form-select-lg" id="nationality" name="nationality" aria-label="Nationality">
-                                    {% with "argentina chile brasil paraguay peru other" as nationalities %}
-                                        {% for nationality in nationalities.split %}
-                                            <option value="{{ nationality }}" {% if passenger.nationality == nationality %}selected{% endif %}>
-                                                {{ nationality|title }}
-                                            </option>
-                                        {% endfor %}
-                                    {% endwith %}
-                                </select>
+                                <div class="dropdown">
+                                    <button class="form-control form-control-lg dropdown-toggle"
+                                            type="button"
+                                            id="nationality"
+                                            data-bs-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true">
+                                        Select Nationality
+                                    </button>
+                                    <ul class="dropdown-menu px-2 py-3 me-sm-n4"
+                                        data-bs-popper="static"
+                                        aria-labelledby="nationality"
+                                        style="max-height: 280px;
+                                               overflow-y: auto">
+                                        {% with "Argentina Chile Brazil Peru Bolivia Australia Brazil Canada France Germany Italy Spain UK USA Other" as nationalities %}
+                                            {% for nationality in nationalities.split %}
+                                                <li class="mb-2">
+                                                    <a id="{{ nationality }}" class="dropdown-item border-radius-md font-weight-bold" onclick="dropdownSet(this);">{{ nationality|title }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -225,7 +239,9 @@
                             </span>
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.company }}</p>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                    {{ request.session.trip.company }}
+                                </p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -233,7 +249,9 @@
                                 <i class="ni ni-time-alarm text-warning text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">Duration</h6>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">
+                                    Duration
+                                </h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
                                     {{ request.session.trip.duration }} Hs
                                 </p>
@@ -308,4 +326,19 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
+    <script>
+        function dropdownSet(val) {
+            const ddButton = document.getElementById('nationality');
+            
+            if ( val.innerHTML != "" )
+                {
+                    ddButton.value = val.innerHTML;
+                    ddButton.innerHTML = val.innerHTML;
+                }
+            else {
+                    ddButton.value = '';
+                    ddButton.innerHTML = 'Select Nationality';
+            }
+        }
+    </script>
 {% endblock js %}
