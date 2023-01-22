@@ -55,13 +55,25 @@
                             <div class="col-md-4">
                                 <label for="nationality" class="form-label">Nationality</label>
                                 <div class="dropdown">
+                                    <input class="form-control"
+                                           type="hidden"
+                                           name="nationality"
+                                           id="nationality_input"
+                                           value="{{ passenger.nationality }}"
+                                           aria-label="Nationality"
+                                           aria-describedby="Nationality"
+                                           required/>
                                     <button class="form-control form-control-lg dropdown-toggle"
                                             type="button"
                                             id="nationality"
                                             data-bs-toggle="dropdown"
                                             aria-haspopup="true"
                                             aria-expanded="true">
-                                        Select Nationality
+                                        {% if passenger.nationality %}
+                                            {{ passenger.nationality }}
+                                        {% else %}
+                                            Select Nationality
+                                        {%  endif %}
                                     </button>
                                     <ul class="dropdown-menu px-2 py-3 me-sm-n4"
                                         data-bs-popper="static"
@@ -239,9 +251,7 @@
                             </span>
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    {{ request.session.trip.company }}
-                                </p>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.company }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -329,14 +339,15 @@
     <script>
         function dropdownSet(val) {
             const ddButton = document.getElementById('nationality');
+            const nationalityInput = document.getElementById('nationality_input');
             
             if ( val.innerHTML != "" )
                 {
-                    ddButton.value = val.innerHTML;
+                    nationalityInput.value = val.innerHTML;
                     ddButton.innerHTML = val.innerHTML;
                 }
             else {
-                    ddButton.value = '';
+                    nationalityInput.value = '';
                     ddButton.innerHTML = 'Select Nationality';
             }
         }
