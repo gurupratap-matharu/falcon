@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
-import sentry_sdk
 from django.urls import reverse_lazy
+
+import sentry_sdk
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     # Local
     "pages.apps.PagesConfig",
     "users.apps.UsersConfig",
+    "companies.apps.CompaniesConfig",
     "trips.apps.TripsConfig",
     # "cart.apps.CartConfig",
     "payments.apps.PaymentsConfig",
