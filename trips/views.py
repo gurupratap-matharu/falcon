@@ -1,10 +1,13 @@
 import logging
 import random
 import uuid
-from typing import Any, Dict
+from typing import Any
 
+from django.db.models import QuerySet
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, View
+from django.views.generic import ListView, View
+
+from .models import Trip
 
 logger = logging.getLogger(__name__)
 
@@ -64,23 +67,37 @@ class TripSearchView(View):
         return redirect("trips:trip-list")
 
 
-class TripListView(TemplateView):
+class TripListView(ListView):
+    model = Trip
     template_name = "trips/trip_list.html"
+    context_object_name: str = "trips"
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
+    def get_queryset(self) -> QuerySet[Any]:
 
-        # Either get current trips from session or set default
+        if self.request.GET:
+            logger.info("Veer url params: %s " % self.request.GET)
+            self.request.session["q"] = self.request.GET
 
-        context["trips"] = self.request.session.setdefault(
-            "trips", [generate_trip_data() for _ in range(10)]
-        )
+            # clear earlier trips session
+            logger.info("clearing trips in session...")
+            self.request.session.pop("trips", None)
 
-        order_by = self.request.GET.get("order")
-        if order_by:
-            reverse = order_by == "price"
-            context["trips"] = sorted(
-                context["trips"], key=lambda d: d["price"], reverse=reverse
-            )
+        return super().get_queryset()
 
-        return context
+    # def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    #     context = super().get_context_data(**kwargs)
+
+    #     # Either get current trips from session or set default
+
+    #     context["trips"] = self.request.session.setdefault(
+    #         "trips", [generate_trip_data() for _ in range(10)]
+    #     )
+
+    #     order_by = self.request.GET.get("order")
+    #     if order_by:
+    #         reverse = order_by == "price"
+    #         context["trips"] = sorted(
+    #             context["trips"], key=lambda d: d["price"], reverse=reverse
+    #         )
+
+    #     return context

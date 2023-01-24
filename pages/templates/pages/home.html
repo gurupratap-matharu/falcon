@@ -19,18 +19,6 @@
         <span class="mask bg-gradient-primary opacity-6"></span>
     </div>
     <div class="card card-body blur shadow-blur mx-md-4 mt-n6">
-        <datalist id="location">
-            <option value="Buenos Aires">
-            </option>
-            <option value="Cordoba">
-            </option>
-            <option value="Mendoza">
-            </option>
-            <option value="MarDelPlata">
-            </option>
-            <option value="Rosario">
-            </option>
-        </datalist>
         <form action="{% url 'trips:trip-search' %}" method="get" autocomplete="on">
             <div class="row gx-md-3 mb-3">
                 <div class="col-8 col-sm-3 col-lg-2">
@@ -68,7 +56,7 @@
                                    name="origin"
                                    autocorrect="off"
                                    autocapitalize="off"
-                                   placeholder="Buenos Aires"
+                                   autocomplete="off"
                                    id="origin"
                                    value="{{ q.origin }}"
                                    list="location"
@@ -86,11 +74,11 @@
                                    name="destination"
                                    autocorrect="off"
                                    autocapitalize="off"
-                                   placeholder="Mendoza"
+                                   autocomplete="off"
                                    id="destination"
                                    value="{{ q.destination }}"
                                    list="location"
-                                   required>
+                                   required/>
                         </div>
                     </div>
                 </div>
@@ -102,7 +90,7 @@
                                name="departure"
                                id="departure"
                                value="{{ q.departure }}"
-                               required>
+                               required/>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
@@ -120,10 +108,10 @@
         </form>
     </div>
     <div class="card card-plain mx-md-4 mt-4">
-        <div class="card-header bg-transparent">
+        <div class="card-header">
             <h3>Trips from Buenos Aires</h3>
         </div>
-        <div class="card card-body bg-transparent">
+        <div class="card card-body">
             <div class="row justify-space-between">
                 <div class="col-12 col-md-6">
                     <a href="">
@@ -199,4 +187,10 @@
             </div>
         </div>
     </div>
+    <datalist id="location">
+        {% for terminal in terminals %}
+            <option value="{{ terminal }}">
+            </option>
+        {% endfor %}
+    </datalist>
 {% endblock content %}
