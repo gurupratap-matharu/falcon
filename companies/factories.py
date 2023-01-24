@@ -1,5 +1,6 @@
-import factory
 from django.template.defaultfilters import slugify
+
+import factory
 from faker import Faker
 
 from .models import Company
