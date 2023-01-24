@@ -101,7 +101,10 @@ class Trip(models.Model):
 
     @property
     def duration(self):
-        return self.arrival - self.departure
+        """Calculates the duration in hours"""
+
+        td = self.arrival - self.departure
+        return td.seconds // 3600
 
     @property
     def active(self) -> bool:
