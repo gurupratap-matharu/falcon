@@ -10,6 +10,8 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
 from django.views.generic import DetailView, FormView, TemplateView
 
+from trips.terminals import TERMINALS
+
 from .forms import ContactForm, FeedbackForm
 
 logger = logging.getLogger(__name__)
@@ -24,8 +26,9 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        q = self.request.session.get("q")
-        context["q"] = q or {}
+        context["q"] = self.request.session.get("q", {})
+        # you should make a global context processor for terminals
+        context["terminals"] = TERMINALS
 
         return context
 
