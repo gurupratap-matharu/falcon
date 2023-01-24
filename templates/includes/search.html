@@ -43,9 +43,10 @@
                                name="origin"
                                autocorrect="off"
                                autocapitalize="off"
-                               placeholder="Buenos Aires"
+                               autocomplete="off"
                                id="origin"
                                value="{{ request.session.q.origin }}"
+                               list="location"
                                required/>
                     </div>
                 </div>
@@ -60,10 +61,11 @@
                                name="destination"
                                autocorrect="off"
                                autocapitalize="off"
-                               placeholder="Mendoza"
+                               autocomplete="off"
                                id="destination"
                                value="{{ request.session.q.destination }}"
-                               required>
+                               list="location"
+                               required/>
                     </div>
                 </div>
             </div>
