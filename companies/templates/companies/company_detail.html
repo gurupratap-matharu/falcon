@@ -33,6 +33,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-5 mx-auto">
+                                <a href="{% url 'companies:company_list' %}">
+                                    <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+                                    </i>
+                                    Back
+                                </a>
                                 <h3 class="mt-lg-0 mt-4">{{ company.name }}</h3>
                                 <div class="rating">
                                     <i class="fas fa-star" aria-hidden="true"></i>
@@ -105,7 +110,11 @@
                                                     </td>
                                                 </tr>
                                             {% empty %}
-                                                No trips scheduled
+                                                <tr>
+                                                    <td>
+                                                        <h6 class="mb-0 text-sm">No trips scheduled</h6>
+                                                    </td>
+                                                </tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>
