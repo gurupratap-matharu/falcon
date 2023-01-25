@@ -1,0 +1,7 @@
+POST https://meili.falconhunt.xyz/indexes/terminals/search HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer b84dcfe153e3bf50d1c4368cc80b4a67e0ba63df29c5aac9a8276c6c4e556353
+
+{
+    "q": "la"
+}
