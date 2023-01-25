@@ -2,8 +2,9 @@ import datetime
 import random
 from zoneinfo import ZoneInfo
 
-import factory
 from django.template.defaultfilters import slugify
+
+import factory
 from factory import fuzzy
 from faker import Faker
 
