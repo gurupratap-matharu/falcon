@@ -9,3 +9,4 @@ logger = logging.getLogger(__name__)
 
 class CompanyListView(ListView):
     model = Company
+    context_object_name = "companies"

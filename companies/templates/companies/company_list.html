@@ -1,1 +1,33 @@
-<h1>company list</h1>
+{% extends "layouts/base-sidebar.html" %}
+
+{% load static %}
+
+{% block title %}
+    Companies
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        {% for company in companies %}
+            <div class="col-md-3 mt-4">
+                <div class="card card-blog card-plain mx-3 mx-md-0">
+                    <div class="position-relative">
+                        <a class="d-block blur-shadow-image">
+                            <img src="{% static 'assets/img/curved-images/curved1.jpg' %}"
+                                 alt="img-blur-shadow"
+                                 class="img-fluid shadow-lg border-radius-xl"/>
+                        </a>
+                    </div>
+                    <div class="card-body px-1 pt-3">
+                        <p class="text-gradient text-primary mb-2 text-sm">Luxury Suite • 12 Buses • 3 Trips</p>
+                        <a href="javascript:;">
+                            <h5>{{ company.name }}</h5>
+                        </a>
+                        <p>{{ company.description|truncatechars:70 }}</p>
+                        <button type="button" class="btn btn-outline-primary btn-sm">Book</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
