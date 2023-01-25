@@ -21,7 +21,9 @@
                     <div class="card-body px-1 pt-3">
                         <p class="text-gradient text-primary mb-2 text-sm">Luxury Suite • 12 Buses • 3 Trips</p>
                         <a href="javascript:;">
-                            <h5>{{ company.name }}</h5>
+                            <h5>
+                                <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
+                            </h5>
                         </a>
                         <p>{{ company.description|truncatechars:70 }}</p>
                         <button type="button" class="btn btn-outline-primary btn-sm">Book</button>
