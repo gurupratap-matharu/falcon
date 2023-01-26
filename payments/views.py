@@ -1,5 +1,5 @@
 import logging
-import random
+import secrets
 from http import HTTPStatus
 from typing import Any, Dict
 
@@ -113,7 +113,7 @@ class CheckoutView(TemplateView):
             reverse_lazy("payments:fail"),
         )
 
-        amount = random.randint(1000, 10000)
+        amount = secrets.randbelow(1000)
 
         try:
             checkout_session = stripe.checkout.Session.create(
