@@ -1,47 +1,15 @@
+import datetime
 import logging
-import random
-import uuid
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from django.db.models import QuerySet
 from django.shortcuts import redirect
-from django.views.generic import ListView, View
+from django.views.generic import DetailView, ListView, View
 
 from .models import Trip
 
 logger = logging.getLogger(__name__)
-
-
-def generate_trip_data():
-    """Helper method to generate fake trip data"""
-
-    CITIES = ["BUE", "MZA", "CBA", "ROS", "MDP", "BAR", "MIS", "CAL", "USH"]
-
-    return {
-        "tripId": str(uuid.uuid4()),
-        "company": random.choice(
-            [
-                "Andesmar",
-                "Chevalier",
-                "Via Bariloche",
-                "Patagonia",
-                "Pullman",
-                "Cata",
-                "Plusmar",
-                "Andreani",
-            ]
-        ),
-        "imageUrl": f"bus{random.randint(1, 7)}.jpg",
-        "availableSeats": random.randint(1, 10),
-        "seatType": random.choice(["Cama", "Semicama", "Executive"]),
-        "departure": f"{random.randint(0, 23):02}:{random.randint(0, 60):02}",
-        "arrival": f"{random.randint(0, 23):02}:{random.randint(0, 60):02}",
-        "duration": random.randint(1, 24),
-        "origin": random.choice(CITIES),
-        "destination": random.choice(CITIES),
-        "mode": random.choice(["Direct", "SemiDirect"]),
-        "price": random.randint(1000, 10000),
-    }
 
 
 class TripSearchView(View):
@@ -78,26 +46,16 @@ class TripListView(ListView):
             logger.info("Veer url params: %s " % self.request.GET)
             self.request.session["q"] = self.request.GET
 
-            # clear earlier trips session
-            logger.info("clearing trips in session...")
-            self.request.session.pop("trips", None)
+        qs = Trip.objects.exclude(
+            departure__lt=datetime.datetime.now(tz=ZoneInfo("UTC"))
+        )
 
-        return super().get_queryset()
+        # Veer for now just return all trips that are today or the future
+        # don't bother too much we'll filter later. let's get going
+        return qs
 
-    # def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-    #     context = super().get_context_data(**kwargs)
 
-    #     # Either get current trips from session or set default
-
-    #     context["trips"] = self.request.session.setdefault(
-    #         "trips", [generate_trip_data() for _ in range(10)]
-    #     )
-
-    #     order_by = self.request.GET.get("order")
-    #     if order_by:
-    #         reverse = order_by == "price"
-    #         context["trips"] = sorted(
-    #             context["trips"], key=lambda d: d["price"], reverse=reverse
-    #         )
-
-    #     return context
+class TripDetailView(DetailView):
+    model = Trip
+    context_object_name = "trip"
+    template_name = "trips/trip_detail.html"
