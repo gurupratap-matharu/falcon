@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "companies.apps.CompaniesConfig",
     "trips.apps.TripsConfig",
-    # "cart.apps.CartConfig",
+    "cart.apps.CartConfig",
     "payments.apps.PaymentsConfig",
 ]
 
@@ -292,7 +292,7 @@ LOGGING = {
         "django": {
             "level": os.getenv("DJANGO_LOG_LEVEL", default="INFO"),
             "handlers": ["console", "file"],
-            "propagate": True,
+            "propagate": False,
         },
     },
 }
