@@ -1,3 +1,95 @@
-<h1>Cart Detail</h1>
-<p>Veer here is your cart</p>
-{{ cart }}
+{% extends "layouts/base-sidebar.html" %}
+
+{% block title %}
+    Your Cart
+{% endblock title %}
+
+{% block breadcrumb %}
+    Cart
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    Cart
+{% endblock page_title %}
+
+{% block content %}
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Origin</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Destination</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Price</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        {% with trip=item.trip %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="{{ trip.company.cover.url }}" class="avatar avatar-sm me-3" alt="Trip company logo" />
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">{{ trip.company.name }}</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ trip.origin }}</p>
+                                    <p class="text-xs text-secondary mb-0">{{ trip.departure }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ trip.destination }}</p>
+                                    <p class="text-xs text-secondary mb-0">{{ trip.arrival }}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs font-weight-bold">{{ item.quantity }}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="font-weight-bold">${{ item.price }}</span>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="font-weight-bold">${{ item.total_price }}</span>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <form action="{% url "cart:cart_remove" trip.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm">X</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endwith %}
+                    {% empty %}
+                        <tr>
+                            <td class="p-5">
+                                <h5>Cart is Empty 🛒</h5>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="align-middle text-center">
+                            <h5>Total</h5>
+                        </td>
+                        <td class="align-middle text-center">
+                            <h5>$ {{ cart.get_total_price }}</h5>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        <a href="#" class="btn btn-lg bg-gradient-primary shadow-xl">Checkout</a>
+    </div>
+{% endblock content %}

@@ -1,3 +1,4 @@
+import json
 import logging
 from decimal import Decimal
 
@@ -105,3 +106,14 @@ class Cart:
         """
 
         return sum(item["quantity"] for item in self.cart.values())
+
+    def __repr__(self):
+
+        logger.info("printing cart...")
+
+        return "\n".join(
+            [
+                f"Trip: {k} Quantity: {v.get('quantity')} Price: {v.get('price')}"
+                for k, v in self.cart.items()
+            ]
+        )
