@@ -18,12 +18,15 @@ def cart_add(request, trip_id=None):
     Add a trip to the cart. Does not render a template
     """
 
-    logger.info("veer inside cart_add(💋)... trip_id: %s", trip_id)
-
     trip = get_object_or_404(Trip, id=trip_id)
+    quantity = int(request.session["q"]["num_of_passengers"])
+
+    logger.info(
+        "veer inside cart_add(💋)... trip_id: %s quantity: %s" % (trip_id, quantity)
+    )
 
     cart = Cart(request)
-    cart.add(trip=trip, quantity=1)  # TODO: fix quantity
+    cart.add(trip=trip, quantity=quantity)
 
     return redirect("cart:cart_detail")
 

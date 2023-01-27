@@ -50,18 +50,18 @@
                                     <p class="text-xs text-secondary mb-0">{{ trip.arrival }}</p>
                                 </td>
                                 <td class="align-middle text-center text-sm">
-                                    <p class="text-xs font-weight-bold">{{ item.quantity }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ item.quantity }}</p>
                                 </td>
                                 <td class="align-middle text-center text-sm">
-                                    <span class="font-weight-bold">${{ item.price }}</span>
+                                    <span class="font-weight-bold">${{ item.price|floatformat:"-3g" }}</span>
                                 </td>
                                 <td class="align-middle text-center text-sm">
-                                    <span class="font-weight-bold">${{ item.total_price }}</span>
+                                    <span class="font-weight-bold">${{ item.total_price|floatformat:"-3g" }}</span>
                                 </td>
                                 <td class="align-middle text-center text-sm">
                                     <form action="{% url "cart:cart_remove" trip.id %}" method="post">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm">X</button>
+                                        <button type="submit" class="btn btn-sm mb-0 shadow-none">X</button>
                                     </form>
                                 </td>
                             </tr>
@@ -82,7 +82,7 @@
                             <h5>Total</h5>
                         </td>
                         <td class="align-middle text-center">
-                            <h5>$ {{ cart.get_total_price }}</h5>
+                            <h5>$ {{ cart.get_total_price|floatformat:"-3g" }}</h5>
                         </td>
                     </tr>
                 </tbody>
