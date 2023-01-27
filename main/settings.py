@@ -57,12 +57,14 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.facebook",
     "django_extensions",
+    "django_countries",
     # Local
     "pages.apps.PagesConfig",
     "users.apps.UsersConfig",
     "companies.apps.CompaniesConfig",
     "trips.apps.TripsConfig",
     "cart.apps.CartConfig",
+    "orders.apps.OrdersConfig",
     "payments.apps.PaymentsConfig",
 ]
 
@@ -162,6 +164,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "cart.context_processors.cart",
             ],
         },
     },
