@@ -103,6 +103,9 @@ class Trip(models.Model):
     def get_absolute_url(self):
         return reverse("trips:trip_detail", kwargs={"id": self.id, "slug": self.slug})
 
+    def get_add_to_cart_url(self):
+        return reverse("cart:cart_add", kwargs={"trip_id": self.id})
+
     @property
     def duration(self):
         """Calculates the duration in hours"""
