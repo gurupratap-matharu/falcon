@@ -25,11 +25,11 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("account/", include("users.urls")),
     # Local apps
-    path("", include("pages.urls")),
     path("trips/", include("trips.urls")),
-    # path("cart/", include("cart.urls")),
+    path("cart/", include("cart.urls", namespace="cart")),
     path("payments/", include("payments.urls")),
     path("companies/", include("companies.urls")),
+    path("", include("pages.urls")),
 ]
 
 if settings.DEBUG:
