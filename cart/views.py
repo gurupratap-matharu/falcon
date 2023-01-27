@@ -28,7 +28,7 @@ def cart_add(request, trip_id=None):
     cart = Cart(request)
     cart.add(trip=trip, quantity=quantity)
 
-    return redirect("cart:cart_detail")
+    return redirect("pages:order")
 
 
 @require_POST
