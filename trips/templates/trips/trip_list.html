@@ -3,11 +3,19 @@
 {% load static %}
 
 {% block title %}
-    Search
+    {% if company %}
+        {{ company.name }}
+    {% else %}
+        Trips
+    {% endif %}
 {% endblock title %}
 
 {% block breadcrumb %}
-    Search
+    {% if company %}
+        {{ company.name }}
+    {% else %}
+        Trips
+    {% endif %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
@@ -68,14 +76,13 @@
                                 </div>
                             </div>
                             <div class="col-md-3 align-self-center text-center">
-                                <form action="{% url 'pages:order' %}" method="get">
+                                <form action="{{ trip.get_add_to_cart_url }}" method="post">
                                     <button class="btn btn-outline-light mt-2 position-relative" type="submit">
                                         <h5 class="font-weight-bolder mb-0">${{ trip.price|floatformat:"-3g" }}</h5>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">+55%
                                             <span class="visually-hidden">potential savings</span>
                                         </span>
                                     </button>
-                                    <input type="hidden" name="tripId" value={{ trip.tripId }} />
                                 </form>
                             </div>
                         </div>
