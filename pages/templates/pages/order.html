@@ -59,40 +59,19 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="dropdown mb-3">
-                                    <input class="form-control"
-                                           type="hidden"
-                                           name="nationality"
-                                           id="nationality_input"
-                                           value="{{ request.session.order.nationality }}"
-                                           aria-label="Nationality"
-                                           aria-describedby="Nationality"
-                                           required/>
-                                    <button class="form-control dropdown-toggle"
-                                            type="button"
-                                            id="nationality"
-                                            data-bs-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="true">
-                                        {% if request.session.order.nationality %}
-                                            {{ request.session.order.nationality }}
-                                        {% else %}
-                                            Select Nationality
-                                        {% endif %}
-                                    </button>
-                                    <ul class="dropdown-menu px-2 py-3 me-sm-n4"
-                                        data-bs-popper="static"
-                                        aria-labelledby="nationality"
-                                        style="max-height: 280px;
-                                               overflow-y: auto">
+                                <div class="mb-3">
+                                    <select class="form-select" name="nationality" id="nationality" aria-label="Nationality" required>
+                                        <option value="">
+                                            Nationality
+                                        </option>
                                         {% with "Argentina Chile Brazil Peru Bolivia Australia Brazil Canada France Germany Italy Spain UK USA Other" as nationalities %}
                                             {% for nationality in nationalities.split %}
-                                                <li class="mb-2">
-                                                    <a id="{{ nationality }}" class="dropdown-item border-radius-md font-weight-bold" onclick="dropdownSet(this);">{{ nationality|title }}</a>
-                                                </li>
+                                                <option value="{{ nationality }}" {% if request.session.order.nationality == nationality %}selected{% endif %}>
+                                                    {{ nationality }}
+                                                </option>
                                             {% endfor %}
                                         {% endwith %}
-                                    </ul>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -311,7 +290,7 @@
                             </span>
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">To {{ request.session.q.destination }}</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.arrival|upper }}</p>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ request.session.trip.arrival }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -370,8 +349,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card card-plain">
-                        <div class="card-body pb-3" id="seat-container">
-                        </div>
+                        <div class="card-body pb-3" id="seat-container"></div>
                     </div>
                 </div>
                 <div class="modal-footer d-none" id="modal-footer">
@@ -390,5 +368,4 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/orders/orders.js' %}" defer></script>
 {% endblock js %}
