@@ -16,9 +16,6 @@ class OrderFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Order
-        django_get_or_create = (
-            "residence",
-        )  # play around with this to avoid creating many many orders ;)
 
     name = factory.Faker("name_nonbinary")
     email = factory.LazyAttribute(
