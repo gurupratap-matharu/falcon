@@ -48,7 +48,7 @@ class Command(BaseCommand):
             order_items = OrderItemFactory.create_batch(size=10)
             for order_item in order_items:
                 _ = PassengerFactory.create_batch(size=2, order_item=order_item)
-        
+
         self.stdout.write(
             f"""
         Orders: {Order.objects.count()}
@@ -56,5 +56,5 @@ class Command(BaseCommand):
         Passengers: {Passenger.objects.count()}
         """
         )
-        
+
         self.stdout.write(self.style.SUCCESS("All done! 💖💅🏻💫"))
