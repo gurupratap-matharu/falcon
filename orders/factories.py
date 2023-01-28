@@ -60,4 +60,4 @@ class PassengerFactory(factory.django.DjangoModelFactory):
     phone_number = factory.LazyAttribute(
         lambda _: (fake.country_calling_code() + fake.phone_number())[:14]
     )
-    seat_number = factory.Faker("random_int", min=1, max=60)
+    seat_number = factory.LazyAttribute(lambda _: str(fake.random_int(min=1, max=60)))

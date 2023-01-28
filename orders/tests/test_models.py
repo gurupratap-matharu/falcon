@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
@@ -85,12 +86,111 @@ class OrderItemModelTests(TestCase):
     """Test suite for the OrderItem Model"""
 
     def setUp(self):
-        self.order = OrderFactory()
         self.trip = TripFactory()
+        self.order = OrderFactory()
         self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
+        self.passengers = PassengerFactory.create_batch(
+            size=2, order_item=self.order_item
+        )
+
+    def test_string_representation(self):
+        self.assertEqual(
+            str(self.order_item), f"OrderItem {self.order_item.id}"  # type:ignore
+        )
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(
+            str(self.order_item._meta.verbose_name_plural), "order items"
+        )  # type:ignore
+
+    def test_order_item_model_creation_is_correct(self):
+        order_item = OrderItem.objects.first()
+
+        self.assertEqual(OrderItem.objects.count(), 1)
+        self.assertEqual(order_item.trip, self.order_item.trip)
+        self.assertEqual(order_item.order, self.order_item.order)
+        self.assertEqual(order_item.price, self.order_item.price)
+        self.assertEqual(order_item.price, self.order_item.trip.price)
+        self.assertEqual(order_item.quantity, self.order_item.quantity)
+        self.assertEqual(len(order_item.passengers.all()), len(self.passengers))
+
+    def test_order_item_cost_is_correctly_calculated(self):
+        order_item = OrderItem.objects.first()
+
+        actual_cost = order_item.get_cost()
+        expected_cost = order_item.price * order_item.quantity
+
+        self.assertEqual(actual_cost, expected_cost)
+
+    def test_order_item_min_quantity(self):
+        order_item = OrderItemFactory(order=self.order, trip=self.trip, quantity=0)
+
+        with self.assertRaises(ValidationError):
+            order_item.full_clean()
+
+    def test_order_item_max_quantity(self):
+        order_item = OrderItemFactory(order=self.order, trip=self.trip, quantity=10)
+
+        with self.assertRaises(ValidationError):
+            order_item.full_clean()
 
 
 class PassengerModelTests(TestCase):
     """Test suite for the Passenger Model"""
 
-    pass
+    def setUp(self):
+        self.trip = TripFactory()
+        self.order = OrderFactory()
+        self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
+        self.p1, self.p2 = PassengerFactory.create_batch(
+            size=2, order_item=self.order_item
+        )
+
+    def test_string_representation(self):
+        self.assertEqual(
+            str(self.p1),
+            f"{self.p1.first_name} {self.p1.last_name} {self.p1.document_number} {self.p1.seat_number}",
+        )
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(self.p1._meta.verbose_name_plural), "passengers")
+
+    def test_order_item_model_creation_is_correct(self):
+        Passenger.objects.all().delete()
+
+        self.assertEqual(Passenger.objects.count(), 0)
+
+        p1 = PassengerFactory()
+        p1_from_db = Passenger.objects.first()
+
+        self.assertEqual(Passenger.objects.count(), 1)
+
+        self.assertEqual(p1.order_item, p1_from_db.order_item)
+        self.assertEqual(p1.document_type, p1_from_db.document_type)
+        self.assertEqual(p1.document_number, p1_from_db.document_number)
+        self.assertEqual(p1.nationality, p1_from_db.nationality)
+        self.assertEqual(p1.first_name, p1_from_db.first_name)
+        self.assertEqual(p1.last_name, p1_from_db.last_name)
+        self.assertEqual(p1.gender, p1_from_db.gender)
+        self.assertEqual(p1.birth_date, p1_from_db.birth_date)
+        self.assertEqual(p1.phone_number, p1_from_db.phone_number)
+        self.assertEqual(p1.seat_number, p1_from_db.seat_number)
+
+        _ = PassengerFactory()
+
+        self.assertEqual(Passenger.objects.count(), 2)
+
+    def test_first_and_last_name_max_length(self):
+        p1 = Passenger.objects.first()
+        first_name_max_length = p1._meta.get_field(  # type:ignore
+            "first_name"
+        ).max_length
+        last_name_max_length = p1._meta.get_field("last_name").max_length  # type:ignore
+
+        self.assertEqual(first_name_max_length, 50)
+        self.assertEqual(last_name_max_length, 50)
+
+    def test_passengers_are_ordered_by_created_date(self):
+        ordering = self.p1._meta.ordering[0]  # type:ignore
+
+        self.assertEqual(ordering, "-created_on")

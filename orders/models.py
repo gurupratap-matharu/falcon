@@ -112,6 +112,14 @@ class Passenger(models.Model):
     )
     phone_number = models.CharField(validators=[phone_regex], max_length=17)
     seat_number = models.CharField(max_length=4)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_on"]
+        indexes = [
+            models.Index(fields=["-created_on"]),
+        ]
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} {self.document_number} {self.seat_number}"
