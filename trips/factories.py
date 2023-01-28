@@ -57,5 +57,5 @@ class TripFactory(factory.django.DjangoModelFactory):
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")
     seats_available = factory.Faker("random_int", min=1, max=60)
-    price = factory.Faker("random_int", min=2000, max=20000)
+    price = fuzzy.FuzzyDecimal(2000, 20000)
     image = CustomImageField(color=fake.color)

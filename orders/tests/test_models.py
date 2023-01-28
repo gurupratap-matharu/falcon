@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
 from orders.models import Order, OrderItem, Passenger
+from trips.factories import TripFactory
 
 
 class OrderModelTests(TestCase):
@@ -68,11 +69,25 @@ class OrderModelTests(TestCase):
 
         self.assertEqual(ordering, "-created_on")
 
+    def test_order_total_cost_is_correct(self):
+        order = Order.objects.first()
+
+        order_item_1 = OrderItemFactory(order=order)
+        order_item_2 = OrderItemFactory(order=order)
+
+        expected = order_item_1.get_cost() + order_item_2.get_cost()
+        actual = order.get_total_cost()
+
+        self.assertEqual(actual, expected)
+
 
 class OrderItemModelTests(TestCase):
     """Test suite for the OrderItem Model"""
 
-    pass
+    def setUp(self):
+        self.order = OrderFactory()
+        self.trip = TripFactory()
+        self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
 
 
 class PassengerModelTests(TestCase):

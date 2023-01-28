@@ -32,7 +32,6 @@ class OrderItemFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = OrderItem
-        django_get_or_create = ("order",)
 
     order = factory.SubFactory(OrderFactory)
     trip = factory.SubFactory(TripFactory)
