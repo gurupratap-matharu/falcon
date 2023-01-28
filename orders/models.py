@@ -35,8 +35,7 @@ class Order(models.Model):
         Calculate the cost of all (both?) the trips (forward + return)
         """
 
-        raise NotImplementedError("Veer please implement get_total_cost(🤷‍♀️)")
-        # return sum(item.get_cost() for item in self.items.all())
+        return sum(item.get_cost() for item in self.items.all())  # type: ignore
 
 
 class OrderItem(models.Model):
