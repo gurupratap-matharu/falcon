@@ -51,7 +51,7 @@ class TripFactory(factory.django.DjangoModelFactory):
         end_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(days=90),
     )
     arrival = factory.LazyAttribute(
-        lambda o: o.departure + datetime.timedelta(hours=random.randint(5, 48))
+        lambda o: o.departure + datetime.timedelta(hours=random.randint(5, 48))  # nosec
     )
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
