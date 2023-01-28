@@ -15,7 +15,7 @@ class PassengerInline(admin.TabularInline):
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    raw_id_fields = ("trip",)
+    readonly_fields = ("trip", "quantity", "price")
 
 
 @admin.register(OrderItem)

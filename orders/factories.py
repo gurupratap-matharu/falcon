@@ -21,7 +21,9 @@ class OrderFactory(factory.django.DjangoModelFactory):
         )  # play around with this to avoid creating many many orders ;)
 
     name = factory.Faker("name_nonbinary")
-    email = factory.Faker("email")
+    email = factory.LazyAttribute(
+        lambda obj: "%s@example.com" % obj.name.replace(" ", "-").lower()
+    )
     residence = factory.Faker("country_code")
     paid = factory.Faker("boolean")
 

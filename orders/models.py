@@ -61,7 +61,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         # We can make this better
-        return f"OrderItem {self.trip} {self.quantity} {self.price}"
+        return f"OrderItem {self.id}"
 
     def get_cost(self):
         """

@@ -8,8 +8,6 @@ with sensible defaults.
 """
 
 
-import random
-
 from django.core.management.base import BaseCommand
 
 import factory
@@ -50,11 +48,13 @@ class Command(BaseCommand):
             order_items = OrderItemFactory.create_batch(size=10)
             for order_item in order_items:
                 _ = PassengerFactory.create_batch(size=2, order_item=order_item)
-        print(
+        
+        self.stdout.write(
             f"""
         Orders: {Order.objects.count()}
         OrderItems: {OrderItem.objects.count()}
         Passengers: {Passenger.objects.count()}
         """
         )
+        
         self.stdout.write(self.style.SUCCESS("All done! 💖💅🏻💫"))
