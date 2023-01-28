@@ -27,6 +27,7 @@ urlpatterns = [
     # Local apps
     path("trips/", include("trips.urls")),
     path("cart/", include("cart.urls", namespace="cart")),
+    path("orders/", include("orders.urls", namespace="orders")),
     path("payments/", include("payments.urls")),
     path("companies/", include("companies.urls")),
     path("", include("pages.urls")),
