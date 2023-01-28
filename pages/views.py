@@ -32,7 +32,6 @@ class HomePageView(TemplateView):
         return context
 
 
-
 class DashboardPageView(TemplateView):
     template_name: str = "pages/dashboard.html"
 
