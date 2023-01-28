@@ -3,8 +3,14 @@ from django.contrib import admin
 from .models import Order, OrderItem, Passenger
 
 
-class PassengerInline(admin.StackedInline):
+class PassengerInline(admin.TabularInline):
     model = Passenger
+    exclude = (
+        "document_type",
+        "document_number",
+        "birth_date",
+        "gender",
+    )
 
 
 class OrderItemInline(admin.TabularInline):
