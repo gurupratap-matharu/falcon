@@ -9,7 +9,7 @@ from factory import fuzzy
 from faker import Faker
 
 from companies.factories import CompanyFactory
-from trips.models import Location, Trip
+from trips.models import Location, Seat, Trip
 from trips.terminals import TERMINALS
 
 fake = Faker()
@@ -56,6 +56,23 @@ class TripFactory(factory.django.DjangoModelFactory):
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")
-    seats_available = factory.Faker("random_int", min=1, max=60)
-    price = fuzzy.FuzzyDecimal(2000, 20000)
     image = CustomImageField(color=fake.color)
+
+
+class SeatFactory(factory.django.DjangoModelFactory):
+    """
+    Factory to create seats for a trip.
+    """
+
+    class Meta:
+        model = Seat
+
+    trip = factory.SubFactory(TripFactory)
+    seat_number = factory.Sequence(lambda n: int(n))
+    seat_type = factory.LazyAttribute(
+        lambda o: Seat.SEAT_TYPE_CHOICES[2][0]
+        if o.seat_number < 7
+        else Seat.SEAT_TYPE_CHOICES[1][0]
+    )
+    seat_status = fuzzy.FuzzyChoice(Seat.SEAT_STATUS_CHOICES, getter=lambda c: c[0])
+    price = factory.LazyAttribute(lambda o: 15 if o.seat_number < 7 else 10)
