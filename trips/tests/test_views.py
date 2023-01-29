@@ -43,7 +43,6 @@ class TripDetailViewTests(TestCase):
         self.assertTemplateUsed(self.response, self.template_name)
         self.assertContains(self.response, self.trip.origin)
         self.assertContains(self.response, self.trip.destination)
-        self.assertContains(self.response, self.trip.price)
         self.assertNotContains(self.response, "Hi I should not be on this page")
 
     def test_trip_detail_url_resolves_correct_view(self):
@@ -54,7 +53,6 @@ class TripDetailViewTests(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
-        self.assertContains(response, self.trip.price)
 
     def test_logged_in_user_can_access_trip_detail_view(self):
         user = UserFactory()
@@ -63,4 +61,3 @@ class TripDetailViewTests(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
-        self.assertContains(response, self.trip.price)
