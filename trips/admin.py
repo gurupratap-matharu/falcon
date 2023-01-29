@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import Location, Trip
+from .models import Location, Seat, Trip
+
+
+class SeatInline(admin.TabularInline):
+    model = Seat
 
 
 @admin.register(Location)
@@ -28,15 +32,14 @@ class TripAdmin(admin.ModelAdmin):
         "departure",
         "arrival",
         "duration",
-        "price",
-        "available",
         "status",
         "mode",
         "seats_available",
     )
 
-    list_filter = ("departure", "available", "status", "mode", "company")
-    list_editable = ("available", "status")
+    list_filter = ("departure", "status")
+    list_editable = (("status"),)
     prepopulated_fields = {"slug": ("name",)}
     raw_id_fields = ("origin", "destination", "company")
     date_hierarchy = "departure"
+    inlines = [SeatInline]
