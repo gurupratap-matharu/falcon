@@ -56,6 +56,7 @@ class Trip(models.Model):
         (INDIRECT, "Indirect"),
         (OTHER, "Other"),
     ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
         Company,
@@ -85,12 +86,6 @@ class Trip(models.Model):
     )
     image = models.ImageField(upload_to="trips/%Y/%m/%d", blank=True)
     description = models.TextField(blank=True)
-    # Seat types not added yet
-    seats_available = models.PositiveSmallIntegerField(
-        default=45, validators=[MinValueValidator(1), MaxValueValidator(100)]
-    )
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    available = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -105,6 +100,11 @@ class Trip(models.Model):
 
     def get_add_to_cart_url(self):
         return reverse("cart:cart_add", kwargs={"trip_id": self.id})
+
+    @property
+    def seats_available(self) -> int:
+        """Calculate the number of seats available for a trip"""
+        return sum(s.seat_status == "A" for s in self.seats.all())
 
     @property
     def duration(self):
@@ -127,3 +127,38 @@ class Trip(models.Model):
     def is_due(self) -> bool:
         """Whether the departure is due within a day"""
         return self.departure <= timezone.now() + datetime.timedelta(days=1)
+
+
+class Seat(models.Model):
+    CAMA = "C"
+    SEMICAMA = "S"
+    EXECUTIVE = "E"
+    OTHER = "O"
+    SEAT_TYPE_CHOICES = [
+        (CAMA, "Cama"),
+        (SEMICAMA, "Semicama"),
+        (EXECUTIVE, "Executive"),
+        (OTHER, "Other"),
+    ]
+
+    AVAILABLE = "A"
+    BOOKED = "B"
+    RESERVED = "R"
+    SEAT_STATUS_CHOICES = [
+        (AVAILABLE, "Available"),
+        (BOOKED, "Booked"),
+        (RESERVED, "Reserved"),
+    ]
+
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name="seats")
+    seat_number = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(60)]
+    )
+    seat_type = models.CharField(choices=SEAT_TYPE_CHOICES, default=CAMA, max_length=1)
+    seat_status = models.CharField(
+        choices=SEAT_STATUS_CHOICES, default=AVAILABLE, max_length=1
+    )
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{str(self.seat_number)}"
