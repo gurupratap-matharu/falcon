@@ -12,7 +12,7 @@ from django.core.management.base import BaseCommand
 
 import factory
 
-from trips.factories import LocationFactory, SeatFactory, TripFactory
+from trips.factories import make_trips
 from trips.models import Location, Seat, Trip
 
 
@@ -49,10 +49,7 @@ class Command(BaseCommand):
         self.success("Creating new data...")
 
         with factory.Faker.override_default_locale(locale):
-            trips = TripFactory.create_batch(size=10)
-            for trip in trips:
-                SeatFactory.reset_sequence(1)
-                _ = SeatFactory.create_batch(size=40, trip=trip)
+            make_trips()
 
         self.stdout.write(
             f"""
