@@ -101,15 +101,27 @@ class Trip(models.Model):
     def get_add_to_cart_url(self):
         return reverse("cart:cart_add", kwargs={"trip_id": self.id})
 
+    def book_seat(self, seat):
+        """Mark a seat as booked"""
+
+        if seat.trip == self:
+            seat.book()
+        else:
+            raise Exception("Seat %s does not belong to this trip!" % seat)
+
     @property
     def seats_available(self) -> int:
         """Calculate the number of seats available for a trip"""
         return sum(s.seat_status == "A" for s in self.seats.all())
 
     @property
-    def duration(self):
-        """Calculates the duration in hours"""
+    def revenue(self):
+        """Calculate the cost of all booked seats"""
+        return sum(s.price for s in self.seats.all() if s.seat_status == Seat.BOOKED)
 
+    @property
+    def duration(self):
+        """Calculates the trip duration in hours"""
         td = self.arrival - self.departure
         return td.seconds // 3600
 
@@ -162,3 +174,15 @@ class Seat(models.Model):
 
     def __str__(self):
         return f"{str(self.seat_number)}"
+
+    def book(self):
+        """Mark a seat as booked only if its available."""
+
+        if self.seat_status == Seat.AVAILABLE:
+            self.seat_status = Seat.BOOKED
+            self.save()
+        else:
+            raise Exception(
+                "Seat %s has status %s and cannot be booked!"
+                % (self.seat_number, self.get_seat_status_display())  # type:ignore
+            )
