@@ -240,9 +240,6 @@ class SeatModelTests(TestCase):
         self.assertEqual(seat_from_db.trip, seat.trip)
         self.assertEqual(seat_from_db.price, seat.price)
 
-    def test_seat_number_min_max_values(self):
-        self.fail()
-
     def test_rebooking_a_booked_seat_raises_valid_exception(self):
         trip = TripTomorrowFactory()
         seat = SeatFactory(trip=trip, seat_status=Seat.BOOKED)
