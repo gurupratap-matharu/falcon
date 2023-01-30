@@ -1,7 +1,17 @@
+import datetime
+from zoneinfo import ZoneInfo
+
 from django.db import IntegrityError
 from django.test import TestCase
 
-from trips.factories import LocationFactory, SeatFactory, TripFactory
+from trips.exceptions import SeatException, TripException
+from trips.factories import (
+    LocationFactory,
+    SeatFactory,
+    TripFactory,
+    TripPastFactory,
+    TripTomorrowFactory,
+)
 from trips.models import Location, Seat, Trip
 
 
@@ -100,40 +110,107 @@ class TripModelTests(TestCase):
         self.assertEqual(trip._meta.get_field("slug").max_length, 200)
 
     def test_for_trip_in_the_past_a_seat_cannot_be_booked(self):
-        self.fail()
+        # Create a past trip with two seats
+        SeatFactory.reset_sequence(1)
+        trip = TripPastFactory()
+        seat = SeatFactory.create(trip=trip, seat_status=Seat.AVAILABLE)
+
+        with self.assertRaises(TripException):
+            trip.book_seat(seat)  # type:ignore
 
     def test_for_trip_with_no_seats_available_seat_cannot_be_booked(self):
-        self.fail()
+        SeatFactory.reset_sequence(1)
+        trip = TripTomorrowFactory()
+        seat = SeatFactory.create(trip=trip, seat_status=Seat.BOOKED)
+
+        with self.assertRaises(Exception):
+            trip.book_seat(seat)  # type:ignore
 
     def test_a_trip_can_only_book_its_own_seat(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=trip, seat_status=Seat.AVAILABLE)
+
+        trip.book_seat(seat)  # type:ignore
+
+        self.assertEqual(seat.seat_status, Seat.BOOKED)
 
     def test_a_trip_cannot_book_another_trips_seat(self):
-        self.fail()
+        random_trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=self.trip, seat_status=Seat.AVAILABLE)
+
+        with self.assertRaises(TripException):
+            random_trip.book_seat(seat)  # type:ignore
+
+        self.assertEqual(seat.seat_status, Seat.AVAILABLE)
 
     def test_a_trip_cannot_book_a_reserved_seat(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=trip, seat_status=Seat.RESERVED)
+
+        with self.assertRaises(Exception):
+            trip.book_seat(seat)  # type:ignore
+
+        self.assertEqual(seat.seat_status, Seat.RESERVED)
 
     def test_a_trip_cannot_book_an_already_booked_seat(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=trip, seat_status=Seat.BOOKED)
+
+        with self.assertRaises(Exception):
+            trip.book_seat(seat)  # type:ignore
+
+        self.assertEqual(seat.seat_status, Seat.BOOKED)
 
     def test_a_trip_can_book_a_valid_available_seat(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=trip, seat_status=Seat.AVAILABLE)
+
+        trip.book_seat(seat)  # type:ignore
+        self.assertEqual(seat.seat_status, Seat.BOOKED)
+        self.assertEqual(trip.seats_available, 0)  # type:ignore
 
     def test_trip_revenue_is_correctly_calculated(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+
+        # Create two booked seats (counted in revenue)
+        seat_1 = SeatFactory.create(trip=trip, seat_status=Seat.BOOKED, price=10)
+        seat_2 = SeatFactory.create(trip=trip, seat_status=Seat.BOOKED, price=20)
+
+        # Create an available seat (not counted in revenue)
+        _ = SeatFactory.create(trip=trip, seat_status=Seat.AVAILABLE, price=20)
+
+        self.assertEqual(trip.revenue, seat_1.price + seat_2.price)  # type:ignore
 
     def test_trip_seats_available_is_correctly_calculated(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+
+        # Create all seats
+        _ = SeatFactory.create_batch(size=3, trip=trip, seat_status=Seat.AVAILABLE)
+        _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.BOOKED)
+        _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.RESERVED)
+
+        self.assertEqual(trip.seats_available, 3)  # type:ignore
 
     def test_trip_duration_is_correctly_in_hours(self):
-        self.fail()
+        actual = self.trip.duration  # type:ignore
+
+        time_delta = self.trip.arrival - self.trip.departure  # type:ignore
+        expected = time_delta.seconds // 3600
+
+        self.assertEqual(actual, expected)
 
     def test_trip_in_the_past_have_has_departed_status(self):
-        self.fail()
+        trip = TripPastFactory()
+
+        self.assertTrue(trip.departure)
 
     def test_trip_leaving_tomorrow_is_due_shortly(self):
-        self.fail()
+        next_hour = datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(
+            hours=1
+        )
+        trip = TripFactory(departure=next_hour)
+
+        self.assertTrue(trip.is_due_shortly)  # type:ignore
 
 
 class SeatModelTests(TestCase):
@@ -141,10 +218,13 @@ class SeatModelTests(TestCase):
 
     def setUp(self):
         pass
+
     def test_str_representation(self):
         self.fail()
+
     def test_verbose_name_plural(self):
         self.fail()
+
     def test_seat_model_creation_is_accurate(self):
         self.fail()
 
@@ -153,6 +233,7 @@ class SeatModelTests(TestCase):
 
     def test_rebooking_a_booked_seat_raises_valid_exception(self):
         self.fail()
+
     def test_booking_a_reserved_seat_raises_valid_exception(self):
         self.fail()
 
