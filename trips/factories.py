@@ -59,6 +59,16 @@ class TripFactory(factory.django.DjangoModelFactory):
     image = CustomImageField(color=fake.color)
 
 
+class TripPastFactory(TripFactory):
+    """Only create trips which are already in the past"""
+
+    departure = fuzzy.FuzzyDateTime(
+        start_dt=datetime.datetime.now(tz=ZoneInfo("UTC"))
+        - datetime.timedelta(days=90),
+        end_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) - datetime.timedelta(days=5),
+    )
+
+
 class TripTomorrowFactory(TripFactory):
     """Only create trips which are due to run tomorrow"""
 
