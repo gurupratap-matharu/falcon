@@ -95,7 +95,17 @@ class Trip(models.Model):
         """
         return self.name
 
+    # TODO implemente custom model manager to
+    # Filter trips by - (origin, destination, date)
+    # Should return only trips that are
+    #   - due in the future
+    #   - have seats available
+    #   - having status active and not onhold or other
+    #   - ordered by most booked to least booked
+
     def get_absolute_url(self):
+        # TODO: Veer can we make this <origin>/<destination>/<company>/<id>?
+        # Like how blog posts have unique urls
         return reverse("trips:trip_detail", kwargs={"id": self.id, "slug": self.slug})
 
     def get_add_to_cart_url(self):
@@ -112,7 +122,7 @@ class Trip(models.Model):
     @property
     def seats_available(self) -> int:
         """Calculate the number of seats available for a trip"""
-        return sum(s.seat_status == "A" for s in self.seats.all())
+        return sum(s.seat_status == "A" for s in self.seats.all())  # type:ignore
 
     @property
     def revenue(self):
@@ -136,7 +146,7 @@ class Trip(models.Model):
         return self.departure < timezone.now()
 
     @property
-    def is_due(self) -> bool:
+    def is_due_shortly(self) -> bool:
         """Whether the departure is due within a day"""
         return self.departure <= timezone.now() + datetime.timedelta(days=1)
 
