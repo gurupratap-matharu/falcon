@@ -1,13 +1,19 @@
 import datetime
+import logging
 import uuid
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from companies.models import Company
+
+from .exceptions import SeatException, TripException
+
+logger = logging.getLogger(__name__)
 
 
 class Location(models.Model):
@@ -30,8 +36,24 @@ class Location(models.Model):
     class Meta:
         ordering = ["name"]
 
+    def pre_save(self, instance, add):
+        logger.info(
+            "LocationModel: slugifying %s: %s" % (instance.name, slugify(instance.name))
+        )
+        # if not instance.slug:
+        #     instance.slug = slugify(self.name)
+
     def __str__(self):
         return self.name
+
+
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .filter(departure__gt=timezone.now(), status=Trip.ACTIVE)
+        )
 
 
 class Trip(models.Model):
@@ -89,6 +111,9 @@ class Trip(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    objects = models.Manager()
+    active = ActiveManager()
+
     def __str__(self):
         """
         # TODO: Can be made better
@@ -114,10 +139,12 @@ class Trip(models.Model):
     def book_seat(self, seat):
         """Mark a seat as booked"""
 
-        if seat.trip == self:
-            seat.book()
+        if not seat.trip == self:
+            raise TripException("Seat %s does not belong to this trip!" % seat)
+        elif not self.active:
+            raise TripException("Trip %s is not active", self)
         else:
-            raise Exception("Seat %s does not belong to this trip!" % seat)
+            seat.book()
 
     @property
     def seats_available(self) -> int:
@@ -136,7 +163,7 @@ class Trip(models.Model):
         return td.seconds // 3600
 
     @property
-    def active(self) -> bool:
+    def is_active(self) -> bool:
         """Is the trip due in the future"""
         return self.departure > timezone.now()
 
@@ -189,10 +216,11 @@ class Seat(models.Model):
         """Mark a seat as booked only if its available."""
 
         if self.seat_status == Seat.AVAILABLE:
+            logger.info("booking seat: %s", self)
             self.seat_status = Seat.BOOKED
             self.save()
         else:
-            raise Exception(
+            raise SeatException(
                 "Seat %s has status %s and cannot be booked!"
                 % (self.seat_number, self.get_seat_status_display())  # type:ignore
             )
