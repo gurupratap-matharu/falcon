@@ -1,13 +1,15 @@
 import datetime
 import logging
+import pdb
 from typing import Any
 from zoneinfo import ZoneInfo
 
 from django.db.models import QuerySet
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import DetailView, ListView, View
 
-from .models import Trip
+from .models import Location, Trip
+from .terminals import TERMINALS
 
 logger = logging.getLogger(__name__)
 
@@ -40,19 +42,34 @@ class TripListView(ListView):
     template_name = "trips/trip_list.html"
     context_object_name: str = "trips"
 
+    def build_date(self, date_str):
+        return datetime.datetime.strptime(date_str, "%d-%m-%Y").date()
+
     def get_queryset(self) -> QuerySet[Any]:
+        q = self.request.GET
+        if q:
+            logger.info("Veer url params: %s " % q)
+            self.request.session["q"] = q
 
-        if self.request.GET:
-            logger.info("Veer url params: %s " % self.request.GET)
-            self.request.session["q"] = self.request.GET
+        origin = get_object_or_404(Location, name=q.get("origin"))
+        destination = get_object_or_404(Location, name=q.get("destination"))
+        departure_date = self.build_date(q.get("departure"))
 
-        qs = Trip.objects.exclude(
-            departure__lt=datetime.datetime.now(tz=ZoneInfo("UTC"))
+        logger.info(
+            "TripList(💋): origin: %s destination: %s departure: %s"
+            % (origin, destination, departure_date)
         )
 
-        # Veer for now just return all trips that are today or the future
-        # don't bother too much we'll filter later. let's get going
+        qs = Trip.active.filter(
+            origin=origin, destination=destination, departure__date=departure_date
+        )
+
         return qs
+
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        context["terminals"] = TERMINALS
+        return context
 
 
 class TripDetailView(DetailView):

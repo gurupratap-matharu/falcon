@@ -6,7 +6,7 @@
     <span class="mask bg-gradient-primary opacity-6"></span>
 </div>
 <div class="card card-body blur shadow-blur mx-md-4 mt-n6">
-    <form action="{% url 'trips:trip-search' %}" method="get" autocomplete="on">
+    <form action="{% url 'trips:trip-list' %}" method="get" autocomplete="on">
         <div class="row gx-md-3 mb-3">
             <div class="col-8 col-sm-3 col-lg-2">
                 <select class="form-select bg-transparent" name="trip_type" id="trip_type" aria-label="Trip type" required>
@@ -77,7 +77,7 @@
                            name="departure"
                            id="departure"
                            value="{{ request.session.q.departure }}"
-                           required>
+                           required/>
                 </div>
             </div>
             <div class="col-12 col-md-3">
@@ -98,3 +98,9 @@
         </div>
     </form>
 </div>
+<datalist id="location">
+    {% for terminal in terminals %}
+        <option value="{{ terminal }}">
+        </option>
+    {% endfor %}
+</datalist>
