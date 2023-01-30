@@ -217,25 +217,51 @@ class SeatModelTests(TestCase):
     """Test suite for the Seat Model"""
 
     def setUp(self):
-        pass
+        SeatFactory.reset_sequence(1)
 
     def test_str_representation(self):
-        self.fail()
+        seat = SeatFactory()
+
+        self.assertEqual(str(seat), f"{seat.seat_number}")
 
     def test_verbose_name_plural(self):
-        self.fail()
+        seat = SeatFactory()
+        self.assertEqual(str(seat._meta.verbose_name_plural), "seats")  # type:ignore
 
     def test_seat_model_creation_is_accurate(self):
-        self.fail()
+        trip = TripFactory()
+        seat = SeatFactory(trip=trip)
+        seat_from_db = Seat.objects.first()
+
+        self.assertEqual(Seat.objects.count(), 1)
+        self.assertEqual(seat_from_db.seat_number, seat.seat_number)
+        self.assertEqual(seat_from_db.seat_type, seat.seat_type)
+        self.assertEqual(seat_from_db.seat_status, seat.seat_status)
+        self.assertEqual(seat_from_db.trip, seat.trip)
+        self.assertEqual(seat_from_db.price, seat.price)
 
     def test_seat_number_min_max_values(self):
         self.fail()
 
     def test_rebooking_a_booked_seat_raises_valid_exception(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=trip, seat_status=Seat.BOOKED)
+
+        with self.assertRaises(SeatException):
+            seat.book()  # type:ignore
 
     def test_booking_a_reserved_seat_raises_valid_exception(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=trip, seat_status=Seat.RESERVED)
+
+        with self.assertRaises(SeatException):
+            seat.book()  # type:ignore
 
     def test_booking_an_available_seat_works(self):
-        self.fail()
+        trip = TripTomorrowFactory()
+        seat = SeatFactory(trip=trip, seat_status=Seat.AVAILABLE)
+
+        seat.book()  # type:ignore
+        self.assertEqual(seat.seat_status, Seat.BOOKED)
+        self.assertEqual(trip.revenue, seat.price)
+        self.assertEqual(trip.seats_available, 0)
