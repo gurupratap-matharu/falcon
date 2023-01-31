@@ -161,7 +161,12 @@ class Trip(models.Model):
     def min_price(self):
         """Calculate the min price for each trip"""
 
-        return min(s.price for s in self.seats.all())  # type:ignore
+        try:
+            min_price = min(s.price for s in self.seats.all())  # type:ignore
+        except ValueError:
+            min_price = 0
+
+        return min_price
 
     @property
     def seats_available(self) -> int:
