@@ -110,7 +110,6 @@ class OrderItemModelTests(TestCase):
         self.assertEqual(order_item.trip, self.order_item.trip)
         self.assertEqual(order_item.order, self.order_item.order)
         self.assertEqual(order_item.price, self.order_item.price)
-        self.assertEqual(order_item.price, self.order_item.trip.price)
         self.assertEqual(order_item.quantity, self.order_item.quantity)
         self.assertEqual(len(order_item.passengers.all()), len(self.passengers))
 
@@ -155,7 +154,7 @@ class PassengerModelTests(TestCase):
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.p1._meta.verbose_name_plural), "passengers")
 
-    def test_order_item_model_creation_is_correct(self):
+    def test_passenger_model_creation_is_correct(self):
         Passenger.objects.all().delete()
 
         self.assertEqual(Passenger.objects.count(), 0)

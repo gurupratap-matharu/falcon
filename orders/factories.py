@@ -35,7 +35,7 @@ class OrderItemFactory(factory.django.DjangoModelFactory):
 
     order = factory.SubFactory(OrderFactory)
     trip = factory.SubFactory(TripFactory)
-    price = factory.LazyAttribute(lambda o: o.trip.price)
+    price = factory.Iterator([10, 15, 20])
     quantity = factory.Faker("random_int", min=1, max=5)
 
 
