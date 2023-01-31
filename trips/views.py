@@ -1,8 +1,6 @@
 import datetime
 import logging
-import pdb
 from typing import Any
-from zoneinfo import ZoneInfo
 
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect
@@ -46,24 +44,28 @@ class TripListView(ListView):
         return datetime.datetime.strptime(date_str, "%d-%m-%Y").date()
 
     def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+
         q = self.request.GET
         if q:
+            # We got query params so let's filter the trips queryset
             logger.info("Veer url params: %s " % q)
             self.request.session["q"] = q
 
-        origin = get_object_or_404(Location, name=q.get("origin"))
-        destination = get_object_or_404(Location, name=q.get("destination"))
-        departure_date = self.build_date(q.get("departure"))
+            origin = get_object_or_404(Location, name=q.get("origin"))
+            destination = get_object_or_404(Location, name=q.get("destination"))
+            departure_date = self.build_date(q.get("departure"))
 
-        logger.info(
-            "TripList(💋): origin: %s destination: %s departure: %s"
-            % (origin, destination, departure_date)
-        )
+            logger.info(
+                "TripList(💋): origin: %s destination: %s departure: %s"
+                % (origin, destination, departure_date)
+            )
 
-        qs = Trip.active.filter(
-            origin=origin, destination=destination, departure__date=departure_date
-        )
+            qs = qs.filter(
+                origin=origin, destination=destination, departure__date=departure_date
+            )
 
+        # other wise just return all the trips for now
         return qs
 
     def get_context_data(self, **kwargs: Any):
