@@ -17,7 +17,7 @@
 {% block content %}
     <div class="row">
         <div class="col-12 col-lg-8">
-            <form action="{% url 'orders:home' %}" method="post" autocomplete="on">
+            <form action="{% url 'payments:home' %}" method="get" autocomplete="on">
                 {% csrf_token %}
                 <div class="card mx-3 mx-md-0">
                     <div class="card-header pb-0">
@@ -349,6 +349,7 @@
             </div>
         </div>
     </div>
+    {{ request.session.booked_seats|json_script:"booked_seats" }}
 {% endblock content %}
 
 {% block js %}
