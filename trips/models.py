@@ -12,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from companies.models import Company
 
 from .exceptions import SeatException, TripException
+from .seat_map import SEAT_MAP
 
 logger = logging.getLogger(__name__)
 
@@ -146,6 +147,16 @@ class Trip(models.Model):
         else:
             seat.book()
 
+    def get_booked_seats(self):
+        """Get list of booked seats for populating seatchart.js"""
+
+        logger.info("calculating booked seats(🔖)...")
+        return [
+            s.get_row_col()
+            for s in self.seats.all()  # type:ignore
+            if s.seat_status != Seat.AVAILABLE
+        ]
+
     @property
     def min_price(self):
         """Calculate the min price for each trip"""
@@ -160,7 +171,11 @@ class Trip(models.Model):
     @property
     def revenue(self):
         """Calculate the cost of all booked seats"""
-        return sum(s.price for s in self.seats.all() if s.seat_status == Seat.BOOKED)
+        return sum(
+            s.price
+            for s in self.seats.all()  # type:ignore
+            if s.seat_status == Seat.BOOKED
+        )
 
     @property
     def duration(self):
@@ -217,6 +232,11 @@ class Seat(models.Model):
 
     def __str__(self):
         return f"{str(self.seat_number)}"
+
+    def get_row_col(self):
+        """Get a row col representation of a seat number"""
+
+        return SEAT_MAP.get(str(self.seat_number))
 
     def book(self):
         """Mark a seat as booked only if its available."""

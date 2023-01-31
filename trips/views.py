@@ -61,9 +61,9 @@ class TripListView(ListView):
                 % (origin, destination, departure_date)
             )
 
-            qs = qs.filter(
-                origin=origin, destination=destination, departure__date=departure_date
-            )
+            # qs = qs.filter(
+            #     origin=origin, destination=destination, departure__date=departure_date
+            # )
 
         # other wise just return all the trips for now
         return qs
