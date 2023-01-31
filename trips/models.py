@@ -141,7 +141,7 @@ class Trip(models.Model):
 
         if not seat.trip == self:
             raise TripException("Seat %s does not belong to this trip!" % seat)
-        elif not self.active:
+        elif not self.is_active:
             raise TripException("Trip %s is not active", self)
         else:
             seat.book()
