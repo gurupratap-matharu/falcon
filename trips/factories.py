@@ -113,6 +113,9 @@ class SeatFactory(factory.django.DjangoModelFactory):
 
 
 def make_trips():
+    for terminal in TERMINALS:
+        LocationFactory(name=terminal)
+
     # Create our favorite locations
     buenos_aires = LocationFactory(name="Buenos Aires")
     mendoza = LocationFactory(name="Mendoza")
