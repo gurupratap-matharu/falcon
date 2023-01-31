@@ -19,6 +19,7 @@ def cart_add(request, trip_id=None):
     """
 
     trip = get_object_or_404(Trip, id=trip_id)
+    request.session["booked_seats"] = trip.get_booked_seats()
     quantity = int(request.session["q"]["num_of_passengers"])
 
     logger.info(

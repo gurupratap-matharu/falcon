@@ -33,7 +33,7 @@ class Cart:
         trip_id = str(trip.id)
 
         if trip_id not in self.cart:
-            self.cart[trip_id] = {"quantity": 0, "price": str(trip.price)}
+            self.cart[trip_id] = {"quantity": 0, "price": 0}
 
         if override_quantity:
             self.cart[trip_id]["quantity"] = quantity
