@@ -96,8 +96,8 @@ class SeatFactory(factory.django.DjangoModelFactory):
         model = Seat
 
     class Params:
-        premium = 15
-        economy = 10
+        premium = 17324
+        economy = 13269
 
     trip = factory.SubFactory(TripFactory)
     seat_number = factory.Sequence(lambda n: int(n))
@@ -132,3 +132,5 @@ def make_trips():
     for trip in trips:
         SeatFactory.reset_sequence(1)
         _ = SeatFactory.create_batch(size=40, trip=trip)
+
+    return trips

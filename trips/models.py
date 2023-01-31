@@ -147,6 +147,12 @@ class Trip(models.Model):
             seat.book()
 
     @property
+    def min_price(self):
+        """Calculate the min price for each trip"""
+
+        return min(s.price for s in self.seats.all())  # type:ignore
+
+    @property
     def seats_available(self) -> int:
         """Calculate the number of seats available for a trip"""
         return sum(s.seat_status == "A" for s in self.seats.all())  # type:ignore
