@@ -1,3 +1,5 @@
+import random
+
 import factory
 from factory import fuzzy
 from faker import Faker
@@ -61,3 +63,19 @@ class PassengerFactory(factory.django.DjangoModelFactory):
         lambda _: (fake.country_calling_code() + fake.phone_number())[:14]
     )
     seat_number = factory.LazyAttribute(lambda _: str(fake.random_int(min=1, max=60)))
+
+
+def make_order_data():
+    orders = OrderFactory.create_batch(size=50)
+
+    for order in orders:
+
+        num_trips = random.randint(1, 2)
+        num_passengers = random.randint(1, 5)
+
+        _ = OrderItemFactory.create_batch(
+            size=num_trips, order=order, quantity=num_passengers
+        )
+        _ = PassengerFactory.create_batch(size=num_passengers, order=order)
+
+    return orders
