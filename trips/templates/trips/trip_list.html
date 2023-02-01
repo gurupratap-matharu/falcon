@@ -78,7 +78,7 @@
                             <div class="col-md-3 align-self-center text-center">
                                 <form action="{{ trip.get_add_to_cart_url }}" method="post">
                                     <button class="btn btn-outline-light mt-2 position-relative" type="submit">
-                                        <h5 class="font-weight-bolder mb-0">${{ trip.min_price|floatformat:"-3g" }}</h5>
+                                        <h5 class="font-weight-bolder mb-0">${{ trip.price|floatformat:"-2g" }}</h5>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">+55%
                                             <span class="visually-hidden">potential savings</span>
                                         </span>
