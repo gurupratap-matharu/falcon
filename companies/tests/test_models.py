@@ -41,7 +41,8 @@ class CompanyModelTests(TestCase):
         self.assertEqual(max_length, 300)
 
     def test_all_companies_have_unique_slugs(self):
-        _ = Company.objects.create(name="Andesmar", slug="andesmar")
+        Company.objects.all().delete()
+        Company.objects.create(name="Andesmar", slug="andesmar")
 
         with self.assertRaises(IntegrityError):
             Company.objects.create(name="Andes a Mar", slug="andesmar")
