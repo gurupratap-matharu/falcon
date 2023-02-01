@@ -1,10 +1,36 @@
 from django.contrib import admin
 
+from orders.models import Passenger
+
 from .models import Location, Seat, Trip
+
+
+class PassengerInline(admin.TabularInline):
+    model = Passenger
+    fk_name = "trip"
+    readonly_fields = (
+        "first_name",
+        "last_name",
+        "nationality",
+        "phone_number",
+        "seat_number",
+    )
+    exclude = (
+        "order",
+        "document_type",
+        "document_number",
+        "birth_date",
+        "gender",
+    )
+    extra = 0
+    can_delete = False
 
 
 class SeatInline(admin.TabularInline):
     model = Seat
+    extra = 0
+    can_delete = False
+    classes = ("collapse",)
 
 
 @admin.register(Location)
@@ -42,4 +68,4 @@ class TripAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     raw_id_fields = ("origin", "destination", "company")
     date_hierarchy = "departure"
-    inlines = [SeatInline]
+    inlines = [PassengerInline]
