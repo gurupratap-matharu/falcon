@@ -170,16 +170,16 @@ class TripModelTests(TestCase):
         self.assertEqual(trip.seats_available, 0)  # type:ignore
 
     def test_trip_revenue_is_correctly_calculated(self):
-        trip = TripTomorrowFactory()
+        trip = TripTomorrowFactory(price=5)
 
         # Create two booked seats (counted in revenue)
-        seat_1 = SeatFactory.create(trip=trip, seat_status=Seat.BOOKED, price=10)
-        seat_2 = SeatFactory.create(trip=trip, seat_status=Seat.BOOKED, price=20)
+        SeatFactory.create(trip=trip, seat_status=Seat.BOOKED)
+        SeatFactory.create(trip=trip, seat_status=Seat.BOOKED)
 
         # Create an available seat (not counted in revenue)
-        _ = SeatFactory.create(trip=trip, seat_status=Seat.AVAILABLE, price=20)
+        SeatFactory.create(trip=trip, seat_status=Seat.AVAILABLE)
 
-        self.assertEqual(trip.revenue, seat_1.price + seat_2.price)  # type:ignore
+        self.assertEqual(trip.revenue, 10)  # type:ignore
 
     def test_trip_seats_available_is_correctly_calculated(self):
         trip = TripTomorrowFactory()
@@ -238,7 +238,6 @@ class SeatModelTests(TestCase):
         self.assertEqual(seat_from_db.seat_type, seat.seat_type)
         self.assertEqual(seat_from_db.seat_status, seat.seat_status)
         self.assertEqual(seat_from_db.trip, seat.trip)
-        self.assertEqual(seat_from_db.price, seat.price)
 
     def test_rebooking_a_booked_seat_raises_valid_exception(self):
         trip = TripTomorrowFactory()
@@ -260,5 +259,5 @@ class SeatModelTests(TestCase):
 
         seat.book()  # type:ignore
         self.assertEqual(seat.seat_status, Seat.BOOKED)
-        self.assertEqual(trip.revenue, seat.price)
-        self.assertEqual(trip.seats_available, 0)
+        self.assertEqual(trip.revenue, trip.price)  # type:ignore
+        self.assertEqual(trip.seats_available, 0)  # type:ignore

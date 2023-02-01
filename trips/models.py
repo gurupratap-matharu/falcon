@@ -96,7 +96,7 @@ class Trip(models.Model):
     )
     departure = models.DateTimeField(verbose_name=_("Departure Date & Time"))
     arrival = models.DateTimeField(verbose_name=_("Arrival Date & Time"))
-
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(
         max_length=2,
         choices=TRIP_STATUS_CHOICES,
@@ -158,17 +158,6 @@ class Trip(models.Model):
         ]
 
     @property
-    def min_price(self):
-        """Calculate the min price for each trip"""
-
-        try:
-            min_price = min(s.price for s in self.seats.all())  # type:ignore
-        except ValueError:
-            min_price = 0
-
-        return min_price
-
-    @property
     def seats_available(self) -> int:
         """Calculate the number of seats available for a trip"""
         return sum(s.seat_status == "A" for s in self.seats.all())  # type:ignore
@@ -176,11 +165,11 @@ class Trip(models.Model):
     @property
     def revenue(self):
         """Calculate the cost of all booked seats"""
-        return sum(
-            s.price
-            for s in self.seats.all()  # type:ignore
-            if s.seat_status == Seat.BOOKED
-        )
+
+        seats_booked = sum(s.seat_status == Seat.BOOKED for s in self.seats.all())
+        revenue = seats_booked * self.price
+
+        return revenue
 
     @property
     def duration(self):
@@ -233,7 +222,6 @@ class Seat(models.Model):
     seat_status = models.CharField(
         choices=SEAT_STATUS_CHOICES, default=AVAILABLE, max_length=1
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"{str(self.seat_number)}"
