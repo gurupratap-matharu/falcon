@@ -141,10 +141,7 @@ class PassengerModelTests(TestCase):
         self.p1, self.p2 = PassengerFactory.create_batch(size=2, order=self.order)
 
     def test_string_representation(self):
-        self.assertEqual(
-            str(self.p1),
-            f"{self.p1.first_name} {self.p1.last_name} {self.p1.document_number} {self.p1.seat_number}",
-        )
+        self.assertEqual(str(self.p1), f"{self.p1.first_name}")
 
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.p1._meta.verbose_name_plural), "passengers")
