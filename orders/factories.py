@@ -47,7 +47,7 @@ class PassengerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Passenger
 
-    order_item = factory.SubFactory(OrderItemFactory)
+    order = factory.SubFactory(OrderFactory)
     document_type = fuzzy.FuzzyChoice(
         Passenger.DOCUMENT_TYPE_CHOICES[1:], getter=lambda c: c[0]
     )

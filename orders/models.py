@@ -42,9 +42,8 @@ class OrderItem(models.Model):
     """
     Our central model which connects all other models (Order, Trip & Passenger)
 
-    One Order -> Many OrderItem
+    One Order -> Many OrderItem + Many Passenger
     One Trip  -> Many OrderItem
-    One OrderItem -> Many Passenger
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -94,8 +93,8 @@ class Passenger(models.Model):
         ("M", "Male"),
     ]
 
-    order_item = models.ForeignKey(
-        OrderItem, on_delete=models.CASCADE, related_name="passengers"
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name="passengers"
     )
     document_type = models.CharField(choices=DOCUMENT_TYPE_CHOICES, max_length=10)
     document_number = models.CharField(max_length=50)

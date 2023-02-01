@@ -8,11 +8,13 @@ with sensible defaults.
 """
 
 
+import random
+
 from django.core.management.base import BaseCommand
 
 import factory
 
-from orders.factories import OrderItemFactory, PassengerFactory
+from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
 from orders.models import Order, OrderItem, Passenger
 
 
@@ -45,9 +47,17 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Creating new data..."))
 
         with factory.Faker.override_default_locale(locale):
-            order_items = OrderItemFactory.create_batch(size=10)
-            for order_item in order_items:
-                _ = PassengerFactory.create_batch(size=2, order_item=order_item)
+            orders = OrderFactory.create_batch(size=10)
+
+            for order in orders:
+                
+                num_trips = random.randint(1, 2)
+                num_passengers = random.randint(1, 5)
+
+                _ = OrderItemFactory.create_batch(
+                    size=num_trips, order=order, quantity=num_passengers
+                )
+                _ = PassengerFactory.create_batch(size=num_passengers, order=order)
 
         self.stdout.write(
             f"""
