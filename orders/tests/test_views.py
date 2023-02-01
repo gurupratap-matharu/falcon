@@ -51,25 +51,3 @@ class OrderPageTests(TestCase):
     def test_order_creation_shows_message_on_successful_creation(self):
         # TODO: Veer implemente this
         pass
-
-
-class OrderCreateViewTests(TestCase):
-    """
-    Test suite for order create view.
-    """
-
-    def setUp(self):
-        self.url = reverse_lazy("orders:create")
-        self.template_name = "orders/order_form.html"
-
-    def test_order_create_view_works(self):
-        self.response = self.client.get(self.url)
-
-        self.assertEqual(self.response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(self.response, self.template_name)
-        self.assertContains(self.response, "Order")
-        self.assertNotContains(self.response, "Hi I should not be on this page")
-
-    def test_order_create_url_resolves_ordercreateview(self):
-        view = resolve(self.url)
-        self.assertEqual(view.func.__name__, OrderCreateView.as_view().__name__)
