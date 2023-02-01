@@ -96,6 +96,9 @@ class Passenger(models.Model):
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name="passengers"
     )
+    trip = models.ForeignKey(
+        Trip, on_delete=models.SET_NULL, null=True, related_name="passengers"
+    )
     document_type = models.CharField(choices=DOCUMENT_TYPE_CHOICES, max_length=10)
     document_number = models.CharField(max_length=50)
     nationality = CountryField(blank_label="(Nationality)")  # type: ignore
@@ -121,4 +124,7 @@ class Passenger(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} {self.document_number} {self.seat_number}"
+        return f"{self.first_name}"
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"

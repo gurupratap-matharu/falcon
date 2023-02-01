@@ -94,7 +94,7 @@ def make_order_data(size=20, trip=None):
             )
         else:
             _ = OrderItemFactory.create_batch(
-                size=num_trips, order=order, quantity=num_passengers, trip=trip
+                size=num_trips, order=order, quantity=num_passengers
             )
 
     return orders
