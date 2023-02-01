@@ -3,7 +3,7 @@ from http import HTTPStatus
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
-from orders.views import OrderCreateView, OrderView
+from orders.views import OrderView
 
 
 class OrderPageTests(TestCase):
