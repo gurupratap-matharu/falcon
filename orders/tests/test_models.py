@@ -89,9 +89,7 @@ class OrderItemModelTests(TestCase):
         self.trip = TripFactory()
         self.order = OrderFactory()
         self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
-        self.passengers = PassengerFactory.create_batch(
-            size=2, order_item=self.order_item
-        )
+        self.passengers = PassengerFactory.create_batch(size=2, order=self.order)
 
     def test_string_representation(self):
         self.assertEqual(
@@ -111,7 +109,6 @@ class OrderItemModelTests(TestCase):
         self.assertEqual(order_item.order, self.order_item.order)
         self.assertEqual(order_item.price, self.order_item.price)
         self.assertEqual(order_item.quantity, self.order_item.quantity)
-        self.assertEqual(len(order_item.passengers.all()), len(self.passengers))
 
     def test_order_item_cost_is_correctly_calculated(self):
         order_item = OrderItem.objects.first()
@@ -141,9 +138,7 @@ class PassengerModelTests(TestCase):
         self.trip = TripFactory()
         self.order = OrderFactory()
         self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
-        self.p1, self.p2 = PassengerFactory.create_batch(
-            size=2, order_item=self.order_item
-        )
+        self.p1, self.p2 = PassengerFactory.create_batch(size=2, order=self.order)
 
     def test_string_representation(self):
         self.assertEqual(
@@ -164,7 +159,7 @@ class PassengerModelTests(TestCase):
 
         self.assertEqual(Passenger.objects.count(), 1)
 
-        self.assertEqual(p1.order_item, p1_from_db.order_item)
+        self.assertEqual(p1.order, p1_from_db.order)
         self.assertEqual(p1.document_type, p1_from_db.document_type)
         self.assertEqual(p1.document_number, p1_from_db.document_number)
         self.assertEqual(p1.nationality, p1_from_db.nationality)

@@ -65,17 +65,36 @@ class PassengerFactory(factory.django.DjangoModelFactory):
     seat_number = factory.LazyAttribute(lambda _: str(fake.random_int(min=1, max=60)))
 
 
-def make_order_data():
-    orders = OrderFactory.create_batch(size=50)
+def make_order_data(size=20, trip=None):
+    """
+    Builds orders, orderitems, passengers for a particular trip or random trips.
+    Used in the setup_order_data management command.
+
+    Can be called standalone method to build order only for one trip.
+    Encompasses all factories in this script.
+    """
+
+    # 1. Create random orders
+    orders = OrderFactory.create_batch(size=size)
 
     for order in orders:
 
+        # Each order can have only forward trip (1) or both forward and return trip (2)
+        # Each order can have between 1-5 passengers
         num_trips = random.randint(1, 2)
         num_passengers = random.randint(1, 5)
 
-        _ = OrderItemFactory.create_batch(
-            size=num_trips, order=order, quantity=num_passengers
-        )
+        # 2. Create random passengers for each order
         _ = PassengerFactory.create_batch(size=num_passengers, order=order)
+
+        # 3. If trip is given build all order items for this trip else use random trips
+        if trip:
+            _ = OrderItemFactory.create_batch(
+                size=num_trips, order=order, quantity=num_passengers, trip=trip
+            )
+        else:
+            _ = OrderItemFactory.create_batch(
+                size=num_trips, order=order, quantity=num_passengers, trip=trip
+            )
 
     return orders
