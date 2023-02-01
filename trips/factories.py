@@ -53,6 +53,7 @@ class TripFactory(factory.django.DjangoModelFactory):
     arrival = factory.LazyAttribute(
         lambda o: o.departure + datetime.timedelta(hours=random.randint(5, 48))  # nosec
     )
+    price = fuzzy.FuzzyDecimal(low=5000, high=20000)
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")
@@ -95,10 +96,6 @@ class SeatFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Seat
 
-    class Params:
-        premium = 17324
-        economy = 13269
-
     trip = factory.SubFactory(TripFactory)
     seat_number = factory.Sequence(lambda n: int(n))
     seat_type = factory.LazyAttribute(
@@ -107,9 +104,6 @@ class SeatFactory(factory.django.DjangoModelFactory):
         else Seat.SEAT_TYPE_CHOICES[1][0]
     )
     seat_status = fuzzy.FuzzyChoice(Seat.SEAT_STATUS_CHOICES, getter=lambda c: c[0])
-    price = factory.LazyAttribute(
-        lambda o: o.premium if o.seat_number < 7 else o.economy
-    )
 
 
 def make_trips():
