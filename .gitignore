@@ -3,6 +3,7 @@ ssl/
 dashboard/
 static/
 reqs/
+docs/
 
 # Macos
 .DS_Store
