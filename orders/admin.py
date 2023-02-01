@@ -11,11 +11,15 @@ class PassengerInline(admin.TabularInline):
         "birth_date",
         "gender",
     )
+    extra = 0
+    can_delete = False
 
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     readonly_fields = ("trip", "quantity", "price")
+    extra = 0
+    can_delete = False
 
 
 @admin.register(OrderItem)
