@@ -5,7 +5,15 @@ from .models import Order, OrderItem, Passenger
 
 class PassengerInline(admin.TabularInline):
     model = Passenger
+    readonly_fields = (
+        "first_name",
+        "last_name",
+        "nationality",
+        "seat_number",
+        "phone_number",
+    )
     exclude = (
+        "trip",
         "document_type",
         "document_number",
         "birth_date",
