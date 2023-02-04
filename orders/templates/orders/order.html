@@ -253,7 +253,7 @@
         <div class="col-12 col-lg-4">
             {% for item in cart %}
                 {% with trip=item.trip %}
-                    
+
                     {% include "includes/trip_summary.html" %}
 
                 {% endwith %}
@@ -291,7 +291,9 @@
             </div>
         </div>
     </div>
+
     {% include "includes/seat_modal.html" %}
+
     {{ request.session.booked_seats|json_script:"booked_seats" }}
 {% endblock content %}
 
