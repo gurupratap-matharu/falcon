@@ -1,5 +1,4 @@
 from django import forms
-from django.forms.models import inlineformset_factory
 
 from .models import Order, Passenger
 
@@ -20,10 +19,67 @@ class OrderForm(forms.ModelForm):
         }
 
 
-PassengerFormset = inlineformset_factory(
-    parent_model=Order,
-    model=Passenger,
-    fields=("document_type", "document_number"),
-    extra=1,
-    can_delete=True,
-)
+class PassengerForm(forms.ModelForm):
+    class Meta:
+        model = Passenger
+        exclude = ("trip", "created_on", "updated_on")
+
+        widgets = {
+            "document_type": forms.Select(
+                attrs={
+                    "class": "form-select",
+                    "required": "required",
+                }
+            ),
+            "document_number": forms.TextInput(
+                attrs={
+                    "placeholder": "Document Number",
+                    "class": "form-control",
+                    "required": "required",
+                }
+            ),
+            "first_name": forms.TextInput(
+                attrs={
+                    "placeholder": "First Name",
+                    "class": "form-control",
+                    "required": "required",
+                }
+            ),
+            "last_name": forms.TextInput(
+                attrs={
+                    "placeholder": "Last Name",
+                    "class": "form-control",
+                    "required": "required",
+                }
+            ),
+            "birth_date": forms.TextInput(
+                attrs={
+                    "placeholder": "Date of Birth [dd/mm/yyyy]",
+                    "class": "form-control",
+                    "required": "required",
+                }
+            ),
+            "phone_number": forms.TextInput(
+                attrs={
+                    "placeholder": "Phone",
+                    "class": "form-control",
+                    "required": "required",
+                }
+            ),
+            "seat_number": forms.TextInput(
+                attrs={
+                    "placeholder": "Seat",
+                    "class": "form-control",
+                    "required": "required",
+                }
+            ),
+            "nationality": forms.Select(
+                attrs={"class": "form-select", "required": "required"}
+            ),
+            "gender": forms.Select(
+                attrs={
+                    "class": "form-select",
+                    "required": "required",
+                }
+            ),
+        }

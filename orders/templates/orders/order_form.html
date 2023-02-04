@@ -17,25 +17,113 @@
 {% block content %}
     <div class="row">
         <div class="col-12 col-lg-8">
-            <div class="card mx-3 mx-md-0">
-                <div class="card-header pb-0">
-                    <h5>Passenger</h5>
-                </div>
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ formset }}
-                        <input type="submit" class="btn bg-gradient-primary w-100" value="Save Passenger" />
-                    </form>
-                </div>
-            </div>
-            <div class="card mx-3 mx-md-0">
-                <div class="card-header pb-0">
-                    <h5>Your Contact Information</h5>
-                </div>
-                <div class="card-body">
-                    <form method="post" role="form text-left">
-                        {% csrf_token %}
+            <form method="post">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                {{ formset.non_form_errors }}
+                {% for form in formset %}
+                    <div class="card mx-3 mx-md-0 mb-3">
+                        <div class="card-header pb-0">
+                            <h5>Passenger {{ forloop.counter }}</h5>
+                        </div>
+                        <div class="card-body">
+                            {{ form.non_field_errors }}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="text-danger">{{ form.document_type.errors }}</div>
+                                    <div class="mb-3">{{ form.document_type }}</div>
+                                    <div class="form-text ms-2">
+                                        <small>{{ form.document_type.help_text|safe }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <div class="text-danger">{{ form.document_number.errors }}</div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-text z-index-0">🔍</span>
+                                                {{ form.document_number }}
+                                            </div>
+                                        </div>
+                                        <div class="form-text ms-2">
+                                            <small>{{ form.document_number.help_text|safe }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-danger">{{ form.nationality.errors }}</div>
+                                    <div class="mb-3">{{ form.nationality }}</div>
+                                    <div class="form-text ms-2">
+                                        <small>{{ form.nationality.help_text|safe }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="text-danger">{{ form.first_name.errors }}</div>
+                                    <div class="mb-3">{{ form.first_name }}</div>
+                                    <div class="form-text ms-2">
+                                        <small>{{ form.first_name.help_text|safe }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-danger">{{ form.last_name.errors }}</div>
+                                    <div class="mb-3">{{ form.last_name }}</div>
+                                    <div class="form-text ms-2">
+                                        <small>{{ form.last_name.help_text|safe }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-danger">{{ form.gender.errors }}</div>
+                                    <div class="mb-3">{{ form.gender }}</div>
+                                    <div class="form-text ms-2">
+                                        <small>{{ form.gender.help_text|safe }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="text-danger">{{ form.birth_date.errors }}</div>
+                                    <div class="mb-3">{{ form.birth_date }}</div>
+                                    <div class="form-text ms-2">
+                                        <small>{{ form.birth_date.help_text|safe }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="text-danger">{{ form.phone_number.errors }}</div>
+                                        <div class="input-group">
+                                            <span class="input-group-text z-index-0">📞</span>
+                                            {{ form.phone_number }}
+                                        </div>
+                                        <div class="form-text ms-2">
+                                            <small>{{ form.phone_number.help_text|safe }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="text-danger">{{ form.seat_number.errors }}</div>
+                                        <div class="input-group">
+                                            <span class="input-group-text z-index-0">💺</span>
+                                            {{ form.seat_number }}
+                                        </div>
+                                        <div class="form-text ms-2">
+                                            <small>{{ form.seat_number.help_text|safe }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="card mx-3 mt-3 mx-md-0">
+                    <div class="card-header pb-0">
+                        <h5>
+                            Your Contact Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
                         {{ form.non_field_errors }}
                         {% for field in form.visible_fields %}
                             <div class="mb-3">
@@ -55,11 +143,13 @@
                             </label>
                         </div>
                         <div class="d-flex justify-content-center mt-4">
-                            <button class="btn bg-gradient-primary w-100" type="submit">Checkout</button>
+                            <button class="btn bg-gradient-primary w-100" type="submit">
+                                Checkout
+                            </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="col-12 col-lg-4">
             {% for item in cart %}
@@ -71,7 +161,9 @@
             {% empty %}
                 <div class="card mx-3 mx-md-0 mt-3 mt-md-0">
                     <div class="card-body">
-                        <h5>Cart is empty! 📭</h5>
+                        <h5>
+                            Cart is empty! 📭
+                        </h5>
                     </div>
                 </div>
             {% endfor %}
@@ -81,20 +173,32 @@
                     <span class="mask bg-gradient-dark"></span>
                     <div class="card-body position-relative z-index-1 p-3">
                         <i class="fas fa-coins text-white p-2" aria-hidden="true"></i>
-                        <h5 class="text-white mt-4 mb-5 pb-2">Fare Summary</h5>
+                        <h5 class="text-white mt-4 mb-5 pb-2">
+                            Fare Summary
+                        </h5>
                         <div class="d-flex">
                             <div class="d-flex">
                                 <div class="me-4">
-                                    <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
-                                    <h6 class="text-white mb-0">Jack Peterson</h6>
+                                    <p class="text-white text-sm opacity-8 mb-0">
+                                        Card Holder
+                                    </p>
+                                    <h6 class="text-white mb-0">
+                                        Jack Peterson
+                                    </h6>
                                 </div>
                                 <div>
-                                    <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-                                    <h6 class="text-white mb-0">11/22</h6>
+                                    <p class="text-white text-sm opacity-8 mb-0">
+                                        Expires
+                                    </p>
+                                    <h6 class="text-white mb-0">
+                                        11/22
+                                    </h6>
                                 </div>
                             </div>
                             <div class="ms-auto d-flex align-items-end justify-content-end">
-                                <h5 class="text-white">$ {{ cart.get_total_price|floatformat:"-3g" }}</h5>
+                                <h5 class="text-white">
+                                    $ {{ cart.get_total_price|floatformat:"-3g" }}
+                                </h5>
                             </div>
                         </div>
                     </div>
