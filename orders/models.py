@@ -99,20 +99,24 @@ class Passenger(models.Model):
     trip = models.ForeignKey(
         Trip, on_delete=models.SET_NULL, null=True, related_name="passengers"
     )
-    document_type = models.CharField(choices=DOCUMENT_TYPE_CHOICES, max_length=10)
-    document_number = models.CharField(max_length=50)
+    document_type = models.CharField(
+        choices=DOCUMENT_TYPE_CHOICES, max_length=10
+    )  # Could this be a foreign key?
+    document_number = models.CharField(max_length=50)  # How can we verify this?
     nationality = CountryField(blank_label="(Nationality)")  # type: ignore
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
-    birth_date = models.DateField()
+    birth_date = models.DateField()  # TODO: add validator for this
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,15}$",
         message=_(
             "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
         ),
     )
-    phone_number = models.CharField(validators=[phone_regex], max_length=17)
+    phone_number = models.CharField(
+        validators=[phone_regex], max_length=17
+    )  # how to separate country code out?
     seat_number = models.CharField(max_length=4)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
