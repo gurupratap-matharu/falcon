@@ -226,6 +226,7 @@
 
     {% with trips=cart.to_dict %}
         {{ trips.0|json_script:"outboundJourney" }}
+        {{ trips.1|json_script:"returnJourney" }}
     {% endwith %}
 {% endblock content %}
 
