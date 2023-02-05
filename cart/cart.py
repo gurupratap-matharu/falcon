@@ -85,6 +85,7 @@ class Cart:
 
         return [
             {
+                "id": x["trip"].id,
                 "quantity": x["quantity"],
                 "price": x["price"],
                 "booked_seats": x["trip"].get_booked_seats(),
