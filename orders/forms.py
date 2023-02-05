@@ -66,15 +66,6 @@ class PassengerForm(forms.ModelForm):
                     "required": "required",
                 }
             ),
-            "seat_number": forms.TextInput(
-                attrs={
-                    "placeholder": "Choose Seat",
-                    "class": "form-control",
-                    "data-bs-toggle": "modal",
-                    "data-bs-target": "#seatSelectModal",
-                    "required": "required",
-                }
-            ),
             "nationality": forms.Select(
                 attrs={"class": "form-select", "required": "required"}
             ),
