@@ -20,12 +20,6 @@ def cart_add(request, trip_id=None):
 
     trip = get_object_or_404(Trip, id=trip_id)
 
-    # TODO: Veer You might NOT want to add booked seats to session
-    # May be pass it as a fresh context on order page
-    # or better expose and endpoint in trips app that provides booked seats for a trip :)
-    # If we keep in a session data will be obsolete soon and wrong seat can be booked
-
-    request.session["booked_seats"] = trip.get_booked_seats()  # <-- don't do this
     quantity = int(request.session["q"]["num_of_passengers"])
 
     logger.info(
