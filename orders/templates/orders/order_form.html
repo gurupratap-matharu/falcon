@@ -172,7 +172,7 @@
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#fareSummary"
-                        aria-expanded="false"
+                        aria-expanded="true"
                         aria-controls="fareSummary">
                     Fare Summary
                 </button>
@@ -224,7 +224,9 @@
 
     {% include "includes/seat_modal.html" %}
 
-    {{ request.session.booked_seats|json_script:"booked_seats" }}
+    {% with trips=cart.to_dict %}
+        {{ trips.0|json_script:"outboundJourney" }}
+    {% endwith %}
 {% endblock content %}
 
 {% block js %}
