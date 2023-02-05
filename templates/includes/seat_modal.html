@@ -1,6 +1,24 @@
+<div class="input-group mb-3">
+    <button class="btn btn-outline-primary mb-0"
+            type="button"
+            id="button-addon1"
+            data-bs-toggle="modal"
+            data-bs-target="#trip{{ trip.id }}">
+        Choose Seat
+    </button>
+    <input type="text"
+           class="form-control ps-3"
+           name="outboundSeats"
+           id="seats{{ trip.id }}"
+           placeholder="{{ trip }}"
+           value="{{ request.session.order.seat }}"
+           aria-label="outbound seat"
+           aria-describedby="outbound seat"
+           required/>
+</div>
 <!-- Modal -->
 <div class="modal fade"
-     id="seatSelectModal"
+     id="trip{{ trip.id }}"
      tabindex="-1"
      role="dialog"
      aria-labelledby="seatSelectModal"
@@ -8,17 +26,19 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="font-weight-bolder text-primary text-gradient">Choose your Seat</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h3 class="font-weight-bolder text-primary text-gradient ps-2">{{ trip.origin }} - {{ trip.destination }}</h3>
+                <button type="button" class="btn-close text-dark bg-dark me-md-2" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="card card-plain">
-                    <div class="card-body pb-3" id="seat-container"></div>
+                    <div class="card-body pb-3" id="seat-container{{ trip.id }}"></div>
                 </div>
             </div>
             <div class="modal-footer" id="modal-footer">
                 <button type="button" class="btn bg-gradient-default" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn" data-bs-toggle="modal" id="seat-submit" disabled>Confirm</button>
+                <button type="button" class="btn" data-bs-toggle="modal" id="seat-submit{{ trip.id }}" disabled>Confirm</button>
             </div>
         </div>
     </div>
