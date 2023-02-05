@@ -80,6 +80,18 @@ class Cart:
             Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
         )
 
+    def to_dict(self):
+        """Builds a dict which is JSON serializable"""
+
+        return [
+            {
+                "quantity": x["quantity"],
+                "price": x["price"],
+                "booked_seats": x["trip"].get_booked_seats(),
+            }
+            for x in self
+        ]
+
     def __iter__(self):
         """
         Iterate over the items in the cart and get the trips from the database.
