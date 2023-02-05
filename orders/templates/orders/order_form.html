@@ -17,6 +17,15 @@
 {% block content %}
     <div class="row">
         <div class="col-12 col-lg-8">
+            <div class="mx-3 mx-md-0 mb-3">
+                {% for item in cart %}
+                    {% with trip=item.trip %}
+
+                        {% include "includes/seat_modal.html" %}
+
+                    {% endwith %}
+                {% endfor %}
+            </div>
             <form method="post">
                 {% csrf_token %}
                 {{ formset.management_form }}
@@ -101,27 +110,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="text-danger">{{ form.seat_number.errors }}</div>
-                                        <div class="input-group">
-                                            <span class="input-group-text z-index-0">💺</span>
-                                            {{ form.seat_number }}
-                                        </div>
-                                        <div class="form-text ms-2">
-                                            <small>{{ form.seat_number.help_text|safe }}</small>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
                 <div class="card mx-3 mt-3 mx-md-0">
                     <div class="card-header pb-0">
-                        <h5>
-                            Your Contact Information
-                        </h5>
+                        <h5>Your Contact Information</h5>
                     </div>
                     <div class="card-body">
                         {{ form.non_field_errors }}
@@ -167,7 +162,7 @@
                     </div>
                 </div>
             {% endfor %}
-            <div class="card-body">
+            <div class="card-body mx-3 mx-md-0 mb-3">
                 <button class="btn btn-white btn-lg w-100"
                         type="button"
                         data-bs-toggle="collapse"
@@ -177,7 +172,7 @@
                     Fare Summary
                 </button>
                 <div class="collapse" id="fareSummary">
-                    <div class="card bg-transparent shadow-xl mt-3 mx-3 mx-md-0 mx-mt-0">
+                    <div class="card bg-transparent shadow-xl">
                         <div class="overflow-hidden position-relative border-radius-xl"
                              style="background-image: url({% static "assets/img/curved-images/curved13.jpg" %})">
                             <div class="card-body position-relative z-index-1 p-3">
@@ -221,9 +216,6 @@
             </div>
         </div>
     </div>
-
-    {% include "includes/seat_modal.html" %}
-
     {% with trips=cart.to_dict %}
         {{ trips.0|json_script:"outboundJourney" }}
         {{ trips.1|json_script:"returnJourney" }}
