@@ -4,6 +4,7 @@ from zoneinfo import ZoneInfo
 from django.db import IntegrityError
 from django.test import TestCase
 
+from orders.factories import OrderFactory, PassengerFactory
 from trips.exceptions import SeatException, TripException
 from trips.factories import (
     LocationFactory,
@@ -86,6 +87,7 @@ class TripModelTests(TestCase):
 
     def setUp(self) -> None:
         self.trip = TripFactory()
+        self.seats = SeatFactory.create_batch(size=5, trip=self.trip)
 
     def test_str_representation(self):
         self.assertEqual(str(self.trip), f"{self.trip.name}")
@@ -93,15 +95,40 @@ class TripModelTests(TestCase):
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.trip._meta.verbose_name_plural), "trips")
 
+    def test_get_absolute_url(self):
+        trip_from_db = Trip.objects.first()
+
+        actual_url = trip_from_db.get_absolute_url()  # type:ignore
+        expected_url = f"/trips/{trip_from_db.id}/{trip_from_db.slug}/"  # type:ignore
+
+        self.assertEqual(actual_url, expected_url)
+
+    def test_get_add_to_cart_url_is_correct(self):
+        trip_from_db = Trip.objects.first()
+
+        actual_url = trip_from_db.get_add_to_cart_url()  # type:ignore
+        expected_url = f"/cart/add/{trip_from_db.id}/"  # type:ignore
+
+        self.assertEqual(actual_url, expected_url)
+
     def test_trip_model_creation_is_accurate(self):
         trip_from_db = Trip.objects.first()
 
         self.assertEqual(Trip.objects.count(), 1)
         self.assertEqual(trip_from_db.name, self.trip.name)
+        self.assertEqual(trip_from_db.slug, self.trip.slug)
         self.assertEqual(trip_from_db.company, self.trip.company)
         self.assertEqual(trip_from_db.origin, self.trip.origin)
         self.assertEqual(trip_from_db.destination, self.trip.destination)
         self.assertEqual(trip_from_db.departure, self.trip.departure)
+        self.assertEqual(trip_from_db.arrival, self.trip.arrival)
+        self.assertEqual(trip_from_db.price, self.trip.price)
+        self.assertEqual(trip_from_db.description, self.trip.description)
+        self.assertEqual(trip_from_db.mode, self.trip.mode)
+        self.assertEqual(trip_from_db.status, self.trip.status)
+        self.assertEqual(trip_from_db.image, self.trip.image)
+
+        self.assertEqual(trip_from_db.seats.count(), len(self.seats))
 
     def test_all_fields_max_length(self):
         trip = Trip.objects.first()
@@ -112,11 +139,11 @@ class TripModelTests(TestCase):
     def test_for_trip_in_the_past_a_seat_cannot_be_booked(self):
         # Create a past trip with two seats
         SeatFactory.reset_sequence(1)
-        trip = TripPastFactory()
-        seat = SeatFactory.create(trip=trip, seat_status=Seat.AVAILABLE)
+        past_trip = TripPastFactory()
+        seat = SeatFactory.create(trip=past_trip, seat_status=Seat.AVAILABLE)
 
         with self.assertRaises(TripException):
-            trip.book_seat(seat)  # type:ignore
+            past_trip.book_seat(seat)  # type:ignore
 
     def test_for_trip_with_no_seats_available_seat_cannot_be_booked(self):
         SeatFactory.reset_sequence(1)
@@ -126,15 +153,16 @@ class TripModelTests(TestCase):
         with self.assertRaises(Exception):
             trip.book_seat(seat)  # type:ignore
 
-    def test_a_trip_can_only_book_its_own_seat(self):
+    def test_a_trip_can_only_book_its_own_seat_correctly(self):
         trip = TripTomorrowFactory()
+
         seat = SeatFactory(trip=trip, seat_status=Seat.AVAILABLE)
 
         trip.book_seat(seat)  # type:ignore
 
         self.assertEqual(seat.seat_status, Seat.BOOKED)
 
-    def test_a_trip_cannot_book_another_trips_seat(self):
+    def test_a_trip_cannot_book_another_trips_seat_even_if_its_available(self):
         random_trip = TripTomorrowFactory()
         seat = SeatFactory(trip=self.trip, seat_status=Seat.AVAILABLE)
 
@@ -211,6 +239,46 @@ class TripModelTests(TestCase):
         trip = TripFactory(departure=next_hour)
 
         self.assertTrue(trip.is_due_shortly)  # type:ignore
+
+    def test_trip_booked_seats_is_correctly_generated(self):
+        # Create an upcoming trip with random seats
+        trip = TripTomorrowFactory()
+        _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.AVAILABLE)
+        _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.BOOKED)
+        _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.ONHOLD)
+        _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.RESERVED)
+
+        # Make sure except available seats all are returned
+        self.assertEqual(len(trip.get_booked_seats()), 6)
+
+    def test_trip_active_manager_returns_only_future_trips(self):
+        Trip.objects.all().delete()
+
+        # Make an upcoming & a past trip with both having active status
+        _ = TripTomorrowFactory(status=Trip.ACTIVE)
+        _ = TripPastFactory(status=Trip.ACTIVE)
+
+        # Make sure past trip is not returned in active manager
+        self.assertEqual(len(Trip.active.all()), 1)
+
+    def test_trip_to_passenger_m2m_relation(self):
+        trip = TripTomorrowFactory()
+        passengers = PassengerFactory.create_batch(size=2)
+
+        trip.passengers.add(*passengers)
+        trip.save()
+
+        self.assertEqual(len(trip.passengers.count()), len(passengers))
+
+    def test_trip_to_order_m2m_relation(self):
+        trip = TripTomorrowFactory()
+        order = OrderFactory()
+        order_items = OrderItemFactory.create_batch(size=2, order=order, trip=trip)
+
+        trip.orders.add(*orders)
+        trip.save()
+
+        self.assertEqual(len(trip.orders.count()), len(orders))
 
 
 class SeatModelTests(TestCase):
