@@ -1,44 +1,46 @@
 from django.contrib import admin
 
+from trips.admin import TripOrderInline
+
 from .models import Order, OrderItem, Passenger
 
 
-class PassengerInline(admin.TabularInline):
-    model = Passenger
+class OrderPassengerInline(admin.TabularInline):
+    model = Order.passengers.through
     readonly_fields = (
-        "first_name",
-        "last_name",
-        "nationality",
-        "seat_number",
-        "phone_number",
+        "passenger",
+        "order",
     )
-    exclude = (
-        "trip",
-        "document_type",
-        "document_number",
-        "birth_date",
-        "gender",
-    )
-    extra = 0
-    can_delete = False
-
-
-class OrderItemInline(admin.TabularInline):
-    model = OrderItem
-    readonly_fields = ("trip", "quantity", "price")
     extra = 0
     can_delete = False
 
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ("id", "order", "trip", "price", "quantity")
-    raw_id_fields = ("order", "trip")
+    pass
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "residence", "paid", "created_on")
+    exclude = ("passengers",)
     list_filter = ("paid", "created_on", "updated_on")
     readonly_fields = ("name", "email", "residence", "paid")
-    inlines = [PassengerInline, OrderItemInline]
+    inlines = [
+        OrderPassengerInline,
+        TripOrderInline,
+    ]
+
+
+@admin.register(Passenger)
+class PassengerAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "document_type",
+        "document_number",
+        "first_name",
+        "last_name",
+    )
+    inlines = [
+        OrderPassengerInline,
+    ]
