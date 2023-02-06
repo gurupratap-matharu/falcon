@@ -22,7 +22,7 @@ class OrderForm(forms.ModelForm):
 class PassengerForm(forms.ModelForm):
     class Meta:
         model = Passenger
-        exclude = ("trip", "created_on", "updated_on")
+        exclude = ("created_on", "updated_on")
 
         widgets = {
             "document_type": forms.Select(
