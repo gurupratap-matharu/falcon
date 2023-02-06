@@ -7,13 +7,14 @@
         Choose Seat
     </button>
     <input type="text"
-           class="form-control ps-3"
-           name="outboundSeats"
+           class="form-control bg-white ps-3"
+           name="seats{{ trip.id }}"
            id="seats{{ trip.id }}"
            placeholder="{{ trip }}"
-           value="{{ request.session.order.seat }}"
+           value=""
            aria-label="outbound seat"
            aria-describedby="outbound seat"
+           readonly
            required/>
 </div>
 <!-- Modal -->
