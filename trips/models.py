@@ -10,6 +10,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from companies.models import Company
+from orders.models import Order, Passenger
 
 from .exceptions import SeatException, TripException
 from .seat_map import SEAT_MAP
@@ -82,9 +83,15 @@ class Trip(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
-        Company,
+        to="companies.Company",
         on_delete=models.CASCADE,
         related_name="trips",
+    )
+    passengers = models.ManyToManyField(
+        to="orders.Passenger", through="Seat", related_name="trips"
+    )
+    orders = models.ManyToManyField(
+        to="orders.Order", through="orders.OrderItem", related_name="trips"
     )
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
@@ -208,13 +215,18 @@ class Seat(models.Model):
     AVAILABLE = "A"
     BOOKED = "B"
     RESERVED = "R"
+    ONHOLD = "H"
     SEAT_STATUS_CHOICES = [
         (AVAILABLE, "Available"),
         (BOOKED, "Booked"),
         (RESERVED, "Reserved"),
+        (ONHOLD, "Onhold"),
     ]
 
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name="seats")
+    passenger = models.ForeignKey(
+        "orders.Passenger", on_delete=models.CASCADE, related_name="seats", null=True
+    )
     seat_number = models.PositiveIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(60)]
     )

@@ -6,11 +6,12 @@ from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
 
-from trips.models import Trip
-
 
 class Order(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    passengers = models.ManyToManyField("Passenger", related_name="orders")
+
     name = models.CharField(max_length=50)
     email = models.EmailField(help_text=_("We'll email the ticket to this email id."))
     residence = CountryField(
@@ -18,6 +19,7 @@ class Order(models.Model):
         help_text=_("This helps us to show you the best payment options."),
     )  # type: ignore
     paid = models.BooleanField(default=False)
+
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -40,15 +42,13 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     """
-    Our central model which connects all other models (Order, Trip & Passenger)
-
-    One Order -> Many OrderItem + Many Passenger
-    One Trip  -> Many OrderItem
+    The intermediate `through` model between a Trip and an Order
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
-    trip = models.ForeignKey(Trip, related_name="order_items", on_delete=models.CASCADE)
+    order = models.ForeignKey("Order", related_name="items", on_delete=models.CASCADE)
+    trip = models.ForeignKey(
+        "trips.Trip", related_name="order_items", on_delete=models.CASCADE
+    )
 
     # Veer you might want to use the trip price directly as we would not want to use
     # a price saved in session. Session duration could be in days!
@@ -93,12 +93,6 @@ class Passenger(models.Model):
         ("M", "Male"),
     ]
 
-    order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, related_name="passengers"
-    )
-    trip = models.ForeignKey(
-        Trip, on_delete=models.SET_NULL, null=True, related_name="passengers"
-    )
     document_type = models.CharField(
         choices=DOCUMENT_TYPE_CHOICES, max_length=10
     )  # Could this be a foreign key?
@@ -108,6 +102,7 @@ class Passenger(models.Model):
     last_name = models.CharField(max_length=50)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     birth_date = models.DateField()  # TODO: add validator for this
+
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,15}$",
         message=_(
@@ -117,7 +112,7 @@ class Passenger(models.Model):
     phone_number = models.CharField(
         validators=[phone_regex], max_length=17
     )  # how to separate country code out?
-    seat_number = models.CharField(max_length=4)
+
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

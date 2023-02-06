@@ -26,6 +26,17 @@ class OrderFactory(factory.django.DjangoModelFactory):
     residence = factory.Faker("country_code")
     paid = factory.Faker("boolean")
 
+    @factory.post_generation
+    def passengers(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of passengers were passed in, use them
+            for passenger in extracted:
+                self.passengers.add(passenger)
+
 
 class OrderItemFactory(factory.django.DjangoModelFactory):
     """
@@ -49,7 +60,6 @@ class PassengerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Passenger
 
-    order = factory.SubFactory(OrderFactory)
     document_type = fuzzy.FuzzyChoice(
         Passenger.DOCUMENT_TYPE_CHOICES[1:], getter=lambda c: c[0]
     )
@@ -62,7 +72,6 @@ class PassengerFactory(factory.django.DjangoModelFactory):
     phone_number = factory.LazyAttribute(
         lambda _: (fake.country_calling_code() + fake.phone_number())[:14]
     )
-    seat_number = factory.LazyAttribute(lambda _: str(fake.random_int(min=1, max=60)))
 
 
 def make_order_data(size=20, trip=None):
@@ -85,8 +94,10 @@ def make_order_data(size=20, trip=None):
         num_passengers = random.randint(1, 5)
 
         # 2. Create random passengers for each order
-        _ = PassengerFactory.create_batch(size=num_passengers, order=order)
-
+        passengers = PassengerFactory.create_batch(size=num_passengers)
+        order.passengers.add(*passengers)
+        order.save()
+        
         # 3. If trip is given build all order items for this trip else use random trips
         if trip:
             _ = OrderItemFactory.create_batch(
