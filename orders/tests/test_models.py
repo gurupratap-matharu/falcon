@@ -10,7 +10,8 @@ class OrderModelTests(TestCase):
     """Test suite for the Order Model"""
 
     def setUp(self) -> None:
-        self.order = OrderFactory()
+        self.passengers = PassengerFactory.create_batch(size=3)
+        self.order = OrderFactory(passengers=self.passengers)
 
     def test_str_representation(self):
         self.assertEqual(str(self.order), f"Order {self.order.id}")  # type: ignore
@@ -26,6 +27,7 @@ class OrderModelTests(TestCase):
         self.assertEqual(order_from_db.email, self.order.email)
         self.assertEqual(order_from_db.residence, self.order.residence)
         self.assertEqual(order_from_db.paid, self.order.paid)
+        self.assertEqual(order_from_db.passengers.count(), len(self.passengers))
 
     def test_order_name_max_length(self):
         order = Order.objects.first()
@@ -87,9 +89,9 @@ class OrderItemModelTests(TestCase):
 
     def setUp(self):
         self.trip = TripFactory()
-        self.order = OrderFactory()
+        self.passengers = PassengerFactory.create_batch(size=2)
+        self.order = OrderFactory(passengers=self.passengers)
         self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
-        self.passengers = PassengerFactory.create_batch(size=2, order=self.order)
 
     def test_string_representation(self):
         self.assertEqual(
@@ -136,9 +138,9 @@ class PassengerModelTests(TestCase):
 
     def setUp(self):
         self.trip = TripFactory()
-        self.order = OrderFactory()
+        self.p1, self.p2 = PassengerFactory.create_batch(size=2)
+        self.order = OrderFactory(passengers=(self.p1, self.p2))
         self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
-        self.p1, self.p2 = PassengerFactory.create_batch(size=2, order=self.order)
 
     def test_string_representation(self):
         self.assertEqual(str(self.p1), f"{self.p1.first_name}")
@@ -156,7 +158,6 @@ class PassengerModelTests(TestCase):
 
         self.assertEqual(Passenger.objects.count(), 1)
 
-        self.assertEqual(p1.order, p1_from_db.order)
         self.assertEqual(p1.document_type, p1_from_db.document_type)
         self.assertEqual(p1.document_number, p1_from_db.document_number)
         self.assertEqual(p1.nationality, p1_from_db.nationality)
@@ -165,7 +166,6 @@ class PassengerModelTests(TestCase):
         self.assertEqual(p1.gender, p1_from_db.gender)
         self.assertEqual(p1.birth_date, p1_from_db.birth_date)
         self.assertEqual(p1.phone_number, p1_from_db.phone_number)
-        self.assertEqual(p1.seat_number, p1_from_db.seat_number)
 
         _ = PassengerFactory()
 
@@ -173,9 +173,11 @@ class PassengerModelTests(TestCase):
 
     def test_first_and_last_name_max_length(self):
         p1 = Passenger.objects.first()
+
         first_name_max_length = p1._meta.get_field(  # type:ignore
             "first_name"
         ).max_length
+
         last_name_max_length = p1._meta.get_field("last_name").max_length  # type:ignore
 
         self.assertEqual(first_name_max_length, 50)
