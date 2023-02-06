@@ -97,7 +97,7 @@ def make_order_data(size=20, trip=None):
         passengers = PassengerFactory.create_batch(size=num_passengers)
         order.passengers.add(*passengers)
         order.save()
-        
+
         # 3. If trip is given build all order items for this trip else use random trips
         if trip:
             _ = OrderItemFactory.create_batch(

@@ -9,9 +9,6 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
-from companies.models import Company
-from orders.models import Order, Passenger
-
 from .exceptions import SeatException, TripException
 from .seat_map import SEAT_MAP
 
