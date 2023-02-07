@@ -9,6 +9,7 @@ from factory import fuzzy
 from faker import Faker
 
 from companies.factories import CompanyFactory
+from orders.factories import PassengerFactory
 from trips.models import Location, Seat, Trip
 from trips.terminals import TERMINALS
 
@@ -106,6 +107,15 @@ class SeatFactory(factory.django.DjangoModelFactory):
     seat_status = fuzzy.FuzzyChoice(Seat.SEAT_STATUS_CHOICES, getter=lambda c: c[0])
 
 
+class SeatWithPassengerFactory(SeatFactory):
+    """
+    Create a `Booked` seat with a passenger assigned to it 💁‍♀️
+    """
+
+    seat_status = Seat.BOOKED
+    passenger = factory.SubFactory(PassengerFactory)
+
+
 def make_trips():
     for terminal in TERMINALS:
         LocationFactory(name=terminal)
@@ -128,6 +138,11 @@ def make_trips():
     # Create seats in each trip
     for trip in trips:
         SeatFactory.reset_sequence(1)
-        _ = SeatFactory.create_batch(size=40, trip=trip)
+
+        # Create some booked seats with a passenger assigned to it
+        _ = SeatWithPassengerFactory.create_batch(size=5, trip=trip)
+
+        # Create random empty seats
+        _ = SeatFactory.create_batch(size=35, trip=trip)
 
     return trips
