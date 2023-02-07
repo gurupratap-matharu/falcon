@@ -117,20 +117,25 @@ class SeatWithPassengerFactory(SeatFactory):
 
 
 def make_trips():
+
+    ORIGIN = "Buenos Aires"
+    DESTINATION = "Mendoza"
+
+    # Create all the terminals
     for terminal in TERMINALS:
         LocationFactory(name=terminal)
 
     # Create our favorite locations
-    buenos_aires = LocationFactory(name="Buenos Aires")
-    mendoza = LocationFactory(name="Mendoza")
+    origin = LocationFactory(name=ORIGIN)
+    destination = LocationFactory(name=DESTINATION)
 
     # Create trips
     trips_random = TripFactory.create_batch(size=10)
     trips_outbound = TripTomorrowFactory.create_batch(
-        size=2, origin=buenos_aires, destination=mendoza
+        size=2, origin=origin, destination=destination
     )
     trips_return = TripDayAfterTomorrowFactory.create_batch(
-        size=2, origin=mendoza, destination=buenos_aires
+        size=2, origin=destination, destination=origin
     )
 
     trips = trips_random + trips_outbound + trips_return
@@ -140,9 +145,9 @@ def make_trips():
         SeatFactory.reset_sequence(1)
 
         # Create some booked seats with a passenger assigned to it
-        _ = SeatWithPassengerFactory.create_batch(size=5, trip=trip)
+        SeatWithPassengerFactory.create_batch(size=5, trip=trip)
 
-        # Create random empty seats
-        _ = SeatFactory.create_batch(size=35, trip=trip)
+        # Create available empty seats
+        SeatFactory.create_batch(size=35, trip=trip, seat_status=Seat.AVAILABLE)
 
     return trips
