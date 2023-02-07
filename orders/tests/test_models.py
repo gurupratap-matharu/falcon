@@ -14,7 +14,7 @@ class OrderModelTests(TestCase):
         self.order = OrderFactory(passengers=self.passengers)
 
     def test_str_representation(self):
-        self.assertEqual(str(self.order), f"Order {self.order.id}")  # type: ignore
+        self.assertEqual(str(self.order), f"{self.order.name}")  # type: ignore
 
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.order._meta.verbose_name_plural), "orders")

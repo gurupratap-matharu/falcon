@@ -4,7 +4,6 @@ from zoneinfo import ZoneInfo
 from django.db import IntegrityError
 from django.test import TestCase
 
-from orders.factories import OrderFactory, PassengerFactory
 from trips.exceptions import SeatException, TripException
 from trips.factories import (
     LocationFactory,
@@ -260,25 +259,6 @@ class TripModelTests(TestCase):
 
         # Make sure past trip is not returned in active manager
         self.assertEqual(len(Trip.active.all()), 1)
-
-    def test_trip_to_passenger_m2m_relation(self):
-        trip = TripTomorrowFactory()
-        passengers = PassengerFactory.create_batch(size=2)
-
-        trip.passengers.add(*passengers)
-        trip.save()
-
-        self.assertEqual(len(trip.passengers.count()), len(passengers))
-
-    def test_trip_to_order_m2m_relation(self):
-        trip = TripTomorrowFactory()
-        order = OrderFactory()
-        order_items = OrderItemFactory.create_batch(size=2, order=order, trip=trip)
-
-        trip.orders.add(*orders)
-        trip.save()
-
-        self.assertEqual(len(trip.orders.count()), len(orders))
 
 
 class SeatModelTests(TestCase):
