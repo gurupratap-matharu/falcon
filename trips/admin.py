@@ -7,13 +7,23 @@ class TripOrderInline(admin.TabularInline):
     model = Trip.orders.through
     extra = 0
     can_delete = False
+    readonly_fields = (
+        "order",
+        "quantity",
+        "price",
+    )
 
 
 class PassengerSeatInline(admin.TabularInline):
     model = Trip.passengers.through
-
     extra = 0
     can_delete = False
+    readonly_fields = (
+        "seat_number",
+        "seat_status",
+        "passenger",
+        "seat_type",
+    )
 
 
 @admin.register(Location)
@@ -45,9 +55,8 @@ class TripAdmin(admin.ModelAdmin):
         "mode",
         "seats_available",
     )
-
     list_filter = ("departure", "status")
-    list_editable = (("status"),)
+    list_editable = ("status",)
     prepopulated_fields = {"slug": ("name",)}
     raw_id_fields = ("origin", "destination", "company")
     date_hierarchy = "departure"
@@ -55,3 +64,8 @@ class TripAdmin(admin.ModelAdmin):
         TripOrderInline,
         PassengerSeatInline,
     ]
+
+
+admin.site.site_header = "Falcon Admin"
+admin.site.site_title = "Falcon Admin Portal"
+admin.site.index_title = "Welcome to Falcon Admin Portal"
