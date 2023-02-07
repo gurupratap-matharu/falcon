@@ -2,6 +2,10 @@ from django.contrib import admin
 
 from .models import Location, Trip
 
+admin.site.site_header = "Falcon 🚌"
+admin.site.site_title = "Falcon Admin Portal"
+admin.site.index_title = "Welcome to Falcon Admin Portal"
+
 
 class TripOrderInline(admin.TabularInline):
     model = Trip.orders.through
@@ -64,8 +68,3 @@ class TripAdmin(admin.ModelAdmin):
         TripOrderInline,
         PassengerSeatInline,
     ]
-
-
-admin.site.site_header = "Falcon Admin"
-admin.site.site_title = "Falcon Admin Portal"
-admin.site.index_title = "Welcome to Falcon Admin Portal"
