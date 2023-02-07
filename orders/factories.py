@@ -4,8 +4,6 @@ import factory
 from factory import fuzzy
 from faker import Faker
 
-from trips.factories import TripFactory
-
 from .models import Order, OrderItem, Passenger
 
 fake = Faker()
@@ -47,7 +45,8 @@ class OrderItemFactory(factory.django.DjangoModelFactory):
         model = OrderItem
 
     order = factory.SubFactory(OrderFactory)
-    trip = factory.SubFactory(TripFactory)
+    # We provide dotted path to another factory to avoid circular import error
+    trip = factory.SubFactory("trips.factories.TripFactory")
     price = factory.Iterator([10, 15, 20])
     quantity = factory.Faker("random_int", min=1, max=5)
 

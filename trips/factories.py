@@ -9,7 +9,6 @@ from factory import fuzzy
 from faker import Faker
 
 from companies.factories import CompanyFactory
-from orders.factories import PassengerFactory
 from trips.models import Location, Seat, Trip
 from trips.terminals import TERMINALS
 
@@ -113,7 +112,8 @@ class SeatWithPassengerFactory(SeatFactory):
     """
 
     seat_status = Seat.BOOKED
-    passenger = factory.SubFactory(PassengerFactory)
+    # We provide dotted path for passenger factory to avoid circular import error
+    passenger = factory.SubFactory("orders.factories.PassengerFactory")
 
 
 def make_trips():
