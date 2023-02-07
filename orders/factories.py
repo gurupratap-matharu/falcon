@@ -89,8 +89,8 @@ def make_order_data(size=20, trip=None):
 
         # Each order can have only forward trip (1) or both forward and return trip (2)
         # Each order can have between 1-5 passengers
-        num_trips = random.randint(1, 2)
-        num_passengers = random.randint(1, 5)
+        num_trips = random.randint(1, 2)  # nosec
+        num_passengers = random.randint(1, 5)  # nosec
 
         # 2. Create random passengers for each order
         passengers = PassengerFactory.create_batch(size=num_passengers)
