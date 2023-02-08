@@ -1,11 +1,9 @@
 import logging
 from typing import Any, Dict
-import pdb
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
-from trips.models import Seat
 from cart.cart import Cart
 
 from .forms import OrderForm, PassengerForm
@@ -95,7 +93,7 @@ class OrderCreateView(CreateView):
                 logger.info("veer created order_item(📝): %s", order_item)
 
                 # 5. Mark the seats for hold for each trip
-                
+
                 seat_numbers = self.request.POST.get(f"seats{trip.id}", "")
                 seat_numbers = [s.strip() for s in seat_numbers.split(",")]
 
