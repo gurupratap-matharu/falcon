@@ -5,16 +5,20 @@ from trips.admin import TripOrderInline
 from .models import Order, OrderItem, Passenger
 
 
-class OrderPassengerInline(admin.StackedInline):
+class OrderPassengerInline(admin.TabularInline):
     model = Order.passengers.through
-    readonly_fields = ("passenger",)
+    readonly_fields = (
+        "order",
+        "passenger",
+    )
     extra = 0
     can_delete = False
 
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("order", "trip", "quantity", "price", "seats")
+    readonly_fields = ("order", "trip", "price")
 
 
 @admin.register(Order)

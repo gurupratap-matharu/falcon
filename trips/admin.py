@@ -16,6 +16,7 @@ class TripOrderInline(admin.TabularInline):
         "order",
         "quantity",
         "price",
+        "seats",
     )
 
 

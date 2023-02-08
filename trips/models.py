@@ -161,6 +161,19 @@ class Trip(models.Model):
             seat_status=Seat.ONHOLD
         )
 
+    def book_seats_with_passengers(
+        self, seat_numbers: list[str] | list[int], passengers
+    ):
+        """Update seat status to Booked and link a passenger to it"""
+
+        if not seat_numbers:
+            raise TripException("veer no seat numbers received 💺💥💺")
+
+        if not passengers:
+            raise TripException("veer no passengers received ��👭")
+
+        raise NotImplementedError("Yet to be implemented")
+
     def get_booked_seats(self):
         """Get list of booked seats for populating seatchart.js"""
 
