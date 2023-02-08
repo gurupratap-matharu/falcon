@@ -110,27 +110,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="text-danger">{{ form.seat_number.errors }}</div>
-                                        <div class="input-group">
-                                            <span class="input-group-text z-index-0">💺</span>
-                                            {{ form.seat_number }}
-                                        </div>
-                                        <div class="form-text ms-2">
-                                            <small>{{ form.seat_number.help_text|safe }}</small>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
                 <div class="card mx-3 mt-3 mx-md-0">
                     <div class="card-header pb-0">
-                        <h5>
-                            Your Contact Information
-                        </h5>
+                        <h5>Your Contact Information</h5>
                     </div>
                     <div class="card-body">
                         {{ form.non_field_errors }}
