@@ -151,6 +151,16 @@ class Trip(models.Model):
         else:
             seat.book()
 
+    def hold_seats(self, seat_numbers: list[str] | list[int]):
+        """Update seat status to hold"""
+
+        if not seat_numbers:
+            logger.warn("veer no seat numbers received 💣💥💣")
+
+        return self.seats.filter(seat_number__in=seat_numbers).update(
+            seat_status=Seat.ONHOLD
+        )
+
     def get_booked_seats(self):
         """Get list of booked seats for populating seatchart.js"""
 

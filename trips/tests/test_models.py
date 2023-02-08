@@ -260,6 +260,30 @@ class TripModelTests(TestCase):
         # Make sure past trip is not returned in active manager
         self.assertEqual(len(Trip.active.all()), 1)
 
+    def test_trip_can_mark_seats_for_hold_correctly(self):
+        Trip.objects.all().delete()
+
+        # Make a trip with two available seats
+        trip = TripTomorrowFactory()
+        seat_1, seat_2 = SeatFactory.create_batch(
+            size=2, seat_status=Seat.AVAILABLE, trip=trip
+        )
+
+        # Make sure initially they are available
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+
+        # Get list of seat numbers for our trip eg: [1, 2] and mark them for hold
+        seat_numbers = [seat_1.seat_number, seat_2.seat_number]
+        trip.hold_seats(seat_numbers)
+
+        seat_1.refresh_from_db()
+        seat_2.refresh_from_db()
+
+        # Verify that their status is set to ONHOLD
+        self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
+        self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
+
 
 class SeatModelTests(TestCase):
     """Test suite for the Seat Model"""
