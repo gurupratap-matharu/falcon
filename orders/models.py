@@ -53,6 +53,7 @@ class OrderItem(models.Model):
     # Veer you might want to use the trip price directly as we would not want to use
     # a price saved in session. Session duration could be in days!
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Delete this?
+    seats = models.CharField(max_length=20)
     quantity = models.PositiveSmallIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
