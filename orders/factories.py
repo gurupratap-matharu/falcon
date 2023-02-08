@@ -99,11 +99,15 @@ def make_order_data(size=20, trip=None):
 
         # 3. If trip is given build all order items for this trip else use random trips
         if trip:
-            _ = OrderItemFactory.create_batch(
-                size=num_trips, order=order, quantity=num_passengers, trip=trip
+            OrderItemFactory.create_batch(
+                size=num_trips,
+                order=order,
+                quantity=num_passengers,
+                trip=trip,
+                price=trip.price,
             )
         else:
-            _ = OrderItemFactory.create_batch(
+            OrderItemFactory.create_batch(
                 size=num_trips, order=order, quantity=num_passengers
             )
 
