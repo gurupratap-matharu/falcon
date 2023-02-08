@@ -5,12 +5,9 @@ from trips.admin import TripOrderInline
 from .models import Order, OrderItem, Passenger
 
 
-class OrderPassengerInline(admin.TabularInline):
+class OrderPassengerInline(admin.StackedInline):
     model = Order.passengers.through
-    readonly_fields = (
-        "passenger",
-        "order",
-    )
+    readonly_fields = ("passenger",)
     extra = 0
     can_delete = False
 
