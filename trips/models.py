@@ -2,6 +2,7 @@ import datetime
 import logging
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
@@ -118,6 +119,13 @@ class Trip(models.Model):
 
     objects = models.Manager()
     active = ActiveManager()
+
+    def clean(self):
+        # Don't allow arrival date to be less than departure date
+        if self.arrival < self.departure:
+            raise ValidationError(
+                {"arrival": _("Arrival date cannot be less than departure date")}
+            )
 
     def __str__(self):
         """
