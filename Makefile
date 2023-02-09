@@ -52,14 +52,17 @@ migrations-check:
 	python manage.py makemigrations --check --dry-run
 
 isort:
-	isort $(APP_LIST)
+	poetry run isort . --check-only --profile black
 
-lint: isort
-	flake8 $(APP_LIST)
+format:
+	poetry run black . --check 
+
+lint: isort format
+	poetry run flake8 .
 
 test: migrations-check
-	python -Wa manage.py test -v 2
+	python -Wa manage.py test
 
-ci: lint test
+ci: lint
 	coverage run --source='.' manage.py test
 	coverage html
