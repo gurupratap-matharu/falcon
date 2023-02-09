@@ -12,4 +12,7 @@ urlpatterns = [
     path("fail/", views.PaymentFailView.as_view(), name="fail"),
     path("cancel/", views.PaymentCancelView.as_view(), name="cancel"),
     path("webhooks/stripe/", views.stripe_webhook, name="stripe-webhook"),
+    path(
+        "webhooks/mercadopago/", views.mercadopago_webhook, name="mercadopago_webhook"
+    ),
 ]

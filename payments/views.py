@@ -6,7 +6,7 @@ from typing import Any, Dict
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
@@ -14,6 +14,8 @@ from django.views.generic import TemplateView
 
 import mercadopago
 import stripe
+
+from orders.models import Order
 
 logger = logging.getLogger(__name__)
 
@@ -25,13 +27,25 @@ class PaymentView(TemplateView):
     """A simple view that shows all payment options for our project"""
 
     template_name: str = "payments/payment.html"
+    order = None
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        if self.request.GET:
-            self.request.session["order"] = self.request.GET
-            logger.info("Veer storing order data in session: %s " % self.request.GET)
+        context["order"] = self.order = get_object_or_404(
+            Order, id=self.request.session["order"]
+        )
+        context["preference"] = self.get_mercado_pago_preference()
+        context["mp_public_key"] = settings.MP_PUBLIC_KEY
 
+        logger.info("veer retrieved order(👩🏻‍⚖️) from session as: %s", self.order)
+
+        return context
+
+    def get_mercado_pago_preference(self):
+        """Get reponse from Mercado Pago for preference (item) data."""
+
+        order = self.order
+        unit_price = float(order.get_total_cost() / 1000)  # <-- Minimizing this for MP
         current_site = get_current_site(self.request)
 
         back_url_success = "http://%s%s" % (
@@ -42,40 +56,45 @@ class PaymentView(TemplateView):
             current_site.domain,
             reverse_lazy("payments:fail"),
         )
-
         picture_url = "http://%s%s" % (
             current_site.domain,
             static("assets/img/bus/bus4.jpg"),
+        )
+        notification_url = "http://%s%s" % (
+            current_site.domain,
+            reverse_lazy("payments:mercadopago_webhook"),
         )
 
         logger.info("Veer back_url_success: %s", back_url_success)
         logger.info("Veer back_url_failure: %s", back_url_failure)
         logger.info("Veer picture_url: %s", picture_url)
+        logger.info("Veer notification_url: %s", notification_url)
 
         # Create mercado page preference
+        # veer we use quantity as always 1 with full order price 😉
         preference_data = {
             "items": [
                 {
-                    "id": "Trip-id-1234",
-                    "title": "My Bus ticket",
+                    "id": str(order.id),
+                    "title": "My Bus ticket",  # <-- could be customized
                     "currency_id": "ARS",
                     "quantity": 1,
                     "picture_url": picture_url,
-                    "description": "BUE - MZA Cama Tommorow Night",
-                    "category_id": "Andesmar",
-                    "unit_price": 1.23,
+                    "description": "Bus Ticket",  # <-- could be customized
+                    "category_id": str(order.id),  # <-- could be trip id?
+                    "unit_price": unit_price,
                 }
             ],
             "payer": {
-                "name": "Juan",
-                "surname": "Lopez",
-                "email": "juan.lopez@email.com",
+                "name": order.name,
+                "surname": "",
+                "email": order.email,
                 "phone": {"area_code": "11", "number": "4444-4444"},
                 "identification": {"type": "DNI", "number": "12345678"},
                 "address": {
-                    "street_name": "Street",
-                    "street_number": 123,
-                    "zip_code": "5700",
+                    "street_name": "Uspallata",
+                    "street_number": 471,
+                    "zip_code": "1096",
                 },
             },
             "back_urls": {
@@ -84,19 +103,18 @@ class PaymentView(TemplateView):
                 "pending": "",
             },
             "auto_return": "approved",
-            "notification_url": "https://webhook.site/a40b5b6a-26a9-4261-9a2c-1b9b7fa9fb85",  # temporary webhook
+            "notification_url": notification_url,
             "statement_descriptor": "Falcon",
-            "external_reference": "Reference_1234",
+            "external_reference": str(order.id),
             "binary_mode": True,
         }
 
         logger.info("veer mercado pago preference_data: %s", preference_data)
 
-        preference_response = mercado_pago.preference().create(preference_data)
+        preference = mercado_pago.preference().create(preference_data)
 
-        context["preference"] = preference_response["response"]
-        context["mp_public_key"] = settings.MP_PUBLIC_KEY
-        return context
+        logger.info("veer mercado pago preference response(💰): %s", preference)
+        return preference["response"]
 
 
 class CheckoutView(TemplateView):
@@ -209,5 +227,21 @@ def stripe_webhook(request):
         # TODO: run some custom code here
         # Saving a copy of the order in your own database.
         # Sending the customer a receipt email.
+
+    return HttpResponse(status=HTTPStatus.OK)
+
+
+@csrf_exempt
+def mercadopago_webhook(request):
+    """
+    Our internal webhook to receive payment updates from mercado pago.
+
+    A confirmation on this hook is a guarantee that the payment is successful.
+    # TODO: May be store the confirmation data in a model or email
+    """
+
+    payload = request.body
+
+    logger.info("veer mercadopago webhook says:%s", payload)
 
     return HttpResponse(status=HTTPStatus.OK)

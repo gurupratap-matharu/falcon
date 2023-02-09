@@ -31,7 +31,7 @@
                                     <h6 class="text-center mb-0">Debit Card</h6>
                                     <span class="text-xs">ARS</span>
                                     <hr class="horizontal dark my-3">
-                                    <h5 class="mb-0">$15700</h5>
+                                    <h5 class="mb-0">${{ order.get_total_cost }}</h5>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                                     <h6 class="text-center mb-0">Credit Card</h6>
                                     <span class="text-xs">ARS</span>
                                     <hr class="horizontal dark my-3">
-                                    <h5 class="mb-0">$15700</h5>
+                                    <h5 class="mb-0">${{ order.get_total_cost }}</h5>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                                         <h6 class="text-center mb-0">Mercado Pago</h6>
                                         <span class="text-xs">ARS</span>
                                         <hr class="horizontal dark my-3">
-                                        <h5 class="mb-0">+$15700</h5>
+                                        <h5 class="mb-0">+${{ order.get_total_cost }}</h5>
                                     </div>
                                 </div>
                             </a>
@@ -82,7 +82,7 @@
                                     <h6 class="text-center mb-0">Paypal</h6>
                                     <span class="text-xs">USD</span>
                                     <hr class="horizontal dark my-3">
-                                    <h5 class="mb-0">$45.00</h5>
+                                    <h5 class="mb-0">${{ order.get_total_cost_usd }}</h5>
                                 </div>
                             </div>
                         </div>
