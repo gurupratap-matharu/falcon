@@ -40,8 +40,8 @@ class Location(models.Model):
         logger.info(
             "LocationModel: slugifying %s: %s" % (instance.name, slugify(instance.name))
         )
-        # if not instance.slug:
-        #     instance.slug = slugify(self.name)
+        if not instance.slug:
+            instance.slug = slugify(self.name)
 
     def __str__(self):
         return self.name
@@ -227,6 +227,11 @@ class Trip(models.Model):
         """Whether the departure is due within a day"""
         return self.departure <= timezone.now() + datetime.timedelta(days=1)
 
+    @property
+    def is_running(self) -> bool:
+        """Is the trip currently in transit"""
+        return self.departure < timezone.now() < self.arrival
+
 
 class Seat(models.Model):
     CAMA = "C"
@@ -274,12 +279,12 @@ class Seat(models.Model):
     def book(self):
         """Mark a seat as booked only if its available."""
 
-        if self.seat_status == Seat.AVAILABLE:
-            logger.info("booking seat: %s", self)
-            self.seat_status = Seat.BOOKED
-            self.save()
-        else:
+        if not self.seat_status == Seat.AVAILABLE:
             raise SeatException(
                 "Seat %s has status %s and cannot be booked!"
                 % (self.seat_number, self.get_seat_status_display())  # type:ignore
             )
+
+        logger.info("booking seat: %s", self)
+        self.seat_status = Seat.BOOKED
+        self.save()

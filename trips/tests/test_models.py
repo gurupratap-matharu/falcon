@@ -1,8 +1,11 @@
 import datetime
+from datetime import timedelta
 from zoneinfo import ZoneInfo
 
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
+from django.utils import timezone
 
 from trips.exceptions import SeatException, TripException
 from trips.factories import (
@@ -283,6 +286,15 @@ class TripModelTests(TestCase):
         # Verify that their status is set to ONHOLD
         self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
         self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
+
+    def test_trip_arrival_date_cannot_be_before_departure_date(self):
+        departure = timezone.now()
+        arrival = timezone.now() - timedelta(days=1)
+
+        trip = TripFactory(departure=departure, arrival=arrival)
+
+        with self.assertRaises(ValidationError):
+            trip.full_clean()  # type:ignore
 
 
 class SeatModelTests(TestCase):
