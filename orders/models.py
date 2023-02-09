@@ -41,6 +41,13 @@ class Order(models.Model):
 
         return sum(item.get_cost() for item in self.items.all())  # type: ignore
 
+    def get_total_cost_usd(self):
+        """Calculate the order cost in USD"""
+
+        return (
+            self.get_total_cost() / 150
+        )  # <-- Configure this to be automatically pulled via live exchange rate
+
 
 class OrderItem(models.Model):
     """

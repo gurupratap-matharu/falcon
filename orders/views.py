@@ -112,6 +112,8 @@ class OrderCreateView(CreateView):
 
             # 6. redirect to payment
 
+            self.request.session["order"] = str(order.id)
+
             return response
 
         else:

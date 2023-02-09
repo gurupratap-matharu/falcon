@@ -1,4 +1,8 @@
+import datetime
+from datetime import timedelta
+
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.test import TestCase
 
 from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
@@ -187,3 +191,9 @@ class PassengerModelTests(TestCase):
         ordering = self.p1._meta.ordering[0]  # type:ignore
 
         self.assertEqual(ordering, "-created_on")
+
+    def test_passenger_birth_date_cannot_be_in_the_future(self):
+        tomorrow = datetime.date.today() + timedelta(days=1)
+
+        with self.assertRaises(IntegrityError):
+            PassengerFactory(birth_date=tomorrow)
