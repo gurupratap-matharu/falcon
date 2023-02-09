@@ -1,7 +1,9 @@
+import datetime
 import uuid
 
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
@@ -121,6 +123,12 @@ class Passenger(models.Model):
         ordering = ["-created_on"]
         indexes = [
             models.Index(fields=["-created_on"]),
+        ]
+        constraints = [
+            models.CheckConstraint(
+                name="birth_date_not_in_future",
+                check=Q(birth_date__lt=datetime.date.today()),
+            )
         ]
 
     def __str__(self):
