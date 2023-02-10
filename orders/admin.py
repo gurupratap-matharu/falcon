@@ -26,7 +26,6 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "residence", "paid", "created_on")
     exclude = ("passengers",)
     list_filter = ("paid", "created_on", "updated_on")
-    readonly_fields = ("name", "email", "residence", "paid")
     inlines = [
         OrderPassengerInline,
         TripOrderInline,
