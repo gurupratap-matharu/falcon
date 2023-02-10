@@ -1,6 +1,10 @@
+import logging
+
 from django import forms
 
 from .models import Order, Passenger
+
+logger = logging.getLogger(__name__)
 
 
 class OrderForm(forms.ModelForm):
@@ -17,6 +21,26 @@ class OrderForm(forms.ModelForm):
             ),
             "residence": forms.Select(attrs={"class": "form-select"}),
         }
+
+    def clean_name(self):
+        """Make sure order name is title case"""
+
+        raw_name = self.cleaned_data["name"]
+        cleaned_name = raw_name.title()
+
+        logger.info("OrderForm: cleaning name: %s -> %s" % (raw_name, cleaned_name))
+
+        return cleaned_name
+
+    def clean_email(self):
+        """Make sure order email is lower case"""
+
+        raw_email = self.cleaned_data["email"]
+        cleaned_email = raw_email.lower()
+
+        logger.info("OrderForm: cleaning email: %s -> %s" % (raw_email, cleaned_email))
+
+        return cleaned_email
 
 
 class PassengerForm(forms.ModelForm):
