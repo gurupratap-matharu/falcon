@@ -1,12 +1,12 @@
-import datetime
 import uuid
 
-from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
+
+from .validators import validate_birth_date
 
 
 class Order(models.Model):
@@ -112,7 +112,7 @@ class Passenger(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
-    birth_date = models.DateField()  # TODO: add validator for this
+    birth_date = models.DateField(validators=[validate_birth_date])
 
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,15}$",
@@ -132,11 +132,6 @@ class Passenger(models.Model):
         indexes = [
             models.Index(fields=["-created_on"]),
         ]
-
-    def save(self, *args, **kwargs):
-        if self.birth_date > datetime.date.today():
-            raise ValidationError("Birth date cannot be in the future!")
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.first_name}"
