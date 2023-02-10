@@ -1,9 +1,9 @@
 import datetime
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
-from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
@@ -132,6 +132,11 @@ class Passenger(models.Model):
         indexes = [
             models.Index(fields=["-created_on"]),
         ]
+
+    def save(self, *args, **kwargs):
+        if self.birth_date > datetime.date.today():
+            raise ValidationError("Birth date cannot be in the future!")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.first_name}"
