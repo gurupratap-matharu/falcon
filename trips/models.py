@@ -124,7 +124,13 @@ class Trip(models.Model):
         # Don't allow arrival date to be less than departure date
         if self.arrival < self.departure:
             raise ValidationError(
-                {"arrival": _("Arrival date cannot be less than departure date")}
+                {
+                    "arrival": _(
+                        "Arrival date: %(arrival)s cannot be less than departure date: %(departure)s"
+                    )
+                },
+                code="invalid",
+                params={"arrival": self.arrival, "departure": self.departure},
             )
 
     def __str__(self):
