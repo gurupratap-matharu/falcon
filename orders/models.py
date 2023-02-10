@@ -132,12 +132,6 @@ class Passenger(models.Model):
         indexes = [
             models.Index(fields=["-created_on"]),
         ]
-        constraints = [
-            models.CheckConstraint(
-                name="birth_date_not_in_future",
-                check=Q(birth_date__lt=datetime.date.today()),
-            )
-        ]
 
     def __str__(self):
         return f"{self.first_name}"
