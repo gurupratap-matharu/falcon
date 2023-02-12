@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
@@ -7,6 +8,8 @@ from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 
 from .validators import validate_birth_date
+
+logger = logging.getLogger(__name__)
 
 
 class Order(models.Model):
@@ -48,6 +51,27 @@ class Order(models.Model):
         return round(
             cost_usd, 2
         )  # <-- Configure this to be automatically pulled via live exchange rate
+
+    def confirm(self):
+        """
+        - Mark an order as paid
+        - Link a payment transaction id with the order instance
+        - Mark all seats in each order item as Booked
+        """
+
+        passengers = self.passengers.all()
+
+        for order_item in self.items.all():  # type:ignore
+
+            order_item.trip.book_seats_with_passengers(
+                seat_numbers=order_item.seats, passengers=passengers
+            )
+
+        logger.info("marking order %s as paid...(💰)" % self)
+        self.paid = True
+        self.save()
+
+        return self
 
 
 class OrderItem(models.Model):
