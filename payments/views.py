@@ -174,7 +174,7 @@ class PaymentSuccessView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         mp_data = self.request.GET
 
-        logger.info("mercado pago says (🤝)", mp_data)
+        logger.info("mercado pago says(🤝):%s", mp_data)
 
         # payment_id = mp_data.get("payment_id", "")
         order_id = mp_data.get("external_reference", "")
@@ -266,8 +266,8 @@ def mercadopago_webhook(request):
     # TODO: May be store the confirmation data in a model or email
     """
 
-    payload = request.body
-
-    logger.info("mercadopago webhook(🤝):%s", payload)
+    logger.info("mercadopago webhook request.GET(🤝):%s", request.GET)
+    logger.info("mercadopago webhook request.POST(🤝):%s", request.POST)
+    logger.info("mercadopago webhook request.body(🤝):%s", request.body)
 
     return HttpResponse(status=HTTPStatus.OK)
