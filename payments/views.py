@@ -172,6 +172,15 @@ class PaymentSuccessView(TemplateView):
     template_name: str = "payments/payment_success.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        mp_data = self.request.GET
+
+        logger.info("mercado pago says (🤝)", mp_data)
+
+        # payment_id = mp_data.get("payment_id", "")
+        order_id = mp_data.get("external_reference", "")
+        order = get_object_or_404(Order, id=order_id)
+        order.confirm()
+
         # since order is confirmed we remove it from the session
         try:
             del self.request.session["order"]
@@ -259,6 +268,6 @@ def mercadopago_webhook(request):
 
     payload = request.body
 
-    logger.info("veer mercadopago webhook says:%s", payload)
+    logger.info("mercadopago webhook(🤝):%s", payload)
 
     return HttpResponse(status=HTTPStatus.OK)
