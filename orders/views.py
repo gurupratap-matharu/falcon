@@ -42,7 +42,6 @@ class OrderCreateView(CreateView):
             model=Passenger, form=PassengerForm, extra=extra
         )
 
-        # TODO: Add passenger data to session and initialize formset with it
         context["formset"] = PassengerFormset(
             data=self.request.POST or None, queryset=Passenger.objects.none()
         )
@@ -84,7 +83,6 @@ class OrderCreateView(CreateView):
 
                 # Extract seat numbers from POST data and clean them
                 seat_numbers = self.request.POST.get(f"seats{trip.id}", "")
-                seat_numbers = [s.strip() for s in seat_numbers.split(",")]
 
                 # 4. Mark the seats for hold for each trip
                 logger.info(
