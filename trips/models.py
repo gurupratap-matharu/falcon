@@ -169,8 +169,9 @@ class Trip(models.Model):
         """Update seat status to hold"""
 
         if not seat_numbers:
-            logger.warn("veer no seat numbers received 💣💥💣")
+            raise ValidationError("Seat numbers cannot be null 💣💥💣")
 
+        seat_numbers = [s.strip() for s in seat_numbers.split(",")]
         return self.seats.filter(seat_number__in=seat_numbers).update(
             seat_status=Seat.ONHOLD
         )
@@ -181,12 +182,35 @@ class Trip(models.Model):
         """Update seat status to Booked and link a passenger to it"""
 
         if not seat_numbers:
-            raise TripException("veer no seat numbers received 💺💥💺")
+            raise ValidationError("seat numbers cannot be null 💺💥💺")
 
         if not passengers:
-            raise TripException("veer no passengers received ��👭")
+            raise ValidationError("passengers cannot be null ���💥💺�👭💺💥💺")
 
-        raise NotImplementedError("Yet to be implemented")
+        seat_numbers = [s.strip() for s in seat_numbers.split(",")]
+        seats = self.seats.filter(seat_number__in=seat_numbers)
+
+        logger.info("checking these seats...%s", seats)
+
+        # verify that seats count and passenger count match
+        # this is suboptimal logic in my opinion.
+        # TODO: improve this
+        seats_count, passengers_count = seats.count(), passengers.count()
+        if seats_count != passengers_count:
+            raise ValidationError(
+                "Seats count %(seats)s does not match passengers count %(passengers)s",
+                code="invalid",
+                params={"seats": seats_count, "passengers": passengers_count},
+            )
+
+        # TODO: revisit this to improve the query
+        for s, p in zip(seats, passengers):
+            logger.info("allotting 🧑🏻‍🎤:%s -> 💺:%s..." % (p, s))
+            s.seat_status = Seat.BOOKED
+            s.passenger = p
+            s.save()
+
+        return seats
 
     def get_booked_seats(self):
         """Get list of booked seats for populating seatchart.js"""
