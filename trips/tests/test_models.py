@@ -7,6 +7,8 @@ from django.db import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 
+from orders.factories import PassengerFactory
+from orders.models import Passenger
 from trips.exceptions import SeatException, TripException
 from trips.factories import (
     LocationFactory,
@@ -296,6 +298,111 @@ class TripModelTests(TestCase):
 
         with self.assertRaises(ValidationError):
             trip.full_clean()  # type:ignore
+
+    def test_trip_can_book_seats_with_passengers_correctly(self):
+        Trip.objects.all().delete()
+
+        trip = TripTomorrowFactory()
+        seat_1, seat_2 = SeatFactory.create_batch(
+            size=2, trip=trip, seat_status=Seat.AVAILABLE
+        )
+        _ = PassengerFactory.create_batch(size=2)
+        passengers = Passenger.objects.all()
+        seat_numbers = f"{seat_1.seat_number}, {seat_2.seat_number}"
+
+        # Verify seats are available with no passengers assigned
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+        self.assertIsNone(seat_1.passenger)
+        self.assertIsNone(seat_2.passenger)
+
+        # Book the seats with passengers
+        seat_1, seat_2 = trip.book_seats_with_passengers(seat_numbers, passengers)
+
+        self.assertEqual(seat_1.seat_status, Seat.BOOKED)
+        self.assertEqual(seat_2.seat_status, Seat.BOOKED)
+
+        self.assertEqual(seat_1.passenger, passengers[0])
+        self.assertEqual(seat_2.passenger, passengers[1])
+
+    def test_trip_booking_seats_with_no_passengers_raises_valid_error(self):
+        Trip.objects.all().delete()
+
+        trip = TripTomorrowFactory()
+        seat_1, seat_2 = SeatFactory.create_batch(
+            size=2, trip=trip, seat_status=Seat.AVAILABLE
+        )
+        seat_numbers = f"{seat_1.seat_number}, {seat_2.seat_number}"
+
+        # Verify seats are available with no passengers assigned
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+        self.assertIsNone(seat_1.passenger)
+        self.assertIsNone(seat_2.passenger)
+
+        # Book the seats with passengers
+        with self.assertRaises(ValidationError):
+            trip.book_seats_with_passengers(seat_numbers, None)
+
+        # Verify seats are still available with no passengers assigned
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+        self.assertIsNone(seat_1.passenger)
+        self.assertIsNone(seat_2.passenger)
+
+    def test_trip_booking_seats_with_no_seats_raises_valid_error(self):
+        Trip.objects.all().delete()
+
+        trip = TripTomorrowFactory()
+        seat_1, seat_2 = SeatFactory.create_batch(
+            size=2, trip=trip, seat_status=Seat.AVAILABLE
+        )
+
+        _ = PassengerFactory.create_batch(size=2)
+        passengers = Passenger.objects.all()
+
+        seat_numbers = " "  # <-- pass empty seat string
+
+        # Verify seats are available with no passengers assigned
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+        self.assertIsNone(seat_1.passenger)
+        self.assertIsNone(seat_2.passenger)
+
+        # Book the seats with passengers
+        with self.assertRaises(ValidationError):
+            trip.book_seats_with_passengers(seat_numbers, passengers)
+
+        # Verify seats are still available with no passengers assigned
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+        self.assertIsNone(seat_1.passenger)
+        self.assertIsNone(seat_2.passenger)
+
+    def test_trip_booking_mismatched_passengers_and_seats_raises_valid_error(self):
+        Trip.objects.all().delete()
+
+        trip = TripTomorrowFactory()
+        seat_1 = SeatFactory(trip=trip, seat_status=Seat.AVAILABLE)
+
+        _ = PassengerFactory.create_batch(size=2)
+        passengers = Passenger.objects.all()
+
+        seat_numbers = (
+            f"{seat_1.seat_number} "  # <-- pass only one seat for two passengers
+        )
+
+        # Verify seats are available with no passengers assigned
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertIsNone(seat_1.passenger)
+
+        # Book the seats with passengers
+        with self.assertRaises(ValidationError):
+            trip.book_seats_with_passengers(seat_numbers, passengers)
+
+        # Verify seats are still available with no passengers assigned
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertIsNone(seat_1.passenger)
 
 
 class SeatModelTests(TestCase):

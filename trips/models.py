@@ -181,7 +181,7 @@ class Trip(models.Model):
     ):
         """Update seat status to Booked and link a passenger to it"""
 
-        if not seat_numbers:
+        if not seat_numbers.strip():
             raise ValidationError("seat numbers cannot be null 💺💥💺")
 
         if not passengers:
@@ -205,7 +205,7 @@ class Trip(models.Model):
 
         # TODO: revisit this to improve the query
         for s, p in zip(seats, passengers):
-            logger.info("allotting 🧑🏻‍🎤:%s -> 💺:%s..." % (p, s))
+            logger.info("allotting 👩‍🦳 %s: 💺 %s..." % (p, s))
             s.seat_status = Seat.BOOKED
             s.passenger = p
             s.save()
