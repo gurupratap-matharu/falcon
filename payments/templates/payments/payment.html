@@ -21,7 +21,7 @@
                 <div class="col-xl-6 mb-xl-0 mb-4">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card cursor-pointer">
+                            <div class="card cursor-pointer mx-3 mx-md-0">
                                 <div class="card-header mx-4 p-3 text-center">
                                     <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                                         <i class="fas fa-credit-card opacity-10"></i>
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 mt-md-0 mt-4">
-                            <div class="card cursor-pointer">
+                            <div class="card cursor-pointer mx-3 mx-md-0">
                                 <div class="card-header mx-4 p-3 text-center">
                                     <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                                         <i class="fa fa-credit-card opacity-10"></i>
@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{ preference.init_point }}">
-                                <div class="card mp-container cursor-pointer">
+                                <div class="card mp-container cursor-pointer mx-3 mx-md-0">
                                     <div class="card-header mx-4 p-3 text-center">
                                         <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                                             <i class="fas fa-landmark opacity-10"></i>
@@ -72,28 +72,31 @@
                             </a>
                         </div>
                         <div class="col-md-6 mt-md-0 mt-4">
-                            <div class="card cursor-pointer">
-                                <div class="card-header mx-4 p-3 text-center">
-                                    <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
-                                        <i class="fab fa-paypal opacity-10"></i>
+                            <form action="{% url "payments:checkout" %}" method="post" name="checkout-form">
+                                {% csrf_token %}
+                                <div class="card cursor-pointer mx-3 mx-md-0" onClick="document.forms['checkout-form'].submit();">
+                                    <div class="card-header mx-4 p-3 text-center">
+                                        <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                            <i class="fab fa-paypal opacity-10"></i>
+                                        </div>
+                                    </div>
+                                    <div class="card-body pt-0 p-3 text-center">
+                                        <h6 class="text-center mb-0">Non Argentine</h6>
+                                        <span class="text-xs">USD</span>
+                                        <hr class="horizontal dark my-3">
+                                        <h5 class="mb-0">${{ order.get_total_cost_usd }}</h5>
                                     </div>
                                 </div>
-                                <div class="card-body pt-0 p-3 text-center">
-                                    <h6 class="text-center mb-0">Paypal</h6>
-                                    <span class="text-xs">USD</span>
-                                    <hr class="horizontal dark my-3">
-                                    <h5 class="mb-0">${{ order.get_total_cost_usd }}</h5>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 mb-lg-0 mb-4">
-                    <div class="card mt-4">
+                    <div class="card mt-4 mx-3 mx-md-0">
                         <div class="card-header pb-0 p-3">
                             <div class="row">
                                 <div class="col d-flex align-items-center">
-                                    <h6 class="mb-0">Non Argentine Card</h6>
+                                    <h6 class="mb-0">Non Argentine Payments</h6>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +128,6 @@
                                                 </g>
                                                 </g>
                                             </svg>
-                                            Pay
                                         </a>
                                     </div>
                                     <div class="col-3 me-auto px-1">
@@ -159,7 +161,6 @@
                                                 </g>
                                                 </g>
                                             </svg>
-                                            Pay
                                         </a>
                                     </div>
                                 </div>
@@ -167,17 +168,13 @@
                                     <button type="submit" class="btn bg-gradient-info btn-lg" id="checkout-button">Checkout</button>
                                 </div>
                             </form>
-                            <div class="d-flex justify-content-center mt-4">
-                                <a class="btn btn-outline-danger me-3" href="{% url 'payments:fail' %}">Test Payment failure</a>
-                                <a class="btn btn-outline-dark" href="{% url 'payments:success' %}">Test Payment success</a>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card h-100">
+            <div class="card h-100 mx-3 mx-md-0">
                 <div class="card-header pb-0">
                     <h6>Order overview</h6>
                     <p class="text-sm">
@@ -202,9 +199,7 @@
                             </span>
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">To Mendoza</h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    23 DEC 8:05 AM
-                                </p>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">23 DEC 8:05 AM</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -212,9 +207,7 @@
                                 <i class="ni ni-cart text-info text-gradient"></i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Company
-                                </h6>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
                                     Andesmar
                                 </p>
