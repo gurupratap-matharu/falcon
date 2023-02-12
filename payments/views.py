@@ -1,5 +1,4 @@
 import logging
-import secrets
 from http import HTTPStatus
 from typing import Any, Dict
 
@@ -114,24 +113,38 @@ class PaymentView(TemplateView):
 
 
 class CheckoutView(TemplateView):
-    template_name: str = "pages/checkout.html"
+    """
+    Stripe checkout view
+
+    This view actually doesn't render any template. It just receives post data
+    from payment options page and creates a checkout session and redirects to it.
+
+    The user is routed back to our site based on the payment status.
+    """
+
+    template_name: str = "payments/checkout.html"  # <-- veer this is dummy
+
+    def build_abs_url(self, url=None):
+        current_site = get_current_site(self.request)
+        return "http://%s%s" % (current_site.domain, url)
 
     def post(self, request, *args, **kwargs):
-        current_site = get_current_site(self.request)
-        success_url = "http://%s%s" % (
-            current_site.domain,
-            reverse_lazy("payments:success"),
-        )
-        cancel_url = "http://%s%s" % (
-            current_site.domain,
-            reverse_lazy("payments:fail"),
-        )
+        order = get_object_or_404(Order, id=self.request.session["order"])
+        client_reference_id = str(order.id)
+        amount = int(order.get_total_cost_usd() * 100)
+        success_url = self.build_abs_url(url=reverse_lazy("payments:success"))
+        cancel_url = self.build_abs_url(url=reverse_lazy("payments:home"))
 
-        amount = secrets.randbelow(1000)
+        logger.info("stripe retrieved order(👩🏻‍⚖️) from session as: %s", order)
+        logger.info("stripe amount in usd(💵):$%s", amount)
+        logger.info("stripe success_url(🙌):%s", success_url)
+        logger.info("stripe cancel_url(🛑):%s", cancel_url)
 
+        # veer refer to this link
+        # https://stripe.com/docs/api/checkout/sessions/create
         try:
             checkout_session = stripe.checkout.Session.create(
-                customer_email="customer@example.com",
+                customer_email=order.email,
                 line_items=[
                     {
                         "price_data": {
@@ -147,6 +160,7 @@ class CheckoutView(TemplateView):
                 mode="payment",
                 success_url=success_url,
                 cancel_url=cancel_url,
+                client_reference_id=client_reference_id,
             )
         except Exception as e:
             return str(e)
@@ -219,11 +233,11 @@ def stripe_webhook(request):
 
         return HttpResponseBadRequest()
 
-    logger.info("veer following event received: %s", event)
+    logger.info("stripe webhook event(💶): %s", event)
 
     # Handle the checkout.session.completed event
     if event["type"] == "checkout.session.completed":
-        logger.info("Stripe: Payment was successful!!! :D")
+        logger.info("Stripe: Payment is successful!!! :D")
         # TODO: run some custom code here
         # Saving a copy of the order in your own database.
         # Sending the customer a receipt email.
