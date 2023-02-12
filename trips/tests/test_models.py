@@ -77,6 +77,7 @@ class LocationModelTests(TestCase):
         self.assertEqual(ordering, "name")
 
     def test_all_locations_have_unique_slugs(self):
+        Location.objects.all().delete()
         _ = Location.objects.create(name="Mendoza", slug="mendoza")
 
         with self.assertRaises(IntegrityError):
@@ -277,8 +278,8 @@ class TripModelTests(TestCase):
         self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
 
         # Get list of seat numbers for our trip eg: [1, 2] and mark them for hold
-        seat_numbers = [seat_1.seat_number, seat_2.seat_number]
-        trip.hold_seats(seat_numbers)
+        seat_numbers = f"{seat_1.seat_number}, {seat_2.seat_number}"
+        trip.hold_seats(seat_numbers)  # type: ignore
 
         seat_1.refresh_from_db()
         seat_2.refresh_from_db()
