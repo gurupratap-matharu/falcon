@@ -41,34 +41,29 @@ class PaymentView(TemplateView):
 
         return context
 
+    def build_abs_url(self, url=None):
+        current_site = get_current_site(self.request)
+        return "http://%s%s" % (current_site.domain, url)
+
     def get_mercado_pago_preference(self):
         """Get reponse from Mercado Pago for preference (item) data."""
 
         order = self.order
         unit_price = float(order.get_total_cost() / 1000)  # <-- Minimizing this for MP
-        current_site = get_current_site(self.request)
 
-        back_url_success = "http://%s%s" % (
-            current_site.domain,
-            reverse_lazy("payments:success"),
-        )
-        back_url_failure = "http://%s%s" % (
-            current_site.domain,
-            reverse_lazy("payments:fail"),
-        )
-        picture_url = "http://%s%s" % (
-            current_site.domain,
-            static("assets/img/bus/bus4.jpg"),
-        )
-        notification_url = "http://%s%s" % (
-            current_site.domain,
-            reverse_lazy("payments:mercadopago_webhook"),
+        picture_url = self.build_abs_url(url=static("assets/img/bus/bus4.jpg"))
+        success = self.build_abs_url(url=reverse_lazy("payments:success"))
+        failure = self.build_abs_url(url=reverse_lazy("payments:fail"))
+        pending = self.build_abs_url(url=reverse_lazy("payments:pending"))
+        notification_url = self.build_abs_url(
+            url=reverse_lazy("payments:mercadopago_webhook")
         )
 
-        logger.info("Veer back_url_success: %s", back_url_success)
-        logger.info("Veer back_url_failure: %s", back_url_failure)
-        logger.info("Veer picture_url: %s", picture_url)
-        logger.info("Veer notification_url: %s", notification_url)
+        logger.info("mercado pago success: %s", success)
+        logger.info("mercado pago failure: %s", failure)
+        logger.info("mercado pago pending: %s", pending)
+        logger.info("mercado pago picture_url: %s", picture_url)
+        logger.info("mercado pago notification_url: %s", notification_url)
 
         # Create mercado page preference
         # veer we use quantity as always 1 with full order price 😉
@@ -78,33 +73,33 @@ class PaymentView(TemplateView):
                     "id": str(order.id),
                     "title": "My Bus ticket",  # <-- could be customized
                     "currency_id": "ARS",
-                    "quantity": 1,
                     "picture_url": picture_url,
                     "description": "Bus Ticket",  # <-- could be customized
-                    "category_id": str(order.id),  # <-- could be trip id?
+                    "category_id": "Bus Ticket",
+                    "quantity": 1,
                     "unit_price": unit_price,
                 }
             ],
-            "payer": {
-                "name": order.name,
-                "surname": "",
-                "email": order.email,
-                "phone": {"area_code": "11", "number": "4444-4444"},
-                "identification": {"type": "DNI", "number": "12345678"},
-                "address": {
-                    "street_name": "Uspallata",
-                    "street_number": 471,
-                    "zip_code": "1096",
-                },
-            },
+            # "payer": {
+            #     "name": order.name,
+            #     "surname": "",
+            #     "email": order.email,
+            #     "phone": {"area_code": "11", "number": "4444-4444"},
+            #     "identification": {"type": "DNI", "number": "12345678"},
+            #     "address": {
+            #         "street_name": "Uspallata",
+            #         "street_number": 471,
+            #         "zip_code": "1096",
+            #     },
+            # },
             "back_urls": {
-                "success": back_url_success,
-                "failure": back_url_failure,
-                "pending": "",
+                "success": success,
+                "failure": failure,
+                "pending": pending,
             },
             "auto_return": "approved",
             "notification_url": notification_url,
-            "statement_descriptor": "Falcon",
+            "statement_descriptor": "FalconHunt",
             "external_reference": str(order.id),
             "binary_mode": True,
         }
@@ -114,6 +109,7 @@ class PaymentView(TemplateView):
         preference = mercado_pago.preference().create(preference_data)
 
         logger.info("veer mercado pago preference response(💰): %s", preference)
+
         return preference["response"]
 
 
@@ -174,6 +170,10 @@ class PaymentFailView(TemplateView):
         logger.info("veer mercado pago says %s" % self.request.GET)
 
         return super().get_context_data(**kwargs)
+
+
+class PaymentPendingView(TemplateView):
+    template_name: str = "payments/payment_pending.html"
 
 
 class PaymentCancelView(TemplateView):
