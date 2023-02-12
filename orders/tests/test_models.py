@@ -3,7 +3,8 @@ from django.test import TestCase
 
 from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
 from orders.models import Order, OrderItem, Passenger
-from trips.factories import TripFactory
+from trips.factories import SeatFactory, TripFactory, TripTomorrowFactory
+from trips.models import Seat, Trip
 
 
 class OrderModelTests(TestCase):
@@ -82,6 +83,64 @@ class OrderModelTests(TestCase):
         actual = order.get_total_cost()
 
         self.assertEqual(actual, expected)
+
+    def test_confirming_an_order_works(self):
+        """
+        This is a massive test veer where we check the complete order confirmation process.
+        We take the following approach
+
+        Arrange: We build the Order - Passengers | Trip - Seats | Order Items models
+        Act: We put the seats on hold and then finally confirm the order
+        Assert: Finally we verify that seats have correct status (Hold|Booked) and if booked
+        there is a passenger assigned to it.
+
+        """
+
+        # Clear the db
+        Trip.objects.all().delete()
+        Order.objects.all().delete()
+        Passenger.objects.all().delete()
+
+        # Create an unpaid order with two passengers
+        passengers = PassengerFactory.create_batch(size=2)
+        order = OrderFactory(passengers=passengers)
+
+        # Create two trips with two available seats each
+        trips = TripTomorrowFactory.create_batch(size=2)
+        for trip in trips:
+            SeatFactory.reset_sequence(1)
+            SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.AVAILABLE)
+            OrderItemFactory(
+                order=order, trip=trip, quantity=2, price=trip.price, seats="1, 2"
+            )
+
+        # Refresh data from DB
+        trips = Trip.objects.all()
+        p1, p2 = Passenger.objects.all()
+
+        for trip in trips:
+            # Now check that the seats are available
+            not_available_seats = list(trip.seats.exclude(seat_status=Seat.AVAILABLE))
+            self.assertEqual([], not_available_seats)
+
+            # Now check that the seats are on hold
+            trip.hold_seats(seat_numbers="1, 2")
+            not_held_seats = list(trip.seats.exclude(seat_status=Seat.ONHOLD))
+            self.assertEqual([], not_held_seats)
+
+        # Now we confirm the order
+        order.confirm()  # type:ignore
+
+        for trip in trips:
+
+            # Check all seats are booked
+            not_booked_seats = list(trip.seats.exclude(seat_status=Seat.BOOKED))
+            self.assertEqual([], not_booked_seats)
+
+            # Check passenger is assigned to seat
+            assigned_passengers = list(trip.seats.values_list("passenger", flat=True))
+            self.assertIn(p1.id, assigned_passengers)
+            self.assertIn(p2.id, assigned_passengers)
 
 
 class OrderItemModelTests(TestCase):
