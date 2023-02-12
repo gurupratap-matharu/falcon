@@ -172,18 +172,16 @@ class PaymentSuccessView(TemplateView):
     template_name: str = "payments/payment_success.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        logger.info("veer mercado pago says %s" % self.request.GET)
-
+        # since order is confirmed we remove it from the session
+        try:
+            del self.request.session["order"]
+        except KeyError:
+            pass
         return super().get_context_data(**kwargs)
 
 
 class PaymentFailView(TemplateView):
     template_name: str = "payments/payment_fail.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        logger.info("veer mercado pago says %s" % self.request.GET)
-
-        return super().get_context_data(**kwargs)
 
 
 class PaymentPendingView(TemplateView):
@@ -191,12 +189,12 @@ class PaymentPendingView(TemplateView):
 
 
 class PaymentCancelView(TemplateView):
+    """
+    TODO: Not sure about this view and endpoint.
+    Does it makes sense?
+    """
+
     template_name: str = "payments/payment_cancel.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        logger.info("veer mercado pago says %s" % self.request.GET)
-
-        return super().get_context_data(**kwargs)
 
 
 @csrf_exempt
@@ -233,12 +231,17 @@ def stripe_webhook(request):
 
         return HttpResponseBadRequest()
 
-    logger.info("stripe webhook event(💶): %s", event)
-
     # Handle the checkout.session.completed event
     if event["type"] == "checkout.session.completed":
-        logger.info("Stripe: Payment is successful!!! :D")
-        # TODO: run some custom code here
+        logger.info("Stripe: Payment confirmed 💰🤑💰")
+        logger.info("stripe webhook event(💶): %s", event)
+        # We need to send a response to stripe back immediately
+        # So order confirmation (especially if it generates pdf or sends email
+        # should be handled async or outside the scope of this method
+        # TODO: Move order.confirm() outside this method. Just take the order_id from here.
+        order_id = event.data.object.client_reference_id
+        order = get_object_or_404(Order, id=order_id)
+        order.confirm()
         # Saving a copy of the order in your own database.
         # Sending the customer a receipt email.
 
