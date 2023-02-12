@@ -81,7 +81,7 @@ class PassengerForm(forms.ModelForm):
             ),
             "birth_date": forms.TextInput(
                 attrs={
-                    "placeholder": "Date of Birth [mm-dd-yyyy]",
+                    "placeholder": "Date of Birth [mm/dd/yyyy]",
                     "class": "form-control",
                     "required": "required",
                 }
