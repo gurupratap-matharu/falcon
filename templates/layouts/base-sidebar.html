@@ -487,8 +487,8 @@
       {% endblock content %}
 
     </div>
-    {% comment %} Session data {% endcomment %}
     <div class="card card-plain mx-3 mt-3">
+      {% comment %} Session data {% endcomment %}
       <button type="button" class="btn bg-gradient-dark" data-bs-toggle="modal" data-bs-target="#sessionModal">
         Session data
       </button>
@@ -509,9 +509,7 @@
                 </div>
                 <div class="card-body pb-3">
                   {% for k, v in request.session.items %}
-                    <p class="text-muted">
-                      {{ k }} : {{ v }}
-                    </p>
+                    <pre>{{ k }} : {{ v }}</pre>
                   {% endfor %}
                 </div>
               </div>
