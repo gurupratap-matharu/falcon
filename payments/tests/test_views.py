@@ -1,4 +1,3 @@
-import pdb
 from http import HTTPStatus
 
 from django.test import SimpleTestCase, TestCase
