@@ -51,7 +51,7 @@ class PaymentView(TemplateView):
         unit_price = float(order.get_total_cost() / 1000)  # <-- Minimizing this for MP
 
         picture_url = self.build_abs_url(url=static("assets/img/bus/bus4.jpg"))
-        success = self.build_abs_url(url=reverse_lazy("payments:success"))
+        success = self.build_abs_url(url=reverse_lazy("payments:mercadopago_success"))
         failure = self.build_abs_url(url=reverse_lazy("payments:fail"))
         pending = self.build_abs_url(url=reverse_lazy("payments:pending"))
         notification_url = self.build_abs_url(
@@ -172,16 +172,6 @@ class PaymentSuccessView(TemplateView):
     template_name: str = "payments/payment_success.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        mp_response = self.request.GET
-
-        if mp_response:
-            logger.info("mercado pago says(🤝):%s", mp_response)
-
-            # payment_id = mp_data.get("payment_id", "")
-            order_id = mp_response.get("external_reference", "")
-            order = get_object_or_404(Order, id=order_id)
-            order.confirm()
-
         # since order is confirmed we remove it from the session
         try:
             del self.request.session["order"]
@@ -272,3 +262,40 @@ def mercadopago_webhook(request):
     logger.info("mercadopago webhook request.body(🤝):%s", request.body)
 
     return HttpResponse(status=HTTPStatus.OK)
+
+
+def mercadopago_success(request):
+    """
+    Parses the query parameters sent by mercado pago when a payment is succesful
+    and routes to our PaymentSuccess endpoint. By itself this view does not render any template
+    but is just an intermediate processing step.
+
+    This is not a webhook of mercado pago. My understanding is that mercado pago is appending
+    payment response as query params to the `success_url` via GET request.
+
+    At the time of implementation I realise that it might not be safe to show mercado pago
+    payment details right in the query parameters.
+
+    An example of successful query params is like this...
+
+    /payments/success/?collection_id=54650347595&collection_status=approved&payment_id=54650347595&status=approved&external_reference=7a231700-d000-47d0-848b-65ff914a9a3e&payment_type=account_money&merchant_order_id=7712864656&preference_id=1272408260-35ff1ef7-3eb8-4410-b219-4a98ef386ac0&site_id=MLA&processing_mode=aggregator&merchant_account_id=null
+    """
+
+    mercadopago_response = request.GET
+    msg = "mercado pago says(🤝):%s" % mercadopago_response
+    logger.info(msg) if mercadopago_response else logger.warn(msg)
+
+    order_id = mercadopago_response.get("external_reference", "")
+    status = mercadopago_response.get("status", "")
+    # payment_id = mercadopago_response.get("payment_id", "")
+
+    if (status == "approved") and order_id:
+        order = get_object_or_404(Order, id=order_id)
+
+        logger.info(
+            "mercadopago(🤝) payment successful for order:%s so confirming it...", order
+        )
+        order.confirm()
+
+    # TODO:if not get params are passed should we still redirect to success??
+    return redirect(reverse_lazy("payments:success"))
