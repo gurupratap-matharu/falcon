@@ -3,6 +3,7 @@ from timeit import default_timer as timer
 
 from django.conf import settings
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 
 from .models import Order
 
@@ -18,7 +19,7 @@ def order_created(order_id):
     """
     start = timer()
 
-    order = Order.objects.get(id=order_id)
+    order = get_object_or_404(Order, id=order_id)
 
     subject = f"Order nr. {order.id}"
     message = (
@@ -42,7 +43,7 @@ def order_confirmed(order_id):
     """
     start = timer()
 
-    order = Order.objects.get(id=order_id)
+    order = get_object_or_404(Order, id=order_id)
     order.confirm()
 
     subject = f"Your Tickets for Order nr. {order.id}"
