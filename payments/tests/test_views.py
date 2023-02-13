@@ -1,3 +1,4 @@
+import pdb
 from http import HTTPStatus
 
 from django.test import SimpleTestCase, TestCase
@@ -8,8 +9,48 @@ from payments.views import (
     PaymentFailView,
     PaymentPendingView,
     PaymentSuccessView,
+    PaymentView,
     mercadopago_success,
 )
+
+
+class PaymentViewTests(TestCase):
+    """
+    Test suite for the main payment view which shows all payments options and initializes
+    mercado pago sdk.
+    """
+
+    def setUp(self):
+
+        self.url = reverse("payments:home")
+        self.template_name = "payments/payment.html"
+
+    def test_payment_home_page_works_for_valid_order_in_session(self):
+        # create an order and set it in the session as payment view expects it
+        self.order = OrderFactory(paid=False)
+        session = self.client.session
+        session["order"] = str(self.order.id)  # type:ignore
+        session.save()
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Payment")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+    def test_payment_home_page_raises_404_if_order_not_found_in_session(self):
+        # create an order but DO NOT set it in the session
+        self.order = OrderFactory(paid=False)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_payment_home_page_url_resolves_payment_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PaymentView.as_view().__name__)
 
 
 class MercadoPagoSuccessView(TestCase):

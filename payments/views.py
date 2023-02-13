@@ -31,7 +31,7 @@ class PaymentView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["order"] = self.order = get_object_or_404(
-            Order, id=self.request.session["order"]
+            Order, id=self.request.session.get("order")
         )
         context["preference"] = self.get_mercado_pago_preference()
         context["mp_public_key"] = settings.MP_PUBLIC_KEY
@@ -117,7 +117,7 @@ class CheckoutView(TemplateView):
     Stripe checkout view
 
     This view actually doesn't render any template. It just receives post data
-    from payment options page and creates a checkout session and redirects to it.
+    from payment options page and creates a stripe checkout session and redirects to it.
 
     The user is routed back to our site based on the payment status.
     """
