@@ -122,6 +122,7 @@ class CheckoutView(TemplateView):
     The user is routed back to our site based on the payment status.
     """
 
+    http_method_names = ["post"]
     template_name: str = "payments/checkout.html"  # <-- veer this is dummy
 
     def build_abs_url(self, url=None):
@@ -136,7 +137,7 @@ class CheckoutView(TemplateView):
         cancel_url = self.build_abs_url(url=reverse_lazy("payments:home"))
 
         logger.info("stripe retrieved order(👩🏻‍⚖️) from session as: %s", order)
-        logger.info("stripe amount in usd(💵):$%s", amount)
+        logger.info("stripe amount in usd cents(💵):$%s", amount)
         logger.info("stripe success_url(🙌):%s", success_url)
         logger.info("stripe cancel_url(🛑):%s", cancel_url)
 

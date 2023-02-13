@@ -38,6 +38,10 @@ class PaymentViewTests(TestCase):
         self.assertTemplateUsed(response, self.template_name)
         self.assertContains(response, "Payment")
         self.assertNotContains(response, "Hi there! I should not be on this page.")
+        self.assertContains(response, "mp_public_key")
+        self.assertContains(response, "preference")
+        self.assertContains(response, "order")
+        self.assertEqual(response.context["order"], self.order)
 
     def test_payment_home_page_raises_404_if_order_not_found_in_session(self):
         # create an order but DO NOT set it in the session
@@ -192,3 +196,14 @@ class PaymentFailViewTests(SimpleTestCase):
     def test_payment_fail_page_url_resolves_payment_fail_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PaymentFailView.as_view().__name__)
+
+
+class CheckoutViewTests(TestCase):
+    """Test suite for stripe checkout view"""
+
+    def setUp(self):
+        self.url = reverse("payments:checkout")
+
+    def test_checkout_page_is_not_accessible_via_get(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
