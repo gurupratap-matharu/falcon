@@ -172,14 +172,15 @@ class PaymentSuccessView(TemplateView):
     template_name: str = "payments/payment_success.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        mp_data = self.request.GET
+        mp_response = self.request.GET
 
-        logger.info("mercado pago says(🤝):%s", mp_data)
+        if mp_response:
+            logger.info("mercado pago says(🤝):%s", mp_response)
 
-        # payment_id = mp_data.get("payment_id", "")
-        order_id = mp_data.get("external_reference", "")
-        order = get_object_or_404(Order, id=order_id)
-        order.confirm()
+            # payment_id = mp_data.get("payment_id", "")
+            order_id = mp_response.get("external_reference", "")
+            order = get_object_or_404(Order, id=order_id)
+            order.confirm()
 
         # since order is confirmed we remove it from the session
         try:
