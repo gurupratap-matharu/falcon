@@ -53,7 +53,7 @@ class Order(models.Model):
             cost_usd, 2
         )  # <-- Configure this to be automatically pulled via live exchange rate
 
-    def confirm(self):
+    def confirm(self, payment_id=None):
         """
         - Mark an order as paid
         - Link a payment transaction id with the order instance
@@ -70,6 +70,7 @@ class Order(models.Model):
 
         logger.info("marking order %s as paid...(💰)" % self)
         self.paid = True
+        self.payment_id = payment_id
         self.save()
 
         return self
