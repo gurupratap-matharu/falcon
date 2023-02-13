@@ -35,7 +35,7 @@ def order_created(order_id):
     return mail_sent
 
 
-def order_confirmed(order_id):
+def order_confirmed(order_id, payment_id):
     """
     When an order is successfully confirmed / paid we run this flow to
         - book all seats in an order with passengers
@@ -44,7 +44,7 @@ def order_confirmed(order_id):
     start = timer()
 
     order = get_object_or_404(Order, id=order_id)
-    order.confirm()
+    order.confirm(payment_id=payment_id)
 
     subject = f"Your Tickets for Order nr. {order.id}"
     message = (

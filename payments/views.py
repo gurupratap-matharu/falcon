@@ -230,7 +230,8 @@ def stripe_webhook(request):
         logger.info("stripe webhook event(💶): %s", event)
 
         order_id = event.data.object.client_reference_id
-        order_confirmed(order_id=order_id)
+        payment_id = event.data.object.payment_intent
+        order_confirmed(order_id=order_id, payment_id=payment_id)
 
     return HttpResponse(status=HTTPStatus.OK)
 
@@ -273,14 +274,14 @@ def mercadopago_success(request):
     msg = "mercado pago says(🤝):%s" % mercadopago_response
     logger.info(msg) if mercadopago_response else logger.warn(msg)
 
-    order_id = mercadopago_response.get("external_reference", "")
-    status = mercadopago_response.get("status", "")
-    # payment_id = mercadopago_response.get("payment_id", "")
+    order_id = mercadopago_response.get("external_reference")
+    status = mercadopago_response.get("status")
+    payment_id = mercadopago_response.get("payment_id")
 
     if (status == "approved") and order_id:
 
         logger.info("mercadopago(🤝) payment successful!!!")
-        order_confirmed(order_id=order_id)
+        order_confirmed(order_id=order_id, payment_id=payment_id)
 
     # TODO:if not get params are passed should we still redirect to success??
     return redirect(reverse_lazy("payments:success"))
