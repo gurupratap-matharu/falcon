@@ -1,11 +1,15 @@
-import pdb
 from http import HTTPStatus
 
 from django.test import SimpleTestCase, TestCase
 from django.urls import resolve, reverse
 
 from orders.factories import OrderFactory
-from payments.views import PaymentSuccessView, mercadopago_success
+from payments.views import (
+    PaymentFailView,
+    PaymentPendingView,
+    PaymentSuccessView,
+    mercadopago_success,
+)
 
 
 class MercadoPagoSuccessView(TestCase):
@@ -94,6 +98,56 @@ class PaymentSuccessViewTests(SimpleTestCase):
     def test_payment_success_page_does_not_contain_incorrect_html(self):
         self.assertNotContains(self.response, "Hi there! I should not be on this page.")
 
-    def test_payment_success_page_url_resolves_homepageview(self):
+    def test_payment_success_page_url_resolves_payment_success_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PaymentSuccessView.as_view().__name__)
+
+
+class PaymentPendingViewTests(SimpleTestCase):
+    """Test suite for payment pending view"""
+
+    def setUp(self):
+        self.url = reverse("payments:pending")
+        self.response = self.client.get(self.url)
+        self.template_name = "payments/payment_pending.html"
+
+    def test_payment_pending_page_status_code(self):
+        self.assertEqual(self.response.status_code, HTTPStatus.OK)
+
+    def test_payment_pending_page_renders_correct_template(self):
+        self.assertTemplateUsed(self.response, self.template_name)
+
+    def test_payment_pending_page_contains_correct_html(self):
+        self.assertContains(self.response, "Pending")
+
+    def test_payment_pending_page_does_not_contain_incorrect_html(self):
+        self.assertNotContains(self.response, "Hi there! I should not be on this page.")
+
+    def test_payment_pending_page_url_resolves_payment_pending_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PaymentPendingView.as_view().__name__)
+
+
+class PaymentFailViewTests(SimpleTestCase):
+    """Test suite for payment fail view"""
+
+    def setUp(self):
+        self.url = reverse("payments:fail")
+        self.response = self.client.get(self.url)
+        self.template_name = "payments/payment_fail.html"
+
+    def test_payment_fail_page_status_code(self):
+        self.assertEqual(self.response.status_code, HTTPStatus.OK)
+
+    def test_payment_fail_page_renders_correct_template(self):
+        self.assertTemplateUsed(self.response, self.template_name)
+
+    def test_payment_fail_page_contains_correct_html(self):
+        self.assertContains(self.response, "Unsuccessful")
+
+    def test_payment_fail_page_does_not_contain_incorrect_html(self):
+        self.assertNotContains(self.response, "Hi there! I should not be on this page.")
+
+    def test_payment_fail_page_url_resolves_payment_fail_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PaymentFailView.as_view().__name__)
