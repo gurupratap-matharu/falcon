@@ -266,9 +266,7 @@ LOGGING = {
             "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(process)d %(thread)d %(message)s"
         },
         "elegant": {
-            "format": (
-                "%(asctime)s [%(levelname)-8s] " "(%(module)s.%(funcName)s) %(message)s"
-            ),
+            "format": ("%(levelname)-8s" "(%(module)s:%(lineno)d) %(message)s"),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
