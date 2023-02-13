@@ -24,6 +24,7 @@ class Order(models.Model):
         help_text=_("This helps us to show you the best payment options."),
     )  # type: ignore
     paid = models.BooleanField(default=False)
+    payment_id = models.CharField(max_length=250, blank=True)
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
