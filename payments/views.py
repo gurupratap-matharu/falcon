@@ -3,7 +3,6 @@ from http import HTTPStatus
 from typing import Any, Dict
 
 from django.conf import settings
-from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
@@ -42,29 +41,24 @@ class PaymentView(TemplateView):
 
         return context
 
-    def build_abs_url(self, url=None):
-        current_site = get_current_site(self.request)
-        return "http://%s%s" % (current_site.domain, url)
-
     def get_mercado_pago_preference(self):
         """Get reponse from Mercado Pago for preference (item) data."""
 
+        uri = self.request.build_absolute_uri
         order = self.order
         unit_price = float(order.get_total_cost() / 1000)  # <-- Minimizing this for MP
 
-        picture_url = self.build_abs_url(url=static("assets/img/bus/bus4.jpg"))
-        success = self.build_abs_url(url=reverse_lazy("payments:mercadopago_success"))
-        failure = self.build_abs_url(url=reverse_lazy("payments:fail"))
-        pending = self.build_abs_url(url=reverse_lazy("payments:pending"))
-        notification_url = self.build_abs_url(
-            url=reverse_lazy("payments:mercadopago_webhook")
-        )
+        picture_url = uri(static("assets/img/bus/bus4.jpg"))
+        success = uri(reverse_lazy("payments:mercadopago_success"))
+        failure = uri(reverse_lazy("payments:fail"))
+        pending = uri(reverse_lazy("payments:pending"))
+        notification_url = uri(reverse_lazy("payments:mercadopago_webhook"))
 
-        logger.info("mercado pago success: %s", success)
-        logger.info("mercado pago failure: %s", failure)
-        logger.info("mercado pago pending: %s", pending)
-        logger.info("mercado pago picture_url: %s", picture_url)
-        logger.info("mercado pago notification_url: %s", notification_url)
+        logger.info("success: %s", success)
+        logger.info("failure: %s", failure)
+        logger.info("pending: %s", pending)
+        logger.info("picture_url: %s", picture_url)
+        logger.info("notification_url: %s", notification_url)
 
         # Create mercado page preference
         # veer we use quantity as always 1 with full order price 😉
@@ -127,16 +121,13 @@ class CheckoutView(TemplateView):
     http_method_names = ["post"]
     template_name: str = "payments/checkout.html"  # <-- veer this is dummy
 
-    def build_abs_url(self, url=None):
-        current_site = get_current_site(self.request)
-        return "http://%s%s" % (current_site.domain, url)
-
     def post(self, request, *args, **kwargs):
         order = get_object_or_404(Order, id=self.request.session["order"])
         client_reference_id = str(order.id)
         amount = int(order.get_total_cost_usd() * 100)
-        success_url = self.build_abs_url(url=reverse_lazy("payments:success"))
-        cancel_url = self.build_abs_url(url=reverse_lazy("payments:home"))
+
+        success_url = request.build_absolute_uri(reverse_lazy("payments:success"))
+        cancel_url = request.build_absolute_uri(reverse_lazy("payments:home"))
 
         logger.info("stripe retrieved order(👩🏻‍⚖️) from session as: %s", order)
         logger.info("stripe amount in usd cents(💵):$%s", amount)
@@ -216,7 +207,7 @@ def stripe_webhook(request):
     payload = request.body
     event = None
 
-    logger.info("stripe webhook:payload:%s, sig_header:%s", payload, sig_header)
+    # logger.info("stripe webhook:payload:%s, sig_header:%s", payload, sig_header)
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)

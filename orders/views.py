@@ -10,6 +10,7 @@ from cart.cart import Cart
 
 from .forms import OrderForm, PassengerForm
 from .models import OrderItem, Passenger
+from .services import order_created
 
 logger = logging.getLogger(__name__)
 
@@ -108,10 +109,14 @@ class OrderCreateView(CreateView):
 
             logger.info("veer cleared the cart(🛒)...")
 
-            # 6. redirect to payment
+            # 6. Save order.id in session so payments can access it
+            order_id = str(order.id)
+            self.request.session["order"] = order_id
 
-            self.request.session["order"] = str(order.id)
+            # 7. Send order creation email
+            order_created(order_id=order.id)
 
+            # 8. Redirect to payment
             return response
 
         else:
