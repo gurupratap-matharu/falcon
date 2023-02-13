@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
 import mercadopago
@@ -199,6 +200,7 @@ class PaymentCancelView(TemplateView):
 
 
 @csrf_exempt
+@require_POST
 def stripe_webhook(request):
     """
     Our internal webhook registered with stripe which listens for payment
@@ -250,6 +252,7 @@ def stripe_webhook(request):
 
 
 @csrf_exempt
+@require_POST
 def mercadopago_webhook(request):
     """
     Our internal webhook to receive payment updates from mercado pago.
