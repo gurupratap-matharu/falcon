@@ -16,6 +16,7 @@ import mercadopago
 import stripe
 
 from orders.models import Order
+from orders.services import order_confirmed
 
 logger = logging.getLogger(__name__)
 
@@ -207,18 +208,15 @@ def stripe_webhook(request):
     notifications.
 
     A confirmation on this hook is a guarantee that the payment is successful.
-    # TODO: May be store the confirmation data in a model or email
     """
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
     webhook_secret = settings.STRIPE_WEBHOOK_SIGNING_SECRET
-    payload = request.body
     sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+    payload = request.body
     event = None
 
-    logger.info(
-        "veer inside stripe webhook: payload: %s, sig_header: %s", payload, sig_header
-    )
+    logger.info("stripe webhook:payload:%s, sig_header:%s", payload, sig_header)
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
@@ -236,17 +234,12 @@ def stripe_webhook(request):
 
     # Handle the checkout.session.completed event
     if event["type"] == "checkout.session.completed":
+
         logger.info("Stripe: Payment confirmed 💰🤑💰")
         logger.info("stripe webhook event(💶): %s", event)
-        # We need to send a response to stripe back immediately
-        # So order confirmation (especially if it generates pdf or sends email
-        # should be handled async or outside the scope of this method
-        # TODO: Move order.confirm() outside this method. Just take the order_id from here.
+
         order_id = event.data.object.client_reference_id
-        order = get_object_or_404(Order, id=order_id)
-        order.confirm()
-        # Saving a copy of the order in your own database.
-        # Sending the customer a receipt email.
+        order_confirmed(order_id=order_id)
 
     return HttpResponse(status=HTTPStatus.OK)
 
@@ -294,12 +287,9 @@ def mercadopago_success(request):
     # payment_id = mercadopago_response.get("payment_id", "")
 
     if (status == "approved") and order_id:
-        order = get_object_or_404(Order, id=order_id)
 
-        logger.info(
-            "mercadopago(🤝) payment successful for order:%s so confirming it...", order
-        )
-        order.confirm()
+        logger.info("mercadopago(🤝) payment successful!!!")
+        order_confirmed(order_id=order_id)
 
     # TODO:if not get params are passed should we still redirect to success??
     return redirect(reverse_lazy("payments:success"))
