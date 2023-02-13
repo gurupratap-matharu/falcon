@@ -103,7 +103,7 @@ class OrderModelTests(TestCase):
 
         # Create an unpaid order with two passengers
         passengers = PassengerFactory.create_batch(size=2)
-        order = OrderFactory(passengers=passengers)
+        order = OrderFactory(passengers=passengers, paid=False)
 
         # Create two trips with two available seats each
         trips = TripTomorrowFactory.create_batch(size=2)
@@ -129,7 +129,7 @@ class OrderModelTests(TestCase):
             self.assertEqual([], not_held_seats)
 
         # Now we confirm the order
-        order.confirm()  # type:ignore
+        order.confirm(payment_id="test-1234")  # type:ignore
 
         for trip in trips:
 

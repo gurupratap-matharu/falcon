@@ -1,6 +1,7 @@
 import logging
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -59,6 +60,13 @@ class Order(models.Model):
         - Link a payment transaction id with the order instance
         - Mark all seats in each order item as Booked
         """
+
+        if not payment_id:
+            raise ValidationError(
+                "Order: %(order)s cannot be confirmed without a payment_id!",
+                params={"order": self},
+                code="invalid",
+            )
 
         passengers = self.passengers.all()
 
