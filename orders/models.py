@@ -1,6 +1,7 @@
 import logging
 import uuid
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
@@ -82,6 +83,14 @@ class Order(models.Model):
         self.save()
 
         return self
+
+    def get_stripe_url(self):
+        if not self.payment_id:
+            return ""
+
+        path = "/test/" if "_test_" in settings.STRIPE_SECRET_KEY else "/"
+
+        return f"https://dashboard.stripe.com{path}payments/{self.payment_id}"
 
 
 class OrderItem(models.Model):
