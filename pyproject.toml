@@ -25,6 +25,7 @@ psycopg2 = "^2.9.5"
 mercadopago = "^2.2.0"
 stripe = "^5.0.0"
 django-countries = "^7.5"
+weasyprint = "^57.2"
 
 
 [tool.poetry.group.dev.dependencies]
