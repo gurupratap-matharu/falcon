@@ -1,0 +1,89 @@
+{% extends "layouts/base-sidebar.html" %}
+
+{% block title %}
+    Your Order
+{% endblock title %}
+
+{% block breadcrumb %}
+    Order
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    Order
+{% endblock page_title %}
+
+{% block content %}
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Origin</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Destination</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Price</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                        {% with trip=item.trip %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="{{ trip.company.cover.url }}" class="avatar avatar-sm me-3" alt="Trip company logo" />
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">{{ trip.company.name }}</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ trip.origin }}</p>
+                                    <p class="text-xs text-secondary mb-0">{{ trip.departure }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ trip.destination }}</p>
+                                    <p class="text-xs text-secondary mb-0">{{ trip.arrival }}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs font-weight-bold mb-0">{{ item.quantity }}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="font-weight-bold">${{ item.price|floatformat:"-3g" }}</span>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="font-weight-bold">${{ item.total_price|floatformat:"-3g" }}</span>
+                                </td>
+                            </tr>
+                        {% endwith %}
+                    {% empty %}
+                        <tr>
+                            <td class="p-5">
+                                <h5>Order is Empty 🛒</h5>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="align-middle text-center">
+                            <h5>Total</h5>
+                        </td>
+                        <td class="align-middle text-center">
+                            <h5>$ {{ order.get_total_price|floatformat:"-3g" }}</h5>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        <a href="" class="btn btn-lg bg-gradient-primary shadow-xl">Thank You ❤️</a>
+    </div>
+{% endblock content %}
