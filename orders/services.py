@@ -1,9 +1,13 @@
 import logging
+from io import BytesIO
 from timeit import default_timer as timer
 
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage, send_mail
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+
+import weasyprint
 
 from .models import Order
 
@@ -37,23 +41,39 @@ def order_created(order_id):
 
 def order_confirmed(order_id, payment_id):
     """
-    When an order is successfully confirmed / paid we run this flow to
+    When an order is successfully confirmed / paid we
+
         - book all seats in an order with passengers
-        - send an e-mail notification to the payer.
+        - send an invoice via e-mail to the payer.
+
     """
     start = timer()
 
+    # 1 Get the order details and confirm it
     order = get_object_or_404(Order, id=order_id)
     order.confirm(payment_id=payment_id)
 
-    subject = f"Your Tickets for Order nr. {order.id}"
-    message = (
-        f"Dear {order.name},\n\n"
-        f"Your tickets have been booked 🙌.\n"
-        f"Please find them attached."
-    )
-    mail_sent = send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
-    end = timer()
+    # 2 Generate the Email object
+    subject = f"FalconHunt - Invoice no. {order.id}"
+    message = "Please, find attached the invoice for your recent purchase."
+    email = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
 
+    # 3 Create pdf doc using weasy print
+    out = BytesIO()
+    html = render_to_string("orders/order_pdf.html", {"order": order})
+    stylesheets = [weasyprint.CSS(settings.STATIC_ROOT / "assets" / "css" / "pdf.css")]
+
+    weasyprint.HTML(string=html).write_pdf(out, stylesheets)
+
+    # 4 Attach pdf to email object
+    email.attach(
+        filename=f"invoice_{order.name}.pdf",
+        content=out.getvalue(),
+        mimetype="application/pdf",
+    )
+
+    # 5 Send email
+    email.send()
+
+    end = timer()
     logger.info("order_confirmed(🔒) took: %0.2f seconds!" % (end - start))
-    return mail_sent

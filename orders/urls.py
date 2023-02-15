@@ -7,4 +7,10 @@ app_name = "orders"
 urlpatterns = [
     path("", views.OrderView.as_view(), name="home"),
     path("create/", views.OrderCreateView.as_view(), name="order_create"),
+    # custom admin endpoints
+    path(
+        "admin/order/<uuid:order_id>/pdf/",
+        views.admin_order_pdf,
+        name="admin_order_pdf",
+    ),
 ]

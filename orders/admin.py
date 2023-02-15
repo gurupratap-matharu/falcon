@@ -1,13 +1,17 @@
 import csv
 import datetime
+import logging
 
 from django.contrib import admin
 from django.http import HttpResponse
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from trips.admin import TripOrderInline
 
 from .models import Order, OrderItem, Passenger
+
+logger = logging.getLogger(__name__)
 
 
 def export_to_csv(modeladmin, request, queryset):
@@ -70,7 +74,15 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("name", "email", "residence", "paid", "created_on", "order_payment")
+    list_display = (
+        "name",
+        "email",
+        "residence",
+        "paid",
+        "created_on",
+        "order_payment",
+        "order_pdf",
+    )
     exclude = ("passengers",)
     list_filter = ("paid", "created_on", "updated_on")
     inlines = [
@@ -83,6 +95,13 @@ class OrderAdmin(admin.ModelAdmin):
         url = obj.get_stripe_url()
         html = f'<a href="{url}" target="_blank">View</a>' if url else ""
         return mark_safe(html)
+
+    def order_pdf(self, obj):
+        url = reverse("orders:admin_order_pdf", kwargs={"order_id": str(obj.id)})
+        html = f'<a href="{url}" target="_blank" download="{obj.name}">PDF</a>'
+        return mark_safe(html)
+
+    order_pdf.short_description = "Invoice"
 
 
 @admin.register(Passenger)

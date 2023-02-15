@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
-import weasyprint
+from weasyprint import CSS, HTML
 
 from cart.cart import Cart
 
@@ -132,11 +132,14 @@ class OrderCreateView(CreateView):
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    html = render_to_string("orders/order_pdf.html", {"order": order})
+    render = render_to_string("orders/order_pdf.html", {"order": order})
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = f"attachment; filename=order_{order.id}.pdf"
 
-    weasyprint.HTML(string=html).write_pdf(response, stylesheets=None)
+    logger.info("drawing order pdf(🎨)...")
+    stylesheet = CSS(settings.STATIC_ROOT / "assets" / "css" / "pdf.css")
+
+    HTML(string=render).write_pdf(response, stylesheets=[stylesheet])
 
     return response
