@@ -304,6 +304,10 @@ SHELL_PLUS_IMPORTS = [
     "from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory",
 ]
 
+# Simple captcha
+CAPTCHA_IMAGE_SIZE = (200, 80)
+
+
 # Mercado pago
 MP_PUBLIC_KEY = os.getenv("MP_PUBLIC_KEY")
 MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN")
