@@ -4,6 +4,8 @@ from django import forms
 from django.conf import settings
 from django.core.mail import send_mail
 
+from captcha.fields import CaptchaField
+
 logger = logging.getLogger(__name__)
 
 
@@ -12,7 +14,7 @@ class FeedbackForm(forms.Form):
     email = forms.EmailField(
         required=True,
         min_length=10,
-        widget=forms.TextInput(attrs={"placeholder": "Email"}),
+        widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"}),
     )
     message = forms.CharField(
         min_length=20,
@@ -23,9 +25,11 @@ class FeedbackForm(forms.Form):
                 "cols": 80,
                 "rows": 5,
                 "placeholder": "Send us your feedback or report an issue. Please provide as much info as possible. Thank you.",
+                "class": "form-control",
             }
         ),
     )
+    captcha = CaptchaField()
 
     def send_mail(self):
         from_email = self.cleaned_data["email"]
@@ -46,24 +50,34 @@ class ContactForm(forms.Form):
         max_length=100,
         min_length=3,
         required=True,
-        widget=forms.TextInput(attrs={"placeholder": "Name"}),
+        widget=forms.TextInput(attrs={"placeholder": "Name", "class": "form-control"}),
     )
     email = forms.EmailField(
         required=True,
         min_length=10,
-        widget=forms.TextInput(attrs={"placeholder": "Email"}),
+        widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"}),
     )
     subject = forms.CharField(
         max_length=100,
         min_length=3,
-        widget=forms.TextInput(attrs={"placeholder": "Subject"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "Subject", "class": "form-control"}
+        ),
     )
     message = forms.CharField(
         min_length=20,
         max_length=600,
         required=True,
-        widget=forms.Textarea(attrs={"cols": 80, "rows": 5, "placeholder": "Message"}),
+        widget=forms.Textarea(
+            attrs={
+                "cols": 80,
+                "rows": 5,
+                "placeholder": "Message",
+                "class": "form-control",
+            }
+        ),
     )
+    captcha = CaptchaField()
 
     def send_mail(self):
 

@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.facebook",
+    "captcha",
     "django_extensions",
     "django_countries",
     # Local
@@ -322,7 +323,6 @@ if not DEBUG:
     EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_SECONDS = 3600

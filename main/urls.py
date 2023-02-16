@@ -24,6 +24,8 @@ urlpatterns = [
     # User management
     path("accounts/", include("allauth.urls")),
     path("account/", include("users.urls")),
+    # third party apps
+    path("captcha/", include("captcha.urls")),
     # Local apps
     path("trips/", include("trips.urls")),
     path("cart/", include("cart.urls", namespace="cart")),
