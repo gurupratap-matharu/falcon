@@ -18,9 +18,10 @@ class OrderFactory(factory.django.DjangoModelFactory):
         model = Order
 
     name = factory.Faker("name_nonbinary")
-    email = factory.LazyAttribute(
-        lambda obj: "%s@example.com" % obj.name.replace(" ", "-").lower()
-    )
+    # email = factory.LazyAttribute(
+    #     lambda obj: "%s@example.com" % obj.name.replace(" ", "-").lower()
+    # )
+    email = "veerplaying@gmail.com"
     residence = factory.Faker("country_code")
     paid = factory.Faker("boolean")
 

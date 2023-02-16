@@ -5,6 +5,8 @@ from django.core import mail
 from django.test import SimpleTestCase, TestCase, tag
 from django.urls import resolve, reverse
 
+from captcha.conf import settings as captcha_settings
+
 from pages.forms import ContactForm, FeedbackForm
 from pages.views import (
     AboutPageView,
@@ -115,8 +117,9 @@ class PrivacyPageTests(SimpleTestCase):
 
 
 @tag("pages", "fast")
-class ContactPageTests(SimpleTestCase):
+class ContactPageTests(TestCase):
     def setUp(self):
+        captcha_settings.CAPTCHA_TEST_MODE = True
         self.url = reverse("pages:contact")
         self.response = self.client.get(self.url)
         self.valid_data = {
@@ -124,6 +127,8 @@ class ContactPageTests(SimpleTestCase):
             "email": "guestuser@email.com",
             "subject": "How have you been?",
             "message": "Golu this project looks great. Awesome job!!! Keep up the good work 💪",
+            "captcha_0": "dummy",
+            "captcha_1": "passed",
         }
 
     def test_contact_page_status_code(self):
@@ -189,13 +194,16 @@ class FaviconTests(SimpleTestCase):
 
 
 @tag("pages", "fast")
-class FeedbackPageTests(SimpleTestCase):
+class FeedbackPageTests(TestCase):
     def setUp(self):
+        captcha_settings.CAPTCHA_TEST_MODE = True
         self.url = reverse("pages:feedback")
         self.response = self.client.get(self.url)
         self.valid_data = {
             "email": "guestuser@email.com",
             "message": "Golu this project looks great. Awesome job!!! Keep up the good work 💪",
+            "captcha_0": "dummy",
+            "captcha_1": "passed",
         }
 
     def test_feedback_page_status_code(self):

@@ -1,15 +1,24 @@
+import logging
+
 from django.core import mail
-from django.test import SimpleTestCase
+from django.test import TestCase
+
+from captcha.conf import settings as captcha_settings
 
 from pages.forms import ContactForm, FeedbackForm
 
+logger = logging.getLogger(__name__)
 
-class FeedbackFormTests(SimpleTestCase):
+
+class FeedbackFormTests(TestCase):
     def setUp(self):
+        captcha_settings.CAPTCHA_TEST_MODE = True
         self.field_required_msg = "This field is required."
         self.form_data = {
             "email": "guestuser@email.com",
             "message": "Hey I have been thinking about you a lot! Would you like to hang around during the weekend?",
+            "captcha_0": "dummy",
+            "captcha_1": "PASSED",
         }
 
     def test_form_email_field_label(self):
@@ -25,6 +34,7 @@ class FeedbackFormTests(SimpleTestCase):
         self.assertTrue(label is None or label == "message")
 
     def test_feedback_form_sends_email_for_valid_data(self):
+
         form = FeedbackForm(data=self.form_data)
 
         self.assertTrue(form.is_valid())
@@ -73,14 +83,17 @@ class FeedbackFormTests(SimpleTestCase):
         )
 
 
-class ContactFormTests(SimpleTestCase):
+class ContactFormTests(TestCase):
     def setUp(self):
+        captcha_settings.CAPTCHA_TEST_MODE = True
         self.field_required_msg = "This field is required."
         self.form_data = {
             "name": "Guest User",
             "email": "guestuser@email.com",
             "subject": "Just want to say hi!",
             "message": "Hey I have been thinking about you a lot! Would you like to hang around during the weekend?",
+            "captcha_0": "dummy",
+            "captcha_1": "PASSED",
         }
 
     def test_form_name_field_label(self):
