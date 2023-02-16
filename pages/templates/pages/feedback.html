@@ -34,13 +34,8 @@
         </div>
     </div>
     <script>
-    const add_form_classes = () => {
-        const email = document.querySelector('#id_email');
-        const message = document.querySelector('#id_message');
-
-        email.classList.add('form-control');
-        message.classList.add('form-control');
-    }
-    document.addEventListener("DOMContentLoaded", add_form_classes);
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector('#id_captcha_1').classList.add('form-control');
+    });
     </script>
 {% endblock content %}
