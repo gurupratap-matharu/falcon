@@ -113,3 +113,15 @@ def make_order_data(size=20, trip=None):
             )
 
     return orders
+
+
+def order_dict():
+    return factory.build(dict, FACTORY_CLASS=OrderFactory)
+
+
+def order_item_dict():
+    return factory.build(dict, FACTORY_CLASS=OrderItemFactory)
+
+
+def passenger_dict():
+    return factory.build(dict, FACTORY_CLASS=PassengerFactory)
