@@ -21,6 +21,11 @@ class FeedbackFormTests(TestCase):
             "captcha_1": "PASSED",
         }
 
+    def test_feedback_form_is_valid_for_valid_data(self):
+        form = FeedbackForm(data=self.form_data)
+
+        self.assertTrue(form.is_valid())
+
     def test_form_email_field_label(self):
         form = FeedbackForm(data=self.form_data)
         label = form.fields["email"].label
@@ -95,6 +100,11 @@ class ContactFormTests(TestCase):
             "captcha_0": "dummy",
             "captcha_1": "PASSED",
         }
+
+    def test_contact_form_is_valid_for_valid_data(self):
+        form = ContactForm(data=self.form_data)
+
+        self.assertTrue(form.is_valid())
 
     def test_form_name_field_label(self):
         form = ContactForm(data=self.form_data)
