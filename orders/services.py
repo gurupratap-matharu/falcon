@@ -31,7 +31,13 @@ def order_created(order_id):
         f"You have successfully placed an order.\n"
         f"Your order ID is {order.id}."
     )
-    mail_sent = send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
+    mail_sent = send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [order.email],
+        fail_silently=False,
+    )
 
     end = timer()
     logger.info("order_created(📜) took: %0.2f seconds!" % (end - start))
@@ -73,7 +79,7 @@ def order_confirmed(order_id, payment_id):
     )
 
     # 5 Send email
-    email.send()
+    email.send(fail_silently=False)
 
     end = timer()
     logger.info("order_confirmed(🔒) took: %0.2f seconds!" % (end - start))
