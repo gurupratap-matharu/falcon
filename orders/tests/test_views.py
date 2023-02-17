@@ -1,8 +1,6 @@
-import pdb
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
-from django.core import mail
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
@@ -76,37 +74,6 @@ class OrderCreateTests(TestCase):
         self.assertEqual(str(messages[0]), OrderCreateView.redirect_message)
 
     # POST
-    @tag("form", "post", "email")
-    def test_order_page_sends_email_after_valid_post_data(self):
-
-        response = self.client.post(self.url, data=self.valid_data)
-
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-
-        # Test that an email has been sent.
-        # Verify that the subject of the first message is correct.
-        # Check page redirected to home after success
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, self.valid_data.get("subject"))
-        self.assertEqual(response["Location"], reverse_lazy("pages:home"))
-
-        # Check that a confirmation message is included in the response
-        messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), ContactPageView.success_message)
-
-    @tag("messages")
-    def test_contact_page_sends_valid_message_after_successul_post(self):
-        response = self.client.post(self.url, data=self.valid_data)
-
-        messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), ContactPageView.success_message)
-
-    def test_contact_page_post_error_for_invalid_data(self):
-        response = self.client.post(self.url, data={})
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertContains(response, "This field is required.")
 
     def test_order_creation_for_valid_post_data(self):
         # TODO: Veer implemente this

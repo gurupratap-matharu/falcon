@@ -5,9 +5,6 @@ from timeit import default_timer as timer
 from django.conf import settings
 from django.core.mail import EmailMessage, send_mail
 from django.shortcuts import get_object_or_404
-from django.template.loader import render_to_string
-
-import weasyprint
 
 from .drawers import burn_order_pdf
 from .models import Order

@@ -14,6 +14,10 @@ class OrderFormTests(SimpleTestCase):
             "residence": "AR",
         }
 
+    def test_order_form_is_valid_for_valid_data(self):
+        form = OrderForm(data=self.form_data)
+        self.assertTrue(form.is_valid())
+
     def test_empty_order_form_raises_valid_errors(self):
         form = OrderForm(data={})
         self.assertEqual(form.errors["name"][0], self.field_required_msg)
@@ -80,6 +84,11 @@ class PassengerFormTests(SimpleTestCase):
             "birth_date": "04/14/1989",  # <-- veer for now this is mm/dd/yyyy
             "phone_number": "5491150254190",
         }
+
+    def test_passenger_form_is_valid_for_valid_data(self):
+        form = PassengerForm(data=self.form_data)
+
+        self.assertTrue(form.is_valid())
 
     def test_empty_passenger_form_raises_valid_errors(self):
         form = PassengerForm(data={})
