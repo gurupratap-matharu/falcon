@@ -12,10 +12,9 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
-from weasyprint import CSS, HTML
-
 from cart.cart import Cart
 
+from .drawers import burn_order_pdf
 from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
 from .services import order_created
@@ -145,19 +144,12 @@ class OrderCreateView(CreateView):
 
 @staff_member_required
 def admin_order_pdf(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
 
-    render = render_to_string("orders/order_pdf.html", {"order": order})
+    order = get_object_or_404(Order, id=order_id)
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = f"attachment; filename={order.name}.pdf"
 
-    logger.info("drawing order pdf(🎨)...")
-
-    stylesheet = CSS(settings.STATIC_ROOT / "assets" / "css" / "pdf.css")
-
-    # HTML(string=render).write_pdf(
-    #     response, stylesheets=[stylesheet]
-    # )  # <--  this line makes saving files very slow :(
+    burn_order_pdf(on=response, order=order)
 
     return response
