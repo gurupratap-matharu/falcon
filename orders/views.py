@@ -1,11 +1,13 @@
 import logging
 from typing import Any, Dict
 
+from django import http
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import modelformset_factory
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
@@ -39,6 +41,17 @@ class OrderCreateView(CreateView):
     form_class = OrderForm
     template_name = "orders/order_form.html"
     success_url = reverse_lazy("payments:home")
+    redirect_message = "Your session has expired. Please search again 🙏"
+
+    def dispatch(
+        self, request: http.HttpRequest, *args: Any, **kwargs: Any
+    ) -> http.HttpResponse:
+
+        if "q" not in request.session:
+            messages.info(request, self.redirect_message)
+            return redirect("pages:home")
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -118,6 +131,7 @@ class OrderCreateView(CreateView):
             # 6. Save order.id in session so payments can access it
             order_id = str(order.id)
             self.request.session["order"] = order_id
+            self.request.session["pdf_url"] = order.get_pdf_url()
 
             # 7. Send order creation email
             order_created(order_id=order.id)
@@ -132,14 +146,18 @@ class OrderCreateView(CreateView):
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+
     render = render_to_string("orders/order_pdf.html", {"order": order})
 
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f"attachment; filename=order_{order.id}.pdf"
+    response["Content-Disposition"] = f"attachment; filename={order.name}.pdf"
 
     logger.info("drawing order pdf(🎨)...")
+
     stylesheet = CSS(settings.STATIC_ROOT / "assets" / "css" / "pdf.css")
 
-    HTML(string=render).write_pdf(response, stylesheets=[stylesheet])
+    # HTML(string=render).write_pdf(
+    #     response, stylesheets=[stylesheet]
+    # )  # <--  this line makes saving files very slow :(
 
     return response
