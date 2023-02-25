@@ -11,11 +11,10 @@ Blocker Note:
     I am unable to find a way to ignore it somehow. vscode stucks on analysing files
     for several seconds.
 """
-
 import logging
 from timeit import default_timer as timer
 
-from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.template.loader import render_to_string
 
 from weasyprint import CSS, HTML
@@ -32,7 +31,7 @@ def burn_order_pdf(target=None, order=None):
     html = render_to_string("orders/invoice.html", {"order": order})
 
     render = HTML(string=html)
-    stylesheet = CSS(settings.STATIC_ROOT / "assets" / "css" / "invoice.css")
+    stylesheet = CSS(finders.find("assets/css/invoice.css"))
 
     # We pull the write_pdf attribute like this as directly calling it hangs our lint
     make_pdf = getattr(render, "write_pdf")
@@ -55,9 +54,7 @@ def burn_ticket_pdf(request, target, order):
 
     start = timer()
 
-    template_name = "orders/ticket.html"  # <-- change this
-    css_path = settings.STATIC_ROOT / "assets" / "css" / "ticket.css"  # <-- change this
-
+    template_name = "orders/ticket.html"
     base_url = request.build_absolute_uri()
 
     html = render_to_string(
@@ -69,7 +66,7 @@ def burn_ticket_pdf(request, target, order):
         },
     )
 
-    stylesheet = CSS(css_path)
+    stylesheet = CSS(finders.find("assets/css/ticket.css"))
     render = HTML(string=html, base_url=base_url)
 
     # We pull the write_pdf attribute like this as directly calling it hangs our lint
