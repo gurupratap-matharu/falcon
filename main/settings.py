@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "captcha",
     "django_extensions",
     "django_countries",
+    "qr_code",
     # Local
     "pages.apps.PagesConfig",
     "users.apps.UsersConfig",
