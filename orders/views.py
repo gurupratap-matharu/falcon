@@ -6,13 +6,13 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import modelformset_factory
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
 from cart.cart import Cart
 
-from .drawers import burn_order_pdf
+from .drawers import burn_order_pdf, burn_ticket_pdf
 from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
 from .services import order_created
@@ -148,6 +148,32 @@ def admin_order_pdf(request, order_id):
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = f"attachment; filename={order.name}.pdf"
 
-    burn_order_pdf(on=response, order=order)
+    burn_order_pdf(target=response, order=order)
+
+    return response
+
+
+def ticket(request, order_id):
+    """
+    Simple view to see a preview of the final ticket render in html format
+    """
+
+    order = get_object_or_404(Order, id=order_id)
+    context = {
+        "order": order,
+        "trip": order.trips.first(),  # type:ignore
+        "passengers": order.passengers.all(),
+    }
+    return render(request, "orders/ticket.html", context)
+
+
+def ticket_pdf(request, order_id):
+
+    order = get_object_or_404(Order, id=order_id)
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = "attachment; filename=tickets.pdf"
+
+    burn_ticket_pdf(request=request, target=response, order=order)
 
     return response
