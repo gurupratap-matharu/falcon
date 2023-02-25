@@ -20,16 +20,6 @@ from .services import order_created
 logger = logging.getLogger(__name__)
 
 
-class OrderView(TemplateView):
-    template_name: str = "orders/order.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context["cart"] = Cart(self.request)
-
-        return context
-
-
 class OrderCreateView(CreateView):
     """
     View that allows a user to create an order and multiple passengers in one got using formsets.

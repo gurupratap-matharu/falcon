@@ -5,7 +5,6 @@ from . import views
 app_name = "orders"
 
 urlpatterns = [
-    path("", views.OrderView.as_view(), name="home"),
     path("create/", views.OrderCreateView.as_view(), name="order_create"),
     path("<uuid:order_id>/ticket/", views.ticket, name="ticket"),
     path("<uuid:order_id>/ticket/pdf/", views.ticket_pdf, name="ticket_pdf"),
