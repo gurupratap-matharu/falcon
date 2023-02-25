@@ -76,7 +76,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'orders:home' %}">
+          <a class="nav-link" href="{% url 'orders:order_create' %}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px"
                    height="12px"
@@ -508,9 +508,7 @@
                 <div class="card-header pb-0 text-left">
                 </div>
                 <div class="card-body pb-3">
-                  {% for k, v in request.session.items %}
-                    <pre>{{ k }} : {{ v }}</pre>
-                  {% endfor %}
+                  {% for k, v in request.session.items %}<pre>{{ k }} : {{ v }}</pre>{% endfor %}
                 </div>
               </div>
             </div>
