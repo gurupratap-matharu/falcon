@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
@@ -91,6 +92,9 @@ class Order(models.Model):
         path = "/test/" if "_test_" in settings.STRIPE_SECRET_KEY else "/"
 
         return f"https://dashboard.stripe.com{path}payments/{self.payment_id}"
+
+    def get_ticket_url(self):
+        return reverse("orders:ticket_pdf", args=[str(self.id)])
 
 
 class OrderItem(models.Model):

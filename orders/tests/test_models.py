@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from django.urls import reverse_lazy
 
 from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
 from orders.models import Order, OrderItem, Passenger
@@ -141,6 +142,14 @@ class OrderModelTests(TestCase):
             assigned_passengers = list(trip.seats.values_list("passenger", flat=True))
             self.assertIn(p1.id, assigned_passengers)
             self.assertIn(p2.id, assigned_passengers)
+
+    def test_order_ticket_pdf_url_works(self):
+        order = Order.objects.first()
+
+        expected = reverse_lazy("orders:ticket_pdf", args=[str(order.id)])
+        actual = order.get_ticket_url()  # type:ignore
+
+        self.assertEqual(actual, expected)
 
 
 class OrderItemModelTests(TestCase):
