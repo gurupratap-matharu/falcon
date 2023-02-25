@@ -166,12 +166,19 @@ class PaymentSuccessView(TemplateView):
     template_name: str = "payments/payment_success.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        # since order is confirmed we remove it from the session
+        context = super().get_context_data(**kwargs)
+        # We store the order id in session to generate the ticket pdf if requested
+        # before clearing the session as user might wish to book another ticket
+        context["order_id"] = self.request.session.get("order")
+
+        # next since order is confirmed we remove it from the session
         try:
             del self.request.session["order"]
         except KeyError:
+            # TODO: technically here veer you should redirect as its not a valid case!
             pass
-        return super().get_context_data(**kwargs)
+
+        return context
 
 
 class PaymentFailView(TemplateView):
