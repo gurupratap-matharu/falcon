@@ -32,7 +32,7 @@ def burn_order_pdf(target=None, order=None):
     html = render_to_string("orders/invoice.html", {"order": order})
 
     render = HTML(string=html)
-    stylesheet = CSS(settings.STATIC_ROOT / "assets" / "css" / "pdf.css")
+    stylesheet = CSS(settings.STATIC_ROOT / "assets" / "css" / "invoice.css")
 
     # We pull the write_pdf attribute like this as directly calling it hangs our lint
     make_pdf = getattr(render, "write_pdf")
