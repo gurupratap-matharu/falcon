@@ -118,7 +118,6 @@ class OrderCreateView(CreateView):
             # 6. Save order.id in session so payments can access it
             order_id = str(order.id)
             self.request.session["order"] = order_id
-            self.request.session["pdf_url"] = order.get_pdf_url()
 
             # 7. Send order creation email
             order_created(order_id=order.id)
