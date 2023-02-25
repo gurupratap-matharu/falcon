@@ -1,0 +1,57 @@
+{% load static %}
+{% load qr_code %}
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="{% static 'assets/css/ticket.css' %}" rel="stylesheet">
+    <title>Boarding ticket</title>
+    <meta name="description" content="Boarding ticket">
+  </head>
+  <body>
+    <section id="informations">
+      <h1 id="name">{{ trip.company }}</h1>
+      <h1 id="destination">{{ trip.origin }} → {{ trip.destination }}</h1>
+      <dl>
+        <dt>
+          Bus
+        </dt>
+        <dd>
+          DL31
+        </dd>
+        <dt>
+          Gate
+        </dt>
+        <dd>
+          29
+        </dd>
+        <dt>
+          Seat
+        </dt>
+        <dd>
+          26E
+        </dd>
+        <dt>
+          Zone
+        </dt>
+        <dd>
+          4
+        </dd>
+      </dl>
+      <ul>
+        <li>{{ trip.departure }}</li>
+        <li>Cama</li>
+        <li>1257797706706</li>
+      </ul>
+    </section>
+    <section id="ticket">
+      {% with url="https://falconhunt.xyz" %}
+        {% qr_from_text url size="M" %}
+      {% endwith %}
+      <ul>
+        <li>{{ trip.origin }} → {{ trip.destination }}</li>
+        <li>{{ trip.departure|date:"P" }}</li>
+      </ul>
+    </section>
+  </body>
+</html>
