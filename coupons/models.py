@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -9,7 +9,13 @@ class Coupon(models.Model):
     code = models.CharField(
         max_length=50,
         unique=True,
-        help_text=_("Please use upper case with discount value eg: SUMMER10"),
+        help_text=_("Please use capital letters without spaces. Ex: SUMMER10"),
+        validators=[
+            RegexValidator(
+                "^[A-Z0-9]*$",
+                "Please use only uppercase letters and numbers without spaces.",
+            )
+        ],
     )
     valid_from = models.DateTimeField(default=timezone.now)
     valid_to = models.DateTimeField()
@@ -22,27 +28,17 @@ class Coupon(models.Model):
     def clean(self):
 
         # Don't allow valid_from date to be in the past
-        if self.valid_from < timezone.now():
+        if self.valid_from.date() < timezone.now().date():
             raise ValidationError(
-                {
-                    "valid_from": _(
-                        "Valid from date: %(valid_from)s cannot be in the past."
-                    )
-                },
+                {"valid_from": _("Valid from date cannot be in the past.")},
                 code="invalid",
-                params={"valid_from": self.valid_from},
             )
 
         # Don't allow valid_to date to be less than valid_from date
-        if self.valid_to < self.valid_from:
+        if self.valid_to and (self.valid_to < self.valid_from):
             raise ValidationError(
-                {
-                    "valid_to": _(
-                        "Valid to: %(valid_to)s cannot be less than valid_from date: %(valid_from)s"
-                    )
-                },
+                {"valid_to": _("Valid to date cannot be less than Valid from date")},
                 code="invalid",
-                params={"valid_to": self.valid_to, "valid_from": self.valid_from},
             )
 
     def __str__(self):
