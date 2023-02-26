@@ -25,6 +25,9 @@ class Coupon(models.Model):
     )
     active = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ("valid_to",)
+
     def clean(self):
 
         # Don't allow valid_from date to be in the past

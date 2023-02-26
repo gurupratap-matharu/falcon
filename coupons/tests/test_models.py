@@ -1,5 +1,9 @@
+from datetime import timedelta
+
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
+from django.utils import timezone
 
 from coupons.factories import CouponFactory
 from coupons.models import Coupon
@@ -47,3 +51,28 @@ class CouponModelTests(TestCase):
             # veer here we use the objects.create since factory uses get_or_create on
             # code field so it will not try to create another coupon
             _ = Coupon.objects.create(**data)
+
+    def test_coupon_valid_from_date_cannot_be_in_the_past(self):
+        yesterday = timezone.now() - timedelta(days=1)
+
+        with self.assertRaises(ValidationError):
+            c = CouponFactory.build(valid_from=yesterday)
+            c.full_clean()  # <-- not called automatically on save
+
+    def test_coupon_valid_to_date_cannot_be_less_than_valid_from_date(self):
+        today = timezone.now()
+        yesterday = today - timedelta(days=1)
+
+        with self.assertRaises(ValidationError):
+            c = CouponFactory.build(valid_from=today, valid_to=yesterday)
+            c.full_clean()  # <-- not called automatically on save
+
+    def test_coupon_discount_cannot_be_less_than_zero_or_more_than_hundred(self):
+
+        with self.assertRaises(ValidationError):
+            c = CouponFactory.build(discount=-1)
+            c.full_clean()
+
+        with self.assertRaises(ValidationError):
+            c = CouponFactory.build(discount=101)
+            c.full_clean()
