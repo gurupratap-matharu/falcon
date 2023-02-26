@@ -63,6 +63,10 @@ lint: isort format
 test: migrations-check
 	python -Wa manage.py test
 
+security:
+	poetry run bandit -r .
+	poetry run safety check
+
 ci: lint
 	coverage run --source='.' manage.py test
 	coverage html
