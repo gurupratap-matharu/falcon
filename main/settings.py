@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "cart.apps.CartConfig",
     "orders.apps.OrdersConfig",
     "payments.apps.PaymentsConfig",
+    "coupons.apps.CouponsConfig",
 ]
 
 MIDDLEWARE = [
@@ -303,6 +304,7 @@ LOGGING = {
 SHELL_PLUS_IMPORTS = [
     "from trips.factories import TripFactory, TripTomorrowFactory, SeatFactory, SeatWithPassengerFactory",
     "from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory",
+    "from coupons.factories import CouponFactory",
 ]
 
 # Simple captcha
