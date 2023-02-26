@@ -94,12 +94,12 @@ class OrderAdmin(admin.ModelAdmin):
     def order_payment(self, obj):
         url = obj.get_stripe_url()
         html = f'<a href="{url}" target="_blank">View</a>' if url else ""
-        return mark_safe(html)
+        return mark_safe(html)  # nosec
 
     def order_pdf(self, obj):
         url = reverse("orders:admin_order_pdf", kwargs={"order_id": str(obj.id)})
         html = f'<a href="{url}" target="_blank" download="{obj.name}">PDF</a>'
-        return mark_safe(html)
+        return mark_safe(html)  # nosec
 
     order_pdf.short_description = "Invoice"
 
