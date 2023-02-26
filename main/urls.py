@@ -32,6 +32,7 @@ urlpatterns = [
     path("orders/", include("orders.urls", namespace="orders")),
     path("payments/", include("payments.urls")),
     path("companies/", include("companies.urls")),
+    path("coupons/", include("coupons.urls")),
     path("", include("pages.urls")),
 ]
 
