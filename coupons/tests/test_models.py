@@ -76,3 +76,44 @@ class CouponModelTests(TestCase):
         with self.assertRaises(ValidationError):
             c = CouponFactory.build(discount=101)
             c.full_clean()
+
+    def test_deactivating_a_valid_coupon_works(self):
+        today = timezone.now()
+        tomorrow = today + timedelta(days=1)
+
+        coupon = Coupon.objects.create(
+            code="MENDOZA50",
+            discount=50,
+            valid_from=today,
+            valid_to=tomorrow,
+            active=True,
+        )
+
+        self.assertTrue(coupon.active)
+        self.assertTrue(coupon.is_valid())
+
+        coupon.deactivate()
+
+        self.assertFalse(coupon.active)
+        self.assertFalse(coupon.is_valid())
+
+    def test_deactivating_an_inactive_coupon_raises_validation_error(self):
+        today = timezone.now()
+        tomorrow = today + timedelta(days=1)
+
+        coupon = Coupon.objects.create(
+            code="MENDOZA50",
+            discount=50,
+            valid_from=today,
+            valid_to=tomorrow,
+            active=False,  # <-- already redeemed coupon
+        )
+
+        self.assertFalse(coupon.active)
+        self.assertFalse(coupon.is_valid())
+
+        with self.assertRaises(ValidationError):
+            coupon.deactivate()
+
+        self.assertFalse(coupon.active)
+        self.assertFalse(coupon.is_valid())
