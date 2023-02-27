@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from coupons.forms import CouponApplyForm
 from trips.models import Trip
 
-from .cart import Cart
+from .cart import Cart, CartException
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +20,12 @@ def cart_add(request, trip_id=None):
     Add a trip to the cart. Does not render a template
     """
 
+    session_expired_msg = "Oops! Perhaps your session expired. Please search again."
+    trips_exceeded_msg = "You can add a maximum of two trips to your cart 🛒"
+
     if not request.session.get("q"):
         # No search query in session so redirect to search again
-        messages.warning(
-            request, "Oops! Perhaps your session expired. Please search again."
-        )
+        messages.warning(request, session_expired_msg)
         return redirect("pages:home")
 
     trip = get_object_or_404(Trip, id=trip_id)
@@ -33,7 +34,13 @@ def cart_add(request, trip_id=None):
     logger.info("adding to cart(🛒)... trip_id:%s quantity:%s" % (trip_id, quantity))
 
     cart = Cart(request)
-    cart.add(trip=trip, quantity=quantity)
+
+    try:
+        cart.add(trip=trip, quantity=quantity)
+
+    except CartException:
+        messages.info(request, trips_exceeded_msg)
+        return redirect("cart:cart_detail")
 
     return redirect("orders:order_create")
 

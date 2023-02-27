@@ -68,6 +68,40 @@ class CartAddTests(TestCase):
             response, reverse_lazy("orders:order_create"), HTTPStatus.FOUND
         )
 
+    def test_adding_more_than_two_trips_to_cart_redirects_with_message(self):
+        # First we build a valid search query and add it to the session
+        session = self.client.session
+        session["q"] = {
+            "trip_type": "one_way",
+            "num_of_passengers": "2",
+            "origin": "Alta Gracia",
+            "destination": "Alvear",
+            "departure": "06-03-2023",
+            "return": "",
+        }
+        session.save()
+
+        # create two trips and add them to cart
+        trip_1, trip_2, trip_3 = TripFactory.create_batch(size=3)
+
+        # add the two trips to the cart as well
+        _ = self.client.post(trip_1.get_add_to_cart_url())
+        _ = self.client.post(trip_2.get_add_to_cart_url())
+
+        # adding the third trip should redirect with message
+
+        response = self.client.post(trip_3.get_add_to_cart_url())
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, reverse_lazy("cart:cart_detail"), HTTPStatus.FOUND
+        )
+
+        messages = list(get_messages(response.wsgi_request))
+        trips_exceeded_msg = "You can add a maximum of two trips to your cart 🛒"
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), trips_exceeded_msg)
+
     def test_adding_trip_to_cart_without_search_query_redirects_with_message(self):
         """
         In this case session has no search query i.e. no info about `num_of_passengers`
