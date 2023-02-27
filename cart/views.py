@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -19,13 +20,17 @@ def cart_add(request, trip_id=None):
     Add a trip to the cart. Does not render a template
     """
 
-    trip = get_object_or_404(Trip, id=trip_id)
+    if not request.session.get("q"):
+        # No search query in session so redirect to search again
+        messages.warning(
+            request, "Oops! Perhaps your session expired. Please search again."
+        )
+        return redirect("pages:home")
 
+    trip = get_object_or_404(Trip, id=trip_id)
     quantity = int(request.session["q"]["num_of_passengers"])
 
-    logger.info(
-        "veer inside cart_add(💋)... trip_id: %s quantity: %s" % (trip_id, quantity)
-    )
+    logger.info("adding to cart(🛒)... trip_id:%s quantity:%s" % (trip_id, quantity))
 
     cart = Cart(request)
     cart.add(trip=trip, quantity=quantity)
