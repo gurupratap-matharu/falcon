@@ -1,13 +1,15 @@
 {% if messages %}
     {% for message in messages %}
-        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %} alert-dismissible fade show mx-4 text-white" role="alert">
-            <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-            <span class="alert-text"><strong>
-                {% if message.tags %}{{ message.tags|title }}:{% endif %}
-            </strong>{{ message }}</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+        {% with klass=message.tags %}
+            <div class="alert alert-{{ klass }} alert-dismissible fade show mx-4 text-white" role="alert">
+                <span class="alert-icon me-2"><i class="ni ni-bell-55"></i></span>
+                <span class="alert-text"><strong>
+                    {% if message.tags %}{{ message.tags|title }}:{% endif %}
+                </strong>{{ message }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endwith %}
     {% endfor %}
 {% endif %}
