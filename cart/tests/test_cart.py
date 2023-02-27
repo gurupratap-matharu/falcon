@@ -1,4 +1,3 @@
-import pdb
 from decimal import Decimal
 
 from django.test import RequestFactory, TestCase

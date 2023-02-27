@@ -1,11 +1,9 @@
-import pdb
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
-from cart.cart import Cart
 from cart.views import cart_detail, cart_remove
 from coupons.forms import CouponApplyForm
 from trips.factories import TripFactory
