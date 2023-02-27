@@ -67,6 +67,6 @@ security:
 	poetry run bandit -r .
 	poetry run safety check
 
-ci: lint
+ci: lint security
 	coverage run --source='.' manage.py test
 	coverage html
