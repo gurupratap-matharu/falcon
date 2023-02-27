@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from coupons.forms import CouponApplyForm
 from trips.models import Trip
 
 from .cart import Cart
@@ -56,4 +57,10 @@ def cart_detail(request):
     logger.info("veer inside cart_detail(✍️)...")
 
     cart = Cart(request)
-    return render(request, "cart/cart_detail.html", {"cart": cart})
+    coupon_apply_form = CouponApplyForm()
+
+    return render(
+        request,
+        "cart/cart_detail.html",
+        {"cart": cart, "coupon_apply_form": coupon_apply_form},
+    )
