@@ -51,6 +51,8 @@ def cart_remove(request, trip_id):
     cart = Cart(request)
     cart.remove(trip)
 
+    messages.success(request, "Item successfully removed from the cart. ✅")
+
     return redirect("cart:cart_detail")
 
 
