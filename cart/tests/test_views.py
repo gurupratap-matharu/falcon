@@ -1,12 +1,15 @@
+import pdb
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
-from cart.views import cart_add, cart_detail
+from cart.cart import Cart
+from cart.views import cart_detail, cart_remove
 from coupons.forms import CouponApplyForm
 from trips.factories import TripFactory
+from trips.models import Trip
 
 
 class CartDetailViewTests(TestCase):
@@ -81,3 +84,51 @@ class CartAddTests(TestCase):
 
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), self.failure_msg)
+
+
+class CartRemoveTests(TestCase):
+    """Test suite for cart remove view"""
+
+    def setUp(self):
+        self.trip = TripFactory()
+        self.url = reverse_lazy("cart:cart_remove", args=[str(self.trip.id)])
+        self.success_msg = "Item successfully removed from the cart. ✅"
+
+    def test_cart_remove_only_accepts_post_request(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+    def test_cart_remove_url_resolves_cart_remove_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, cart_remove.__name__)
+
+    def test_cart_remove_for_invalid_trip_throws_404_not_found(self):
+        """
+        We remove the trip from the DB so it does not exists and then
+        try to access the view. This should throw 404 Not found
+        """
+
+        Trip.objects.all().delete()
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+
+    def test_cart_remove_redirects_to_cart_detail(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, reverse_lazy("cart:cart_detail"), HTTPStatus.FOUND
+        )
+
+    def test_cart_remove_redirects_with_success_message(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, reverse_lazy("cart:cart_detail"), HTTPStatus.FOUND
+        )
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), self.success_msg)
