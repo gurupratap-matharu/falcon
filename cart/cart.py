@@ -1,4 +1,5 @@
 import logging
+import pdb
 from decimal import Decimal
 
 from django.conf import settings
@@ -7,6 +8,10 @@ from coupons.models import Coupon
 from trips.models import Trip
 
 logger = logging.getLogger(__name__)
+
+
+class CartException(Exception):
+    pass
 
 
 class Cart:
@@ -18,6 +23,7 @@ class Cart:
         self.session = request.session
 
         cart = self.session.get(settings.CART_SESSION_ID)
+
         if not cart:
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
@@ -51,6 +57,10 @@ class Cart:
         """
         Add a trip to the cart or update its quantity.
         """
+
+        # do not allow to add more than two trips
+        if len(self.cart) == 2:
+            raise CartException("Cannot add more than two trips to cart!")
 
         logger.info("adding to cart... trip: %s quantity: %s" % (trip, quantity))
 
