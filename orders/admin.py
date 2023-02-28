@@ -79,12 +79,14 @@ class OrderAdmin(admin.ModelAdmin):
         "email",
         "residence",
         "paid",
-        "created_on",
         "order_payment",
         "order_pdf",
+        "order_coupon",
+        "created_on",
     )
     exclude = ("passengers",)
     list_filter = ("paid", "created_on", "updated_on")
+    raw_id_fields = ("coupon",)
     inlines = [
         OrderPassengerInline,
         TripOrderInline,
@@ -101,7 +103,13 @@ class OrderAdmin(admin.ModelAdmin):
         html = f'<a href="{url}" target="_blank" download="{obj.name}">PDF</a>'
         return mark_safe(html)  # nosec
 
+    def order_coupon(self, obj):
+        return bool(obj.coupon)
+
+    order_payment.short_description = "Transaction"
     order_pdf.short_description = "Invoice"
+    order_coupon.short_description = "Coupon"
+    order_coupon.boolean = True
 
 
 @admin.register(Passenger)
