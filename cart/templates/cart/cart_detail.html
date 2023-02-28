@@ -49,15 +49,9 @@
                                     <p class="text-xs font-weight-bold mb-0">{{ trip.destination }}</p>
                                     <p class="text-xs text-secondary mb-0">{{ trip.arrival }}</p>
                                 </td>
-                                <td class="align-middle text-center text-sm">
-                                    <p class="text-xs font-weight-bold mb-0">{{ item.quantity }}</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="font-weight-bold">${{ item.price|floatformat:"-3g" }}</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="font-weight-bold">${{ item.total_price|floatformat:"-3g" }}</span>
-                                </td>
+                                <td class="align-middle text-center text-sm">{{ item.quantity }}</td>
+                                <td class="align-middle text-center text-sm">${{ item.price|floatformat:"-3g" }}</td>
+                                <td class="align-middle text-center text-sm">${{ item.total_price|floatformat:"-3g" }}</td>
                                 <td class="align-middle text-center text-sm">
                                     <form action="{% url "cart:cart_remove" trip.id %}" method="post">
                                         {% csrf_token %}
@@ -79,12 +73,8 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="align-middle text-center text-sm">
-                                <span class="font-weight-bold">Subtotal</span>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <span class="font-weight-bold">$ {{ cart.get_total_price|floatformat:"-3g" }}</span>
-                            </td>
+                            <td class="align-middle text-center text-sm">Subtotal</td>
+                            <td class="align-middle text-center text-sm">$ {{ cart.get_total_price|floatformat:"-3g" }}</td>
                             <td></td>
                         </tr>
                         <tr>
@@ -95,12 +85,10 @@
                             <td>
                             </td>
                             <td class="align-middle text-center text-sm">
-                                <span class="font-weight-bold">
-                                    "{{ cart.coupon.code }}" coupon ({{ cart.coupon.discount }}% off)
-                                </span>
+                                "{{ cart.coupon.code }}" Coupon ({{ cart.coupon.discount }}% off)
                             </td>
                             <td class="align-middle text-center text-sm">
-                                <span class="font-weight-bold">
+                                <span class="font-weight-bolder text-success">
                                     - $ {{ cart.get_discount|floatformat:"-3g" }}
                                 </span>
                             </td>
@@ -118,14 +106,10 @@
                         <td>
                         </td>
                         <td class="align-middle text-center">
-                            <h5>
-                                Total
-                            </h5>
+                            Total
                         </td>
                         <td class="align-middle text-center">
-                            <h5>
-                                $ {{ cart.get_total_price_after_discount|floatformat:"-3g" }}
-                            </h5>
+                            $ {{ cart.get_total_price_after_discount|floatformat:"-3g" }}
                         </td>
                     </tr>
                 </tbody>
