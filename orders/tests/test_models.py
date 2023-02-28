@@ -1,4 +1,3 @@
-import pdb
 from decimal import Decimal
 
 from django.core.exceptions import ValidationError
@@ -56,7 +55,7 @@ class OrderModelTests(TestCase):
         Passenger.objects.all().delete()
 
         coupon = CouponFactory()
-        order = OrderFactory(coupon=coupon, discount=coupon.discount)
+        _ = OrderFactory(coupon=coupon, discount=coupon.discount)
         order_from_db = Order.objects.first()
 
         self.assertEqual(Order.objects.count(), 1)
@@ -201,7 +200,7 @@ class OrderModelTests(TestCase):
         order = OrderFactory(coupon=coupon, discount=discount)
         outbound_trip = TripFactory()
         return_trip = TripTomorrowFactory()
-        order_items = [
+        _ = [
             OrderItemFactory(order=order, trip=outbound_trip),
             OrderItemFactory(order=order, trip=return_trip),
         ]
@@ -219,7 +218,7 @@ class OrderModelTests(TestCase):
 
         outbound_trip = TripFactory()
         return_trip = TripTomorrowFactory()
-        order_items = [
+        _ = [
             OrderItemFactory(order=order, trip=outbound_trip),
             OrderItemFactory(order=order, trip=return_trip),
         ]
@@ -237,7 +236,7 @@ class OrderModelTests(TestCase):
 
         outbound_trip = TripFactory()
         return_trip = TripTomorrowFactory()
-        order_items = [
+        _ = [
             OrderItemFactory(order=order, trip=outbound_trip),
             OrderItemFactory(order=order, trip=return_trip),
         ]
