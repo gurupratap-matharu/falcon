@@ -73,6 +73,13 @@ class OrderCreateView(CreateView):
             # 1. create an order object thats saved to the DB
             response = super().form_valid(form)  # <- this sets the self.object (order)
             order = self.object  # type:ignore
+
+            if cart.coupon:
+                order.coupon = cart.coupon
+                order.discount = cart.coupon.discount
+                order.save()
+                logger.info("attaching coupon(🎟️) to order(🗽)...")
+
             logger.info("veer created order(🗽) %s" % order)
 
             # 2. create valid passenger objects
@@ -120,6 +127,7 @@ class OrderCreateView(CreateView):
             self.request.session["order"] = order_id
 
             # 7. Send order creation email
+            # TODO: run this async with celery
             order_created(order_id=order.id)
 
             # 8. Redirect to payment
