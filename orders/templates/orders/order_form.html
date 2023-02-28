@@ -204,10 +204,23 @@
                                         </div>
                                     {% endwith %}
                                 {% endfor %}
-                                <div class="ms-auto d-flex align-items-end justify-content-end">
-                                    <h5 class="text-white">
-                                        Total $ {{ cart.get_total_price|floatformat:"-3g" }}
-                                    </h5>
+                                {% if cart.coupon %}
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <div class="text-white text-sm">
+                                            Coupon ({{ cart.coupon.discount }}% off)
+                                        </div>
+                                        <div class="text-white">
+                                            - $ {{ cart.get_discount|floatformat:"-3g" }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="d-flex justify-content-between mb-1">
+                                    <div class="text-white text-sm">
+                                        Total
+                                    </div>
+                                    <div class="text-white">
+                                        ${{ cart.get_total_price_after_discount|floatformat:"-3g" }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
