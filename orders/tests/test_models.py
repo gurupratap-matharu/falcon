@@ -2,7 +2,13 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
+from coupons.factories import CouponFactory
+from orders.factories import (
+    OrderFactory,
+    OrderItemFactory,
+    OrderWithCouponFactory,
+    PassengerFactory,
+)
 from orders.models import Order, OrderItem, Passenger
 from trips.factories import SeatFactory, TripFactory, TripTomorrowFactory
 from trips.models import Seat, Trip
@@ -30,6 +36,29 @@ class OrderModelTests(TestCase):
         self.assertEqual(order_from_db.residence, self.order.residence)
         self.assertEqual(order_from_db.paid, self.order.paid)
         self.assertEqual(order_from_db.passengers.count(), len(self.passengers))
+
+    def test_order_with_coupon_model_creation_is_accurate(self):
+        Order.objects.all().delete()
+        Passenger.objects.all().delete()
+
+        order = OrderWithCouponFactory()
+        order_from_db = Order.objects.first()
+
+        self.assertEqual(Order.objects.count(), 1)
+        self.assertEqual(order_from_db.coupon, order.coupon)
+        self.assertEqual(order_from_db.discount, order.discount)
+
+    def test_order_with_coupon_model_creation_with_explicit_coupon(self):
+        Order.objects.all().delete()
+        Passenger.objects.all().delete()
+
+        coupon = CouponFactory()
+        order = OrderFactory(coupon=coupon, discount=coupon.discount)
+        order_from_db = Order.objects.first()
+
+        self.assertEqual(Order.objects.count(), 1)
+        self.assertEqual(order_from_db.coupon, coupon)
+        self.assertEqual(order_from_db.discount, coupon.discount)
 
     def test_order_name_max_length(self):
         order = Order.objects.first()
