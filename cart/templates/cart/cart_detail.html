@@ -79,28 +79,32 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="align-middle text-center">
-                                <h5>Subtotal</h5>
+                            <td class="align-middle text-center text-sm">
+                                <span class="font-weight-bold">Subtotal</span>
                             </td>
-                            <td class="align-middle text-center">
-                                <h5>$ {{ cart.get_total_price|floatformat:"-3g" }}</h5>
+                            <td class="align-middle text-center text-sm">
+                                <span class="font-weight-bold">$ {{ cart.get_total_price|floatformat:"-3g" }}</span>
                             </td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td></td>
                             <td>
                             </td>
-                            <td class="align-middle text-center">
-                                <h5>
-                                    "{{ cart.coupon.code }}" coupon ({{ cart.coupon.discount }}%off)
-                                </h5>
+                            <td>
                             </td>
-                            <td class="align-middle text-center">
-                                <h5>
+                            <td class="align-middle text-center text-sm">
+                                <span class="font-weight-bold">
+                                    "{{ cart.coupon.code }}" coupon ({{ cart.coupon.discount }}% off)
+                                </span>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <span class="font-weight-bold">
                                     - $ {{ cart.get_discount|floatformat:"-3g" }}
-                                </h5>
+                                </span>
+                            </td>
+                            <td>
                             </td>
                         </tr>
                     {% endif %}
@@ -120,45 +124,47 @@
                         </td>
                         <td class="align-middle text-center">
                             <h5>
-                                $ {{ cart.get_total_price|floatformat:"-3g" }}
+                                $ {{ cart.get_total_price_after_discount|floatformat:"-3g" }}
                             </h5>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="row">
-                <div class="col-lg-5 col-12">
-                    <h6 class="mb-0">
-                        Coupon
-                    </h6>
-                    <p class="text-sm">
-                        Write the code below to get a discount.
-                    </p>
-                    <div class="border-dashed border-1 border-secondary border-radius-md p-3">
-                        <p class="text-xs mb-3">
-                            <span class="font-weight-bolder">(Used one time)</span>
-                        </p>
-                        <div class="d-flex align-items-center">
-                            <form action="{% url "coupons:apply" %}" method="post">
-                                {% csrf_token %}
-                                {{ coupon_apply_form.non_field_errors }}
-                                {% for field in coupon_apply_form.visible_fields %}
-                                    <div class="mb-3">
-                                        {{ field.errors }}
-                                        {{ field }}
-                                        {{ field.help_text }}
-                                    </div>
-                                {% endfor %}
-                                <input type="submit" value="Apply" class="btn btn-sm btn-outline-secondary px-3" />
-                            </form>
-                        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-12">
+            <div class="border-dashed border-1 border-secondary border-radius-md p-3 mx-3 mx-md-0 mt-3">
+                <h6 class="mb-0">
+                    Coupon Code
+                </h6>
+                <p class="text-xs mb-3">
+                    <span class="font-weight-bolder">(Used one time)</span>
+                </p>
+                <div class="d-flex align-items-center">
+                    <div class="form-group w-70">
+                        <form action="{% url "coupons:apply" %}" method="post">
+                            {% csrf_token %}
+                            {{ coupon_apply_form.non_field_errors }}
+                            {% for field in coupon_apply_form.visible_fields %}
+                                <div class="mb-3">
+                                    {{ field.errors }}
+                                    {{ field }}
+                                    {{ field.help_text }}
+                                </div>
+                            {% endfor %}
+                            <input type="submit" value="Apply" class="btn btn-sm btn-outline-secondary px-3" />
+                        </form>
                     </div>
                 </div>
-                <div class="col-lg-3 col-12">
-                    <div class="d-flex justify-content-center mt-4">
-                        <a href="{% url 'orders:order_create' %}" class="btn btn-lg bg-gradient-primary shadow-xl">Checkout</a>
-                    </div>
-                </div>
+                <p class="text-xs mb-0">
+                    <a href="javascript:;">Contact us</a> to generate more referrals link.
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-8 col-12 mx-3 mx-md-0 text-center">
+            <div class="d-flex justify-content-center mt-4">
+                <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl">Checkout</a>
             </div>
         </div>
     </div>
