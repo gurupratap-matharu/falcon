@@ -74,7 +74,7 @@ class Order(models.Model):
 
     def get_total_cost_usd(self):
         """Calculate the order cost in USD"""
-
+        # TODO: Remove the hardcoded value
         cost_usd = self.get_total_cost() / 150
         return round(
             cost_usd, 2
@@ -131,9 +131,7 @@ class OrderItem(models.Model):
         "trips.Trip", related_name="order_items", on_delete=models.CASCADE
     )
 
-    # Veer you might want to use the trip price directly as we would not want to use
-    # a price saved in session. Session duration could be in days!
-    price = models.DecimalField(max_digits=10, decimal_places=2)  # Delete this?
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     seats = models.CharField(max_length=20)
     quantity = models.PositiveSmallIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(5)]

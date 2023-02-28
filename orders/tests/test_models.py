@@ -1,3 +1,6 @@
+import pdb
+from decimal import Decimal
+
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse_lazy
@@ -179,6 +182,70 @@ class OrderModelTests(TestCase):
         actual = order.get_ticket_url()  # type:ignore
 
         self.assertEqual(actual, expected)
+
+    def test_order_with_no_coupon_has_zero_discount(self):
+        self.assertEqual(self.order.get_discount(), Decimal(0))
+
+    def test_order_with_coupon_has_the_coupon_discount(self):
+        discount = 10
+
+        coupon = CouponFactory(discount=discount)
+        order = OrderFactory(coupon=coupon, discount=discount)
+
+        self.assertEqual(order.discount, coupon.discount)
+
+    def test_order_get_discount_is_correctly_calculated(self):
+        discount = 10
+
+        coupon = CouponFactory(discount=discount)
+        order = OrderFactory(coupon=coupon, discount=discount)
+        outbound_trip = TripFactory()
+        return_trip = TripTomorrowFactory()
+        order_items = [
+            OrderItemFactory(order=order, trip=outbound_trip),
+            OrderItemFactory(order=order, trip=return_trip),
+        ]
+        expected = order.get_total_cost_before_discount() * (
+            order.discount / Decimal(100)
+        )
+        actual = order.get_discount()
+
+        self.assertEqual(expected, actual)
+
+    def test_order_total_cost_is_correct_when_discount_is_applied(self):
+        discount = 10
+        coupon = CouponFactory(discount=discount)
+        order = OrderFactory(coupon=coupon, discount=discount)
+
+        outbound_trip = TripFactory()
+        return_trip = TripTomorrowFactory()
+        order_items = [
+            OrderItemFactory(order=order, trip=outbound_trip),
+            OrderItemFactory(order=order, trip=return_trip),
+        ]
+
+        expected = order.get_total_cost_before_discount() - order.get_discount()
+        actual = order.get_total_cost()
+
+        self.assertEqual(expected, actual)
+
+    def test_order_total_cost_is_correct_when_discount_value_is_zero(self):
+        # Create a coupon with zero discount
+        discount = 0
+        coupon = CouponFactory(discount=discount)
+        order = OrderFactory(coupon=coupon, discount=discount)
+
+        outbound_trip = TripFactory()
+        return_trip = TripTomorrowFactory()
+        order_items = [
+            OrderItemFactory(order=order, trip=outbound_trip),
+            OrderItemFactory(order=order, trip=return_trip),
+        ]
+        expected = order.get_total_cost_before_discount() - order.get_discount()
+        actual = order.get_total_cost()
+
+        self.assertEqual(expected, actual)
+        self.assertEqual(order.get_discount(), Decimal(0))
 
 
 class OrderItemModelTests(TestCase):
