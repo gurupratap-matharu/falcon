@@ -18,10 +18,9 @@ class OrderFactory(factory.django.DjangoModelFactory):
         model = Order
 
     name = factory.Faker("name_nonbinary")
-    # email = factory.LazyAttribute(
-    #     lambda obj: "%s@example.com" % obj.name.replace(" ", "-").lower()
-    # )
-    email = "veerplaying@gmail.com"
+    email = factory.LazyAttribute(
+        lambda obj: "%s@example.com" % obj.name.replace(" ", "-").lower()
+    )
     residence = factory.Faker("country_code")
     paid = factory.Faker("boolean")
 
@@ -35,6 +34,11 @@ class OrderFactory(factory.django.DjangoModelFactory):
             # A list of passengers were passed in, use them
             for passenger in extracted:
                 self.passengers.add(passenger)
+
+
+class OrderWithCouponFactory(OrderFactory):
+    coupon = factory.SubFactory("coupons.factories.CouponFactory")
+    discount = factory.LazyAttribute(lambda obj: obj.coupon.discount)
 
 
 class OrderItemFactory(factory.django.DjangoModelFactory):
