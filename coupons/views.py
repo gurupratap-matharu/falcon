@@ -49,7 +49,7 @@ def coupon_apply(request):
 
         except Coupon.DoesNotExist:
             logger.info("couldn't find coupon(📮):%s..." % code)
-            messages.error(request, failure_msg)
+            messages.info(request, failure_msg)
             request.session["coupon_id"] = None
 
     return redirect("cart:cart_detail")
