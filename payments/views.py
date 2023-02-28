@@ -116,6 +116,12 @@ class CheckoutView(TemplateView):
     from payment options page and creates a stripe checkout session and redirects to it.
 
     The user is routed back to our site based on the payment status.
+
+    # TODO: Based on the coupon discount of an order we can actually pass stripe the original charge amount
+    # and the coupon discount. At this moment we are not doing this. Instead we send
+    # the final discounted full amount of an order in usd to stripe. We did this as we are
+    # not sure if it benefits us and if our other payment provider mercado pago provides such
+    # a functionality.
     """
 
     http_method_names = ["post"]
