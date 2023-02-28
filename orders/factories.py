@@ -52,7 +52,7 @@ class OrderItemFactory(factory.django.DjangoModelFactory):
     order = factory.SubFactory(OrderFactory)
     # We provide dotted path to another factory to avoid circular import error
     trip = factory.SubFactory("trips.factories.TripFactory")
-    price = factory.Iterator([10, 15, 20])
+    price = factory.LazyAttribute(lambda obj: obj.trip.price)
     quantity = factory.Faker("random_int", min=1, max=5)
 
 
