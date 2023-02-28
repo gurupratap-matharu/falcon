@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from companies.factories import CompanyFactory
-from companies.models import Company
+from companies.models import Company, company_cover_path, company_thumbnail_path
 
 
 class CompanyModelTests(TestCase):
@@ -64,3 +64,22 @@ class CompanyModelTests(TestCase):
         ordering = company._meta.ordering[0]
 
         self.assertEqual(ordering, "name")
+
+
+class CompanyImagePaths(TestCase):
+    def setUp(self) -> None:
+        self.company = CompanyFactory()
+
+    def test_company_cover_path_is_correct(self):
+        filename = "cover.jpg"
+        actual = company_cover_path(instance=self.company, filename=filename)
+        expected = f"companies/{self.company.slug}/covers/{filename}"
+
+        self.assertEqual(actual, expected)
+
+    def test_company_thumbnail_path_is_correct(self):
+        filename = "thumbnail.jpg"
+        actual = company_thumbnail_path(instance=self.company, filename=filename)
+        expected = f"companies/{self.company.slug}/thumbnails/{filename}"
+
+        self.assertEqual(actual, expected)
