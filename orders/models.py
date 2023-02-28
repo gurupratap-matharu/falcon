@@ -1,5 +1,6 @@
 import logging
 import uuid
+from decimal import Decimal
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -28,6 +29,16 @@ class Order(models.Model):
     )  # type: ignore
     paid = models.BooleanField(default=False)
     payment_id = models.CharField(max_length=250, blank=True)
+    coupon = models.ForeignKey(
+        "coupons.Coupon",
+        related_name="orders",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+    discount = models.IntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -41,12 +52,25 @@ class Order(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def get_total_cost_before_discount(self):
+        return sum(item.get_cost() for item in self.items.all())  # type:ignore
+
+    def get_discount(self):
+        if self.discount:
+            total_cost = self.get_total_cost_before_discount()
+            return total_cost * (self.discount / Decimal(100))
+
+        return Decimal(0)
+
     def get_total_cost(self):
         """
-        Calculate the cost of all (both?) the trips (forward + return)
+        Calculate the final cost of the order with discount
         """
 
-        return sum(item.get_cost() for item in self.items.all())  # type: ignore
+        total_cost = self.get_total_cost_before_discount()
+        discount = self.get_discount()
+
+        return total_cost - discount
 
     def get_total_cost_usd(self):
         """Calculate the order cost in USD"""
