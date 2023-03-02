@@ -142,11 +142,11 @@ def admin_order_pdf(request, order_id):
     """
     Staff view used in admin interface to view the invoice of any order
     """
+    order = get_object_or_404(Order, id=order_id)
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = f"attachment; filename={order.name}.pdf"
 
-    order = get_object_or_404(Order, id=order_id)
     burn_order_pdf(target=response, order=order)
 
     return response
@@ -169,10 +169,11 @@ def ticket(request, order_id):
 def ticket_pdf(request, order_id):
     """Generate a PDF ticket for download"""
 
+    order = get_object_or_404(Order, id=order_id)
+
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = "attachment; filename=tickets.pdf"
 
-    order = get_object_or_404(Order, id=order_id)
     burn_ticket_pdf(request=request, target=response, order=order)
 
     return response
