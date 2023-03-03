@@ -13,6 +13,8 @@ from .models import Order, OrderItem, Passenger
 
 logger = logging.getLogger(__name__)
 
+admin.site.empty_value_display = "(None)"
+
 
 def export_to_csv(modeladmin, request, queryset):
     """
@@ -116,11 +118,13 @@ class OrderAdmin(admin.ModelAdmin):
 class PassengerAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "name",
         "document_type",
         "document_number",
-        "first_name",
-        "last_name",
     )
     inlines = [
         OrderPassengerInline,
     ]
+
+    def name(self, obj):
+        return obj.get_full_name()

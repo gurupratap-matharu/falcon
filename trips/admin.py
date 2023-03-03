@@ -37,7 +37,6 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = ("name", "abbr", "slug")
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ("name",)
-    list_editable = ("abbr",)
     prepopulated_fields = {"slug": ("name",)}
 
 
