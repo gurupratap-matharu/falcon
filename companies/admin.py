@@ -6,10 +6,11 @@ from .models import Company
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ("name", "logo", "website", "email", "phone", "address")
+    list_display = ("name", "logo", "website", "email", "phone", "address", "owner")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name", "email")
     prepopulated_fields = {"slug": ("name",)}
+    raw_id_fields = ("owner",)
 
     def logo(self, obj):
         if obj.cover:
