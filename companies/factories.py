@@ -31,3 +31,4 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     phone = factory.Faker("phone_number", locale="es_CL")
     email = factory.LazyAttribute(lambda o: "comercial@%s.com.ar" % slugify(o.name))
     cover = CustomImageField(color=fake.safe_color_name)
+    owner = factory.SubFactory("users.factories.UserFactory")

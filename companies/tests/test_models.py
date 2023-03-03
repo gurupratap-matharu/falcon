@@ -27,6 +27,7 @@ class CompanyModelTests(TestCase):
         self.assertEqual(Company.objects.count(), 1)
         self.assertEqual(company_from_db.name, self.company.name)
         self.assertEqual(company_from_db.slug, self.company.slug)
+        self.assertEqual(company_from_db.owner, self.company.owner)
 
     def test_company_name_max_length(self):
         company = Company.objects.first()
