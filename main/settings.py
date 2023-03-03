@@ -302,6 +302,7 @@ LOGGING = {
 
 # django extensions
 SHELL_PLUS_IMPORTS = [
+    "from companies.factories import CompanyFactory",
     "from trips.factories import TripFactory, TripTomorrowFactory, SeatFactory, SeatWithPassengerFactory",
     "from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory",
     "from coupons.factories import CouponFactory",
