@@ -7,7 +7,6 @@ from companies.factories import CompanyFactory
 from companies.views import CompanyDetailView, CompanyListView
 from users.factories import (
     CompanyOwnerFactory,
-    OperatorGroupFactory,
     StaffuserFactory,
     SuperuserFactory,
     UserFactory,
