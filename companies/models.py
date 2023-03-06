@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 
@@ -46,4 +46,7 @@ class Company(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("companies:company_detail", kwargs={"slug": self.slug})
+        return reverse_lazy("companies:company_detail", kwargs={"slug": self.slug})
+
+    def get_admin_url(self):
+        return reverse_lazy("companies:dashboard", kwargs={"slug": self.slug})

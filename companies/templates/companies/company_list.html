@@ -12,7 +12,7 @@
             <div class="col-md-3 mt-4">
                 <div class="card card-blog card-plain mx-3 mx-md-0">
                     <div class="position-relative">
-                        <a class="d-block blur-shadow-image">
+                        <a class="d-block blur-shadow-image" href="{{ company.get_absolute_url }}">
                             <img src="{% static 'assets/img/curved-images/curved1.jpg' %}"
                                  alt="img-blur-shadow"
                                  class="img-fluid shadow-lg border-radius-xl"/>
@@ -26,7 +26,9 @@
                             </h5>
                         </a>
                         <p>{{ company.description|truncatechars:70 }}</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm">Book</button>
+                        <div class="d-flex justify-content-end">
+                            <a type="button" href="{{ company.get_admin_url }}" class="btn btn-outline-primary btn-sm">Admin</a>
+                        </div>
                     </div>
                 </div>
             </div>
