@@ -83,8 +83,7 @@ class CompanyDashboardTests(TestCase):
     """Test suite for the company dashboard page view"""
 
     def setUp(self):
-        self.operators = OperatorGroupFactory()
-        self.owner = CompanyOwnerFactory(groups=(self.operators,))
+        self.owner = CompanyOwnerFactory()
         self.company = CompanyFactory(owner=self.owner)
         self.login_url = reverse_lazy("account_login")
         self.url = reverse_lazy("companies:dashboard", args=[str(self.company.slug)])
