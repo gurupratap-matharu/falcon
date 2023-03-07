@@ -1,0 +1,28 @@
+{% extends "layouts/base-sidebar.html" %}
+
+{% load static %}
+
+{% block title %}
+    Create|Update Trip
+{% endblock title %}
+
+{% block breadcrumb %}
+    Trip
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    {% if object %}
+        Edit trip "{{ object.name }}"
+    {% else %}
+        Create a new trip
+    {% endif %}
+{% endblock page_title %}
+
+{% block content %}
+    <h3>Trip Info</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+    </form>
+{% endblock content %}
