@@ -5,7 +5,7 @@ import uuid
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -145,10 +145,18 @@ class Trip(models.Model):
     def get_absolute_url(self):
         # TODO: Veer can we make this <origin>/<destination>/<company>/<id>?
         # Like how blog posts have unique urls
-        return reverse("trips:trip_detail", kwargs={"id": self.id, "slug": self.slug})
+        return reverse_lazy(
+            "trips:trip_detail", kwargs={"id": self.id, "slug": self.slug}
+        )
 
     def get_add_to_cart_url(self):
-        return reverse("cart:cart_add", kwargs={"trip_id": self.id})
+        return reverse_lazy("cart:cart_add", kwargs={"trip_id": self.id})
+
+    def get_update_url(self):
+        return reverse_lazy(
+            "companies:trip_update",
+            kwargs={"slug": self.company.slug, "id": str(self.id)},
+        )
 
     def book_seat(self, seat):
         """Mark a seat as booked"""
