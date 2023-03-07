@@ -65,76 +65,74 @@ class OrderCreateView(CreateView):
         context = self.get_context_data()
         cart, formset = context["cart"], context["formset"]
 
-        if formset.is_valid():
-
-            logger.info("veer passenger formset.is_valid(💑) %s" % formset.is_valid())
-            # Basically veer we need to do the following things here
-
-            # 1. create an order object thats saved to the DB
-            response = super().form_valid(form)  # <- this sets the self.object (order)
-            order = self.object  # type:ignore
-
-            if cart.coupon:
-                order.coupon = cart.coupon
-                order.discount = cart.coupon.discount
-                order.save()
-                logger.info("attaching coupon(🎟️) to order(🗽)...")
-
-            logger.info("veer created order(🗽) %s" % order)
-
-            # 2. create valid passenger objects
-            passengers = formset.save()
-            logger.info("veer created passengers(👨‍👩‍👧‍👦)%s" % passengers)
-
-            # 3. create and save order -> passenger m2m
-            order.passengers.add(*passengers)
-            order.save()
-            logger.info("veer order.passengers.all(): %s" % order.passengers.all())
-
-            for item in cart:
-
-                trip = item["trip"]
-
-                # Extract seat numbers from POST data and clean them
-                seat_numbers = self.request.POST.get(f"seats{trip.id}", "")
-
-                # 4. Mark the seats for hold for each trip
-                logger.info(
-                    "veer for trip: %s you selected seats: %s" % (trip, seat_numbers)
-                )
-
-                seats = trip.hold_seats(seat_numbers)
-
-                logger.info("veer I've put on hold %s number of seats(💺)", seats)
-
-                # 5. create order item objects (order, trip, seatnos) combo
-                order_item = OrderItem.objects.create(
-                    order=order,
-                    trip=trip,
-                    price=item["price"],
-                    quantity=item["quantity"],
-                    seats=seat_numbers,
-                )
-
-                logger.info("veer created order_item(📝): %s", order_item)
-
-            cart.clear()
-
-            logger.info("veer cleared the cart(🛒)...")
-
-            # 6. Save order.id in session so payments can access it
-            order_id = str(order.id)
-            self.request.session["order"] = order_id
-
-            # 7. Send order creation email
-            # TODO: run this async with celery
-            order_created(order_id=order.id)
-
-            # 8. Redirect to payment
-            return response
-
-        else:
+        if not formset.is_valid():
             return super().form_invalid(form)
+
+        logger.info("veer passenger formset.is_valid(💑) %s" % formset.is_valid())
+        # Basically veer we need to do the following things here
+
+        # 1. create an order object thats saved to the DB
+        response = super().form_valid(form)  # <- this sets the self.object (order)
+        order = self.object  # type:ignore
+
+        if cart.coupon:
+            order.coupon = cart.coupon
+            order.discount = cart.coupon.discount
+            order.save()
+            logger.info("attaching coupon(🎟️) to order(🗽)...")
+
+        logger.info("veer created order(🗽) %s" % order)
+
+        # 2. create valid passenger objects
+        passengers = formset.save()
+        logger.info("veer created passengers(👨‍👩‍👧‍👦)%s" % passengers)
+
+        # 3. create and save order -> passenger m2m
+        order.passengers.add(*passengers)
+        order.save()
+        logger.info("veer order.passengers.all(): %s" % order.passengers.all())
+
+        for item in cart:
+
+            trip = item["trip"]
+
+            # Extract seat numbers from POST data and clean them
+            seat_numbers = self.request.POST.get(f"seats{trip.id}", "")
+
+            # 4. Mark the seats for hold for each trip
+            logger.info(
+                "veer for trip: %s you selected seats: %s" % (trip, seat_numbers)
+            )
+
+            seats = trip.hold_seats(seat_numbers)
+
+            logger.info("veer I've put on hold %s number of seats(💺)", seats)
+
+            # 5. create order item objects (order, trip, seatnos) combo
+            order_item = OrderItem.objects.create(
+                order=order,
+                trip=trip,
+                price=item["price"],
+                quantity=item["quantity"],
+                seats=seat_numbers,
+            )
+
+            logger.info("veer created order_item(📝): %s", order_item)
+
+        cart.clear()
+
+        logger.info("veer cleared the cart(🛒)...")
+
+        # 6. Save order.id in session so payments can access it
+        order_id = str(order.id)
+        self.request.session["order"] = order_id
+
+        # 7. Send order creation email
+        # TODO: run this async with celery
+        order_created(order_id=order.id)
+
+        # 8. Redirect to payment
+        return response
 
 
 @staff_member_required
