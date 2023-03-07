@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
 from companies.factories import CompanyFactory
-from companies.views import CompanyDetailView, CompanyListView
+from companies.views import CompanyDashboardView, CompanyDetailView, CompanyListView
 from users.factories import (
     CompanyOwnerFactory,
     StaffuserFactory,
@@ -87,6 +87,10 @@ class CompanyDashboardTests(TestCase):
         self.login_url = reverse_lazy("account_login")
         self.url = reverse_lazy("companies:dashboard", args=[str(self.company.slug)])
         self.template_name = "companies/dashboard.html"
+
+    def test_company_dashboard_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, CompanyDashboardView.as_view().__name__)
 
     def test_company_dashboard_view_is_not_accessible_by_anonymous_user(self):
         response = self.client.get(self.url)
