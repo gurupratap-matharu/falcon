@@ -3,7 +3,6 @@ import logging
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
-    CreateView,
     DeleteView,
     DetailView,
     ListView,
@@ -59,7 +58,7 @@ class OwnerTripMixin(OwnerMixin, LoginRequiredMixin, PermissionRequiredMixin):
 
     model = Trip
     context_object_name = "trips"
-    fields = ("name", "departure", "arrival")  # 👈 Update this
+    fields = "__all__"  # 👈 Update this
     success_url = reverse_lazy("companies:manage_trip_list")
 
 
@@ -84,12 +83,6 @@ class ManageTripListView(OwnerTripMixin, ListView):
 
     template_name = "companies/manage_trip_list.html"
     permission_required = "trips.view_trip"
-
-
-class TripCreateView(OwnerTripEditMixin, CreateView):
-    """Allow company staff to create a new trip"""
-
-    permission_required = "trips.add_trip"
 
 
 class TripUpdateView(OwnerTripEditMixin, UpdateView):
