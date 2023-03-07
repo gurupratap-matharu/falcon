@@ -2,10 +2,12 @@ import datetime
 import logging
 from typing import Any
 
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import DetailView, ListView, View
+from django.views.generic import CreateView, DetailView, ListView, View
 
+from .forms import TripCreateForm
 from .models import Location, Trip
 from .terminals import TERMINALS
 
@@ -78,3 +80,11 @@ class TripDetailView(DetailView):
     model = Trip
     context_object_name = "trip"
     template_name = "trips/trip_detail.html"
+
+
+class TripCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    """Allow company staff to create a new trip"""
+
+    form_class = TripCreateForm
+    template_name = "trips/trip_form.html"
+    permission_required = "trips.add_trip"
