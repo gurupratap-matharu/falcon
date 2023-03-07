@@ -37,4 +37,22 @@ class TripCreateForm(forms.ModelForm):
             "destination": forms.Select(
                 attrs={"class": "form-select", "required": "required"}
             ),
+            "departure": forms.DateTimeInput(
+                format="%Y-%m-%d %H:%M:%S", attrs={"class": "form-control departure"}
+            ),
+            "arrival": forms.DateTimeInput(
+                format="%Y-%m-%d %H:%M:%S", attrs={"class": "form-control arrival"}
+            ),
+            "price": forms.TextInput(
+                attrs={"class": "form-select", "required": "required"}
+            ),
+            "status": forms.Select(
+                attrs={"class": "form-select", "required": "required"}
+            ),
+            "mode": forms.Select(
+                attrs={"class": "form-select", "required": "required"}
+            ),
+            "description": forms.Textarea(
+                attrs={"class": "form-select", "placeholder": "Description"}
+            ),
         }

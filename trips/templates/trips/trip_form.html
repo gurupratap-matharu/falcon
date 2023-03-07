@@ -26,3 +26,33 @@
         <input type="submit" value="Save" class="btn btn-primary btn-sm" />
     </form>
 {% endblock content %}
+
+{% block js %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+        flatpickr(".departure", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            altInput: true,
+            altFormat: "F j, H:i",
+            minDate: "today",
+            maxDate: new Date().fp_incr(330), // 330 days from now,
+            locale: {
+                firstDayOfWeek: 1, // start from Monday
+            },
+        });
+        flatpickr(".arrival", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            altInput: true,
+            altFormat: "F j, H:i",
+            minDate: "today",
+            maxDate: new Date().fp_incr(330), // 330 days from now,
+            locale: {
+                firstDayOfWeek: 1, // start from Monday
+            },
+        });
+    });
+    </script>
+{% endblock js %}
