@@ -36,12 +36,12 @@ class Location(models.Model):
     class Meta:
         ordering = ["name"]
 
-    def pre_save(self, instance, add):
-        logger.info(
-            "LocationModel: slugifying %s: %s" % (instance.name, slugify(instance.name))
-        )
-        if not instance.slug:
-            instance.slug = slugify(self.name)
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            logger.info("slugifying %s:%s..." % (self.name, slugify(self.name)))
+            self.slug = slugify(self.name)
+
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -119,6 +119,13 @@ class Trip(models.Model):
 
     objects = models.Manager()
     active = ActiveManager()
+
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            logger.info("slugifying %s:%s..." % (self.name, slugify(self.name)))
+            self.slug = slugify(self.name)
+
+        return super().save(*args, **kwargs)
 
     def clean(self):
         # Don't allow arrival date to be less than departure date
