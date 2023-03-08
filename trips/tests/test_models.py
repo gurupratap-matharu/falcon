@@ -1,5 +1,4 @@
-import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from django.core.exceptions import ValidationError
@@ -7,6 +6,7 @@ from django.db import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 
+from companies.factories import CompanyFactory
 from orders.factories import PassengerFactory
 from orders.models import Passenger
 from trips.exceptions import SeatException, TripException
@@ -39,6 +39,21 @@ class LocationModelTests(TestCase):
         self.assertEqual(location_from_db.name, self.location.name)
         self.assertEqual(location_from_db.slug, self.location.slug)
         self.assertEqual(location_from_db.abbr, self.location.abbr)
+
+    def test_location_slug_is_auto_generated_even_if_not_supplied(self):
+        location = Location.objects.create(name="san carlos de bariloche")
+
+        self.assertEqual(location.slug, "san-carlos-de-bariloche")
+
+    def test_existing_slug_is_not_overwritten_when_updating_location(self):
+        location = Location.objects.create(name="san carlos de bariloche")
+
+        self.assertEqual(location.slug, "san-carlos-de-bariloche")
+
+        obj, created = Location.objects.update_or_create(
+            name="san carlos de bariloche", defaults={"name": "SAN CARLOS DE BARILOCHE"}
+        )
+        self.assertEqual(obj.slug, "san-carlos-de-bariloche")
 
     def test_location_name_max_length(self):
         location = Location.objects.first()
@@ -141,6 +156,37 @@ class TripModelTests(TestCase):
         self.assertEqual(trip._meta.get_field("name").max_length, 200)
         self.assertEqual(trip._meta.get_field("slug").max_length, 200)
 
+    def test_slug_is_auto_generated_even_if_not_supplied(self):
+        origin, destination = LocationFactory.create_batch(size=2)
+        company = CompanyFactory()
+        departure = datetime.now(tz=ZoneInfo("UTC"))
+        arrival = departure + timedelta(hours=1)
+
+        # create trip but do not pass slug
+        trip = Trip.objects.create(
+            name="san carlos de bariloche",
+            company=company,
+            origin=origin,
+            destination=destination,
+            departure=departure,
+            arrival=arrival,
+            price=10000,
+        )
+
+        expected = "san-carlos-de-bariloche"
+        actual = trip.slug
+
+        self.assertEqual(expected, actual)
+
+        # Update the trip with valid slug. This should not update the slug itself
+        # else it breaks our SEO
+        new_name = "SAN CARLOS DE BARILOCHE"
+        obj, created = Trip.objects.update_or_create(
+            name="san carlos de bariloche", defaults={"name": new_name}
+        )
+        self.assertEqual(obj.slug, expected)
+        self.assertEqual(obj.name, new_name)
+
     def test_for_trip_in_the_past_a_seat_cannot_be_booked(self):
         # Create a past trip with two seats
         SeatFactory.reset_sequence(1)
@@ -238,9 +284,7 @@ class TripModelTests(TestCase):
         self.assertTrue(trip.departure)
 
     def test_trip_leaving_tomorrow_is_due_shortly(self):
-        next_hour = datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(
-            hours=1
-        )
+        next_hour = datetime.now(tz=ZoneInfo("UTC")) + timedelta(hours=1)
         trip = TripFactory(departure=next_hour)
 
         self.assertTrue(trip.is_due_shortly)  # type:ignore
