@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from companies.factories import CompanyFactory
 from companies.models import Company, company_cover_path, company_thumbnail_path
+from users.factories import CompanyOwnerFactory
 
 
 class CompanyModelTests(TestCase):
@@ -65,6 +66,33 @@ class CompanyModelTests(TestCase):
         ordering = company._meta.ordering[0]
 
         self.assertEqual(ordering, "name")
+
+    def test_company_slug_is_auto_generated_even_if_not_supplied(self):
+        owner = CompanyOwnerFactory()
+
+        # create company but do not pass slug
+        company = Company.objects.create(
+            name="20 de junio",
+            address="Mendoza Argentina",
+            phone="5491150254191",
+            email="comercial@20dejunio.com",
+            owner=owner,
+        )
+
+        expected = "20-de-junio"
+        actual = company.slug
+
+        self.assertEqual(expected, actual)
+
+        # Update the company name. This should not update the slug itself
+        # else it breaks our SEO
+        new_name = "20 DE JUNIO"
+        obj, created = Company.objects.update_or_create(
+            name="20 de junio", defaults={"name": new_name}
+        )
+
+        self.assertEqual(obj.slug, expected)
+        self.assertEqual(obj.name, new_name)
 
 
 class CompanyImagePaths(TestCase):

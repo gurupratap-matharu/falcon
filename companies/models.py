@@ -1,7 +1,12 @@
+import logging
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse_lazy
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
+logger = logging.getLogger(__name__)
 
 
 def company_cover_path(instance, filename):
@@ -41,6 +46,13 @@ class Company(models.Model):
         ordering = ["name"]
         verbose_name = "company"
         verbose_name_plural = "companies"
+
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            logger.info("slugifying %s:%s..." % (self.name, slugify(self.name)))
+            self.slug = slugify(self.name)
+
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
