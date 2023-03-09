@@ -1,8 +1,6 @@
 import logging
-from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import QuerySet
 from django.views.generic import DetailView, ListView, TemplateView
 
 from .models import Company
