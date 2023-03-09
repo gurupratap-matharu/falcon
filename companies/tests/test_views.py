@@ -163,4 +163,6 @@ class CompanyDashboardTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
         self.assertContains(response, "Dashboard")
+        self.assertContains(response, self.company)
+        self.assertEqual(self.company, response.context["company"])
         self.assertNotContains(response, "Hi I should not be on this page!")
