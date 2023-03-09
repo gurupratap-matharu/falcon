@@ -19,6 +19,16 @@ class CompanyModelTests(TestCase):
         expected_url = f"/companies/{self.company.slug.lower()}/"
         self.assertEqual(self.company.get_absolute_url(), expected_url)
 
+    def test_get_admin_url(self):
+        expected_url = f"/companies/{self.company.slug.lower()}/admin/"
+
+        self.assertEqual(self.company.get_admin_url(), expected_url)
+
+    def test_get_trip_list_url(self):
+        expected_url = f"/companies/{self.company.slug.lower()}/admin/trips/"
+
+        self.assertEqual(self.company.get_trip_list_url(), expected_url)
+
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.company._meta.verbose_name_plural), "companies")
 
