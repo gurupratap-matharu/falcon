@@ -1,6 +1,8 @@
 import logging
+from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import QuerySet
 from django.views.generic import DetailView, ListView, TemplateView
 
 from .models import Company
@@ -29,11 +31,4 @@ class CompanyDashboardView(LoginRequiredMixin, PermissionRequiredMixin, Template
     """
 
     template_name = "companies/dashboard.html"
-    permission_required = "trips.view_trip"
-
-
-class ManageTripListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    """Allow company staff to list their upcoming trips"""
-
-    template_name = "companies/manage_trip_list.html"
     permission_required = "trips.view_trip"

@@ -10,7 +10,13 @@ app_name = "companies"
 company_admin_patterns = [
     # Private Company Admin Endpoints
     path("", views.CompanyDashboardView.as_view(), name="dashboard"),
-    path("trips/create/", trip_views.TripCreateView.as_view(), name="trip_create"),
+    path("trips/", trip_views.CompanyTripListView.as_view(), name="trip-list"),
+    path("trips/create/", trip_views.TripCreateView.as_view(), name="trip-create"),
+    path(
+        "trips/<uuid:id>/update/",
+        trip_views.TripUpdateView.as_view(),
+        name="trip-update",
+    ),
 ]
 
 urlpatterns = [

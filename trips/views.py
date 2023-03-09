@@ -1,11 +1,15 @@
 import datetime
 import logging
+import pdb
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import CreateView, DetailView, ListView, View
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
+
+from companies.models import Company
 
 from .forms import TripCreateForm
 from .models import Location, Trip
@@ -82,9 +86,43 @@ class TripDetailView(DetailView):
     template_name = "trips/trip_detail.html"
 
 
-class TripCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+# Trip CRUD Private Views for company staff
+class CRUDMixins(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin):
+    pass
+
+
+class CompanyTripListView(CRUDMixins, ListView):
+    """Allow company staff to list their upcoming trips"""
+
+    template_name = "trips/company_trip_list.html"
+    permission_required = "trips.view_trip"
+    model = Trip
+
+    def get_queryset(self) -> QuerySet[Any]:
+        logger.info("kwargs: %s" % self.kwargs)
+        return super().get_queryset()
+
+
+class TripCreateView(CRUDMixins, CreateView):
     """Allow company staff to create a new trip"""
 
     form_class = TripCreateForm
     template_name = "trips/trip_form.html"
     permission_required = "trips.add_trip"
+    success_message = "Trip created successfully 💫"
+
+    def form_valid(self, form):
+        logger.info("trip form is valid(🌟)...")
+        form.instance.company = get_object_or_404(Company, slug=self.kwargs["slug"])
+        return super().form_valid(form)
+
+
+class TripUpdateView(CRUDMixins, UpdateView):
+    """Allow company staff to update their own trips"""
+
+    model = Trip
+    pk_url_kwarg = "id"
+    form_class = TripCreateForm
+    template_name = "trips/trip_form.html"
+    permission_required = "trips.change_trip"
+    success_message = "Trip updated successfully ✨"
