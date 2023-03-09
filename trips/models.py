@@ -48,12 +48,27 @@ class Location(models.Model):
 
 
 class ActiveManager(models.Manager):
+    """
+    Extra manager for Trip Model which shows only active trips
+
+    A trip is active when
+        - departure is in the future
+        - status is set to Active
+    """
+
     def get_queryset(self):
+        logger.info("showing only active trips(⏰)...")
+
         return (
             super()
             .get_queryset()
             .filter(departure__gt=timezone.now(), status=Trip.ACTIVE)
         )
+
+    def for_company(self, company_slug=None):
+        logger.info("showing trips for company(🚌): %s..." % company_slug)
+
+        return self.get_queryset().filter(company__slug=company_slug)
 
 
 class Trip(models.Model):
@@ -161,7 +176,7 @@ class Trip(models.Model):
 
     def get_update_url(self):
         return reverse_lazy(
-            "companies:trip_update",
+            "companies:trip-update",
             kwargs={"slug": self.company.slug, "id": str(self.id)},
         )
 
