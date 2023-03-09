@@ -1,7 +1,7 @@
 import datetime
 import logging
 import pdb
-from typing import Any
+from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -94,13 +94,20 @@ class CRUDMixins(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixi
 class CompanyTripListView(CRUDMixins, ListView):
     """Allow company staff to list their upcoming trips"""
 
+    model = Trip
     template_name = "trips/company_trip_list.html"
     permission_required = "trips.view_trip"
-    model = Trip
+    context_object_name = "trips"
+    company = None
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["company"] = get_object_or_404(Company, slug=self.kwargs["slug"])
+
+        return context
 
     def get_queryset(self) -> QuerySet[Any]:
-        logger.info("kwargs: %s" % self.kwargs)
-        return super().get_queryset()
+        return Trip.active.for_company(company_slug=self.kwargs["slug"])
 
 
 class TripCreateView(CRUDMixins, CreateView):
