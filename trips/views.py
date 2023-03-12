@@ -83,6 +83,7 @@ class TripDetailView(DetailView):
     model = Trip
     context_object_name = "trip"
     template_name = "trips/trip_detail.html"
+    pk_url_kwarg = "id"
 
 
 # Trip CRUD Private Views for company staff
@@ -116,11 +117,18 @@ class TripCreateView(CRUDMixins, CreateView):
     template_name = "trips/trip_form.html"
     permission_required = "trips.add_trip"
     success_message = "Trip created successfully 💫"
+    company = None
 
     def form_valid(self, form):
         logger.info("trip form is valid(🌟)...")
-        form.instance.company = get_object_or_404(Company, slug=self.kwargs["slug"])
+
+        self.company = get_object_or_404(Company, slug=self.kwargs["slug"])
+        form.instance.company = self.company
+
         return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        return self.company.get_trip_list_url()
 
 
 class TripUpdateView(CRUDMixins, UpdateView):
@@ -132,3 +140,7 @@ class TripUpdateView(CRUDMixins, UpdateView):
     template_name = "trips/trip_form.html"
     permission_required = "trips.change_trip"
     success_message = "Trip updated successfully ✨"
+
+    def get_success_url(self) -> str:
+        company = get_object_or_404(Company, slug=self.kwargs["slug"])
+        return company.get_trip_list_url()

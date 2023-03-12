@@ -202,7 +202,7 @@ class TripCreateViewTests(TestCase):
 
         # Get trip created in DB
         trip = Trip.objects.first()
-        expected_url = trip.get_absolute_url()
+        expected_url = self.company.get_trip_list_url()  # type:ignore
 
         # Verify redirection
         self.assertRedirects(
@@ -222,7 +222,6 @@ class TripCreateViewTests(TestCase):
         self.assertEqual(trip.mode, "D")
 
         # Verify content of final redirected page
-        self.assertContains(response, trip.name)
         self.assertNotContains(response, "Hi I should not be on this page!")
 
         # Verify trip creation success message on final page.
