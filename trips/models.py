@@ -152,11 +152,6 @@ class Trip(models.Model):
                 {"arrival": _("Arrival date cannot be less than departure date")},
                 code="invalid",
             )
-        if self.price < Decimal(0):
-            raise ValidationError(
-                {"price": _("Price cannot be less than zero!")},
-                code="invalid",
-            )
 
     def __str__(self):
         """
