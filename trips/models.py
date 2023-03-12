@@ -1,9 +1,14 @@
 import datetime
 import logging
 import uuid
+from decimal import Decimal
 
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import (
+    DecimalValidator,
+    MaxValueValidator,
+    MinValueValidator,
+)
 from django.db import models
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -116,7 +121,9 @@ class Trip(models.Model):
     )
     departure = models.DateTimeField(verbose_name=_("Departure Date & Time"))
     arrival = models.DateTimeField(verbose_name=_("Arrival Date & Time"))
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, validators=[MinValueValidator(1)]
+    )
     status = models.CharField(
         max_length=2,
         choices=TRIP_STATUS_CHOICES,
@@ -147,6 +154,11 @@ class Trip(models.Model):
         if self.arrival and self.departure and (self.arrival < self.departure):
             raise ValidationError(
                 {"arrival": _("Arrival date cannot be less than departure date")},
+                code="invalid",
+            )
+        if self.price < Decimal(0):
+            raise ValidationError(
+                {"price": _("Price cannot be less than zero!")},
                 code="invalid",
             )
 
