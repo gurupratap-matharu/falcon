@@ -1,3 +1,4 @@
+from decimal import Decimal
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
@@ -17,6 +18,7 @@ from trips.views import (
     TripCreateView,
     TripDetailView,
     TripListView,
+    TripUpdateView,
 )
 from users.factories import (
     CompanyOwnerFactory,
@@ -228,6 +230,151 @@ class TripCreateViewTests(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), TripCreateView.success_message)
+
+
+class TripUpdateViewTests(TestCase):
+    """Test suite for trip update view in company admin interface"""
+
+    def setUp(self):
+        self.owner = CompanyOwnerFactory()
+        self.company = CompanyFactory(owner=self.owner)
+        self.trip = TripTomorrowFactory(company=self.company)
+        self.login_url = reverse_lazy("account_login")
+        self.url = self.trip.get_update_url()  # type:ignore
+        self.template_name = "trips/trip_form.html"
+        self.permission = "trips.change_trip"
+
+    def test_trip_update_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, TripUpdateView.as_view().__name__)
+
+    def test_trip_update_view_is_not_accessible_by_anonymous_user(self):
+        """Here an anonymous user is routed to login url"""
+
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_trip_upate_view_is_not_accessible_by_logged_in_normal_public_user(
+        self,
+    ):
+        user = UserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_trip_upate_view_is_not_accessible_by_staffuser(self):
+        user = StaffuserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is staff but not superuser and correctly authenticated
+        self.assertTrue(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert staff user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_trip_update_view_is_accessible_by_superuser(self):
+        user = SuperuserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is staff | superuser and correctly authenticated
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Create")
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+    def test_trip_update_view_is_accessible_by_company_user(self):
+        """Check if a company staff | owner can access their own trip."""
+
+        self.client.force_login(self.owner)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(self.owner.is_superuser)
+        self.assertFalse(self.owner.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertEqual(self.owner, self.company.owner)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Create")
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+    def test_trip_update_view_works_on_successful_post(self):
+        """
+        This is an end-to-end kind of test for trip updation.
+        """
+
+        # Build data
+        data = {
+            "name": "Antartica Trip",
+            "origin": str(self.trip.origin.id),
+            "destination": str(self.trip.destination.id),
+            "departure": self.trip.departure.strftime("%Y-%m-%d %H:%M"),
+            "arrival": self.trip.arrival.strftime("%Y-%m-%d %H:%M"),
+            "price": "20",
+            "status": "A",
+            "mode": "D",
+            "image": "",
+            "description": "My new trip to Antartica",
+        }
+
+        self.client.force_login(self.owner)  # type:ignore
+
+        # Creation will redirect to trip-detail so make `follow=True`
+        response = self.client.post(path=self.url, data=data, follow=True)
+
+        # Get trip created in DB
+        trip = Trip.objects.first()
+        expected_url = self.company.get_trip_list_url()  # type:ignore
+
+        # Verify redirection
+        self.assertRedirects(
+            response=response,
+            expected_url=expected_url,
+            status_code=HTTPStatus.FOUND,
+            target_status_code=HTTPStatus.OK,
+        )
+
+        # Verify DB count and content
+        self.assertEqual(Trip.objects.count(), 1)
+        self.assertEqual(trip.name, "Antartica Trip")
+        self.assertEqual(trip.price, Decimal(20))
+        self.assertEqual(trip.description, "My new trip to Antartica")
+
+        # Verify content of final redirected page
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Verify trip creation success message on final page.
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), TripUpdateView.success_message)
 
 
 class CompanyTripListViewTests(TestCase):

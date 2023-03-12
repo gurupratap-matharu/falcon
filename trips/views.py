@@ -142,5 +142,4 @@ class TripUpdateView(CRUDMixins, UpdateView):
     success_message = "Trip updated successfully ✨"
 
     def get_success_url(self) -> str:
-        company = get_object_or_404(Company, slug=self.kwargs["slug"])
-        return company.get_trip_list_url()
+        return self.object.company.get_trip_list_url()
