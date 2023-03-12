@@ -10,10 +10,6 @@
 
 {% block hero_title %}
     <h1 class="text-white mb-2 mt-5">Welcome!</h1>
-    <p class="text-lead text-white">
-        We are very happy to know that you wish to open an account. Use this form to
-        create a new account for free.
-    </p>
 {% endblock hero_title %}
 
 {% block content %}
@@ -106,7 +102,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="POST" role="form text-left">
+                    <form method="post" role="form text-left">
                         {% csrf_token %}
                         {{ form.non_field_errors }}
                         {% for field in form.visible_fields %}
@@ -117,7 +113,7 @@
                             </div>
                         {% endfor %}
                         <div class="form-check form-check-info text-left">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked />
                             <label class="form-check-label" for="flexCheckDefault">
                                 I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
                             </label>
