@@ -52,10 +52,13 @@ class TripListViewTests(TestCase):
 class TripDetailViewTests(TestCase):
     """Test Suite for Trip DetailView"""
 
-    def setUp(self):
-        self.trip = TripFactory()
-        self.url = self.trip.get_absolute_url()
-        self.template_name = "trips/trip_detail.html"
+    @classmethod
+    def setUpTestData(cls):
+        cls.trip = TripFactory()
+        cls.url = cls.trip.get_absolute_url()
+        cls.template_name = "trips/trip_detail.html"
+
+    def setUp(self) -> None:
         self.response = self.client.get(self.url)
 
     def test_trip_detail_view_works_correctly(self):
@@ -86,13 +89,14 @@ class TripDetailViewTests(TestCase):
 class TripCreateViewTests(TestCase):
     """Test suite for the trip create view"""
 
-    def setUp(self):
-        self.owner = CompanyOwnerFactory()
-        self.company = CompanyFactory(owner=self.owner)
-        self.login_url = reverse_lazy("account_login")
-        self.url = reverse_lazy("companies:trip-create", args=[str(self.company.slug)])
-        self.template_name = "trips/trip_form.html"
-        self.permission = "trips.add_trip"
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.login_url = reverse_lazy("account_login")
+        cls.url = reverse_lazy("companies:trip-create", args=[str(cls.company.slug)])
+        cls.template_name = "trips/trip_form.html"
+        cls.permission = "trips.add_trip"
 
     def test_company_trip_create_url_resolves_correct_view(self):
         view = resolve(self.url)
@@ -235,14 +239,15 @@ class TripCreateViewTests(TestCase):
 class TripUpdateViewTests(TestCase):
     """Test suite for trip update view in company admin interface"""
 
-    def setUp(self):
-        self.owner = CompanyOwnerFactory()
-        self.company = CompanyFactory(owner=self.owner)
-        self.trip = TripTomorrowFactory(company=self.company)
-        self.login_url = reverse_lazy("account_login")
-        self.url = self.trip.get_update_url()  # type:ignore
-        self.template_name = "trips/trip_form.html"
-        self.permission = "trips.change_trip"
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.trip = TripTomorrowFactory(company=cls.company)
+        cls.login_url = reverse_lazy("account_login")
+        cls.url = cls.trip.get_update_url()  # type:ignore
+        cls.template_name = "trips/trip_form.html"
+        cls.permission = "trips.change_trip"
 
     def test_trip_update_url_resolves_correct_view(self):
         view = resolve(self.url)
@@ -380,18 +385,19 @@ class TripUpdateViewTests(TestCase):
 class CompanyTripListViewTests(TestCase):
     """Test suite for company trip list view"""
 
-    def setUp(self):
-        self.owner = CompanyOwnerFactory()
-        self.company = CompanyFactory(owner=self.owner)
-        self.trips = TripTomorrowFactory.create_batch(
-            size=2, company=self.company, status=Trip.ACTIVE
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.trips = TripTomorrowFactory.create_batch(
+            size=2, company=cls.company, status=Trip.ACTIVE
         )
-        self.inactive_trip = TripPastFactory(company=self.company)
+        cls.inactive_trip = TripPastFactory(company=cls.company)
 
-        self.url = self.company.get_trip_list_url()  # type:ignore
-        self.template_name = "trips/company_trip_list.html"
-        self.permission = "trips.view_trip"
-        self.login_url = reverse_lazy("account_login")
+        cls.url = cls.company.get_trip_list_url()  # type:ignore
+        cls.template_name = "trips/company_trip_list.html"
+        cls.permission = "trips.view_trip"
+        cls.login_url = reverse_lazy("account_login")
 
     def test_company_trip_list_resolves_correct_view(self):
         view = resolve(self.url)
