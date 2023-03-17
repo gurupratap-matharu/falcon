@@ -1,6 +1,5 @@
 import datetime
 import logging
-import math
 import uuid
 
 from django.core.exceptions import ValidationError
