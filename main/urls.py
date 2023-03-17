@@ -26,6 +26,7 @@ urlpatterns = [
     path("account/", include("users.urls")),
     # third party apps
     path("captcha/", include("captcha.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
     # Local apps
     path("trips/", include("trips.urls")),
     path("cart/", include("cart.urls", namespace="cart")),
