@@ -13,6 +13,11 @@ company_admin_patterns = [
     path("trips/", trip_views.CompanyTripListView.as_view(), name="trip-list"),
     path("trips/create/", trip_views.TripCreateView.as_view(), name="trip-create"),
     path(
+        "trips/<uuid:id>/",
+        trip_views.CompanyTripDetailView.as_view(),
+        name="trip-detail",
+    ),
+    path(
         "trips/<uuid:id>/update/",
         trip_views.TripUpdateView.as_view(),
         name="trip-update",

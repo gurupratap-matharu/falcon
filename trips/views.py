@@ -110,6 +110,25 @@ class CompanyTripListView(CRUDMixins, ListView):
         return Trip.active.for_company(company_slug=self.kwargs["slug"])
 
 
+class CompanyTripDetailView(CRUDMixins, DetailView):
+    """
+    Allow company staff to see passenger list for a trip
+    This would be needed when the trip is about to depart.
+    """
+
+    model = Trip
+    pk_url_kwarg = "id"
+    context_object_name = "trip"
+    template_name = "trips/company_trip_detail.html"
+    permission_required = "trips.view_trip"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["company"] = get_object_or_404(Company, slug=self.kwargs["slug"])
+
+        return context
+
+
 class TripCreateView(CRUDMixins, CreateView):
     """Allow company staff to create a new trip"""
 
