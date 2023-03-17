@@ -1,7 +1,7 @@
 import datetime
 import logging
+import math
 import uuid
-from decimal import Decimal
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -69,7 +69,12 @@ class ActiveManager(models.Manager):
     def for_company(self, company_slug=None):
         logger.info("showing trips for company(🚌): %s..." % company_slug)
 
-        return self.get_queryset().filter(company__slug=company_slug)
+        return (
+            super()
+            .get_queryset()
+            .filter(company__slug=company_slug)
+            .filter(departure__gt=timezone.now())
+        )
 
 
 class Trip(models.Model):
@@ -183,6 +188,10 @@ class Trip(models.Model):
             kwargs={"slug": self.company.slug, "id": str(self.id)},
         )
 
+    def get_status_context(self):
+        context = "success" if self.status == Trip.ACTIVE else "danger"
+        return context
+
     def book_seat(self, seat):
         """Mark a seat as booked"""
 
@@ -241,7 +250,12 @@ class Trip(models.Model):
         return seats
 
     def get_booked_seats(self):
-        """Get list of booked seats for populating seatchart.js"""
+        """
+        Get list of booked seats for populating seatchart.js
+
+        TODO: Rename this to Unavailable seats.
+        Since a seat on hold | reserved is not booked but rather unavailable!
+        """
 
         logger.info("calculating booked seats(🔖)...")
         return [
@@ -253,7 +267,9 @@ class Trip(models.Model):
     @property
     def seats_available(self) -> int:
         """Calculate the number of seats available for a trip"""
-        return sum(s.seat_status == "A" for s in self.seats.all())  # type:ignore
+        return sum(
+            s.seat_status == Trip.ACTIVE for s in self.seats.all()
+        )  # type:ignore
 
     @property
     def revenue(self):
