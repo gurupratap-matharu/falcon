@@ -34,7 +34,7 @@ setup_test_data:
 	python manage.py setup_test_data
 	
 shellplus:
-	python manage.py shell_plus
+	python manage.py shell_plus --print-sql
 
 shell:
 	python manage.py shell
