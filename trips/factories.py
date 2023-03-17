@@ -1,5 +1,6 @@
-import datetime
 import random
+from datetime import datetime as dt
+from datetime import timedelta as td
 from zoneinfo import ZoneInfo
 
 from django.template.defaultfilters import slugify
@@ -46,12 +47,11 @@ class TripFactory(factory.django.DjangoModelFactory):
     origin = factory.SubFactory(LocationFactory)
     destination = factory.SubFactory(LocationFactory)
     departure = fuzzy.FuzzyDateTime(
-        start_dt=datetime.datetime.now(tz=ZoneInfo("UTC"))
-        - datetime.timedelta(days=90),
-        end_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(days=90),
+        start_dt=dt.now(tz=ZoneInfo("UTC")) - td(days=90),
+        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=90),
     )
     arrival = factory.LazyAttribute(
-        lambda o: o.departure + datetime.timedelta(hours=random.randint(5, 48))  # nosec
+        lambda o: o.departure + td(hours=random.randint(5, 48))  # nosec
     )
     price = fuzzy.FuzzyDecimal(low=5000, high=20000)
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
@@ -64,9 +64,8 @@ class TripPastFactory(TripFactory):
     """Only create trips which are already in the past"""
 
     departure = fuzzy.FuzzyDateTime(
-        start_dt=datetime.datetime.now(tz=ZoneInfo("UTC"))
-        - datetime.timedelta(days=90),
-        end_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) - datetime.timedelta(days=5),
+        start_dt=dt.now(tz=ZoneInfo("UTC")) - td(days=90),
+        end_dt=dt.now(tz=ZoneInfo("UTC")) - td(days=5),
     )
 
 
@@ -74,8 +73,8 @@ class TripTomorrowFactory(TripFactory):
     """Only create trips which are due to run tomorrow"""
 
     departure = fuzzy.FuzzyDateTime(
-        start_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(days=1),
-        end_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(days=2),
+        start_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=1),
+        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=2),
     )
 
 
@@ -83,8 +82,8 @@ class TripDayAfterTomorrowFactory(TripFactory):
     """Only create trips which are due to run day after tomorrow 😂"""
 
     departure = fuzzy.FuzzyDateTime(
-        start_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(days=2),
-        end_dt=datetime.datetime.now(tz=ZoneInfo("UTC")) + datetime.timedelta(days=3),
+        start_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=2),
+        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=3),
     )
 
 
@@ -117,7 +116,6 @@ class SeatWithPassengerFactory(SeatFactory):
 
 
 def make_trips():
-
     ORIGIN = "Buenos Aires"
     DESTINATION = "Mendoza"
 
@@ -145,9 +143,65 @@ def make_trips():
         SeatFactory.reset_sequence(1)
 
         # Create some booked seats with a passenger assigned to it
-        SeatWithPassengerFactory.create_batch(size=5, trip=trip)
+        SeatWithPassengerFactory.create_batch(size=20, trip=trip)
 
         # Create available empty seats
-        SeatFactory.create_batch(size=35, trip=trip, seat_status=Seat.AVAILABLE)
+        SeatFactory.create_batch(size=20, trip=trip, seat_status=Seat.AVAILABLE)
+
+    return trips
+
+
+def make_trips_for_company(company=None):
+    """
+    This is an encompassing method that focusses on building random trips only for
+    one company.
+
+    This can be especially useful in dashboard visualizations.
+    """
+
+    # Create all the terminals
+    for terminal in TERMINALS:
+        LocationFactory(name=terminal)
+
+    # Choose two random locations
+    origin = LocationFactory()
+    destination = LocationFactory()
+
+    # Create trips
+    trips_random = TripFactory.create_batch(size=10, company=company)
+
+    # Create future active outbound trips
+    trips_outbound = TripTomorrowFactory.create_batch(
+        size=5,
+        company=company,
+        status=Trip.ACTIVE,
+        origin=origin,
+        destination=destination,
+    )
+    # Create future active return trips
+    trips_return = TripDayAfterTomorrowFactory.create_batch(
+        size=5,
+        company=company,
+        status=Trip.ACTIVE,
+        origin=destination,
+        destination=origin,
+    )  # <-- Note how we have swapped origin and destination to create return trip
+
+    trips = trips_random + trips_outbound + trips_return
+
+    # Create seats in each trip
+    for trip in trips:
+
+        total_seats = 40
+        booked_seats = random.randint(1, total_seats)  # nosec
+        empty_seats = total_seats - booked_seats
+
+        SeatFactory.reset_sequence(1)
+        SeatWithPassengerFactory.create_batch(size=booked_seats, trip=trip)
+
+        # Create available empty seats
+        SeatFactory.create_batch(
+            size=empty_seats, trip=trip, seat_status=Seat.AVAILABLE
+        )
 
     return trips
