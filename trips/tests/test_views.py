@@ -463,7 +463,7 @@ class CompanyTripListViewTests(TestCase):
         # Assert user is given access
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
-        self.assertContains(response, "Upcoming Trips")
+        self.assertContains(response, "Dashboard")
         self.assertNotContains(response, "Hi I should not be on this page!")
 
     def test_company_trip_list_view_is_accessible_by_company_user(self):
@@ -482,7 +482,7 @@ class CompanyTripListViewTests(TestCase):
         # Assert user is given access
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
-        self.assertContains(response, "Upcoming Trips")
+        self.assertContains(response, "Dashboard")
         self.assertContains(response, "Create Trip")
         self.assertNotContains(response, "Hi I should not be on this page!")
 

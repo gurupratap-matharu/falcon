@@ -25,7 +25,13 @@
 {% block content %}
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between pb-0">
-            <h6>Upcoming Trips</h6>
+            <h6>
+                <a href="{{ company.get_admin_url }}">
+                    <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+                    </i>
+                    Dashboard
+                </a>
+            </h6>
             <a href="{% url 'companies:trip-create' company.slug %}" class="btn btn-primary btn-sm">
                 <i class="fa fa-plus me-2"></i>Create Trip
             </a>
@@ -35,7 +41,7 @@
                 <h6 class="text-center mb-3">You have no upcoming trips!</h6>
             {% else %}
                 <div class="table-responsive">
-                    <table class="table table-hover table-borderless align-items-center align-middle mb-0">
+                    <table class="table align-items-center align-middle mb-0">
                         <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company</th>
@@ -43,7 +49,7 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Destination</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Departure</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Arrival</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Duration</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Occupancy</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Seats Available</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Detail</th>
@@ -75,17 +81,33 @@
                                         <p class="text-xs mb-0">{{ trip.arrival|date:"D j M P" }}</p>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-xs">{{ trip.duration }} Hs</span>
+                                        {% with occupancy=10 %}
+                                            <div class="progress-wrapper w-75 mx-auto">
+                                                <div class="progress-info">
+                                                    <div class="progress-percentage">
+                                                        <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-gradient-info w-{{ occupancy }}"
+                                                         role="progressbar"
+                                                         aria-valuenow="{{ occupancy }}"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endwith %}
                                     </td>
                                     <td class="align-middle">
-                                        <span class="text-xs">{{ trip.get_status_display }}</span>
+                                        <span class="badge badge-sm bg-gradient-{{ trip.get_status_context }}">{{ trip.get_status_display }}</span>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span class="text-xs">{{ trip.seats_available }}</span>
                                     </td>
                                     <td class="align-middle">
-                                        <a href="{% url 'companies:trip-update' company.slug trip.id %}"
-                                           class="font-weight-bold text-xs"
+                                        <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
+                                           class="text-xs"
                                            data-toggle="tooltip"
                                            data-original-title="See more">View</a>
                                     </td>
