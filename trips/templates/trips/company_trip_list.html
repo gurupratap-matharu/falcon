@@ -26,13 +26,13 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between pb-0">
             <h6>
-                <a href="{{ company.get_admin_url }}">
+                <a href="{{ company.get_admin_url }}" class="icon-move-left">
                     <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
                     </i>
                     Dashboard
                 </a>
             </h6>
-            <a href="{% url 'companies:trip-create' company.slug %}" class="btn btn-primary btn-sm">
+            <a href="{% url 'companies:trip-create' company.slug %}" class="btn btn-outline-primary btn-sm">
                 <i class="fa fa-plus me-2"></i>Create Trip
             </a>
         </div>
@@ -106,10 +106,12 @@
                                         <span class="text-xs">{{ trip.seats_available }}</span>
                                     </td>
                                     <td class="align-middle">
-                                        <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
-                                           class="text-xs"
-                                           data-toggle="tooltip"
-                                           data-original-title="See more">View</a>
+                                        <div class="d-flex">
+                                            <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
+                                               class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                                                <i class="ni ni-bold-right" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endfor %}
