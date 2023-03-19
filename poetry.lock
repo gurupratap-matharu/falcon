@@ -809,6 +809,22 @@ Pillow = ">=6.2.0"
 test = ["testfixtures"]
 
 [[package]]
+name = "django-weasyprint"
+version = "2.2.0"
+description = "Django WeasyPrint CBV"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django-weasyprint-2.2.0.tar.gz", hash = "sha256:b1934ced06cc31f53a84f027ceab5cbfe5a889b8640bede7462bc0af0ee7e0f8"},
+    {file = "django_weasyprint-2.2.0-py3-none-any.whl", hash = "sha256:a883e407fdc88faebfef1bb773e4e9a88cba3beb7da839a0ba5946371799f4d7"},
+]
+
+[package.dependencies]
+Django = ">=2.2"
+WeasyPrint = ">=53"
+
+[[package]]
 name = "djlint"
 version = "1.19.15"
 description = "HTML Template Linter and Formatter"
@@ -2557,4 +2573,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b94a5a627da106f0c7491989bd4239c9615ba70c1dcda983f8f93a8f836b1ac1"
+content-hash = "d1feacc207d90f7c2d658522981976ef1e0238a8d797e22da5466a6aa58c3d81"
