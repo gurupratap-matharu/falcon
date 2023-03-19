@@ -117,6 +117,25 @@ class CompanyDashboardTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
         self.assertTemplateNotUsed(response, self.template_name)
 
+    def test_company_dashboard_view_is_not_accessible_by_another_company_owner(self):
+        """
+        Company B owner should not be able to access the dashboard for Company A
+        """
+        # Create another company owner and log her in
+        user = CompanyOwnerFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
     def test_company_dashboard_view_is_accessible_by_superuser(self):
         user = SuperuserFactory()
         self.client.force_login(user)  # type:ignore
