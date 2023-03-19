@@ -32,8 +32,11 @@
                     All Trips
                 </a>
             </h6>
-            <a href="{% url 'companies:trip-update' company.slug trip.id %}" class="btn btn-outline-primary btn-sm">
-                <i class="fa fa-plus me-2"></i>Update Trip
+            <a class="btn btn-icon btn-outline-dark ms-2 export"
+               href="{% url 'companies:trip-update' company.slug trip.id %}"
+               type="button">
+                <span class="btn-inner--icon"><i class="ni ni-ui-04"></i></span>
+                <span class="btn-inner--text">Update Trip</span>
             </a>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
@@ -109,6 +112,13 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between pb-0">
             <h6>Passengers</h6>
+            <a href="{% url 'companies:trip-passengers-pdf' company.slug trip.id %}"
+               class="btn btn-icon btn-outline-dark ms-2 export"
+               data-type="pdf"
+               type="button">
+                <span class="btn-inner--icon"><i class="fas fa-file-pdf text-lg me-1" aria-hidden="true"></i></span>
+                <span class="btn-inner--text">Download</span>
+            </a>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive">
@@ -121,7 +131,9 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gender</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Document</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Number</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Status
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,7 +141,9 @@
                             {% with passenger=seat.passenger %}
                                 <tr>
                                     <td>
-                                        <h6 class="ms-5 text-secondary text-sm">{{ seat.seat_number }}</h6>
+                                        <h6 class="ms-5 text-secondary text-sm">
+                                            {{ seat.seat_number }}
+                                        </h6>
                                     </td>
                                     <td>
                                         <h6 class="mb-0 text-secondary text-sm">
