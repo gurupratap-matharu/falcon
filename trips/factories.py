@@ -1,3 +1,4 @@
+import logging
 import random
 from datetime import datetime as dt
 from datetime import timedelta as td
@@ -12,8 +13,10 @@ from faker import Faker
 from companies.factories import CompanyFactory
 from trips.models import Location, Seat, Trip
 from trips.terminals import TERMINALS
+from companies.samples import COMPANIES
 
 fake = Faker()
+logger = logging.getLogger(__name__)
 
 
 class CustomImageField(factory.django.ImageField):
@@ -119,15 +122,21 @@ def make_trips():
     ORIGIN = "Buenos Aires"
     DESTINATION = "Mendoza"
 
-    # Create all the terminals
-    for terminal in TERMINALS:
-        LocationFactory(name=terminal)
+    logger.info("creating all companies...")
+    for name in COMPANIES:
+        CompanyFactory(name=name)
+
+    logger.info("creating all locations...")
+    for name in TERMINALS:
+        LocationFactory(name=name)
 
     # Create our favorite locations
     origin = LocationFactory(name=ORIGIN)
     destination = LocationFactory(name=DESTINATION)
 
     # Create trips
+    logger.info("creating all trips...")
+
     trips_random = TripFactory.create_batch(size=10)
     trips_outbound = TripTomorrowFactory.create_batch(
         size=2, origin=origin, destination=destination
@@ -139,6 +148,8 @@ def make_trips():
     trips = trips_random + trips_outbound + trips_return
 
     # Create seats in each trip
+    logger.info("creating all seats...")
+
     for trip in trips:
         SeatFactory.reset_sequence(1)
 
@@ -204,4 +215,5 @@ def make_trips_for_company(company=None):
             size=empty_seats, trip=trip, seat_status=Seat.AVAILABLE
         )
 
+    return trips
     return trips
