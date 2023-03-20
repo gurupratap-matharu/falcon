@@ -1,15 +1,9 @@
 import logging
-import pdb
 from typing import Any, Dict
 
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin,
-    PermissionRequiredMixin,
-    UserPassesTestMixin,
-)
-from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView, TemplateView
 
+from .mixins import OwnerMixin
 from .models import Company
 
 logger = logging.getLogger(__name__)
@@ -28,20 +22,6 @@ class CompanyDetailView(DetailView):
 
 
 # Company Facing Views
-class OwnerMixin(LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin):
-    """
-    Handy Mixin to allow company owners to do CRUD on only their own objects.
-    """
-
-    permission_required = "trips.view_trip"
-    company = None
-
-    def test_func(self):
-        self.company = Company.objects.select_related("owner").get(
-            slug=self.kwargs["slug"]
-        )
-        user = self.request.user
-        return user.is_superuser or self.company.owner == user
 
 
 class CompanyDashboardView(OwnerMixin, TemplateView):
