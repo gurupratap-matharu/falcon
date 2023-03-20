@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import (
 from companies.models import Company
 
 
-class OwnerMixin(LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin):
+class OwnerMixin(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin):
     """
     Handy Mixin to allow company owners to do CRUD on only their own objects.
     """
