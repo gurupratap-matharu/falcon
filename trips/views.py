@@ -2,7 +2,6 @@ import logging
 from datetime import datetime
 from typing import Any, Dict
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect
@@ -98,6 +97,7 @@ class CRUDMixins(OwnerMixin, SuccessMessageMixin):
     We simply inherit it from the (company) owner mixin and use it
     the views below.
     """
+
     pass
 
 
