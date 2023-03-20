@@ -21,6 +21,7 @@ from trips.views import (
     TripCreateView,
     TripDetailView,
     TripListView,
+    TripPassengerPdfView,
     TripUpdateView,
 )
 from users.factories import (
@@ -31,6 +32,7 @@ from users.factories import (
 )
 
 
+# Public Views
 class TripListViewTests(TestCase):
     """
     Test suite for trip list view.
@@ -89,6 +91,7 @@ class TripDetailViewTests(TestCase):
         self.assertTemplateUsed(response, self.template_name)
 
 
+# Private Views
 class TripCreateViewTests(TestCase):
     """Test suite for the trip create view"""
 
@@ -119,6 +122,23 @@ class TripCreateViewTests(TestCase):
         self,
     ):
         user = UserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_company_trip_create_view_is_not_accessible_by_another_company_owner(
+        self,
+    ):
+        user = CompanyOwnerFactory()
         self.client.force_login(user)  # type:ignore
 
         response = self.client.get(self.url)
@@ -283,6 +303,23 @@ class TripUpdateViewTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
         self.assertTemplateNotUsed(response, self.template_name)
 
+    def test_trip_upate_view_is_not_accessible_by_another_company_owner(
+        self,
+    ):
+        user = CompanyOwnerFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
     def test_trip_upate_view_is_not_accessible_by_staffuser(self):
         user = StaffuserFactory()
         self.client.force_login(user)  # type:ignore
@@ -434,6 +471,23 @@ class CompanyTripListViewTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
         self.assertTemplateNotUsed(response, self.template_name)
 
+    def test_company_trip_list_view_is_not_accessible_by_another_company_owner(
+        self,
+    ):
+        user = CompanyOwnerFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
     def test_company_trip_list_view_is_not_accessible_by_staffuser(self):
         user = StaffuserFactory()
         self.client.force_login(user)  # type:ignore
@@ -554,6 +608,23 @@ class CompanyTripDetailViewTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
         self.assertTemplateNotUsed(response, self.template_name)
 
+    def test_company_trip_detail_view_is_not_accessible_by_another_company_owner(
+        self,
+    ):
+        user = CompanyOwnerFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
     def test_company_trip_detail_view_is_not_accessible_by_staffuser(self):
         user = StaffuserFactory()
         self.client.force_login(user)  # type:ignore
@@ -618,3 +689,194 @@ class CompanyTripDetailViewTests(TestCase):
 
         # Assert all passengers are shown
         # TODO
+
+
+class TripPassengerPdfViewTests(TestCase):
+    """
+    Test suite for generating pdf for all passengers in a trip
+
+    Note Veer:
+        - This view returns a pdf file for download.
+        - So the tests are a bit different.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.trip = TripTomorrowFactory(company=cls.company)
+
+        SeatFactory.reset_sequence(1)
+        # Create two booked seats with a passenger assigned to it
+        cls.booked_seats = SeatWithPassengerFactory.create_batch(size=2, trip=cls.trip)
+        # Create two available empty seats
+        cls.empty_seats = SeatFactory.create_batch(
+            size=2, trip=cls.trip, seat_status=Seat.AVAILABLE
+        )
+        cls.seats = cls.booked_seats + cls.empty_seats
+
+        cls.template_name = "trips/trip_passengers_pdf.html"
+        cls.permission = "trips.view_trip"
+        cls.login_url = reverse_lazy("account_login")
+        cls.url = reverse_lazy(
+            "companies:trip-passengers-pdf",
+            kwargs={"slug": cls.company.slug, "id": str(cls.trip.id)},
+        )
+
+    def test_trip_passengers_pdf_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, TripPassengerPdfView.as_view().__name__)
+
+    def test_trip_passengers_pdf_view_is_not_accessible_by_anonymous_user(self):
+        """Here an anonymous user is routed to login url"""
+
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_trip_passengers_pdf_view_is_not_accessible_by_logged_in_normal_public_user(
+        self,
+    ):
+        user = UserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_trip_passengers_pdf_view_is_not_accessible_by_another_company_owner(
+        self,
+    ):
+        user = CompanyOwnerFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_trip_passengers_pdf_view_is_not_accessible_by_staffuser(self):
+        user = StaffuserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is staff but not superuser and correctly authenticated
+        self.assertTrue(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert staff user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_trip_passengers_pdf_view_is_accessible_by_superuser(self):
+        user = SuperuserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is staff | superuser and correctly authenticated
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+
+        # Assert PDF in response
+        self.assertNotEqual(response.content, b"")
+        self.assertEqual(
+            response["content-disposition"], 'attachment;filename="passengers.pdf"'
+        )
+        self.assertEqual(response["content-type"], "application/pdf")
+
+        # Assert context is correctly built
+        company = response.context["company"]
+        trip = response.context["trip"]
+
+        self.assertEqual(company, self.company)
+        self.assertEqual(trip, self.trip)
+
+    def test_trip_passengers_pdf_view_is_accessible_by_company_user(self):
+        """
+        Check if a company staff | owner can access the trip detail page
+        with all passenger information.
+        """
+
+        self.client.force_login(self.owner)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(self.owner.is_superuser)
+        self.assertFalse(self.owner.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertEqual(self.owner, self.company.owner)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+
+        # Assert PDF in response
+        self.assertNotEqual(response.content, b"")
+        self.assertEqual(
+            response["content-disposition"], 'attachment;filename="passengers.pdf"'
+        )
+        self.assertEqual(response["content-type"], "application/pdf")
+
+        # Assert context is correctly built
+        company = response.context["company"]
+        trip = response.context["trip"]
+
+        self.assertEqual(company, self.company)
+        self.assertEqual(trip, self.trip)
+
+        # TODO Assert all passengers are shown
+        # Here we are not yet checking the content of the pdf itself. Maybe the <tr>
+        # count is same the number of passengers in a trip!
+
+    def test_trip_passengers_pdf_view_is_not_accessible_by_another_company_user(
+        self,
+    ):
+        """
+        Check whether a staff user from one company cannot access passenger list
+        of another company
+        """
+
+        # Create a random company and its owner
+        random_owner = CompanyOwnerFactory()
+        _ = CompanyFactory(owner=random_owner)
+
+        # Make it login to our platform
+        self.client.force_login(random_owner)  # type:ignore
+
+        # Random owner is trying to access our main company passenger list
+        # This should not be allowed
+        response = self.client.get(self.url)
+
+        # Assert random_owner is not staff | superuser and correctly authenticated
+        self.assertFalse(random_owner.is_staff)
+        self.assertFalse(random_owner.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert random_owner is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)

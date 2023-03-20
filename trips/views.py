@@ -1,5 +1,5 @@
-import datetime
 import logging
+from datetime import datetime
 from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -8,6 +8,9 @@ from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
 
+from django_weasyprint import WeasyTemplateResponseMixin
+
+from companies.mixins import OwnerMixin
 from companies.models import Company
 
 from .forms import TripCreateForm
@@ -46,7 +49,7 @@ class TripListView(ListView):
     context_object_name: str = "trips"
 
     def build_date(self, date_str):
-        return datetime.datetime.strptime(date_str, "%d-%m-%Y").date()
+        return datetime.strptime(date_str, "%d-%m-%Y").date()
 
     def get_queryset(self) -> QuerySet[Any]:
         qs = super().get_queryset()
@@ -87,7 +90,14 @@ class TripDetailView(DetailView):
 
 
 # Trip CRUD Private Views for company staff
-class CRUDMixins(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin):
+class CRUDMixins(OwnerMixin, SuccessMessageMixin):
+    """
+    Veer this is a handy mixin so that only company staff can do
+    CRUD on their own objects.
+
+    We simply inherit it from the (company) owner mixin and use it
+    the views below.
+    """
     pass
 
 
@@ -96,7 +106,6 @@ class CompanyTripListView(CRUDMixins, ListView):
 
     model = Trip
     template_name = "trips/company_trip_list.html"
-    permission_required = "trips.view_trip"
     context_object_name = "trips"
     company = None
 
@@ -120,7 +129,6 @@ class CompanyTripDetailView(CRUDMixins, DetailView):
     pk_url_kwarg = "id"
     context_object_name = "trip"
     template_name = "trips/company_trip_detail.html"
-    permission_required = "trips.view_trip"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -162,3 +170,17 @@ class TripUpdateView(CRUDMixins, UpdateView):
 
     def get_success_url(self) -> str:
         return self.object.company.get_trip_list_url()
+
+
+class TripPassengerPdfView(WeasyTemplateResponseMixin, CompanyTripDetailView):
+    """
+    Allows company staff to download the passenger list for a departing trip.
+
+    Note:
+        We inherit this view from CompanyTripDetailView
+        So its already aware about the trip and company in its context.
+        We simply overwrite the template name and pdf filename
+    """
+
+    template_name = "trips/trip_passengers_pdf.html"
+    pdf_filename = "passengers.pdf"
