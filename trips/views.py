@@ -107,16 +107,14 @@ class CompanyTripListView(CRUDMixins, ListView):
     model = Trip
     template_name = "trips/company_trip_list.html"
     context_object_name = "trips"
-    company = None
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["company"] = get_object_or_404(Company, slug=self.kwargs["slug"])
-
+        context["company"] = self.company or self.get_company()
         return context
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Trip.active.for_company(company_slug=self.kwargs["slug"])
+        return Trip.future.for_company(company_slug=self.kwargs["slug"])
 
 
 class CompanyTripDetailView(CRUDMixins, DetailView):
