@@ -5,7 +5,7 @@ import uuid
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Count, FloatField, IntegerField, Q
+from django.db.models import Count, F, FloatField, IntegerField, Q
 from django.db.models.functions import Cast, Round
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -83,10 +83,15 @@ class FutureManager(models.Manager):
         # Convert occupancy to % of nearest multiple of 5 for progress bars
         occupancy = Cast(100 * occupied / total, IntegerField())
         occupancy = 5 * Round(occupancy / 5)
+        
+        # Find revenue = price * occupied seats
+        revenue = Cast(F("price"), FloatField()) * occupied
+        revenue = Cast(revenue, IntegerField())
 
         qs = self.filter(company__slug=company_slug)
         qs = qs.annotate(availability=availability)
         qs = qs.annotate(occupancy=occupancy)
+        qs = qs.annotate(revenue=revenue)
         qs = qs.select_related("company", "origin", "destination")
         qs = qs.order_by("departure")
 
@@ -295,15 +300,6 @@ class Trip(models.Model):
         return sum(
             s.seat_status == Seat.AVAILABLE for s in self.seats.all()
         )  # type:ignore
-
-    @property
-    def revenue(self):
-        """Calculate the cost of all booked seats"""
-
-        seats_booked = sum(s.seat_status == Seat.BOOKED for s in self.seats.all())
-        revenue = seats_booked * self.price
-
-        return revenue
 
     @property
     def duration(self):
