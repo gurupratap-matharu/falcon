@@ -79,7 +79,7 @@
                                 <p class="text-xs mb-0">{{ trip.arrival|date:"D j M P" }}</p>
                             </td>
                             <td class="align-middle text-center">
-                                {% with occupancy=10 %}
+                                {% with occupancy=trip.occupancy %}
                                     <div class="progress-wrapper w-75">
                                         <div class="progress-info">
                                             <div class="progress-percentage">
