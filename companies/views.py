@@ -1,6 +1,9 @@
 import logging
+from typing import Any, Dict
 
 from django.views.generic import DetailView, ListView, TemplateView
+
+from trips.models import Trip
 
 from .mixins import OwnerMixin
 from .models import Company
@@ -29,3 +32,9 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
     """
 
     template_name = "companies/dashboard.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["trips"] = Trip.future.for_company(company_slug=self.kwargs["slug"])
+
+        return context
