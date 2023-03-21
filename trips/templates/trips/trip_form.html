@@ -22,15 +22,22 @@
     <div class="row">
         <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
             <div class="card z-index-0">
-                <div class="card-header text-center pb-0">
-                    <h5>Trip Details</h5>
+                <div class="card-header d-flex justify-content-left pb-0">
+                    <h6>
+                        <a href="{{ company.get_trip_list_url }}" class="icon-move-left">
+                            <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+                            </i>
+                            Back
+                        </a>
+                    </h6>
                 </div>
                 <div class="card-body">
                     <form method="post" role="form text-left">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <div class="text-center">
-                            <input type="submit" value="Save" class="btn btn-primary w-100" />
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ company.get_trip_list_url }}" class="btn btn-white me-3">Cancel</a>
+                            <input type="submit" value="Save" class="btn btn-primary" />
                         </div>
                     </form>
                 </div>
