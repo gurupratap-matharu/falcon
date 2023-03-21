@@ -6,12 +6,13 @@ Running this script should create
     - Seats
 with sensible defaults.
 """
-
+from timeit import default_timer as timer
 
 from django.core.management.base import BaseCommand
 
 import factory
 
+from companies.models import Company
 from trips.factories import make_trips
 from trips.models import Location, Seat, Trip
 
@@ -38,11 +39,14 @@ class Command(BaseCommand):
         self.stdout.write(self.style.HTTP_BAD_REQUEST(msg))
 
     def handle(self, *args, **kwargs):
+        start = timer()
+
         locale = kwargs.get("locale")
 
         self.success("Locale: %s" % locale)
         self.danger("Deleting old data...")
         # TODO: Revisit this. could be dangerous if run in production.
+        Company.objects.all().delete()
         Location.objects.all().delete()
         Trip.objects.all().delete()
 
@@ -58,5 +62,7 @@ class Command(BaseCommand):
         Seats     : {Seat.objects.count()}
         """
         )
+        end = timer()
 
+        self.danger("took:%0.2f seconds..." % (end - start))
         self.success("All done! 💖💅🏻💫")
