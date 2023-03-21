@@ -308,7 +308,7 @@ class TripModelTests(TestCase):
         _ = TripPastFactory(status=Trip.ACTIVE)
 
         # Make sure past trip is not returned in active manager
-        self.assertEqual(len(Trip.active.all()), 1)
+        self.assertEqual(len(Trip.future.all()), 1)
 
     def test_trip_can_mark_seats_for_hold_correctly(self):
         Trip.objects.all().delete()
