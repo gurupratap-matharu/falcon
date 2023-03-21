@@ -81,7 +81,7 @@
                                         <p class="text-xs mb-0">{{ trip.arrival|date:"D j M P" }}</p>
                                     </td>
                                     <td class="align-middle text-center">
-                                        {% with occupancy=10 %}
+                                        {% with occupancy=trip.occupancy %}
                                             <div class="progress-wrapper w-75 mx-auto">
                                                 <div class="progress-info">
                                                     <div class="progress-percentage">
@@ -89,7 +89,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="progress">
-                                                    <div class="progress-bar bg-gradient-info w-{{ occupancy }}"
+                                                    <div class="progress-bar bg-gradient-primary w-{{ occupancy }}"
                                                          role="progressbar"
                                                          aria-valuenow="{{ occupancy }}"
                                                          aria-valuemin="0"
