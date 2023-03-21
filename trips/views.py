@@ -99,7 +99,8 @@ class CRUDMixins(OwnerMixin, SuccessMessageMixin):
     the views below.
     """
 
-    pass
+    def get_queryset(self) -> QuerySet[Any]:
+        return Trip.future.for_company(company_slug=self.kwargs["slug"])
 
 
 class CompanyTripListView(CRUDMixins, ListView):
@@ -108,9 +109,6 @@ class CompanyTripListView(CRUDMixins, ListView):
     model = Trip
     template_name = "trips/company_trip_list.html"
     context_object_name = "trips"
-
-    def get_queryset(self) -> QuerySet[Any]:
-        return Trip.future.for_company(company_slug=self.kwargs["slug"])
 
 
 class CompanyTripDetailView(CRUDMixins, DetailView):
@@ -124,13 +122,10 @@ class CompanyTripDetailView(CRUDMixins, DetailView):
     context_object_name = "trip"
     template_name = "trips/company_trip_detail.html"
 
-    def get_queryset(self) -> QuerySet[Any]:
-        return Trip.future.for_company(company_slug=self.kwargs["slug"])
-
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-
         # self.object refers to the trip of this view
+        # add seats with related passengers to context
         context["seats"] = self.object.seats.select_related("passenger")
 
         return context
