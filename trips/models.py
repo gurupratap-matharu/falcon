@@ -5,7 +5,8 @@ import uuid
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Count, Q
+from django.db.models import Count, FloatField, IntegerField, Q
+from django.db.models.functions import Cast, Round
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.text import slugify
@@ -74,10 +75,20 @@ class FutureManager(models.Manager):
         logger.info("showing only trips for company(🚌):%s..." % company_slug)
 
         availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
+        occupied = Cast(
+            Count("seats", filter=~Q(seats__seat_status=Seat.AVAILABLE)), FloatField()
+        )
+        total = Cast(Count("seats"), FloatField())
+
+        # Convert occupancy to % of nearest multiple of 5 for progress bars
+        occupancy = Cast(100 * occupied / total, IntegerField())
+        occupancy = 5 * Round(occupancy / 5)
 
         qs = self.filter(company__slug=company_slug)
         qs = qs.annotate(availability=availability)
+        qs = qs.annotate(occupancy=occupancy)
         qs = qs.select_related("company", "origin", "destination")
+        qs = qs.order_by("departure")
 
         return qs
 
