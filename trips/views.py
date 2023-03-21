@@ -1,4 +1,5 @@
 import logging
+import pdb
 from datetime import datetime
 from typing import Any, Dict
 
@@ -108,11 +109,6 @@ class CompanyTripListView(CRUDMixins, ListView):
     template_name = "trips/company_trip_list.html"
     context_object_name = "trips"
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context["company"] = self.company or self.get_company()
-        return context
-
     def get_queryset(self) -> QuerySet[Any]:
         return Trip.future.for_company(company_slug=self.kwargs["slug"])
 
@@ -128,9 +124,14 @@ class CompanyTripDetailView(CRUDMixins, DetailView):
     context_object_name = "trip"
     template_name = "trips/company_trip_detail.html"
 
+    def get_queryset(self) -> QuerySet[Any]:
+        return Trip.future.for_company(company_slug=self.kwargs["slug"])
+
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["company"] = get_object_or_404(Company, slug=self.kwargs["slug"])
+
+        # self.object refers to the trip of this view
+        context["seats"] = self.object.seats.select_related("passenger")
 
         return context
 
