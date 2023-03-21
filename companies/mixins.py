@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import (
     PermissionRequiredMixin,
     UserPassesTestMixin,
 )
+from django.shortcuts import get_object_or_404
 
 from companies.models import Company
 
@@ -16,8 +17,11 @@ class OwnerMixin(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixi
     permission_required = "trips.view_trip"
 
     def test_func(self):
-        self.company = Company.objects.select_related("owner").get(
-            slug=self.kwargs["slug"]
-        )
+        self.company = self.get_company()
         user = self.request.user
         return user.is_superuser or self.company.owner == user
+
+    def get_company(self):
+        return get_object_or_404(
+            Company.objects.select_related("owner"), slug=self.kwargs["slug"]
+        )
