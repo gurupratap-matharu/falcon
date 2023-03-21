@@ -196,6 +196,12 @@ class Trip(models.Model):
             kwargs={"slug": self.company.slug, "id": str(self.id)},
         )
 
+    def get_passenger_list_url(self):
+        return reverse_lazy(
+            "companies:trip-detail",
+            kwargs={"slug": self.company.slug, "id": str(self.id)},
+        )
+
     def get_status_context(self):
         context = "success" if self.status == Trip.ACTIVE else "danger"
         return context
