@@ -10,7 +10,6 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView, V
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from companies.mixins import OwnerMixin
-from companies.models import Company
 
 from .forms import TripCreateForm
 from .models import Location, Trip

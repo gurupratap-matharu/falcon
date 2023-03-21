@@ -83,7 +83,7 @@ class FutureManager(models.Manager):
         # Convert occupancy to % of nearest multiple of 5 for progress bars
         occupancy = Cast(100 * occupied / total, IntegerField())
         occupancy = 5 * Round(occupancy / 5)
-        
+
         # Find revenue = price * occupied seats
         revenue = Cast(F("price"), FloatField()) * occupied
         revenue = Cast(revenue, IntegerField())
