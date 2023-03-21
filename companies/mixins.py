@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     PermissionRequiredMixin,
@@ -25,3 +27,8 @@ class OwnerMixin(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixi
         return get_object_or_404(
             Company.objects.select_related("owner"), slug=self.kwargs["slug"]
         )
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["company"] = self.company or self.get_company()
+        return context
