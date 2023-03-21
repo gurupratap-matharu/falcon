@@ -101,7 +101,7 @@
                                 <span class="badge badge-sm bg-gradient-{{ trip.get_status_context }}">{{ trip.get_status_display }}</span>
                             </td>
                             <td class="align-middle text-center">
-                                <span class="text-xs">{{ trip.seats_available }}</span>
+                                <span class="text-xs">{{ trip.availability }}</span>
                             </td>
                         </tr>
                     </tbody>
@@ -137,7 +137,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for seat in trip.seats.all %}
+                        {% for seat in seats %}
                             {% with passenger=seat.passenger %}
                                 <tr>
                                     <td>
