@@ -5,6 +5,7 @@ import uuid
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Count, Q
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.text import slugify
@@ -47,7 +48,7 @@ class Location(models.Model):
         return self.name
 
 
-class ActiveManager(models.Manager):
+class FutureManager(models.Manager):
     """
     Extra manager for Trip Model which shows only active trips
 
@@ -57,23 +58,31 @@ class ActiveManager(models.Manager):
     """
 
     def get_queryset(self):
-        logger.info("showing only active trips(⏰)...")
+        logger.info("showing only future trips(⏰)...")
 
-        return (
-            super()
-            .get_queryset()
-            .filter(departure__gt=timezone.now(), status=Trip.ACTIVE)
-        )
+        qs = super().get_queryset()
+        return qs.filter(departure__gt=timezone.now())
+
+    def active(self):
+        logger.info("showing only active trips(🌳)...")
+
+        return self.filter(status=Trip.ACTIVE)
 
     def for_company(self, company_slug=None):
-        logger.info("showing trips for company(🚌): %s..." % company_slug)
+        """Build the Queryset with relevant stats for only one company"""
 
-        return (
-            super()
-            .get_queryset()
-            .filter(company__slug=company_slug)
-            .filter(departure__gt=timezone.now())
-        )
+        logger.info("showing only trips for company(🚌):%s..." % company_slug)
+
+        availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
+
+        qs = self.filter(company__slug=company_slug)
+        qs = qs.annotate(availability=availability)
+        qs = qs.select_related("company", "origin", "destination")
+
+        return qs
+
+    def __repr__(self):
+        return "I only show trips from the future 🔮"
 
 
 class Trip(models.Model):
@@ -140,7 +149,7 @@ class Trip(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     objects = models.Manager()
-    active = ActiveManager()
+    future = FutureManager()
 
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
@@ -267,7 +276,7 @@ class Trip(models.Model):
     def seats_available(self) -> int:
         """Calculate the number of seats available for a trip"""
         return sum(
-            s.seat_status == Trip.ACTIVE for s in self.seats.all()
+            s.seat_status == Seat.AVAILABLE for s in self.seats.all()
         )  # type:ignore
 
     @property
