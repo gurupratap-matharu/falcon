@@ -31,7 +31,4 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
 
     template_name = "companies/dashboard.html"
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context["company"] = self.company  # <- Set in OwnerMixin
-        return context
+    
