@@ -11,8 +11,8 @@
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    {% if object %}
-        Edit trip "{{ object.name }}"
+    {% if trip %}
+        Edit trip "{{ trip.name }}"
     {% else %}
         Create a new trip
     {% endif %}
