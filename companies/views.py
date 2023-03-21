@@ -1,5 +1,4 @@
 import logging
-from typing import Any, Dict
 
 from django.views.generic import DetailView, ListView, TemplateView
 
@@ -30,5 +29,3 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
     """
 
     template_name = "companies/dashboard.html"
-
-    
