@@ -1,10 +1,58 @@
+from datetime import date, timedelta
+from typing import Any
+
 from django.contrib import admin
+from django.db.models import Count, Q, QuerySet
+from django.http import HttpRequest
+from django.utils.translation import gettext_lazy as _
+
+from trips.models import Seat
 
 from .models import Location, Trip
 
 admin.site.site_header = "Falcon 🚌"
 admin.site.site_title = "Falcon Admin Portal"
 admin.site.index_title = "Welcome to Falcon Admin Portal"
+
+
+class FutureFilter(admin.SimpleListFilter):
+    """A simple custom filter to toggle only future trips in the admin"""
+
+    title = _("Time")
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = "departure"
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        return (
+            ("7", _("Future 7 days")),
+            ("30", _("Future 30 days")),
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either '7' or '30')
+        # to decide how to filter the queryset.
+        today = date.today()
+
+        if self.value() == "7":
+            next_week = today + timedelta(days=7)
+            return queryset.filter(departure__gte=today, departure__lte=next_week)
+
+        if self.value() == "30":
+            next_month = today + timedelta(days=30)
+            return queryset.filter(departure__gte=today, departure__lte=next_month)
 
 
 class TripOrderInline(admin.TabularInline):
@@ -58,9 +106,9 @@ class TripAdmin(admin.ModelAdmin):
         "duration",
         "status",
         "mode",
-        "seats_available",
+        "availability",
     )
-    list_filter = ("departure", "status")
+    list_filter = (FutureFilter, "departure", "status")
     list_editable = ("status",)
     prepopulated_fields = {"slug": ("name",)}
     raw_id_fields = ("origin", "destination", "company")
@@ -69,3 +117,12 @@ class TripAdmin(admin.ModelAdmin):
         TripOrderInline,
         PassengerSeatInline,
     ]
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        qs = super().get_queryset(request)
+        _availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
+
+        return qs.annotate(_availability=_availability)
+
+    def availability(self, obj):
+        return obj._availability

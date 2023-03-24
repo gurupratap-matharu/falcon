@@ -1,9 +1,11 @@
 import csv
 import datetime
 import logging
+from typing import Any
 
 from django.contrib import admin
-from django.http import HttpResponse
+from django.db.models import QuerySet
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -94,6 +96,10 @@ class OrderAdmin(admin.ModelAdmin):
         TripOrderInline,
     ]
     actions = [export_to_csv]
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        qs = super().get_queryset(request)
+        return qs.select_related("coupon")
 
     def order_payment(self, obj):
         url = obj.get_stripe_url()

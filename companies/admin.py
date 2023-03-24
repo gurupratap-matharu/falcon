@@ -12,6 +12,10 @@ class CompanyAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     raw_id_fields = ("owner",)
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.select_related("owner")
+
     def logo(self, obj):
         if obj.cover:
             return format_html(
