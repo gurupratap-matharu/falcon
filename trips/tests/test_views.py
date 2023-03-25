@@ -267,8 +267,12 @@ class TripUpdateViewTests(TestCase):
         cls.owner = CompanyOwnerFactory()
         cls.company = CompanyFactory(owner=cls.owner)
         cls.trip = TripTomorrowFactory(company=cls.company)
+        cls.seat = SeatFactory(trip=cls.trip, seat_status=Seat.AVAILABLE)
         cls.login_url = reverse_lazy("account_login")
-        cls.url = cls.trip.get_update_url()  # type:ignore
+        cls.url = reverse_lazy(
+            "companies:trip-update",
+            kwargs={"slug": cls.company.slug, "id": str(cls.trip.id)},
+        )
         cls.template_name = "trips/trip_form.html"
         cls.permission = "trips.change_trip"
 
@@ -349,7 +353,7 @@ class TripUpdateViewTests(TestCase):
         # Assert user is given access
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
-        self.assertContains(response, "Create")
+        self.assertContains(response, "Update")
         self.assertNotContains(response, "Hi I should not be on this page!")
 
     def test_trip_update_view_is_accessible_by_company_user(self):
@@ -397,7 +401,7 @@ class TripUpdateViewTests(TestCase):
 
         # Get trip created in DB
         trip = Trip.objects.first()
-        expected_url = self.company.get_trip_list_url()  # type:ignore
+        expected_url = trip.get_passenger_list_url()  # type:ignore
 
         # Verify redirection
         self.assertRedirects(
@@ -433,6 +437,11 @@ class CompanyTripListViewTests(TestCase):
             size=2, company=cls.company, status=Trip.ACTIVE
         )
         cls.inactive_trip = TripPastFactory(company=cls.company)
+        # if you don't create seats veer you will get zero division error while
+        # calculating occupancy and the tests will fail
+        for trip in cls.trips:
+            SeatFactory.reset_sequence(1)
+            SeatFactory(trip=trip, seat_status=Seat.AVAILABLE)
 
         cls.url = cls.company.get_trip_list_url()  # type:ignore
         cls.template_name = "trips/company_trip_list.html"
