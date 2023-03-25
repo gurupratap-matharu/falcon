@@ -65,3 +65,6 @@ class Company(models.Model):
 
     def get_trip_list_url(self):
         return reverse_lazy("companies:trip-list", kwargs={"slug": self.slug})
+
+    def get_coupon_list_url(self):
+        return reverse_lazy("companies:coupon-list", kwargs={"slug": self.slug})
