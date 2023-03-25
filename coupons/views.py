@@ -1,11 +1,15 @@
 import logging
+from typing import Any
 
 from django.contrib import messages
+from django.db.models import QuerySet
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.views.generic import FormView, ListView
+
+from trips.views import CRUDMixins
 
 from .forms import CouponApplyForm
 from .models import Coupon
@@ -13,7 +17,7 @@ from .models import Coupon
 logger = logging.getLogger(__name__)
 
 
-class CouponListView(ListView):
+class CouponListView(CRUDMixins, ListView):
     """List all coupons for a company"""
 
     model = Coupon
