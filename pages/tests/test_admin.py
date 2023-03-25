@@ -12,6 +12,8 @@ from django.urls import reverse
 
 from parameterized import param, parameterized
 
+from users.factories import SuperuserFactory
+
 User = get_user_model()
 
 
@@ -42,9 +44,7 @@ class ModelAdminTests(TestCase):
         Since super user have all permissions she should be able to access all admin pages.
         """
 
-        cls.user = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="testpass123"
-        )
+        cls.user = SuperuserFactory()
 
     def setUp(self) -> None:
         # Make sure super user is logged in to admin before each run
