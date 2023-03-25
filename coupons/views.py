@@ -1,8 +1,6 @@
 import logging
-from typing import Any
 
 from django.contrib import messages
-from django.db.models import QuerySet
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone

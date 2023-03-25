@@ -109,3 +109,8 @@ class CouponApplyViewTests(TestCase):
     def test_valid_coupon_code_cannot_be_applied_multiple_times(self):
         # TODO: Please implement this!
         pass
+
+
+class CouponListViewTests(TestCase):
+    # TODO: PLEASE IMPLEMENT
+    pass

@@ -28,3 +28,11 @@ class CouponFactory(factory.django.DjangoModelFactory):
     )
     discount = fuzzy.FuzzyInteger(low=1, high=100)
     active = fuzzy.FuzzyChoice(choices=(True, False))
+
+
+class CouponValidFactory(CouponFactory):
+    """Always create a valid coupon"""
+
+    valid_from = datetime.now(tz=ZoneInfo("UTC"))
+    valid_to = factory.LazyAttribute(lambda o: o.valid_from + timedelta(days=7))
+    active = True
