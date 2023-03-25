@@ -129,71 +129,73 @@
           </div>
         </div>
         <div class="card-body px-0 pb-2">
-          <div class="table-responsive">
-            <table class="table table-borderless align-items-center mb-0">
-              <thead>
-                <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Routes</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Departure</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Revenue</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Occupancy</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for trip in trips|slice:":6" %}
+          {% if not trips %}
+            <div class="d-flex justify-content-center align-items-center min-vh-50">
+              <p class="text-sm mb-0 text-capitalize font-weight-bold">No upcoming trips</p>
+            </div>
+          {% else %}
+            <div class="table-responsive">
+              <table class="table table-borderless align-items-center mb-0">
+                <thead>
                   <tr>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div>
-                          <img src="https://img.icons8.com/dotty/80/null/double-decker-bus.png" class="avatar avatar-sm me-3" alt="bus-logo" />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">{{ trip.origin }} - {{ trip.destination }}</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <span class="text-xs font-weight-bold">{{ trip.departure|date:"D j M P" }}</span>
-                    </td>
-                    <td class="align-middle text-center text-sm">
-                      <span class="text-xs font-weight-bold">${{ trip.revenue|floatformat:"-3g" }}</span>
-                    </td>
-                    <td class="align-middle">
-                      {% with occupancy=trip.occupancy %}
-                        <div class="progress-wrapper w-75 mx-auto">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
-                            </div>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Routes</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Departure</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Revenue</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Occupancy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for trip in trips|slice:":6" %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="https://img.icons8.com/dotty/80/null/double-decker-bus.png" class="avatar avatar-sm me-3" alt="bus-logo" />
                           </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-primary w-{{ occupancy }}"
-                                 role="progressbar"
-                                 aria-valuenow="{{ occupancy }}"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100">
-                            </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ trip.origin }} - {{ trip.destination }}</h6>
                           </div>
                         </div>
-                      {% endwith %}
-                    </td>
-                    <td class="align-middle">
-                      <div class="d-flex">
-                        <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
-                           class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                          <i class="ni ni-bold-right" aria-hidden="true"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                {% empty %}
-                  <tr>
-                    No upcoming trips!
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+                      </td>
+                      <td class="align-middle text-sm">
+                        <span class="text-xs font-weight-bold">{{ trip.departure|date:"D j M P" }}</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold">${{ trip.revenue|floatformat:"-3g" }}</span>
+                      </td>
+                      <td class="align-middle">
+                        {% with occupancy=trip.occupancy %}
+                          <div class="progress-wrapper w-75 mx-auto">
+                            <div class="progress-info">
+                              <div class="progress-percentage">
+                                <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
+                              </div>
+                            </div>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-primary w-{{ occupancy }}"
+                                   role="progressbar"
+                                   aria-valuenow="{{ occupancy }}"
+                                   aria-valuemin="0"
+                                   aria-valuemax="100">
+                              </div>
+                            </div>
+                          </div>
+                        {% endwith %}
+                      </td>
+                      <td class="align-middle">
+                        <div class="d-flex">
+                          <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
+                             class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                            <i class="ni ni-bold-right" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -223,7 +225,9 @@
               </span>
               <div class="timeline-content">
                 <h6 class="text-dark text-sm font-weight-bold mb-0">New order #1832412</h6>
-                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 11 PM</p>
+                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                  21 DEC 11 PM
+                </p>
               </div>
             </div>
             <div class="timeline-block mb-3">
