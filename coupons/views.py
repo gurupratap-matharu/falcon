@@ -5,12 +5,20 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 
 from .forms import CouponApplyForm
 from .models import Coupon
 
 logger = logging.getLogger(__name__)
+
+
+class CouponListView(ListView):
+    """List all coupons for a company"""
+
+    model = Coupon
+    template_name = "coupons/coupon_list.html"
+    context_object_name = "coupons"
 
 
 class CouponApplyView(FormView):

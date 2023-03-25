@@ -1,5 +1,6 @@
 from django.urls import include, path
 
+from coupons import views as coupon_views
 from trips import views as trip_views
 
 from . import views
@@ -27,7 +28,9 @@ company_admin_patterns = [
         trip_views.TripUpdateView.as_view(),
         name="trip-update",
     ),
+    path("coupons/", coupon_views.CouponListView.as_view(), name="coupon-list"),
 ]
+
 
 urlpatterns = [
     # Public Views
