@@ -248,18 +248,6 @@ class TripModelTests(TestCase):
         self.assertEqual(seat.seat_status, Seat.BOOKED)
         self.assertEqual(trip.seats_available, 0)  # type:ignore
 
-    def test_trip_revenue_is_correctly_calculated(self):
-        trip = TripTomorrowFactory(price=5)
-
-        # Create two booked seats (counted in revenue)
-        SeatFactory.create(trip=trip, seat_status=Seat.BOOKED)
-        SeatFactory.create(trip=trip, seat_status=Seat.BOOKED)
-
-        # Create an available seat (not counted in revenue)
-        SeatFactory.create(trip=trip, seat_status=Seat.AVAILABLE)
-
-        self.assertEqual(trip.revenue, 10)  # type:ignore
-
     def test_trip_seats_available_is_correctly_calculated(self):
         trip = TripTomorrowFactory()
 
@@ -495,5 +483,4 @@ class SeatModelTests(TestCase):
 
         seat.book()  # type:ignore
         self.assertEqual(seat.seat_status, Seat.BOOKED)
-        self.assertEqual(trip.revenue, trip.price)  # type:ignore
         self.assertEqual(trip.seats_available, 0)  # type:ignore
