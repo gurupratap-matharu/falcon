@@ -67,22 +67,19 @@
                 <div class="col-12 col-md-3">
                     <label for="destination" class="form-control-label">Where to?</label>
                     <div class="form-group">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text" id="basic-addon1">⚲</span>
-                            <input class="form-control"
-                                   type="text"
-                                   name="destination"
-                                   autocorrect="off"
-                                   autocapitalize="off"
-                                   autocomplete="off"
-                                   spellcheck="false"
-                                   maxlength="2048"
-                                   tabindex="1"
-                                   id="destination"
-                                   value="{{ request.session.q.destination }}"
-                                   list="location"
-                                   required/>
-                        </div>
+                        <input class="form-control"
+                               type="search"
+                               name="destination"
+                               dir="ltr"
+                               autocorrect="off"
+                               autocapitalize="off"
+                               autocomplete="off"
+                               spellcheck="false"
+                               maxlength="2048"
+                               tabindex="1"
+                               id="destination"
+                               value="{{ request.session.q.destination }}"
+                               required/>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
