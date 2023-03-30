@@ -1,8 +1,6 @@
 from django.http import HttpResponse
-from django.test import RequestFactory, TestCase
-from django.urls import reverse_lazy
+from django.test import TestCase
 
-from orders.drawers import burn_order_pdf, burn_ticket_pdf
 from orders.factories import OrderFactory, PassengerFactory
 
 
@@ -21,8 +19,6 @@ class TicketPDFTests(TestCase):
         TODO: hack around this
         """
         # First we create a dummy request and response.
-
-        request = RequestFactory().get(reverse_lazy("payments:success"))
 
         response = HttpResponse(content_type="application/pdf")
         response["Content-Disposition"] = "attachment; filename=tickets.pdf"
