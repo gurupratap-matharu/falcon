@@ -16,6 +16,31 @@
 
     {% include "includes/search.html" %}
 
+    <div class="card card-plain mx-3 mt-9">
+        {% if request.user.is_superuser %}
+            <button class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDeparture"
+                    aria-controls="offcanvasDeparture">
+                Offcanvas Departure
+            </button>
+        {% endif %}
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDepartureLabel">Departure</h5>
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="offcanvas" aria-label="Close">X</button>
+            </div>
+            <div class="offcanvas-body">
+                <input class="form-control form-control-lg offcanvas-departure-date bg-white"
+                       type="text"
+                       name="offcanvas-departure"
+                       id="offcanvas-departure"
+                       value="{{ request.session.q.departure }}"
+                       required/>
+            </div>
+        </div>
+    </div>
     {% comment %} <div class="card mx-md-4 mt-4">
         <div class="card-header bg-transparent">
             <h3>Trips from Buenos Aires</h3>
