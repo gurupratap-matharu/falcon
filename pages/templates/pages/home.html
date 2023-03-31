@@ -16,6 +16,7 @@
 
     {% include "includes/search.html" %}
 
+    {% comment %} Offcanvas Departure Element {% endcomment %}
     <div class="card card-plain mx-3 mt-9">
         {% if request.user.is_superuser %}
             <button class="btn btn-primary"
@@ -36,12 +37,51 @@
                        type="text"
                        name="offcanvas-departure"
                        id="offcanvas-departure"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       autocomplete="off"
+                       spellcheck="false"
+                       maxlength="2048"
+                       tabindex="1"
                        value="{{ request.session.q.departure }}"
                        required/>
             </div>
         </div>
     </div>
-    {% comment %} <div class="card mx-md-4 mt-4">
+    {% comment %} Offcanvas Return Element {% endcomment %}
+    <div class="card card-plain mx-3 mt-9">
+        {% if request.user.is_superuser %}
+            <button class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasReturn"
+                    aria-controls="offcanvasReturn">
+                Offcanvas Return
+            </button>
+        {% endif %}
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasReturnLabel">Return</h5>
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="offcanvas" aria-label="Close">X</button>
+            </div>
+            <div class="offcanvas-body">
+                <input class="form-control form-control-lg offcanvas-return-date bg-white"
+                       type="text"
+                       name="offcanvas-return"
+                       id="offcanvas-return"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       autocomplete="off"
+                       spellcheck="false"
+                       maxlength="2048"
+                       tabindex="1"
+                       value="{{ request.session.q.return }}"
+                       required/>
+            </div>
+        </div>
+    </div>
+    {% comment %} Dummy placeholder cards
+    <div class="card mx-md-4 mt-4">
         <div class="card-header bg-transparent">
             <h3>Trips from Buenos Aires</h3>
         </div>
