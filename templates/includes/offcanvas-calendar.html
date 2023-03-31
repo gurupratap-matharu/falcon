@@ -1,14 +1,5 @@
 {% comment %} Offcanvas Departure Element {% endcomment %}
 <div class="card card-plain mx-3 mt-9">
-    {% if request.user.is_superuser %}
-        <button class="btn btn-primary"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDeparture"
-                aria-controls="offcanvasDeparture">
-            Offcanvas Departure
-        </button>
-    {% endif %}
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasDepartureLabel">Departure</h5>
@@ -32,15 +23,6 @@
 </div>
 {% comment %} Offcanvas Return Element {% endcomment %}
 <div class="card card-plain mx-3 mt-9">
-    {% if request.user.is_superuser %}
-        <button class="btn btn-primary"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasReturn"
-                aria-controls="offcanvasReturn">
-            Offcanvas Return
-        </button>
-    {% endif %}
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasReturnLabel">Return</h5>
@@ -62,3 +44,21 @@
         </div>
     </div>
 </div>
+{% comment %} These are the triggers for both the canvas elements above. We show it to only superuser
+to trigger manually {% endcomment %}
+{% if request.user.is_superuser %}
+    <button class="btn btn-outline-dark"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasDeparture"
+            aria-controls="offcanvasDeparture">
+        Offcanvas Departure
+    </button>
+    <button class="btn btn-outline-dark"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasReturn"
+            aria-controls="offcanvasReturn">
+        Offcanvas Return
+    </button>
+{% endif %}
