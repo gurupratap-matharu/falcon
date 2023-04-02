@@ -1,12 +1,13 @@
-import datetime
 import logging
 import uuid
+from datetime import datetime, timedelta
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Count, F, FloatField, IntegerField, Q
 from django.db.models.functions import Cast, Round
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.text import slugify
@@ -62,12 +63,34 @@ class FutureManager(models.Manager):
         logger.info("showing only future trips(⏰)...")
 
         qs = super().get_queryset()
-        return qs.filter(departure__gt=timezone.now())
+        return qs.filter(departure__gt=timezone.now()).order_by("departure")
 
     def active(self):
         logger.info("showing only active trips(🌳)...")
 
         return self.filter(status=Trip.ACTIVE)
+
+    def search(self, origin=None, destination=None, departure=None):
+        """
+        Search only active future trips based on
+            - origin
+            - destination
+            - departure date
+        """
+
+        origin = get_object_or_404(Location, name=origin)
+        destination = get_object_or_404(Location, name=destination)
+        departure = datetime.strptime(departure, "%d-%m-%Y").date()
+
+        logger.info("searching from:%s to:%s on:%s" % (origin, destination, departure))
+
+        qs = self.active()
+        qs = qs.filter(
+            origin=origin, destination=destination, departure__date=departure
+        )
+        qs = qs.select_related("company", "origin", "destination")
+
+        return qs
 
     def for_company(self, company_slug=None):
         """Build the Queryset with relevant stats for only one company"""
@@ -320,7 +343,7 @@ class Trip(models.Model):
     @property
     def is_due_shortly(self) -> bool:
         """Whether the departure is due within a day"""
-        return self.departure <= timezone.now() + datetime.timedelta(days=1)
+        return self.departure <= timezone.now() + timedelta(days=1)
 
     @property
     def is_running(self) -> bool:
