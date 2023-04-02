@@ -46,7 +46,6 @@ class Command(BaseCommand):
         self.success("Locale: %s" % locale)
         self.danger("Deleting old data...")
         # TODO: Revisit this. could be dangerous if run in production.
-        Company.objects.all().delete()
         Location.objects.all().delete()
         Trip.objects.all().delete()
 

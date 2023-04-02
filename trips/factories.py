@@ -122,10 +122,6 @@ def make_trips():
     ORIGIN = "Buenos Aires"
     DESTINATION = "Mendoza"
 
-    logger.info("creating all companies...")
-    for name in COMPANIES:
-        CompanyFactory(name=name)
-
     logger.info("creating all locations...")
     for name in TERMINALS:
         LocationFactory(name=name)
@@ -139,10 +135,10 @@ def make_trips():
 
     trips_random = TripFactory.create_batch(size=10)
     trips_outbound = TripTomorrowFactory.create_batch(
-        size=2, origin=origin, destination=destination
+        size=5, origin=origin, destination=destination
     )
     trips_return = TripDayAfterTomorrowFactory.create_batch(
-        size=2, origin=destination, destination=origin
+        size=5, origin=destination, destination=origin
     )
 
     trips = trips_random + trips_outbound + trips_return
