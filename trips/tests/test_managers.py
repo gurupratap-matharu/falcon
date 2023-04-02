@@ -85,10 +85,24 @@ class FutureManagerTests(TestCase):
         self.assertNotIn(self.past_trips[0], qs)
         self.assertNotIn(self.past_trips[1], qs)
 
+
+class FutureSearchManagerTests(TestCase):
+    """
+    Here we test only the search method of our future manager
+    """
+
     def test_search_method_filters_results_correctly(self):
         pass
 
-    def test_for_company_method_shows_trips_only_for_one_company(self):
+    # Check query annotations here as well
+
+
+class FutureCompanyManagerTests(TestCase):
+    """
+    Here we test only the for_company() method of our future manager
+    """
+
+    def test_for_company_method_filters_results_only_for_a_company(self):
         pass
 
     # Check query annotations here as well
