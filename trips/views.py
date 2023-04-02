@@ -13,7 +13,6 @@ from companies.mixins import OwnerMixin
 
 from .forms import TripCreateForm
 from .models import Location, Trip
-from .terminals import TERMINALS
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +29,7 @@ class TripSearchView(View):
     def get(self, request):
         # Add search query to session
         if request.GET:
-            logger.info("Veer url params: %s " % request.GET)
+            logger.info("search query (🔎):%s..." % request.GET)
             request.session["q"] = request.GET
 
             # clear earlier trips session
@@ -46,38 +45,27 @@ class TripListView(ListView):
     template_name = "trips/trip_list.html"
     context_object_name: str = "trips"
 
-    def build_date(self, date_str):
-        return datetime.strptime(date_str, "%d-%m-%Y").date()
-
     def get_queryset(self) -> QuerySet[Any]:
-        qs = super().get_queryset()
-
         q = self.request.GET
-        if q:
-            # We got query params so let's filter the trips queryset
-            logger.info("Veer url params: %s " % q)
-            self.request.session["q"] = q
 
-            origin = get_object_or_404(Location, name=q.get("origin"))
-            destination = get_object_or_404(Location, name=q.get("destination"))
-            departure_date = self.build_date(q.get("departure"))
+        # what happens if no query supplied?
+        # redirect to home page with message
 
-            logger.info(
-                "TripList(💋): origin: %s destination: %s departure: %s"
-                % (origin, destination, departure_date)
-            )
+        if not q:
+            logger.warn("empty queryset???")
 
-            # qs = qs.filter(
-            #     origin=origin, destination=destination, departure__date=departure_date
-            # )
+        logger.info("search query(🔎):%s..." % q)
 
-        # other wise just return all the trips for now
+        self.request.session["q"] = q
+
+        origin, destination = q.get("origin"), q.get("destination")
+        departure = q.get("departure")
+
+        qs = Trip.future.search(
+            origin=origin, destination=destination, departure=departure
+        )
+
         return qs
-
-    def get_context_data(self, **kwargs: Any):
-        context = super().get_context_data(**kwargs)
-        context["terminals"] = TERMINALS
-        return context
 
 
 class TripDetailView(DetailView):
