@@ -48,11 +48,15 @@ class FutureFilter(admin.SimpleListFilter):
 
         if self.value() == "7":
             next_week = today + timedelta(days=7)
-            return queryset.filter(departure__gte=today, departure__lte=next_week)
+            return queryset.filter(
+                departure__gte=today, departure__lte=next_week
+            ).order_by("departure")
 
         if self.value() == "30":
             next_month = today + timedelta(days=30)
-            return queryset.filter(departure__gte=today, departure__lte=next_month)
+            return queryset.filter(
+                departure__gte=today, departure__lte=next_month
+            ).order_by("departure")
 
 
 class TripOrderInline(admin.TabularInline):
@@ -69,15 +73,26 @@ class TripOrderInline(admin.TabularInline):
 
 
 class PassengerSeatInline(admin.TabularInline):
-    model = Trip.passengers.through
+
+    model = Trip.passengers.through  # <- This is the Seat model
     extra = 0
     can_delete = False
     readonly_fields = (
         "seat_number",
-        "seat_status",
+        # "seat_status",
         "passenger",
         "seat_type",
     )
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        """
+        Veer here the queryset is basically trip.seats.all() or all the seats
+        for a trip.
+        We want to pull in all passenger info in one go for faster response.
+        """
+
+        qs = super().get_queryset(request)
+        return qs.select_related("passenger")
 
 
 @admin.register(Location)
@@ -90,13 +105,6 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Trip)
 class TripAdmin(admin.ModelAdmin):
-    """
-    TODO
-        - show Price in localized money format say ARS 13,252.00
-        - Allow filter to remove all past trips
-        - In Future: Show passengers in each trip
-    """
-
     list_display = (
         "company",
         "origin",
@@ -120,9 +128,15 @@ class TripAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         qs = super().get_queryset(request)
-        _availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
 
-        return qs.annotate(_availability=_availability)
+        # Fetch related foreign keys in one go
+        qs = qs.select_related("origin", "destination", "company")
+
+        # Annotate availability for all trips in  one go
+        _availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
+        qs = qs.annotate(_availability=_availability)
+
+        return qs
 
     def availability(self, obj):
         return obj._availability
