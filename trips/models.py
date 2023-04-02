@@ -190,6 +190,9 @@ class Trip(models.Model):
     objects = models.Manager()
     future = FutureManager()
 
+    class Meta:
+        ordering = ["departure"]
+
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             logger.info("slugifying %s:%s..." % (self.name, slugify(self.name)))
