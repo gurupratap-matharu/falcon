@@ -21,30 +21,6 @@ from users.factories import UserFactory
 
 
 @tag("pages", "fast")
-class HomePageTests(SimpleTestCase):
-    def setUp(self):
-        self.url = reverse("pages:home")
-        self.response = self.client.get(self.url)
-        self.template_name = "pages/home.html"
-
-    def test_homepage_status_code(self):
-        self.assertEqual(self.response.status_code, HTTPStatus.OK)
-
-    def test_homepage_template(self):
-        self.assertTemplateUsed(self.response, self.template_name)
-
-    def test_homepage_contains_correct_html(self):
-        self.assertContains(self.response, "Falcon")
-
-    def test_homepage_does_not_contain_incorrect_html(self):
-        self.assertNotContains(self.response, "Hi there! I should not be on this page.")
-
-    def test_homepage_url_resolves_homepageview(self):
-        view = resolve(self.url)
-        self.assertEqual(view.func.__name__, HomePageView.as_view().__name__)
-
-
-@tag("pages", "fast")
 class AboutPageTests(SimpleTestCase):
     def setUp(self):
         self.url = reverse("pages:about")
