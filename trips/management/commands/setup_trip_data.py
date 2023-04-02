@@ -12,7 +12,6 @@ from django.core.management.base import BaseCommand
 
 import factory
 
-from companies.models import Company
 from trips.factories import make_trips
 from trips.models import Location, Seat, Trip
 
