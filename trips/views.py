@@ -1,10 +1,9 @@
 import logging
-from datetime import datetime
 from typing import Any, Dict
 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
 
 from django_weasyprint import WeasyTemplateResponseMixin
@@ -12,7 +11,7 @@ from django_weasyprint import WeasyTemplateResponseMixin
 from companies.mixins import OwnerMixin
 
 from .forms import TripCreateForm
-from .models import Location, Trip
+from .models import Trip
 
 logger = logging.getLogger(__name__)
 
