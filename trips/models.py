@@ -63,7 +63,7 @@ class FutureManager(models.Manager):
         logger.info("showing only future trips(⏰)...")
 
         qs = super().get_queryset()
-        return qs.filter(departure__gt=timezone.now()).order_by("departure")
+        return qs.filter(departure__gt=timezone.now())
 
     def active(self):
         logger.info("showing only active trips(🌳)...")
@@ -116,7 +116,6 @@ class FutureManager(models.Manager):
         qs = qs.annotate(occupancy=occupancy)
         qs = qs.annotate(revenue=revenue)
         qs = qs.select_related("company", "origin", "destination")
-        qs = qs.order_by("departure")
 
         return qs
 
