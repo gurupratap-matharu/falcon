@@ -1,5 +1,4 @@
 import logging
-from typing import Any, Dict
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -9,8 +8,6 @@ from django.urls import reverse_lazy
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
 from django.views.generic import DetailView, FormView, TemplateView
-
-from trips.terminals import TERMINALS
 
 from .forms import ContactForm, FeedbackForm
 
@@ -22,14 +19,6 @@ CustomUser = get_user_model()
 
 class HomePageView(TemplateView):
     template_name: str = "pages/home.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-
-        # you should make a global context processor for terminals
-        context["terminals"] = TERMINALS
-
-        return context
 
 
 class AboutPageView(TemplateView):
