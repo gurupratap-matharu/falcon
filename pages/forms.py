@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class FeedbackForm(forms.Form):
+    placeholder = "Send us your feedback or report an issue. Please provide as much info as possible. Thank you."
     subject = "Feedback Message"
     email = forms.EmailField(
         required=True,
@@ -24,7 +25,7 @@ class FeedbackForm(forms.Form):
             attrs={
                 "cols": 80,
                 "rows": 5,
-                "placeholder": "Send us your feedback or report an issue. Please provide as much info as possible. Thank you.",
+                "placeholder": placeholder,
                 "class": "form-control",
             }
         ),

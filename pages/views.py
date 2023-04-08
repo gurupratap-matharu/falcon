@@ -79,7 +79,8 @@ def favicon(request: HttpRequest) -> FileResponse:
     You might wonder why you need a separate view, rather than relying on Django’s staticfiles app.
     The reason is that staticfiles only serves files from within the STATIC_URL prefix, like static/.
 
-    Thus staticfiles can only serve /static/favicon.ico, whilst the favicon needs to be served at exactly /favicon.ico (without a <link>).
+    Thus staticfiles can only serve /static/favicon.ico,
+    whilst the favicon needs to be served at exactly /favicon.ico (without a <link>).
 
     Say if the project is accessed at an endpoint that returns a simple JSON and doesn't use the
     base.html file then the favicon won't show up.
