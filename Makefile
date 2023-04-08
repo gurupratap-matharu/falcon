@@ -58,15 +58,15 @@ format:
 	poetry run black . --check 
 
 lint: isort format
-	poetry run flake8 .
+	poetry run ruff .
 
-test: migrations-check
-	python -Wa manage.py test
+test: check migrations-check
+	coverage run --source='.' manage.py test
+	coverage html
 
 security:
 	poetry run bandit -r .
 	poetry run safety check
 
-ci: lint security
-	coverage run --source='.' manage.py test
-	coverage html
+ci: lint security test
+	
