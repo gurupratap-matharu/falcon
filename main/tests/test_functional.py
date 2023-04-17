@@ -1,6 +1,7 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -23,7 +24,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def test_can_search_for_a_trip(self):
         # Vicky has heard about a cool new bus ticket booking app. She goes to check out its homepage
-        print(f"veer live server url: {self.live_server_url}")
         self.browser.get(f"{self.live_server_url}")
 
         # She notices the page title and header mention bus tickets
@@ -31,17 +31,17 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertIn("Book Bus Tickets", self.browser.title)
 
         # She is invited to enter the origin, destination and journey date right away
-        origin = self.browser.find_element(value="origin")
-        destination = self.browser.find_element(value="destination")
+        origin = self.browser.find_element(By.NAME, "origin")
+        destination = self.browser.find_element(By.NAME, "destination")
 
         self.assertEqual(origin.get_attribute("placeholder"), "Search origin...")
         self.assertEqual(
             destination.get_attribute("placeholder"), "Search destination..."
         )
 
-        origin_ac = self.browser.find_element(value="autoComplete_list_1")
+        origin_ac = self.browser.find_element(By.NAME, "autoComplete_list_1")
 
-        destination_ac = self.browser.find_element(value="autoComplete_list_2")
+        destination_ac = self.browser.find_element(By.NAME, "autoComplete_list_2")
 
         # She types Bue (for buenos aires) in the origin box
         origin.send_keys("bue")
