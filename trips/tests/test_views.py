@@ -2,6 +2,7 @@ from decimal import Decimal
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
+from django.http import QueryDict
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
@@ -37,6 +38,12 @@ class TripListViewTests(TestCase):
     """
     Test suite for trip list view.
     """
+
+    @classmethod
+    def build_url(cls, **kwargs):
+        q = QueryDict("", mutable=True)
+        q.update(**kwargs)
+        return "%s?%s" % (reverse_lazy("trips:trip-list"), q.urlencode())
 
     def setUp(self):
         self.url = reverse_lazy("trips:trip-list")

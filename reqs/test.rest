@@ -1,1 +1,5 @@
-GET https://www.youtube.com/987 HTTP/1.1
+GET http://localhost:8000/dummy/ HTTP/1.1
+
+###
+
+POST http://localhost:8000/dummy/ HTTP/1.1
