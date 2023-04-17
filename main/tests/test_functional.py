@@ -1,9 +1,9 @@
-from django.test import TestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium import webdriver
 
 
-class NewVisitorTest(TestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     """
     Test suite to check a new visitor can access the site correctly.
 
@@ -11,15 +11,20 @@ class NewVisitorTest(TestCase):
     and its various elements.
     """
 
-    def setUp(self):
-        self.browser = webdriver.Firefox()
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.browser = webdriver.Firefox()
 
-    def tearDown(self):
-        self.browser.quit()
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.browser.quit()
+        super().tearDownClass()
 
     def test_can_search_for_a_trip(self):
         # Vicky has heard about a cool new bus ticket booking app. She goes to check out its homepage
-        self.browser.get("http://localhost:8000")
+        print(f"veer live server url: {self.live_server_url}")
+        self.browser.get(f"{self.live_server_url}")
 
         # She notices the page title and header mention bus tickets
         self.assertIn("Falcon", self.browser.title)
