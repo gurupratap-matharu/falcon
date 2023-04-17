@@ -12,7 +12,6 @@ from pages.views import (
     AboutPageView,
     ContactPageView,
     FeedbackPageView,
-    HomePageView,
     PrivacyPageView,
     PublicProfilePageView,
     TermsPageView,
