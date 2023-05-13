@@ -117,7 +117,11 @@ class SeatWithPassengerFactory(SeatFactory):
     passenger = factory.SubFactory("orders.factories.PassengerFactory")
 
 
-def make_trips():
+def make_trips(num_trips=20, num_seats=40):
+    """
+    Helper method to create future forward + return trips in between two locations.
+    """
+
     ORIGIN = "Buenos Aires"
     DESTINATION = "Mendoza"
 
@@ -132,12 +136,17 @@ def make_trips():
     # Create trips
     logger.info("creating all trips...")
 
-    trips_random = TripFactory.create_batch(size=10, status=Trip.ACTIVE)
+    size = num_trips // 2
+    size_outbound = size_return = num_trips // 4
+
+    trips_random = TripFactory.create_batch(size=size, status=Trip.ACTIVE)
+
     trips_outbound = TripTomorrowFactory.create_batch(
-        size=5, origin=origin, destination=destination, status=Trip.ACTIVE
+        size=size_outbound, origin=origin, destination=destination, status=Trip.ACTIVE
     )
+
     trips_return = TripDayAfterTomorrowFactory.create_batch(
-        size=5, origin=destination, destination=origin, status=Trip.ACTIVE
+        size=size_return, origin=destination, destination=origin, status=Trip.ACTIVE
     )
 
     trips = trips_random + trips_outbound + trips_return
@@ -145,14 +154,16 @@ def make_trips():
     # Create seats in each trip
     logger.info("creating all seats...")
 
+    size = num_seats // 2
+
     for trip in trips:
         SeatFactory.reset_sequence(1)
 
         # Create some booked seats with a passenger assigned to it
-        SeatWithPassengerFactory.create_batch(size=20, trip=trip)
+        SeatWithPassengerFactory.create_batch(size=size, trip=trip)
 
         # Create available empty seats
-        SeatFactory.create_batch(size=20, trip=trip, seat_status=Seat.AVAILABLE)
+        SeatFactory.create_batch(size=size, trip=trip, seat_status=Seat.AVAILABLE)
 
     return trips
 
