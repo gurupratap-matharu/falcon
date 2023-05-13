@@ -509,9 +509,6 @@
         {% if request.user.is_superuser %}
             <div class="card card-plain mx-3 mt-3">
                 {% comment %} Session data {% endcomment %}
-                <button type="button" class="btn bg-gradient-dark" data-bs-toggle="modal" data-bs-target="#sessionModal">
-                    Session data
-                </button>
                 <!-- Modal -->
                 <div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="sessionModal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
