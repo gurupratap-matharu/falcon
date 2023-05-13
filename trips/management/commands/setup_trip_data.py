@@ -13,7 +13,7 @@ from django.core.management.base import BaseCommand
 
 import factory
 
-from trips.factories import make_trips
+from trips.factories import make_trips, make_trips_for_company
 from trips.models import Location, Seat, Trip
 
 
@@ -68,7 +68,11 @@ class Command(BaseCommand):
         self.success("Creating new data...")
 
         with factory.Faker.override_default_locale(locale):
+            self.success("\nCreating trips...")
             make_trips(num_trips=int(num_trips), num_seats=int(num_seats))
+
+            self.success("\nCreating trips for company...")
+            make_trips_for_company()
 
         self.stdout.write(
             f"""
