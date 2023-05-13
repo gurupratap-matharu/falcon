@@ -11,10 +11,13 @@ from factory import fuzzy
 from faker import Faker
 
 from companies.factories import CompanyFactory
+from companies.models import Company
 from trips.models import Location, Seat, Trip
 from trips.terminals import TERMINALS
 
 fake = Faker()
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -168,7 +171,7 @@ def make_trips(num_trips=20, num_seats=40):
     return trips
 
 
-def make_trips_for_company(company=None):
+def make_trips_for_company(company="albizzatti"):
     """
     This is an encompassing method that focusses on building random trips only for
     one company.
@@ -176,13 +179,26 @@ def make_trips_for_company(company=None):
     This can be especially useful in dashboard visualizations.
     """
 
+    # Get company object
+    company = Company.objects.get(name__icontains=company)
+
+    logger.info("deleting all trips for company: %s" % company)
+    company.trips.all().delete()  # type:ignore
+
+    logger.info("creating trips for company: %s" % company)
+
     # Create all the terminals
+    logger.info("creating all terminals...")
+
     for terminal in TERMINALS:
         LocationFactory(name=terminal)
 
     # Choose two random locations
     origin = LocationFactory()
     destination = LocationFactory()
+
+    logger.info("origin will be: %s" % origin)
+    logger.info("destination will be: %s" % destination)
 
     # Create trips
     trips_random = TripFactory.create_batch(size=10, company=company)
@@ -207,6 +223,8 @@ def make_trips_for_company(company=None):
     trips = trips_random + trips_outbound + trips_return
 
     # Create seats in each trip
+    logger.info("creating seats...")
+
     for trip in trips:
         total_seats = 40
         booked_seats = random.randint(1, total_seats)  # nosec
