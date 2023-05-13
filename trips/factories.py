@@ -132,12 +132,12 @@ def make_trips():
     # Create trips
     logger.info("creating all trips...")
 
-    trips_random = TripFactory.create_batch(size=10)
+    trips_random = TripFactory.create_batch(size=10, status=Trip.ACTIVE)
     trips_outbound = TripTomorrowFactory.create_batch(
-        size=5, origin=origin, destination=destination
+        size=5, origin=origin, destination=destination, status=Trip.ACTIVE
     )
     trips_return = TripDayAfterTomorrowFactory.create_batch(
-        size=5, origin=destination, destination=origin
+        size=5, origin=destination, destination=origin, status=Trip.ACTIVE
     )
 
     trips = trips_random + trips_outbound + trips_return
@@ -197,7 +197,6 @@ def make_trips_for_company(company=None):
 
     # Create seats in each trip
     for trip in trips:
-
         total_seats = 40
         booked_seats = random.randint(1, total_seats)  # nosec
         empty_seats = total_seats - booked_seats
