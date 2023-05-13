@@ -221,4 +221,3 @@ def make_trips_for_company(company=None):
         )
 
     return trips
-    return trips
