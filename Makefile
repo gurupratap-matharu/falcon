@@ -69,4 +69,34 @@ security:
 	poetry run safety check
 
 ci: lint security test
+
+status:
+	@echo "Nginx"
+	@sudo systemctl status nginx
+
+	@echo "Gunicorn Socket"
+	@sudo systemctl status falcon-gunicorn.socket
+
+	@echo "Gunicorn Service"
+	@sudo systemctl status falcon-gunicorn.service
+
+
+reload:
+	@echo "reloading daemon..."
+	@sudo systemctl daemon-reload
+
+	@echo "🔌 restarting gunicorn socket..."
+	@sudo systemctl restart falcon-gunicorn.socket
+
+	@echo "🦄 restarting gunicorn service..."
+	@sudo systemctl restart falcon-gunicorn.service
 	
+	@echo "⚙️ reloading nginx..."
+	@sudo nginx -s reload
+	
+	@echo "All done! 💅💫💖"
+
+logs:
+	@sudo journalctl -fu falcon-gunicorn.service
+	
+
