@@ -1,6 +1,6 @@
 # Falcon
 
-What's happening in Argentina today?
+All in one platform for intercity bus operators
 
 [![codecov](https://codecov.io/gh/gurupratap-matharu/falcon/branch/master/graph/badge.svg?token=DOIZxrPhqc)](https://codecov.io/gh/gurupratap-matharu/falcon)
 
@@ -23,11 +23,13 @@ After cloning the repo locally and having poetry installed simply run
   poetry install
 ```
 
-## Running Tests
+## Run Tests
 
-To run tests, run the following command
+`make test`
 
-`python manage.py test -v 2`
+## Run CI
+
+`make ci`
 
 ## Run Locally
 
