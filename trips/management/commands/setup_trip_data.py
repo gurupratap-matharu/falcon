@@ -45,7 +45,6 @@ class Command(BaseCommand):
         self.success("Locale: %s" % locale)
         self.danger("Deleting old data...")
         # TODO: Revisit this. could be dangerous if run in production.
-        Location.objects.all().delete()
         Trip.objects.all().delete()
 
         self.success("Creating new data...")
@@ -63,4 +62,4 @@ class Command(BaseCommand):
         end = timer()
 
         self.danger("took:%0.2f seconds..." % (end - start))
-        self.success("All done! 💖💅🏻💫")
+        self.success("All done!")
