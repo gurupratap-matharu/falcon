@@ -11,7 +11,6 @@ from factory import fuzzy
 from faker import Faker
 
 from companies.factories import CompanyFactory
-from companies.models import Company
 from trips.models import Location, Seat, Trip
 from trips.terminals import TERMINALS
 
