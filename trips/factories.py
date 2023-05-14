@@ -171,7 +171,7 @@ def make_trips(num_trips=20, num_seats=40):
     return trips
 
 
-def make_trips_for_company(company="albizzatti"):
+def make_trips_for_company(company="Albizzatti"):
     """
     This is an encompassing method that focusses on building random trips only for
     one company.
@@ -180,8 +180,8 @@ def make_trips_for_company(company="albizzatti"):
     """
 
     # Get company object
-    company = Company.objects.get(name__icontains=company)
-
+    company = CompanyFactory(name=company)
+    logger.info("company: %s" % company)
     logger.info("deleting all trips for company: %s" % company)
     company.trips.all().delete()  # type:ignore
 
