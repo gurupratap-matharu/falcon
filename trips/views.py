@@ -1,16 +1,18 @@
 import logging
 from typing import Any, Dict
 
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
 
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from companies.mixins import OwnerMixin
 
-from .forms import TripCreateForm
+from .forms import TripCreateForm, TripSearchForm
 from .models import Trip
 
 logger = logging.getLogger(__name__)
@@ -43,27 +45,37 @@ class TripListView(ListView):
     model = Trip
     template_name = "trips/trip_list.html"
     context_object_name: str = "trips"
+    invalid_query_msg = " Please try again 🙏"
+    form_class = TripSearchForm
+
+    def get(self, request, *args, **kwargs):
+        """
+        Overwrite this method of validate if the search query params are valid
+        else redirect to home with a valid message.
+        """
+
+        q = self.request.GET
+
+        try:
+            form = self.form_class(q)
+            form.validate()
+
+        except Exception as e:
+            messages.info(request, str(e) + self.invalid_query_msg)
+            return redirect(reverse_lazy("pages:home"))
+
+        logger.info("search query:%s..." % q)
+        self.request.session["q"] = q
+
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self) -> QuerySet[Any]:
         q = self.request.GET
-
-        # what happens if no query supplied?
-        # redirect to home page with message
-
-        if not q:
-            logger.warn("empty queryset???")
-
-        logger.info("search query(🔎):%s..." % q)
-
-        self.request.session["q"] = q
-
-        origin, destination = q.get("origin"), q.get("destination")
-        departure = q.get("departure")
-
         qs = Trip.future.search(
-            origin=origin, destination=destination, departure=departure
+            origin=q.get("origin"),
+            destination=q.get("destination"),
+            departure=q.get("departure"),
         )
-
         return qs
 
 
