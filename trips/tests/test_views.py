@@ -1,3 +1,4 @@
+from datetime import timedelta
 from decimal import Decimal
 from http import HTTPStatus
 
@@ -5,6 +6,7 @@ from django.contrib.messages import get_messages
 from django.http import QueryDict
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
+from django.utils import timezone
 
 from companies.factories import CompanyFactory
 from trips.factories import (
@@ -40,21 +42,207 @@ class TripListViewTests(TestCase):
     """
 
     @classmethod
+    def setUpTestData(cls):
+        cls.trip = TripFactory()
+        cls.url = reverse_lazy("trips:trip-list")
+        cls.redirect_url = reverse_lazy("pages:home")
+        cls.template_name = "trips/trip_list.html"
+        cls.origin = LocationFactory(name="Buenos Aires")
+        cls.destination = LocationFactory(name="Mendoza")
+
+    @classmethod
     def build_url(cls, **kwargs):
+        """
+        Helper method to add query parameters to a url
+        """
+
         q = QueryDict("", mutable=True)
         q.update(**kwargs)
-        return "%s?%s" % (reverse_lazy("trips:trip-list"), q.urlencode())
-
-    def setUp(self):
-        self.url = reverse_lazy("trips:trip-list")
-        self.response = self.client.get(self.url)
-        self.template_name = "trips/trip_list.html"
+        return "%s?%s" % (cls.url, q.urlencode())
 
     def test_trip_list_works_for_anonymous_user(self):
+        url = self.build_url(
+            trip_type="round_trip",
+            num_of_passengers=1,
+            origin="Buenos Aires",
+            destination="Mendoza",
+            departure=timezone.now().strftime("%d-%m-%Y"),
+        )
+        self.response = self.client.get(url)
+
         self.assertEqual(self.response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(self.response, self.template_name)
         self.assertContains(self.response, "Results")
         self.assertNotContains(self.response, "Hi there. I should not be on this page.")
+
+    def test_trip_list_redirects_to_home_with_message_for_empty_query(self):
+        """
+        Here we don't pass the query params at all!
+        Just hit the endpoint /trips/ and this should redirect
+        """
+
+        url = self.build_url()
+        response = self.client.get(url)
+
+        self.assertRedirects(response, self.redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertEqual(len(messages), 1)
+        self.assertIn(TripListView.invalid_query_msg, str(messages[0]))
+
+    def test_trip_list_redirects_to_home_with_message_for_invalid_origin(self):
+        url = self.build_url(
+            trip_type="round_trip",
+            num_of_passengers=1,
+            origin="BsAs",  # <- invalid location name
+            destination="Mendoza",
+            departure=timezone.now().strftime("%d-%m-%Y"),
+        )
+        response = self.client.get(url)
+
+        self.assertRedirects(response, self.redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertEqual(len(messages), 1)
+        self.assertIn(TripListView.invalid_query_msg, str(messages[0]))
+
+    def test_trip_list_redirects_to_home_with_message_for_invalid_destination(self):
+        url = self.build_url(
+            trip_type="round_trip",
+            num_of_passengers=1,
+            origin="Buenos Aires",
+            destination="India",  # <- invalid destination
+            departure=timezone.now().strftime("%d-%m-%Y"),
+        )
+
+        response = self.client.get(url)
+
+        self.assertRedirects(response, self.redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertEqual(len(messages), 1)
+        self.assertIn(TripListView.invalid_query_msg, str(messages[0]))
+
+    def test_trip_list_redirects_to_home_with_message_for_invalid_departure_date(self):
+        yesterday = (timezone.now() - timedelta(days=1)).strftime("%d-%m-%Y")
+
+        url = self.build_url(
+            trip_type="round_trip",
+            num_of_passengers=1,
+            origin="Buenos Aires",
+            destination="Mendoza",
+            departure=yesterday,  # <- invalid departure date
+        )
+
+        response = self.client.get(url)
+
+        self.assertRedirects(response, self.redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertEqual(len(messages), 1)
+        self.assertIn(TripListView.invalid_query_msg, str(messages[0]))
+
+    def test_trip_list_redirects_to_home_with_message_for_invalid_return_date(self):
+        today = timezone.now()
+        departure = today.strftime("%d-%m-%Y")
+        return_date = (today - timedelta(days=1)).strftime("%d-%m-%Y")
+
+        url = self.build_url(
+            trip_type="round_trip",
+            num_of_passengers=1,
+            origin="Buenos Aires",
+            destination="Mendoza",
+            departure=departure,
+        )
+        url += f"&return={return_date}"
+
+        response = self.client.get(url)
+
+        self.assertRedirects(response, self.redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertEqual(len(messages), 1)
+        self.assertIn(TripListView.invalid_query_msg, str(messages[0]))
+
+    def test_trip_list_redirects_to_home_with_message_for_invalid_num_of_passengers(
+        self,
+    ):
+        today = timezone.now()
+        departure = today.strftime("%d-%m-%Y")
+
+        def assert_invalid(url, self):
+            response = self.client.get(url)
+
+            self.assertRedirects(response, self.redirect_url, HTTPStatus.FOUND)
+            self.assertTemplateNotUsed(response, self.template_name)
+
+            messages = list(get_messages(response.wsgi_request))
+
+            self.assertEqual(len(messages), 1)
+            self.assertIn(TripListView.invalid_query_msg, str(messages[0]))
+
+        url_1 = self.build_url(
+            trip_type="round_trip",
+            num_of_passengers=0,  # <- invalid
+            origin="Buenos Aires",
+            destination="Mendoza",
+            departure=departure,
+        )
+        url_2 = self.build_url(
+            trip_type="round_trip",
+            num_of_passengers=11,  # <- invalid
+            origin="Buenos Aires",
+            destination="Mendoza",
+            departure=departure,
+        )
+
+        assert_invalid(url=url_1, self=self)
+        assert_invalid(url=url_2, self=self)
+
+    def test_trip_list_redirects_to_home_with_message_for_invalid_trip_type(
+        self,
+    ):
+        today = timezone.now()
+        departure = today.strftime("%d-%m-%Y")
+
+        def assert_invalid(url, self):
+            response = self.client.get(url)
+
+            self.assertRedirects(response, self.redirect_url, HTTPStatus.FOUND)
+            self.assertTemplateNotUsed(response, self.template_name)
+
+            messages = list(get_messages(response.wsgi_request))
+
+            self.assertEqual(len(messages), 1)
+            self.assertIn(TripListView.invalid_query_msg, str(messages[0]))
+
+        url_1 = self.build_url(
+            trip_type="",  # <- invalid
+            num_of_passengers=1,
+            origin="Buenos Aires",
+            destination="Mendoza",
+            departure=departure,
+        )
+        url_2 = self.build_url(
+            trip_type="solo",  # <- invalid
+            num_of_passengers=1,
+            origin="Buenos Aires",
+            destination="Mendoza",
+            departure=departure,
+        )
+
+        assert_invalid(url=url_1, self=self)
+        assert_invalid(url=url_2, self=self)
 
     def test_trip_list_url_resolve_triplistview(self):
         view = resolve(self.url)
