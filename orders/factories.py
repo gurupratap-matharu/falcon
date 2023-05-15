@@ -72,7 +72,7 @@ class PassengerFactory(factory.django.DjangoModelFactory):
     first_name = factory.Faker("first_name_nonbinary")
     last_name = factory.Faker("last_name_nonbinary")
     gender = factory.Faker("random_element", elements=["M", "F"])
-    birth_date = factory.Faker("date_of_birth")
+    birth_date = factory.Faker("date_of_birth", minimum_age=5, maximum_age=70)
     phone_number = factory.LazyAttribute(
         lambda _: (fake.country_calling_code() + fake.phone_number())[:14]
     )
@@ -91,7 +91,6 @@ def make_order_data(size=20, trip=None):
     orders = OrderFactory.create_batch(size=size)
 
     for order in orders:
-
         # Each order can have only forward trip (1) or both forward and return trip (2)
         # Each order can have between 1-5 passengers
         num_trips = random.randint(1, 2)  # nosec
