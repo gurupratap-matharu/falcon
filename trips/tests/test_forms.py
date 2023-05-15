@@ -25,7 +25,7 @@ class TripSearchFormTests(TestCase):
         data = {
             "trip_type": ["round_trip"],
             "num_of_passengers": ["1"],
-            "origin": ["India"],
+            "origin": ["India"],  # <- invalid origin
             "destination": ["Mendoza"],
             "departure": [departure],
             "return": [""],
@@ -44,7 +44,7 @@ class TripSearchFormTests(TestCase):
             "trip_type": ["round_trip"],
             "num_of_passengers": ["1"],
             "origin": ["Buenos Aires"],
-            "destination": ["India"],
+            "destination": ["India"],  # <- invalid destination
             "departure": [departure],
             "return": [""],
         }
@@ -53,6 +53,37 @@ class TripSearchFormTests(TestCase):
 
         with self.assertRaises(Http404):
             form.validate()
+
+    def test_missing_origin_or_destination_raises_exception(self):
+        today = datetime.today()
+        departure = (today - timedelta(days=1)).strftime("%d-%m-%Y")
+
+        data_without_origin = {
+            "trip_type": ["round_trip"],
+            "num_of_passengers": ["1"],
+            "origin": [""],
+            "destination": ["Mendoza"],
+            "departure": [departure],
+            "return": [],
+        }
+
+        data_without_destination = {
+            "trip_type": ["round_trip"],
+            "num_of_passengers": ["1"],
+            "origin": ["Buenos Aires"],
+            "destination": [""],
+            "departure": [departure],
+            "return": [],
+        }
+
+        form_1 = TripSearchForm(data=data_without_origin)
+        form_2 = TripSearchForm(data=data_without_destination)
+
+        with self.assertRaises(Http404):
+            form_1.validate()
+
+        with self.assertRaises(Http404):
+            form_2.validate()
 
     def test_invalid_departure_date_raises_exception(self):
         """
@@ -76,6 +107,25 @@ class TripSearchFormTests(TestCase):
         with self.assertRaises(ValidationError):
             form.validate()
 
+    def test_missing_departure_date_raises_exception(self):
+        """
+        Departure date is missing and this should raise an exception.
+        """
+
+        data = {
+            "trip_type": ["round_trip"],
+            "num_of_passengers": ["1"],
+            "origin": ["Buenos Aires"],
+            "destination": ["Mendoza"],
+            "departure": [],
+            "return": [""],
+        }
+
+        form = TripSearchForm(data=data)
+
+        with self.assertRaises(ValidationError):
+            form.validate()
+
     def test_invalid_return_date_raises_exception(self):
         """
         Return date is before the departure date. This should raise an exception
@@ -83,6 +133,8 @@ class TripSearchFormTests(TestCase):
 
         today = datetime.today()
         departure = today.strftime("%d-%m-%Y")
+
+        # return date is earlier than departure and in the past
         return_date = (today - timedelta(days=1)).strftime("%d-%m-%Y")
 
         data = {
@@ -136,8 +188,68 @@ class TripSearchFormTests(TestCase):
             "origin": ["Buenos Aires"],
             "destination": ["Mendoza"],
             "departure": [departure],
-            "return": [""],
+            "return": [],
         }
 
         form = TripSearchForm(data=data)
         form.validate()
+
+    def test_invalid_num_of_passengers_raises_exception(self):
+        today = datetime.today().strftime("%d-%m-%Y")
+
+        data_1 = {
+            "trip_type": ["round_trip"],
+            "num_of_passengers": ["11"],  # <- invalid number as > 10
+            "origin": ["Buenos Aires"],
+            "destination": ["Mendoza"],
+            "departure": [today],
+            "return": [],
+        }
+
+        data_2 = {
+            "trip_type": ["round_trip"],
+            "num_of_passengers": ["0"],  # <- invalid number
+            "origin": ["Buenos Aires"],
+            "destination": ["Mendoza"],
+            "departure": [today],
+            "return": [],
+        }
+
+        form_1 = TripSearchForm(data=data_1)
+        form_2 = TripSearchForm(data=data_2)
+
+        with self.assertRaises(ValidationError):
+            form_1.validate()
+
+        with self.assertRaises(ValidationError):
+            form_2.validate()
+
+    def test_invalid_trip_type_raises_exception(self):
+        today = datetime.today().strftime("%d-%m-%Y")
+
+        data_1 = {
+            "trip_type": ["solo"],  # <- invalid string
+            "num_of_passengers": ["1"],
+            "origin": ["Buenos Aires"],
+            "destination": ["Mendoza"],
+            "departure": [today],
+            "return": [],
+        }
+
+        data_2 = {
+            "trip_type": [""],  # <- missing trip type
+            "num_of_passengers": ["1"],
+            "origin": ["Buenos Aires"],
+            "destination": ["Mendoza"],
+            "departure": [today],
+            "return": [],
+        }
+
+        form_1 = TripSearchForm(data=data_1)
+        form_2 = TripSearchForm(data=data_2)
+
+        with self.assertRaises(ValidationError):
+            form_1.validate()
+
+        with self.assertRaises(ValidationError):
+            form_2.validate()
