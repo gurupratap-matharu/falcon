@@ -11,7 +11,7 @@
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    Companies
+    List
 {% endblock page_title %}
 
 {% block content %}
@@ -23,16 +23,14 @@
                         <a class="d-block blur-shadow-image" href="{{ company.get_absolute_url }}">
                             <img src="{% static 'assets/img/curved-images/curved1.jpg' %}"
                                  alt="img-blur-shadow"
-                                 class="img-fluid shadow-lg border-radius-xl"/>
+                                 class="img-fluid shadow-lg border-radius-xl" />
                         </a>
                     </div>
                     <div class="card-body px-1 pt-3">
                         <p class="text-gradient text-primary mb-2 text-sm">Luxury Suite • 12 Buses • 3 Trips</p>
-                        <a href="javascript:;">
-                            <h5>
-                                <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
-                            </h5>
-                        </a>
+                        <h5>
+                            <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
+                        </h5>
                         <p>{{ company.description|truncatechars:70 }}</p>
                         <div class="d-flex justify-content-end">
                             <a type="button" href="{{ company.get_admin_url }}" class="btn btn-outline-primary btn-sm">Admin</a>
