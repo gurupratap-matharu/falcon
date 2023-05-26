@@ -49,6 +49,9 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse_lazy("trips:location-detail", kwargs={"slug": self.slug})
+
 
 class FutureManager(models.Manager):
     """
