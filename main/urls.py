@@ -20,8 +20,13 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 from companies.sitemaps import CompanySitemap
+from trips.sitemaps import LocationSitemap, TripSitemap
 
-sitemaps = {"companies": CompanySitemap}
+sitemaps = {
+    "companies": CompanySitemap,
+    "trips": TripSitemap,
+    "locations": LocationSitemap,
+}
 
 
 urlpatterns = [
