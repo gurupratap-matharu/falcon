@@ -13,7 +13,7 @@ from django_weasyprint import WeasyTemplateResponseMixin
 from companies.mixins import OwnerMixin
 
 from .forms import TripCreateForm, TripSearchForm
-from .models import Trip
+from .models import Location, Trip
 
 logger = logging.getLogger(__name__)
 
@@ -178,3 +178,9 @@ class TripPassengerPdfView(WeasyTemplateResponseMixin, CompanyTripDetailView):
 
     template_name = "trips/trip_passengers_pdf.html"
     pdf_filename = "passengers.pdf"
+
+
+class LocationDetailView(DetailView):
+    model = Location
+    context_object_name = "location"
+    template_name = "trips/location_detail.html"

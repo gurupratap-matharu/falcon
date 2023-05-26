@@ -1,0 +1,70 @@
+{% extends "layouts/base-sidebar.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ location }}
+{% endblock title %}
+
+{% block breadcrumb %}
+    Location
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    {{ location }}
+{% endblock page_title %}
+
+{% block content %}
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-plain">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-xl-5 col-lg-6 text-center">
+                                <a class="d-block blur-shadow-image">
+                                    <img class="w-100 border-radius-xl shadow-xl mx-auto" src="{% static 'assets/img/bus/bus4.jpg' %}" alt="company logo" />
+                                </a>
+                                <div class="row mt-4 pt-2 align-items-center">
+                                    <div class="col">
+                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus3.jpg' %}" alt="Company bus image" />
+                                    </div>
+                                    <div class="col">
+                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus2.jpg' %}" alt="Company bus image" />
+                                    </div>
+                                    <div class="col">
+                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus5.jpg' %}" alt="Company bus image" />
+                                    </div>
+                                    <div class="col">
+                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus6.jpg' %}" alt="Company bus image" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 mx-auto">
+                                <a href="">
+                                    <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+                                    </i>
+                                    Back
+                                </a>
+                                <h3 class="mt-lg-0 mt-4">{{ location }}</h3>
+                                <div class="rating">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                                </div>
+                                <br />
+                                <div class="row mt-4">
+                                    <div class="col-lg-5">
+                                        <button class="btn bg-gradient-primary mb-0 mt-lg-auto w-100" type="button" name="button">See Outgoing trips</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
