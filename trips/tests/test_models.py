@@ -32,6 +32,14 @@ class LocationModelTests(TestCase):
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.location._meta.verbose_name_plural), "locations")
 
+    def test_get_absolute_url(self):
+        location_from_db = Location.objects.first()
+
+        actual_url = location_from_db.get_absolute_url()  # type:ignore
+        expected_url = f"/trips/locations/{location_from_db.slug}/"  # type:ignore
+
+        self.assertEqual(actual_url, expected_url)
+
     def test_location_model_creation_is_accurate(self):
         location_from_db = Location.objects.first()
 
@@ -62,14 +70,12 @@ class LocationModelTests(TestCase):
         self.assertEqual(max_length, 200)
 
     def test_location_slug_max_length(self):
-
         location = Location.objects.first()
         max_length = location._meta.get_field("slug").max_length  # type:ignore
 
         self.assertEqual(max_length, 200)
 
     def test_location_abbr_max_length(self):
-
         location = Location.objects.first()
         max_length = location._meta.get_field("abbr").max_length  # type:ignore
 
