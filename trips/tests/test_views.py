@@ -21,6 +21,7 @@ from trips.models import Seat, Trip
 from trips.views import (
     CompanyTripDetailView,
     CompanyTripListView,
+    LocationDetailView,
     TripCreateView,
     TripDetailView,
     TripListView,
@@ -33,6 +34,39 @@ from users.factories import (
     SuperuserFactory,
     UserFactory,
 )
+
+
+class LocationDetailViewTests(TestCase):
+    """
+    Test suite for viewing the detail page of any location.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.location = LocationFactory()
+        cls.url = cls.location.get_absolute_url()  # type:ignore
+        cls.template_name = "trips/location_detail.html"
+
+    def test_location_detail_view_works_correctly(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, self.location.name)
+        self.assertNotContains(response, "Hi I should not be on this page")
+
+    def test_location_detail_url_resolves_correct_view(self):
+        view = resolve(self.url)
+
+        self.assertEqual(view.func.__name__, LocationDetailView.as_view().__name__)
+
+    def test_anonymous_user_can_access_location_detail_page(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, self.location.name)
+        self.assertNotContains(response, "Hi I should not be on this page")
 
 
 # Public Views
