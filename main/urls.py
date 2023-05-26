@@ -20,9 +20,11 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 from companies.sitemaps import CompanySitemap
+from pages.sitemaps import StaticViewSitemap
 from trips.sitemaps import LocationSitemap, TripSitemap
 
 sitemaps = {
+    "static": StaticViewSitemap,
     "companies": CompanySitemap,
     "trips": TripSitemap,
     "locations": LocationSitemap,
