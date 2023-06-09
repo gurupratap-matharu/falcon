@@ -84,6 +84,7 @@ class FutureManager(models.Manager):
         origin = get_object_or_404(Location, name=origin)
         destination = get_object_or_404(Location, name=destination)
         departure = datetime.strptime(departure, "%d-%m-%Y").date()
+
         availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
 
         logger.info("searching from:%s to:%s on:%s" % (origin, destination, departure))
@@ -92,13 +93,15 @@ class FutureManager(models.Manager):
         qs = qs.filter(
             origin=origin, destination=destination, departure__date=departure
         )
-        qs = qs.select_related("company", "origin", "destination")
         qs = qs.annotate(availability=availability)
+        qs = qs.select_related("company", "origin", "destination")
 
         return qs
 
-    def for_company(self, company_slug=None):
-        """Build the Queryset with relevant stats for only one company"""
+    def for_company(self, company_slug=None, active=True):
+        """
+        Build the Queryset with relevant stats for only one company
+        """
 
         logger.info("showing only trips for company(🚌):%s..." % company_slug)
 
@@ -116,7 +119,8 @@ class FutureManager(models.Manager):
         revenue = Cast(F("price"), FloatField()) * occupied
         revenue = Cast(revenue, IntegerField())
 
-        qs = self.filter(company__slug=company_slug)
+        qs = self.active() if active else self.get_queryset()
+        qs = qs.filter(company__slug=company_slug)
         qs = qs.annotate(availability=availability)
         qs = qs.annotate(occupancy=occupancy)
         qs = qs.annotate(revenue=revenue)

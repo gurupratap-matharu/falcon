@@ -1,5 +1,4 @@
 import logging
-import pdb
 from typing import Any, Dict
 
 from django.views.generic import DetailView, ListView, TemplateView
@@ -36,6 +35,8 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["trips"] = Trip.future.for_company(company_slug=self.kwargs["slug"])
+        context["trips"] = Trip.future.for_company(
+            company_slug=self.kwargs["slug"], active=False
+        )
 
         return context

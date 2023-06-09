@@ -107,7 +107,7 @@ class CompanyTripListView(CRUDMixins, ListView):
     context_object_name = "trips"
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Trip.future.for_company(company_slug=self.kwargs["slug"])
+        return Trip.future.for_company(company_slug=self.kwargs["slug"], active=False)
 
 
 class CompanyTripDetailView(CRUDMixins, DetailView):
@@ -122,7 +122,7 @@ class CompanyTripDetailView(CRUDMixins, DetailView):
     template_name = "trips/company_trip_detail.html"
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Trip.future.for_company(company_slug=self.kwargs["slug"])
+        return Trip.future.for_company(company_slug=self.kwargs["slug"], active=False)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
