@@ -78,7 +78,7 @@ class TripTomorrowFactory(TripFactory):
 
     departure = fuzzy.FuzzyDateTime(
         start_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=1),
-        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=2),
+        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=1),
     )
 
 
@@ -87,7 +87,7 @@ class TripDayAfterTomorrowFactory(TripFactory):
 
     departure = fuzzy.FuzzyDateTime(
         start_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=2),
-        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=3),
+        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=2),
     )
 
 
