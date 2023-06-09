@@ -62,18 +62,43 @@ exclude = '''
 '''
 
 [tool.djlint]
-exclude=".venv,venv,.tox,.eggs,.git"
-extend_exclude=".custom"
-blank_line_before_tag="load,extends,include,block"
-blank_line_after_tag="load,extends,include,endblock"
-profile="django"
-max_line_length=120
-max_attribute_length=120
-use_gitignore=true
-format_attribute_template_tags=true
+exclude = ".venv,venv,.tox,.eggs,.git"
+extend_exclude = ".custom"
+blank_line_before_tag = "load,extends,include,block"
+blank_line_after_tag = "load,extends,include,endblock"
+profile = "django"
+max_line_length = 120
+max_attribute_length = 120
+use_gitignore = true
+format_attribute_template_tags = true
 
 [tool.djlint.css]
-indent_size=5
+indent_size = 5
 
 [tool.djlint.js]
-indent_size=5
+indent_size = 5
+
+[tool.coverage.run]
+branch = true
+omit = [
+    # omit anything in a migrations directory anywhere
+    "*/migrations/*",
+    # omit the tests themselfves
+    "*/tests/*",
+    # omit everything in /usr
+    "/usr/*",
+    # omit these single files
+    "main/asgi.py",
+    "main/wsgi.py",
+    "main/settings.py",
+    "manage.py",
+    "*/urls.py",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[tool.coverage.html]
+show_contexts = true
