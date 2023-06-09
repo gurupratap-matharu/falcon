@@ -39,9 +39,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
             destination.get_attribute("placeholder"), "Search destination..."
         )
 
-        origin_ac = self.browser.find_element(By.NAME, "autoComplete_list_1")
+        origin_ac = self.browser.find_element(By.ID, "autoComplete_list_1")
 
-        destination_ac = self.browser.find_element(By.NAME, "autoComplete_list_2")
+        destination_ac = self.browser.find_element(By.ID, "autoComplete_list_2")
 
         # She types Bue (for buenos aires) in the origin box
         origin.send_keys("bue")
