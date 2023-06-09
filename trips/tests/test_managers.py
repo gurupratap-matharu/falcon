@@ -1,3 +1,4 @@
+import pdb
 from datetime import date, timedelta
 
 from django.http import Http404
@@ -246,6 +247,19 @@ class FutureManagerSearchTests(TestCase):
             size=2, origin=cls.buenos_aires, destination=cls.mendoza, status=Trip.ACTIVE
         )
 
+        cls.all_trips = (
+            cls.trips_past + cls.trips_tomorrow + cls.trips_day_after_tomorrow
+        )
+
+        # For each trip create one available and two booked seats
+        for trip in cls.all_trips:
+            SeatFactory.reset_sequence(1)
+
+            SeatFactory(trip=trip, seat_status=Seat.AVAILABLE)
+
+            SeatFactory(trip=trip, seat_status=Seat.BOOKED)
+            SeatFactory(trip=trip, seat_status=Seat.BOOKED)
+
     @classmethod
     def get_date(cls, days=0):
         custom_date = date.today() + timedelta(days=days)
@@ -358,3 +372,41 @@ class FutureManagerSearchTests(TestCase):
 
         # We should get zero results
         self.assertEqual(qs.count(), 0)
+
+    def test_search_results_are_annotated_with_availability_attribute(self):
+        """
+        Here we need to make sure the queryset is annotated with
+            - availibiliy
+        """
+
+        # Get trips only tomorrow
+        qs = Trip.future.search(
+            origin=self.buenos_aires, destination=self.mendoza, departure=self.tomorrow
+        )
+        self.assertEqual(qs.count(), len(self.trips_tomorrow))
+
+        trip_1, trip_2, *rest = qs
+
+        # Check availability is annotated. We have 3 seats (1 available, 2 booked)
+        self.assertEqual(trip_1.availability, 1)
+        self.assertEqual(trip_2.availability, 1)
+
+    def test_search_results_contains_select_related_fields(self):
+        """
+        Make sure that while searching for trips we have prefetched the
+            - company
+            - origin
+            - destination
+        """
+
+        qs = Trip.future.search(
+            origin=self.buenos_aires, destination=self.mendoza, departure=self.tomorrow
+        )
+
+        trip_1, *rest = qs
+
+        related_fields = trip_1._state.fields_cache
+
+        self.assertIn("company", related_fields)
+        self.assertIn("origin", related_fields)
+        self.assertIn("destination", related_fields)
