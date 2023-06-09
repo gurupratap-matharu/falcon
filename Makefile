@@ -1,14 +1,13 @@
-APP_LIST ?= blog main pages users 
+APP_LIST ?= blog cart companies coupons main orders pages payments trips users
 .PHONY: collectstatic run test ci install install-dev migrations staticfiles
 
 help:
 	@echo "Available commands"
 	@echo " - ci               : lints, migrations, tests, coverage"
 	@echo " - install          : installs production requirements"
-	@echo " - install-dev      : installs development requirements"
 	@echo " - isort            : sorts all imports of the project"
 	@echo " - lint             : lints the codebase"
-	@echo " - run              : runs the development server"
+	@echo " - runserver              : runs the development server"
 	@echo " - setup-test-data  : erases the db and loads mock data"
 	@echo " - shellplus        : runs the development shell"
 
@@ -51,6 +50,11 @@ migrate:
 migrations-check:
 	python manage.py makemigrations --check --dry-run
 
+runserver:
+	python manage.py runserver
+
+build: install makemigrations migrate runserver
+
 isort:
 	poetry run isort . --check-only --profile black
 
@@ -69,6 +73,9 @@ security:
 	poetry run safety check
 
 ci: lint security test
+
+superuser:
+	python manage.py createsuperuser
 
 status:
 	@echo "Nginx"
