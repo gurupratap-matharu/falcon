@@ -895,7 +895,7 @@ class CompanyTripDetailViewTests(TestCase):
         self.assertContains(response, "Passengers")
         self.assertNotContains(response, "Hi I should not be on this page!")
 
-    def test_company_trip_detail_view_is_accessible_by_company_user(self):
+    def test_company_trip_detail_view_is_accessible_by_company_owner(self):
         """
         Check if a company staff | owner can access the trip detail page
         with all passenger information.

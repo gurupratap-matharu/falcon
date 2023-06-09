@@ -1,9 +1,16 @@
-import pdb
+from datetime import date, timedelta
 
+from django.http import Http404
 from django.test import TestCase
 
 from companies.factories import CompanyFactory
-from trips.factories import SeatFactory, TripPastFactory, TripTomorrowFactory
+from trips.factories import (
+    LocationFactory,
+    SeatFactory,
+    TripDayAfterTomorrowFactory,
+    TripPastFactory,
+    TripTomorrowFactory,
+)
 from trips.models import Seat, Trip
 
 
@@ -187,5 +194,167 @@ class FutureManagerTests(TestCase):
         self.assertEqual(trip_1.revenue, revenue)
         self.assertEqual(trip_2.revenue, revenue)
 
-    def test_search_method_filters_results_correctly(self):
-        pass
+    def test_for_company_method_select_related_fields(self):
+        """
+        Make sure that while querying trips for a company we have prefetched the
+            - company
+            - origin
+            - destination
+        """
+
+        trip_1, *rest = Trip.future.for_company(company_slug=self.company_a.slug)
+
+        related_fields = trip_1._state.fields_cache
+        self.assertIn("company", related_fields)
+        self.assertIn("origin", related_fields)
+        self.assertIn("destination", related_fields)
+
+
+class FutureManagerSearchTests(TestCase):
+    """
+    Test suite to validate search results from future manager.
+
+    We want to make sure while searching we get results filtered correctly for
+        - origin
+        - destination
+        - departure
+        - return (if provided)
+    """
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        # 1. Create three locations
+        cls.buenos_aires = LocationFactory(name="Buenos Aires")
+        cls.mendoza = LocationFactory(name="Mendoza")
+        cls.bariloche = LocationFactory(name="Bariloche")
+
+        # 2. Create helper dates as strings
+        cls.today = cls.get_date()
+        cls.tomorrow = cls.get_date(days=1)
+        cls.day_after_tomorrow = cls.get_date(days=2)
+        cls.yesterday = cls.get_date(days=-1)
+
+        # 3. Create some past and future trips
+        cls.trips_past = TripPastFactory.create_batch(
+            size=2, origin=cls.buenos_aires, destination=cls.mendoza, status=Trip.ACTIVE
+        )
+
+        cls.trips_tomorrow = TripTomorrowFactory.create_batch(
+            size=2, origin=cls.buenos_aires, destination=cls.mendoza, status=Trip.ACTIVE
+        )
+        cls.trips_day_after_tomorrow = TripDayAfterTomorrowFactory.create_batch(
+            size=2, origin=cls.buenos_aires, destination=cls.mendoza, status=Trip.ACTIVE
+        )
+
+    @classmethod
+    def get_date(cls, days=0):
+        custom_date = date.today() + timedelta(days=days)
+        return custom_date.strftime("%d-%m-%Y")
+
+    def test_trips_are_correctly_generated(self):
+        self.assertEqual(Trip.objects.count(), 6)
+        self.assertEqual(Trip.future.count(), 4)
+
+    def test_search_raises_404_for_missing_fields(self):
+        """
+        Check if any of the query params is not supplied to the manager we should raise
+        an http404
+        """
+
+        # Missing origin
+        with self.assertRaises(Http404):
+            Trip.future.search(
+                origin=None, destination=self.mendoza.slug, departure=self.today
+            )
+
+        # Missing destination
+        with self.assertRaises(Http404):
+            Trip.future.search(
+                origin=self.buenos_aires.slug, destination=None, departure=self.today
+            )
+
+        # Missing departure
+        with self.assertRaises(Http404):
+            Trip.future.search(
+                origin=self.buenos_aires.slug,
+                destination=self.mendoza.slug,
+                departure=None,
+            )
+
+        # Missing all fields
+        with self.assertRaises(Http404):
+            Trip.future.search()
+
+    def test_search_returns_valid_results_for_departure(self):
+        """
+        Here the idea is to play around with the departure date and check correct
+        trips are returned.
+        """
+
+        # Get trips only tomorrow
+        qs_tomorrow = Trip.future.search(
+            origin=self.buenos_aires, destination=self.mendoza, departure=self.tomorrow
+        )
+        self.assertEqual(qs_tomorrow.count(), len(self.trips_tomorrow))
+
+        # Get trips only for day after tomorrow
+        qs_day_after_tomorrow = Trip.future.search(
+            origin=self.buenos_aires,
+            destination=self.mendoza,
+            departure=self.day_after_tomorrow,
+        )
+        self.assertEqual(
+            qs_day_after_tomorrow.count(), len(self.trips_day_after_tomorrow)
+        )
+
+        # Get trips for past
+        # Although we have past active trips make sure their are never returned by the manager
+        qs_past = Trip.future.search(
+            origin=self.buenos_aires, destination=self.mendoza, departure=self.yesterday
+        )
+        self.assertEqual(qs_past.count(), 0)
+
+    def test_search_returns_zero_trips_for_no_trips_between_locations(self):
+        """
+        Here we have two valid locations but trips scheduled for any date.
+        Make sure we get zero results.
+        """
+
+        qs = Trip.future.search(
+            origin=self.buenos_aires,
+            destination=self.bariloche,
+            departure=self.tomorrow,
+        )
+        self.assertEqual(qs.count(), 0)
+
+        qs = Trip.future.search(
+            origin=self.bariloche,
+            destination=self.buenos_aires,
+            departure=self.day_after_tomorrow,
+        )
+        self.assertEqual(qs.count(), 0)
+
+    def test_search_does_not_return_trips_that_are_not_active(self):
+        # Create an inactive trips for tomorrow
+
+        invalid_statuses = [Trip.CANCELLED, Trip.ONHOLD, Trip.DELAYED, Trip.OTHER]
+
+        _ = [
+            TripTomorrowFactory(
+                origin=self.buenos_aires,
+                destination=self.bariloche,
+                status=status,
+            )
+            for status in invalid_statuses
+        ]
+
+        # Search for trips between these locations for tomorrow
+        # They exist but are not active
+        qs = Trip.future.search(
+            origin=self.buenos_aires,
+            destination=self.bariloche,
+            departure=self.tomorrow,
+        )
+
+        # We should get zero results
+        self.assertEqual(qs.count(), 0)
