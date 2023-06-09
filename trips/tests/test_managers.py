@@ -1,4 +1,3 @@
-import pdb
 from datetime import date, timedelta
 
 from django.http import Http404
