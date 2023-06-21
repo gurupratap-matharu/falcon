@@ -33,6 +33,9 @@ class OrderCreateView(CreateView):
     def dispatch(
         self, request: http.HttpRequest, *args: Any, **kwargs: Any
     ) -> http.HttpResponse:
+        """
+        If session is empty then redirect user to home.
+        """
 
         if "q" not in request.session:
             messages.info(request, self.redirect_message)
@@ -93,7 +96,6 @@ class OrderCreateView(CreateView):
         logger.info("veer order.passengers.all(): %s" % order.passengers.all())
 
         for item in cart:
-
             trip = item["trip"]
 
             # Extract seat numbers from POST data and clean them
