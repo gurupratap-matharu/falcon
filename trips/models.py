@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Count, F, FloatField, IntegerField, Q
+from django.db.models import Case, Count, F, FloatField, IntegerField, Q, When
 from django.db.models.functions import Cast, Round
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -111,8 +111,12 @@ class FutureManager(models.Manager):
         )
         total = Cast(Count("seats"), FloatField())
 
+        occupancy = Case(
+            When(total=0, then=0),
+            default=Cast(100 * occupied / total, IntegerField()),
+        )
+
         # Convert occupancy to % of nearest multiple of 5 for progress bars
-        occupancy = Cast(100 * occupied / total, IntegerField())
         occupancy = 5 * Round(occupancy / 5)
 
         # Find revenue = price * occupied seats
@@ -121,9 +125,10 @@ class FutureManager(models.Manager):
 
         qs = self.active() if active else self.get_queryset()
         qs = qs.filter(company__slug=company_slug)
-        qs = qs.annotate(availability=availability)
+        qs = qs.annotate(availability=availability, occupied=occupied, total=total)
         qs = qs.annotate(occupancy=occupancy)
         qs = qs.annotate(revenue=revenue)
+        qs = qs.order_by("departure")
         qs = qs.select_related("company", "origin", "destination")
 
         return qs
