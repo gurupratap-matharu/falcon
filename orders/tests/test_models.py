@@ -164,7 +164,6 @@ class OrderModelTests(TestCase):
         order.confirm(payment_id="test-1234")  # type:ignore
 
         for trip in trips:
-
             # Check all seats are booked
             not_booked_seats = list(trip.seats.exclude(seat_status=Seat.BOOKED))
             self.assertEqual([], not_booked_seats)

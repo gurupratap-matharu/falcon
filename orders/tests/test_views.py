@@ -32,6 +32,7 @@ class OrderCreateTests(TestCase):
     # GET
     def test_order_create_page_works_via_get(self):
         response = self.client.get(self.url)
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "orders/order_form.html")
         self.assertContains(response, "Order")
@@ -45,6 +46,7 @@ class OrderCreateTests(TestCase):
 
     def test_order_page_renders_order_form(self):
         response = self.client.get(self.url)
+
         self.assertIn("form", response.context)
         self.assertIn("formset", response.context)
         self.assertIsInstance(response.context["form"], OrderForm)
