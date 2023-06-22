@@ -119,7 +119,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USERNAME_BLACKLIST = USERNAME_BLACKLIST  # <- This is not working Veer
 
 LOGIN_REDIRECT_URL = reverse_lazy("pages:home")
-ACCOUNT_ADAPTER = 'users.adapter.MyAccountAdapter'
+ACCOUNT_ADAPTER = "users.adapter.MyAccountAdapter"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
