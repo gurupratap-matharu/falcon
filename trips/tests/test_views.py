@@ -8,6 +8,8 @@ from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 from django.utils import timezone
 
+from dateutil import rrule
+
 from companies.factories import CompanyFactory
 from trips.factories import (
     LocationFactory,
@@ -1214,3 +1216,57 @@ class RecurrenceViewTests(TestCase):
         self.assertTemplateUsed(response, self.template_name)
         self.assertContains(response, "Recurrence")
         self.assertNotContains(response, "Hi I should not be on this page!")
+
+    def test_recurrence_view_works_on_successful_post(self):
+        """
+        This is an end-to-end kind of test for trip recurrence creation.
+        """
+
+        # First make sure only trip in DB
+        self.assertEqual(Trip.objects.count(), 1)
+
+        # Build post data
+        tomorrow = timezone.now() + timedelta(days=1)
+        count = 4
+        data = {
+            "dtstart": tomorrow,
+            "count": count,
+            "freq": rrule.DAILY,
+        }
+
+        self.client.force_login(self.owner)  # type:ignore
+
+        # Creation will redirect to trip-list so make `follow=True`
+        response = self.client.post(path=self.url, data=data, follow=True)
+
+        expected_url = self.company.get_trip_list_url()  # type:ignore
+
+        # Verify redirection
+        self.assertRedirects(
+            response=response,
+            expected_url=expected_url,
+            status_code=HTTPStatus.FOUND,
+            target_status_code=HTTPStatus.OK,
+        )
+
+        # Recurrence trips should have been created. Verify them...
+        self.assertEqual(Trip.objects.count(), count + 1)
+
+        # Pull latest trip and check all attributes are equal
+        trip_from_db = Trip.objects.last()
+        self.assertEqual(trip_from_db.name, self.trip.name)
+        self.assertEqual(trip_from_db.price, self.trip.price)
+        self.assertEqual(trip_from_db.description, self.trip.description)
+        self.assertEqual(trip_from_db.duration, self.trip.duration)
+
+        # However departure should not match
+        self.assertNotEqual(trip_from_db.departure, self.trip.departure)
+
+        # Verify content of final redirected page
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Verify recurrence creation success messages on final page.
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 3)
+        self.assertEqual(str(messages[0]), RecurrenceView.success_message)
+        self.assertEqual(str(messages[1]), f"Total Occurrences: {count}")
