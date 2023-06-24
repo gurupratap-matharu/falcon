@@ -32,12 +32,20 @@
                     All Trips
                 </a>
             </h6>
-            <a class="btn btn-icon btn-outline-dark ms-2 export"
-               href="{% url 'companies:trip-update' company.slug trip.id %}"
-               type="button">
-                <span class="btn-inner--icon"><i class="ni ni-ui-04"></i></span>
-                <span class="btn-inner--text">Update Trip</span>
-            </a>
+            <div>
+                <a class="btn btn-icon btn-outline-dark ms-2 export"
+                   href="{% url 'companies:trip-update' company.slug trip.id %}"
+                   type="button">
+                    <span class="btn-inner--icon"><i class="ni ni-ui-04"></i></span>
+                    <span class="btn-inner--text">Update Trip</span>
+                </a>
+                <a class="btn btn-icon btn-outline-dark ms-2 export"
+                   href="{% url 'companies:trip-recurrence' company.slug trip.id %}"
+                   type="button">
+                    <span class="btn-inner--icon"><i class="ni ni-time-alarm"></i></span>
+                    <span class="btn-inner--text">Create Recurrence</span>
+                </a>
+            </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive">
@@ -91,8 +99,7 @@
                                                  role="progressbar"
                                                  aria-valuenow="{{ occupancy }}"
                                                  aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                            </div>
+                                                 aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 {% endwith %}
@@ -131,9 +138,7 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gender</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Document</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Number</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                Status
-                            </th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -141,35 +146,25 @@
                             {% with passenger=seat.passenger %}
                                 <tr>
                                     <td>
-                                        <h6 class="ms-5 text-secondary text-sm">
-                                            {{ seat.seat_number }}
-                                        </h6>
+                                        <h6 class="ms-5 text-secondary text-sm">{{ seat.seat_number }}</h6>
                                     </td>
                                     <td>
-                                        <h6 class="mb-0 text-secondary text-sm">
-                                            {{ passenger.get_full_name }}
-                                        </h6>
+                                        <h6 class="mb-0 text-secondary text-sm">{{ passenger.get_full_name }}</h6>
                                     </td>
                                     <td>
-                                        <p class="text-sm text-secondary mb-0">
-                                            {{ passenger.nationality.name }}
-                                        </p>
+                                        <p class="text-sm text-secondary mb-0">{{ passenger.nationality.name }}</p>
                                     </td>
                                     <td>
                                         <span class="text-sm text-secondary mb-0">{{ passenger.get_gender_display }}</span>
                                     </td>
                                     <td>
-                                        <p class="text-sm text-secondary mb-0">
-                                            {{ passenger.get_document_type_display }}
-                                        </p>
+                                        <p class="text-sm text-secondary mb-0">{{ passenger.get_document_type_display }}</p>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span class="text-secondary text-sm">{{ passenger.document_number }}</span>
                                     </td>
                                     <td>
-                                        <p class="mb-0 text-secondary text-sm">
-                                            {{ seat.get_seat_status_display }}
-                                        </p>
+                                        <p class="mb-0 text-secondary text-sm">{{ seat.get_seat_status_display }}</p>
                                     </td>
                                 </tr>
                             {% endwith %}

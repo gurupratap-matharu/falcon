@@ -15,5 +15,4 @@ urlpatterns = [
         views.LocationDetailView.as_view(),
         name="location-detail",
     ),
-    path("recurrence/", views.RecurrenceView.as_view(), name="recurrence"),
 ]
