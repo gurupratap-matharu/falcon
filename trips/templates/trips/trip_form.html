@@ -37,10 +37,10 @@
                         {{ form.non_field_errors }}
                         {% for field in form.visible_fields %}
                             <div class="mb-3">
-                                <div class="text-danger">{{ field.errors }}</div>
                                 <label>{{ field.label }}</label>
+                                <div class="text-danger">{{ field.errors }}</div>
                                 {{ field }}
-                                {{ field.help_text }}
+                                <div class="form-text ms-2">{{ field.help_text|safe }}</div>
                             </div>
                         {% endfor %}
                         <div class="d-flex justify-content-end">
