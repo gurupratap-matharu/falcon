@@ -333,14 +333,15 @@ class RecurrenceForm(forms.Form):
             self.add_error("until", msg)
             self.add_error("count", msg)
 
-    def save(self):
+    def save(self, trip: Trip) -> list[Trip | None]:
+        departures = self.build_occurrence_timestamps()
+
         logger.info("saving recurrence form...")
+        logger.info("Total departures: %s" % departures.count())
 
-        occurrences = self.build_occurrence_timestamps()
-        logger.info("Total occurrences: %s" % occurrences.count())
-        logger.info("occurrences: %s" % occurrences)
+        future_trips = trip.create_occurrences(departures=departures)
 
-        return occurrences
+        return future_trips
 
     def build_occurrence_timestamps(self):
         """
