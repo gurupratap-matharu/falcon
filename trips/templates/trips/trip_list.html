@@ -36,9 +36,7 @@
                             <div class="col-md-3 mb-lg-0 mb-4">
                                 <p class="d-none">{% cycle '1' '2' '3' '4' '5' '6' '7' as filename %}</p>
                                 <a href="{{ trip.get_absolute_url }}">
-                                    <img src="{% static "assets/img/bus/bus"|add:filename|add:'.jpg' %}"
-                                         class="img-fluid border-radius-xl shadow-xl"
-                                         alt="company-logo"/>
+                                    <img src="{% static "assets/img/bus/bus"|add:filename|add:'.jpg' %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo" />
                                 </a>
                             </div>
                             <div class="col-md-6 border-md-end">
@@ -98,7 +96,7 @@
 {% endblock content %}
 
 {% block js %}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/autocomplete/autocomplete.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/autocomplete/config.js' %}" defer></script>
