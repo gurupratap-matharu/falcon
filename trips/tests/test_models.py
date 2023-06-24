@@ -442,6 +442,38 @@ class TripModelTests(TestCase):
         self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
         self.assertIsNone(seat_1.passenger)
 
+    def test_trip_create_occurrences_works_correctly(self):
+        """Verify if bulk creation of future trips works as expected."""
+
+        # Initially only one trip
+        self.assertEqual(Trip.objects.count(), 1)
+
+        # Create daily departures for the next 5 days
+        now = timezone.now()
+        departures = [now + timedelta(days=days) for days in range(1, 6)]
+
+        trips = self.trip.create_occurrences(departures=departures)
+
+        future_trip = trips[0]
+
+        # Five trips should have been created
+        self.assertEqual(len(trips), 5)
+        # In DB total 6 trips
+        self.assertEqual(Trip.objects.count(), 6)
+
+        # Take random future trip. all fields should match
+        self.assertEqual(future_trip.name, self.trip.name)
+        self.assertEqual(future_trip.slug, self.trip.slug)
+        self.assertEqual(future_trip.company, self.trip.company)
+        self.assertEqual(future_trip.origin, self.trip.origin)
+        self.assertEqual(future_trip.destination, self.trip.destination)
+        self.assertEqual(future_trip.duration, self.trip.duration)
+        self.assertEqual(future_trip.price, self.trip.price)
+        self.assertEqual(future_trip.description, self.trip.description)
+        self.assertEqual(future_trip.mode, self.trip.mode)
+        self.assertEqual(future_trip.status, self.trip.status)
+        self.assertEqual(future_trip.image, self.trip.image)
+
 
 class SeatModelTests(TestCase):
     """Test suite for the Seat Model"""

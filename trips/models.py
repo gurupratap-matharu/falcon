@@ -366,6 +366,40 @@ class Trip(models.Model):
         """Is the trip currently in transit"""
         return self.departure < timezone.now() < self.arrival
 
+    def create_occurrences(self, departures):
+        """
+        Create multiple occurrences for a trip in one go based on a list
+        of departure timestamps.
+        """
+
+        logger.info("trip: %s" % self)
+        logger.info("departures: %s" % departures)
+        logger.info("creating occurrences...")
+
+        objs = []
+
+        duration = self.arrival - self.departure
+
+        for departure in departures:
+            arrival = departure + duration
+            obj = Trip(
+                name=self.name,
+                slug=self.slug,
+                company=self.company,
+                origin=self.origin,
+                destination=self.destination,
+                departure=departure,
+                arrival=arrival,
+                price=self.price,
+                status=self.status,
+                mode=self.mode,
+                image=self.image,
+                description=self.description,
+            )
+            objs.append(obj)
+
+        return Trip.objects.bulk_create(objs)
+
 
 class Seat(models.Model):
     CAMA = "C"
