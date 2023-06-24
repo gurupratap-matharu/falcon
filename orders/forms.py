@@ -11,6 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class OrderForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.errors:
+            attrs = self[field].field.widget.attrs
+            attrs.setdefault("class", "")
+            attrs["class"] += " is-invalid"
+
     class Meta:
         model = Order
         fields = ("name", "email", "residence")
