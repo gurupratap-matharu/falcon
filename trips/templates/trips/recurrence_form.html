@@ -1,0 +1,45 @@
+{% extends "layouts/base-sidebar.html" %}
+
+{% load static %}
+
+{% block title %}
+    Create Recurrences
+{% endblock title %}
+
+{% block breadcrumb %}
+    Recurrence
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    Recurrence
+{% endblock page_title %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h3>Recurrence Form</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" id="recurrence-form">
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                    <div class="mb-3">
+                        <label>{{ field.label }}</label>
+                        <div class="text-danger">{{ field.errors }}</div>
+                        {{ field }}
+                        <div class="form-text ms-2">{{ field.help_text|safe }}</div>
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-between">
+                    <button type="button" onclick="document.getElementById('recurrence-form').reset()" class="btn btn-dark">Reset</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/dates/recurrence.js' %}" defer></script>
+{% endblock js %}

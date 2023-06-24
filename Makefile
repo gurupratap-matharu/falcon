@@ -63,6 +63,7 @@ format:
 
 lint: isort format
 	poetry run ruff .
+	# djlint .
 
 test: check migrations-check
 	coverage run --source='.' manage.py test

@@ -6,13 +6,20 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    FormView,
+    ListView,
+    UpdateView,
+    View,
+)
 
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from companies.mixins import OwnerMixin
 
-from .forms import TripCreateForm, TripSearchForm
+from .forms import RecurrenceForm, TripCreateForm, TripSearchForm
 from .models import Location, Trip
 
 logger = logging.getLogger(__name__)
@@ -184,3 +191,21 @@ class LocationDetailView(DetailView):
     model = Location
     context_object_name = "location"
     template_name = "trips/location_detail.html"
+
+
+class RecurrenceView(FormView):
+    form_class = RecurrenceForm
+    template_name = "trips/recurrence_form.html"
+    success_url = reverse_lazy("trips:recurrence")
+    success_message = "Recurring events created successfully!"
+
+    def form_valid(self, form):
+        logger.info("RecurrenceForm is valid...")
+
+        occurrences = form.save()
+
+        messages.success(self.request, self.success_message)
+        messages.success(self.request, f"Total Occurrences: {occurrences.count()}")
+        messages.success(self.request, f"Occurrences: {list(occurrences)}")
+
+        return super().form_valid(form)
