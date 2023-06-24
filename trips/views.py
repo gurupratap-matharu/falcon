@@ -4,7 +4,7 @@ from typing import Any, Dict
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -193,19 +193,27 @@ class LocationDetailView(DetailView):
     template_name = "trips/location_detail.html"
 
 
-class RecurrenceView(FormView):
+class RecurrenceView(CRUDMixins, FormView):
     form_class = RecurrenceForm
     template_name = "trips/recurrence_form.html"
-    success_url = reverse_lazy("trips:recurrence")
+    permission_required = "trips.change_trip"
     success_message = "Recurring events created successfully!"
 
-    def form_valid(self, form):
-        logger.info("RecurrenceForm is valid...")
+    def get_object(self):
+        return
 
-        occurrences = form.save()
+    def form_valid(self, form):
+        trip = get_object_or_404(Trip, id=self.kwargs["id"])
+
+        logger.info("RecurrenceForm is valid...")
+        logger.info("Trip:%s..." % trip)
+
+        trips = form.save(trip=trip)
 
         messages.success(self.request, self.success_message)
-        messages.success(self.request, f"Total Occurrences: {occurrences.count()}")
-        messages.success(self.request, f"Occurrences: {list(occurrences)}")
+        messages.success(self.request, f"Total Occurrences: {len(trips)}")
 
         return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        return self.company.get_trip_list_url()

@@ -22,6 +22,7 @@ from trips.views import (
     CompanyTripDetailView,
     CompanyTripListView,
     LocationDetailView,
+    RecurrenceView,
     TripCreateView,
     TripDetailView,
     TripListView,
@@ -1118,3 +1119,98 @@ class TripPassengerPdfViewTests(TestCase):
         # Assert random_owner is forbidden access
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
         self.assertTemplateNotUsed(response, self.template_name)
+
+
+class RecurrenceViewTests(TestCase):
+    """
+    Test suite for the recurrence view.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.trip = TripTomorrowFactory(company=cls.company)
+        cls.seat = SeatFactory(trip=cls.trip, seat_status=Seat.AVAILABLE)
+        cls.login_url = reverse_lazy("account_login")
+        cls.url = reverse_lazy(
+            "companies:trip-recurrence",
+            kwargs={"slug": cls.company.slug, "id": str(cls.trip.id)},
+        )
+        cls.template_name = "trips/recurrence_form.html"
+
+    def test_recurrence_url_resolves_recurrence_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, RecurrenceView.as_view().__name__)
+
+    def test_recurrence_view_is_not_accessible_by_anonymous_user(self):
+        """Here an anonymous user is routed to login url"""
+
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_recurrence_view_is_not_accessible_by_normal_public_user(self):
+        user = UserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_recurrence_view_is_not_accessible_by_another_company_owner(self):
+        owner = CompanyOwnerFactory()
+        self.client.force_login(owner)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(owner.is_staff)
+        self.assertFalse(owner.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_recurrence_view_is_not_accessible_by_staffuser(self):
+        user = StaffuserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is staff but not superuser and correctly authenticated
+        self.assertTrue(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert staff user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_recurrence_view_is_accessible_by_company_owner(self):
+        self.client.force_login(self.owner)
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(self.owner.is_superuser)
+        self.assertFalse(self.owner.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertEqual(self.owner, self.company.owner)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Recurrence")
+        self.assertNotContains(response, "Hi I should not be on this page!")

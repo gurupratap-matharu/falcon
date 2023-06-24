@@ -28,6 +28,11 @@ company_admin_patterns = [
         trip_views.TripUpdateView.as_view(),
         name="trip-update",
     ),
+    path(
+        "trips/<uuid:id>/recurrence/",
+        trip_views.RecurrenceView.as_view(),
+        name="trip-recurrence",
+    ),
     path("coupons/", coupon_views.CouponListView.as_view(), name="coupon-list"),
 ]
 
