@@ -1,3 +1,4 @@
+import pdb
 from datetime import timedelta
 from decimal import Decimal
 from http import HTTPStatus
@@ -19,6 +20,7 @@ from trips.factories import (
     TripPastFactory,
     TripTomorrowFactory,
 )
+from trips.forms import RecurrenceForm
 from trips.models import Seat, Trip
 from trips.views import (
     CompanyTripDetailView,
@@ -1204,6 +1206,7 @@ class RecurrenceViewTests(TestCase):
         self.client.force_login(self.owner)
 
         response = self.client.get(self.url)
+        form = response.context["form"]
 
         # Assert user is correctly authenticated and neither superuser nor staff
         self.assertFalse(self.owner.is_superuser)
@@ -1216,6 +1219,7 @@ class RecurrenceViewTests(TestCase):
         self.assertTemplateUsed(response, self.template_name)
         self.assertContains(response, "Recurrence")
         self.assertNotContains(response, "Hi I should not be on this page!")
+        self.assertIsInstance(form, RecurrenceForm)
 
     def test_recurrence_view_works_on_successful_post(self):
         """
