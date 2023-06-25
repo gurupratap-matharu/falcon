@@ -1,4 +1,3 @@
-import pdb
 from datetime import timedelta
 from decimal import Decimal
 from http import HTTPStatus
@@ -1271,6 +1270,6 @@ class RecurrenceViewTests(TestCase):
 
         # Verify recurrence creation success messages on final page.
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(len(messages), 3)
-        self.assertEqual(str(messages[0]), RecurrenceView.success_message)
-        self.assertEqual(str(messages[1]), f"Total Occurrences: {count}")
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(str(messages[0]), f"Total Occurrences: {count}")
+        self.assertEqual(str(messages[1]), RecurrenceView.success_message)

@@ -197,10 +197,7 @@ class RecurrenceView(CRUDMixins, FormView):
     form_class = RecurrenceForm
     template_name = "trips/recurrence_form.html"
     permission_required = "trips.change_trip"
-    success_message = "Recurring events created successfully!"
-
-    def get_object(self):
-        return
+    success_message = "Recurring trips created successfully!"
 
     def form_valid(self, form):
         trip = get_object_or_404(Trip, id=self.kwargs["id"])
@@ -210,7 +207,6 @@ class RecurrenceView(CRUDMixins, FormView):
 
         trips = form.save(trip=trip)
 
-        messages.success(self.request, self.success_message)
         messages.success(self.request, f"Total Occurrences: {len(trips)}")
 
         return super().form_valid(form)
