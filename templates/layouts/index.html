@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +11,7 @@
               rel="stylesheet"
               integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
               crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'assets/css/seats/seatchart.min.css' %}" />
         <script src="https://unpkg.com/htmx.org@1.8.6"
                 integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx"
                 crossorigin="anonymous"></script>
@@ -18,6 +19,11 @@
     <body>
         <div class="d-flex justify-content-center mb-3">
             <h1>HTMX ❤️ Django</h1>
+        </div>
+        {% comment "Seat Chart" %}{% endcomment %}
+        <div class="card">
+            <div class="card-header">Seat Chart</div>
+            <div class="card-body" id="seatChart">Hello</div>
         </div>
         <div class="card">
             <div class="card-header">
@@ -46,7 +52,7 @@
                        class="form-control"
                        hx-get="{% url 'pages:dummy' %}"
                        hx-trigger="keyup changed delay:500ms"
-                       hx-target="#answer"/>
+                       hx-target="#answer" />
             </div>
         </div>
         <div class="d-flex justify-content-center p-3" id="answer"></div>
@@ -74,7 +80,7 @@
                      alt="loading indicator"
                      class="htmx-indicator"
                      width="25"
-                     height="25"/>
+                     height="25" />
             </div>
         </div>
         <div class="card mb-3">
@@ -125,69 +131,47 @@
                         <img src="{% static 'assets/svg/loaders/ball-triangle.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            audio
-                        </p>
+                        <p>audio</p>
                         <img src="{% static 'assets/svg/loaders/audio.svg' %}" class="bg-primary" width="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            bars
-                        </p>
+                        <p>bars</p>
                         <img src="{% static 'assets/svg/loaders/bars.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            circles
-                        </p>
+                        <p>circles</p>
                         <img src="{% static 'assets/svg/loaders/circles.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            grid
-                        </p>
+                        <p>grid</p>
                         <img src="{% static 'assets/svg/loaders/grid.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            hearts
-                        </p>
+                        <p>hearts</p>
                         <img src="{% static 'assets/svg/loaders/hearts.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            oval
-                        </p>
+                        <p>oval</p>
                         <img src="{% static 'assets/svg/loaders/oval.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            puff
-                        </p>
+                        <p>puff</p>
                         <img src="{% static 'assets/svg/loaders/puff.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            rings
-                        </p>
+                        <p>rings</p>
                         <img src="{% static 'assets/svg/loaders/rings.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            spinning circles
-                        </p>
+                        <p>spinning circles</p>
                         <img src="{% static 'assets/svg/loaders/spinning-circles.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            tail spin
-                        </p>
+                        <p>tail spin</p>
                         <img src="{% static 'assets/svg/loaders/tail-spin.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                     <div class="col col-md-3">
-                        <p>
-                            three dots
-                        </p>
+                        <p>three dots</p>
                         <img src="{% static 'assets/svg/loaders/three-dots.svg' %}" class="bg-primary" width="50" height="50" />
                     </div>
                 </div>
@@ -196,5 +180,70 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
                 crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}"></script>
+        <script>
+             const element = document.getElementById('seatChart');
+
+
+             const options = {
+                  map: {
+                       rows: 10,
+                       columns: 4,
+                       seatTypes: {
+                            default: {
+                                 label: 'Economy',
+                                 cssClass: 'economy',
+                                 price: 15,
+                            },
+                            first: {
+                                 label: 'First Class',
+                                 cssClass: 'first-class',
+                                 price: 25,
+                                 seatRows: [0, 1, 2],
+                            },
+                            reduced: {
+                                 label: 'Reduced',
+                                 cssClass: 'reduced',
+                                 price: 10,
+                                 seatRows: [7, 8, 9],
+                            },
+                       },
+                       disabledSeats: [{
+                            row: 2,
+                            col: 2
+                       }, {
+                            row: 2,
+                            col: 3
+                       }, {
+                            row: 3,
+                            col: 2
+                       }, {
+                            row: 3,
+                            col: 3
+                       }],
+                       reservedSeats: [{
+                            row: 0,
+                            col: 0
+                       }, {
+                            row: 0,
+                            col: 1
+                       }, ],
+                       selectedSeats: [{
+                            row: 1,
+                            col: 1
+                       }, {
+                            row: 1,
+                            col: 2
+                       }],
+                       columnSpacers: [2],
+                  },
+             };
+
+
+             const sc = new Seatchart(element, options);
+             sc.addEventListener('submit', function handleSubmit(e) {
+                  alert('Total: ' + e.total + '€');
+             });
+        </script>
     </body>
 </html>
