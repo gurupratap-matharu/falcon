@@ -19,6 +19,8 @@ class Cart:
         Initialize a cart.
         """
 
+        logger.info("initializing cart...")
+
         self.session = request.session
 
         cart = self.session.get(settings.CART_SESSION_ID)
@@ -153,7 +155,6 @@ class Cart:
         return sum(item["quantity"] for item in self.cart.values())
 
     def __repr__(self):
-
         logger.info("printing cart...")
 
         return "\n".join(
