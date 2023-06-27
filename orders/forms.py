@@ -1,8 +1,9 @@
-import datetime
 import logging
+from datetime import timedelta
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .models import Order, Passenger
@@ -55,6 +56,14 @@ class OrderForm(forms.ModelForm):
 
 
 class PassengerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.errors:
+            attrs = self[field].field.widget.attrs
+            attrs.setdefault("class", "")
+            attrs["class"] += " is-invalid"
+
     class Meta:
         model = Passenger
         exclude = ("created_on", "updated_on")
@@ -105,10 +114,7 @@ class PassengerForm(forms.ModelForm):
                 attrs={"class": "form-select", "required": "required"}
             ),
             "gender": forms.Select(
-                attrs={
-                    "class": "form-select",
-                    "required": "required",
-                }
+                attrs={"class": "form-select", "required": "required"}
             ),
         }
 
@@ -137,12 +143,20 @@ class PassengerForm(forms.ModelForm):
         return cleaned_name
 
     def clean_birth_date(self):
-        """Make sure passenger age is 3-99 years old"""
+        """
+        Make sure passenger age is 1-99 years old
+        # TODO: Veer you might remove this method as we are validating the birth date
+        of a passenger using validators in the model field.
+        """
 
         birth_date = self.cleaned_data["birth_date"]
-        if birth_date > datetime.date.today():
+
+        today = timezone.now().date()
+        century_ago = today - timedelta(days=36500)
+
+        if not (century_ago < birth_date < today):
             raise ValidationError(
-                _("Your birth date (%(birth_date)s) cannot be in the future!"),
+                _("Your birth date (%(birth_date)s) is invalid!"),
                 code="invalid",
                 params={"birth_date": birth_date},
             )

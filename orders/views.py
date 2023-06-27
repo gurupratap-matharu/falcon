@@ -37,52 +37,74 @@ class OrderCreateView(CreateView):
         If session is empty then redirect user to home.
         """
 
-        if "q" not in request.session:
+        q = request.session.get("q")
+        cart = request.session.get("cart")
+
+        if not (q and cart):
             messages.info(request, self.redirect_message)
             return redirect("pages:home")
 
         return super().dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
+    def get_formset(self):
+        """
+        Build and return a passenger formset
+        # TODO: Try to add a typehint to this class.
+        # See this: https://stackoverflow.com/questions/46007544/python-3-type-hint-for-a-factory-method-on-a-base-class-returning-a-child-class
+        """
 
-        extra = int(self.request.session["q"]["num_of_passengers"])
+        q = self.request.session.get("q")
+        extra = int(q.get("num_of_passengers", 0))
+
+        data = self.request.POST or None
+        queryset = Passenger.objects.none()
 
         PassengerFormset = modelformset_factory(
             model=Passenger, form=PassengerForm, extra=extra
         )
 
-        context["formset"] = PassengerFormset(
-            data=self.request.POST or None, queryset=Passenger.objects.none()
-        )
-        context["cart"] = Cart(self.request)
+        formset = PassengerFormset(data=data, queryset=queryset)
 
-        logger.info("OrderCreateView: request.POST: %s" % self.request.POST)
-        logger.info("OrderCreateView: context: %s" % context)
+        return formset
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["cart"] = Cart(self.request)
+        context["formset"] = self.get_formset()
 
         return context
 
     def form_valid(self, form) -> HttpResponse:
-        logger.info("veer order form is valid(💋)")
+        """
+        Order form is already validated at this point.
+        Now we need to run logic to
+            - validate and process formset
+            - proceed to payment
+        """
 
-        context = self.get_context_data()
-        cart, formset = context["cart"], context["formset"]
+        logger.info("veer order form is valid(💋)...")
+
+        cart = Cart(self.request)
+        formset = self.get_formset()
 
         if not formset.is_valid():
             return super().form_invalid(form)
 
-        logger.info("veer passenger formset.is_valid(💑) %s" % formset.is_valid())
-        # Basically veer we need to do the following things here
+        logger.info("veer passenger formset.is_valid(💑)")
+
+        # First get the http response that this method has to return
+        # this also sets the self.object (order)
+        response = super().form_valid(form)
 
         # 1. create an order object thats saved to the DB
-        response = super().form_valid(form)  # <- this sets the self.object (order)
-        order = self.object  # type:ignore
+        order = self.object
 
+        # Apply coupon to order if needed
         if cart.coupon:
+            logger.info("attaching coupon(🎟️) to order(🗽)...")
             order.coupon = cart.coupon
             order.discount = cart.coupon.discount
             order.save()
-            logger.info("attaching coupon(🎟️) to order(🗽)...")
 
         logger.info("veer created order(🗽) %s" % order)
 
@@ -108,7 +130,7 @@ class OrderCreateView(CreateView):
 
             seats = trip.hold_seats(seat_numbers)
 
-            logger.info("veer I've put on hold %s number of seats(💺)", seats)
+            logger.info("veer I've put on hold seats %s", seats)
 
             # 5. create order item objects (order, trip, seatnos) combo
             order_item = OrderItem.objects.create(
@@ -123,15 +145,13 @@ class OrderCreateView(CreateView):
 
         cart.clear()
 
-        logger.info("veer cleared the cart(🛒)...")
-
         # 6. Save order.id in session so payments can access it
         order_id = str(order.id)
         self.request.session["order"] = order_id
 
         # 7. Send order creation email
         # TODO: run this async with celery
-        order_created(order_id=order.id)
+        order_created(order_id=order_id)
 
         # 8. Redirect to payment
         return response
