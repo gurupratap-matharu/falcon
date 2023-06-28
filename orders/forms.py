@@ -96,9 +96,10 @@ class PassengerForm(forms.ModelForm):
                     "required": "required",
                 }
             ),
-            "birth_date": forms.TextInput(
+            "birth_date": forms.DateInput(
                 attrs={
-                    "placeholder": "Date of Birth [mm/dd/yyyy]",
+                    "input_type": "date",
+                    "placeholder": "Date of Birth",
                     "class": "form-control",
                     "required": "required",
                 }
@@ -106,6 +107,7 @@ class PassengerForm(forms.ModelForm):
             "phone_number": forms.TextInput(
                 attrs={
                     "placeholder": "Phone",
+                    "type": "tel",
                     "class": "form-control",
                     "required": "required",
                 }
