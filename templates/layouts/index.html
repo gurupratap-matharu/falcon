@@ -20,7 +20,7 @@
         <div class="d-flex justify-content-center mb-3">
             <h1>HTMX ❤️ Django</h1>
         </div>
-        {% comment "Seat Chart" %}{% endcomment %}
+        <div class="alert alert-primary d-flex justify-content-end" id="counter"></div>
         <div class="card">
             <div class="card-header">Seat Chart</div>
             <div class="card-body" id="seatChart">Hello</div>
@@ -244,6 +244,37 @@
              sc.addEventListener('submit', function handleSubmit(e) {
                   alert('Total: ' + e.total + '€');
              });
+        </script>
+        <script>
+             // Set the date we're counting down to
+             const now = new Date().getTime();
+             const fiveMinutesLater = now + (1000 * 5);
+
+             console.log(`now:${now} fiveMinutesLater:${fiveMinutesLater}`);
+
+             // Update the count down every 1 second
+             const counter = setInterval(function() {
+
+                  // Get today's date and time
+                  var now = new Date().getTime();
+
+                  // Find the distance between now and the count down date
+                  var distance = fiveMinutesLater - now;
+
+                  // Time calculations for days, hours, minutes and seconds
+                  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                  // Display the result in the element with id="alert"
+                  elem = document.getElementById('counter');
+                  elem.innerHTML = minutes + "m " + seconds + "s ";
+
+                  // If the count down is finished, write some text 
+                  if (distance < 0) {
+                       clearInterval(counter);
+                       elem.innerHTML = "EXPIRED";
+                  }
+             }, 1000);
         </script>
     </body>
 </html>
