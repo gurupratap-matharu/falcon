@@ -3,6 +3,7 @@ from http import HTTPStatus
 from typing import Any, Dict
 
 from django.conf import settings
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
@@ -27,13 +28,28 @@ class PaymentView(TemplateView):
     """A simple view that shows all payment options for our project"""
 
     template_name: str = "payments/payment.html"
-    order = None
+    order: Order = None
+    redirect_message = "Your session has expired. Please search again 🙏"
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        If no order in session then redirect user to home.
+        """
+
+        order = request.session.get("order")
+
+        if not order:
+            messages.info(request, self.redirect_message)
+            return redirect("pages:home")
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        order_id = self.request.session.get("order")
+
         context = super().get_context_data(**kwargs)
-        context["order"] = self.order = get_object_or_404(
-            Order, id=self.request.session.get("order")
-        )
+
+        context["order"] = self.order = get_object_or_404(Order, id=order_id)
         context["preference"] = self.get_mercado_pago_preference()
         context["mp_public_key"] = settings.MP_PUBLIC_KEY
 
@@ -238,7 +254,6 @@ def stripe_webhook(request):
 
     # Handle the checkout.session.completed event
     if event["type"] == "checkout.session.completed":
-
         logger.info("Stripe: Payment confirmed 💰🤑💰")
         logger.info("stripe webhook event(💶): %s", event)
 
@@ -292,7 +307,6 @@ def mercadopago_success(request):
     payment_id = mercadopago_response.get("payment_id")
 
     if (status == "approved") and order_id:
-
         logger.info("mercadopago(🤝) payment successful!!!")
         order_confirmed(order_id=order_id, payment_id=payment_id)
 

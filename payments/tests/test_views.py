@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.contrib.messages import get_messages
 from django.test import SimpleTestCase, TestCase
 from django.urls import resolve, reverse
 
@@ -20,7 +21,6 @@ class PaymentViewTests(TestCase):
     """
 
     def setUp(self):
-
         self.url = reverse("payments:home")
         self.template_name = "payments/payment.html"
 
@@ -42,13 +42,20 @@ class PaymentViewTests(TestCase):
         self.assertContains(response, "order")
         self.assertEqual(response.context["order"], self.order)
 
-    def test_payment_home_page_raises_404_if_order_not_found_in_session(self):
+    def test_payment_home_page_redirect_to_home_if_order_not_found_in_session(self):
         # create an order but DO NOT set it in the session
         self.order = OrderFactory(paid=False)
 
         response = self.client.get(self.url)
 
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, reverse("pages:home"), HTTPStatus.FOUND)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), PaymentView.redirect_message)
+
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_payment_home_page_url_resolves_payment_view(self):
