@@ -435,6 +435,10 @@
                                     <div class="card-header pb-0 text-left"></div>
                                     <div class="card-body pb-3">
                                         {% for k, v in request.session.items %}<pre>{{ k }} : {{ v }}</pre>{% endfor %}
+                                        <pre>Session Cookie Age:{{ request.session.get_session_cookie_age }} seconds</pre>
+                                        <pre>Expiry Age:{{ request.session.get_expiry_age }} seconds</pre>
+                                        <pre>Expiry Date:{{ request.session.get_expiry_date }} seconds</pre>
+                                        <pre>Expires at browser close? :{{ request.session.get_expire_at_browser_close }}</pre>
                                     </div>
                                 </div>
                             </div>
