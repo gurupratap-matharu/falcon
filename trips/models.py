@@ -272,15 +272,36 @@ class Trip(models.Model):
             seat.book()
 
     def hold_seats(self, seat_numbers: list[str] | list[int]):
-        """Update seat status to hold"""
+        """Update seat status to ONHOLD"""
+        # TODO: Change the argument seat_number from list to *args or *seat_numbers
+        # We should not use lists as function arguments!
 
         if not seat_numbers:
             raise ValidationError("Seat numbers cannot be null 💣💥💣")
 
         seat_numbers = [s.strip() for s in seat_numbers.split(",")]
-        return self.seats.filter(seat_number__in=seat_numbers).update(
-            seat_status=Seat.ONHOLD
-        )
+
+        logger.info("holding seats:%s..." % seat_numbers)
+
+        return self.seats.filter(
+            seat_status=Seat.AVAILABLE, seat_number__in=seat_numbers
+        ).update(seat_status=Seat.ONHOLD)
+
+    def release_seats(self, seat_numbers: list[str] | list[int]):
+        """Update seat status to AVAILABLE"""
+        # TODO: Change the argument seat_number from list to *args or *seat_numbers
+        # We should not use lists as function arguments!
+
+        if not seat_numbers:
+            raise ValidationError("Seat numbers cannot be null 💣💥💣")
+
+        seat_numbers = [s.strip() for s in seat_numbers.split(",")]
+
+        logger.info("releasing seats:%s..." % seat_numbers)
+
+        return self.seats.filter(
+            seat_status=Seat.ONHOLD, seat_number__in=seat_numbers
+        ).update(seat_status=Seat.AVAILABLE)
 
     def book_seats_with_passengers(
         self, seat_numbers: list[str] | list[int], passengers

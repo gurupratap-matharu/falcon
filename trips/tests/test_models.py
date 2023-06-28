@@ -328,6 +328,86 @@ class TripModelTests(TestCase):
         self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
         self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
 
+    def test_trip_cannot_hold_seats_that_are_not_available(self):
+        """
+        A trip should not be able to put any seat that is not Available on hold
+        i.e. Seats that are - Reserved, Booked, Other cannot be put on hold
+        Only Available seats can be put on hold.
+        """
+
+        Trip.objects.all().delete()
+
+        # Make a trip with two available seats
+        trip = TripTomorrowFactory()
+        seat_1 = SeatFactory(seat_status=Seat.BOOKED, trip=trip)
+        seat_2 = SeatFactory(seat_status=Seat.RESERVED, trip=trip)
+
+        # Make sure initially they are not available
+        self.assertEqual(seat_1.seat_status, Seat.BOOKED)
+        self.assertEqual(seat_2.seat_status, Seat.RESERVED)
+
+        # Get list of seat numbers for our trip eg: [1, 2] and mark them for hold
+        seat_numbers = f"{seat_1.seat_number}, {seat_2.seat_number}"
+        trip.hold_seats(seat_numbers)  # type: ignore
+
+        seat_1.refresh_from_db()
+        seat_2.refresh_from_db()
+
+        # Verify that their status is UNCHANGED
+        self.assertEqual(seat_1.seat_status, Seat.BOOKED)
+        self.assertEqual(seat_2.seat_status, Seat.RESERVED)
+
+    def test_trip_can_release_seats_that_are_onhold(self):
+        Trip.objects.all().delete()
+
+        trip = TripTomorrowFactory()
+        seat_1 = SeatFactory(seat_status=Seat.ONHOLD, trip=trip)
+        seat_2 = SeatFactory(seat_status=Seat.ONHOLD, trip=trip)
+
+        # Make sure initially they are on hold
+        self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
+        self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
+
+        # Get list of seat numbers for our trip eg: [1, 2] and mark them for hold
+        seat_numbers = f"{seat_1.seat_number}, {seat_2.seat_number}"
+        trip.release_seats(seat_numbers)  # type: ignore
+
+        seat_1.refresh_from_db()
+        seat_2.refresh_from_db()
+
+        # Verify that their status is Available
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+
+    def test_trip_cannot_release_seats_that_are_not_onhold(self):
+        """
+        A trip should not be able to put any seat that is not on hold to avaiable
+        i.e. Seats that are - Reserved, Booked, Other cannot be made available
+        Only Onhold seats can be made available.
+        """
+
+        Trip.objects.all().delete()
+
+        # Make a trip with two available seats
+        trip = TripTomorrowFactory()
+        seat_1 = SeatFactory(seat_status=Seat.BOOKED, trip=trip)
+        seat_2 = SeatFactory(seat_status=Seat.RESERVED, trip=trip)
+
+        # Make sure initially they are not available
+        self.assertEqual(seat_1.seat_status, Seat.BOOKED)
+        self.assertEqual(seat_2.seat_status, Seat.RESERVED)
+
+        # Get list of seat numbers for our trip eg: [1, 2] and mark them for hold
+        seat_numbers = f"{seat_1.seat_number}, {seat_2.seat_number}"
+        trip.release_seats(seat_numbers)  # type: ignore
+
+        seat_1.refresh_from_db()
+        seat_2.refresh_from_db()
+
+        # Verify that their status is UNCHANGED
+        self.assertEqual(seat_1.seat_status, Seat.BOOKED)
+        self.assertEqual(seat_2.seat_status, Seat.RESERVED)
+
     def test_trip_arrival_date_cannot_be_before_departure_date(self):
         departure = timezone.now()
         arrival = timezone.now() - timedelta(days=1)
