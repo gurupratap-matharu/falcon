@@ -1,3 +1,5 @@
+import pdb
+import uuid
 from datetime import timedelta
 from http import HTTPStatus
 
@@ -8,9 +10,10 @@ from django.urls import resolve, reverse_lazy
 from django.utils import timezone
 
 from cart.cart import Cart
+from orders.factories import OrderFactory
 from orders.forms import OrderForm, PassengerForm
 from orders.models import Order, OrderItem, Passenger
-from orders.views import OrderCreateView
+from orders.views import OrderCreateView, order_cancel
 from trips.factories import LocationFactory, SeatFactory, TripTomorrowFactory
 from trips.models import Seat, Trip
 
@@ -331,3 +334,75 @@ class OrderCreatePostTests(TestCase):
 
     def test_invalid_coupon_redirects_with_message(self):
         self.fail()
+
+
+class OrderCancelTests(TestCase):
+    """
+    Test suite to cancel an order
+    """
+
+    search_query = {
+        "trip_type": "round_trip",
+        "num_of_passengers": "2",
+        "origin": "Alta Gracia",
+        "destination": "Anatuya",
+        "departure": "23-02-2023",
+        "return": "",
+    }
+
+    def setUp(self):
+        self.trip = TripTomorrowFactory()
+        self.order = OrderFactory()
+        self.url = reverse_lazy("orders:order_cancel", args=[str(self.order.id)])
+        self.warning_msg = "Your session has expired. Please search again 🙏"
+
+        # Initialize session with search query
+
+        session = self.client.session
+        session["q"] = self.search_query
+        session.save()
+
+        # Populate the cart with a trip
+        self.client.post(self.trip.get_add_to_cart_url())
+
+    def test_cart_and_session_are_not_empty_in_all_order_cancel_tests(self):
+        session = self.client.session
+
+        self.assertIn("q", session)
+        self.assertIn("cart", session)
+        self.assertIsNotNone(session["q"])
+        self.assertIsNotNone(session["cart"])
+
+    def test_order_cancel_accepts_only_post_request(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+    def test_order_cancel_url_resolves_order_cancel_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, order_cancel.__name__)
+
+    def test_order_cancel_for_invalid_order_id_throws_404_not_found(self):
+        invalid_order_id = uuid.uuid4()
+        url = reverse_lazy("orders:order_cancel", args=[str(invalid_order_id)])
+
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+
+    def test_order_cancel_on_success_clears_the_cart(self):
+        response = self.client.post(self.url)
+        session = self.client.session
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertNotIn("cart", session)
+
+    def test_order_cancel_on_success_redirects_to_home_with_message(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, reverse_lazy("pages:home"), HTTPStatus.FOUND)
+
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), self.warning_msg)

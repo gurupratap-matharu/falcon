@@ -8,7 +8,9 @@ from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.views.generic import CreateView, TemplateView
 
 from cart.cart import Cart
 
@@ -157,6 +159,34 @@ class OrderCreateView(CreateView):
         # TODO: Should we add any success message to request here?
         # 8. Redirect to payment
         return response
+
+
+@require_POST
+@csrf_exempt
+def order_cancel(request, order_id=None):
+    """
+    Use to mark an order's seats as `Available` again.
+    Typically when a user created an order but made no payment during a session.
+
+    In the DB the order is not deleted. This view does not render a template.
+    """
+
+    message = "Your session has expired. Please search again 🙏"
+
+    cart = Cart(request)
+    cart.clear()
+
+    if "order" in request.session:
+        del request.session["order"]
+        logger.info("removed order from session...")
+
+    order = get_object_or_404(Order, id=order_id)
+
+    logger.info("cancelling order:%s" % order)
+
+    messages.warning(request=request, message=message)
+
+    return redirect("pages:home")
 
 
 @staff_member_required
