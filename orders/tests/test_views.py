@@ -1,4 +1,3 @@
-import pdb
 from datetime import timedelta
 from http import HTTPStatus
 
@@ -13,7 +12,7 @@ from orders.forms import OrderForm, PassengerForm
 from orders.models import Order, OrderItem, Passenger
 from orders.views import OrderCreateView
 from trips.factories import LocationFactory, SeatFactory, TripTomorrowFactory
-from trips.models import Location, Seat, Trip
+from trips.models import Seat, Trip
 
 
 class OrderCreateTests(TestCase):
@@ -120,90 +119,63 @@ class OrderCreateTests(TestCase):
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), OrderCreateView.redirect_message)
 
-    # POST
 
-    def test_order_creation_for_valid_post_data(self):
-        """
-        This is an end-to-end kind of test for successful order creation.
+class OrderCreatePostTests(TestCase):
+    """
+    Test suite to verify Order Creation.
+    """
 
-        Arrange:
-            - We want to initialize a trip with two vacant seats between two locations
+    @classmethod
+    def setUpTestData(cls):
+        print("running setUpTestData...")
+        cls.tomorrow = timezone.now() + timedelta(days=1)
+        cls.num_of_passengers = 2
 
-        Act:
-            - Make a user choose this trip and book both the available seats by placing an order
+        cls.url = reverse_lazy("orders:order_create")
+        cls.success_url = reverse_lazy("payments:home")
+        cls.template_name = "orders/order_form.html"
+        cls.redirect_template_name = "payments/payment.html"
 
-        Assert:
-            - Verify that order is created successfully
-            - Verify that passengers are created successfully
-            - Verify order <--> passenger relationship formed
-            - Verify both seats are booked
-            - Verify redirection to payments page
-        """
-
-        # First clear the object created in setUp method
-        Location.objects.all().delete()
-        Trip.objects.all().delete()
-
-        # let's clear the session set in setup()
-        session = self.client.session
-        session.clear()
-        session.save()
-
-        tomorrow = timezone.now() + timedelta(days=1)
-        num_of_passengers = 2
-
-        # Create two locations
-        origin, destination = LocationFactory.create_batch(size=2)
-
-        # Create a trip between them with two available seats
-        trip = TripTomorrowFactory(
-            origin=origin, destination=destination, status=Trip.ACTIVE
+        cls.origin, cls.destination = LocationFactory.create_batch(size=2)
+        cls.trip = TripTomorrowFactory(
+            origin=cls.origin, destination=cls.destination, status=Trip.ACTIVE
         )
         SeatFactory.reset_sequence(1)
-        SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.AVAILABLE)
+        SeatFactory.create_batch(size=2, trip=cls.trip, seat_status=Seat.AVAILABLE)
 
-        # Make sure data is correctly created
-        trip_from_db = Trip.objects.first()
+    def setUp(self):
+        """Build the session data for each test"""
 
-        self.assertEqual(Location.objects.count(), 2)
-        self.assertEqual(Trip.objects.count(), 1)
+        print("running setUp...")
 
-        self.assertEqual(trip_from_db.seats.count(), 2)
-        self.assertEqual(trip_from_db.seats_available, 2)
-        self.assertEqual(trip.origin, origin)
-        self.assertEqual(trip.destination, destination)
-
-        # Make sure trip is leaving tomorrow with available seats
-        seat_1, seat_2 = trip.seats.all()
-
-        self.assertEqual(trip.departure.date(), tomorrow.date())
-        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
-        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
-
-        # Let's build fake session data to simulate as if user tried searching
-        # this trip to book it
-        search_query = {
-            "trip_type": "round_trip",
-            "num_of_passengers": str(num_of_passengers),
-            "origin": origin.name,
-            "destination": destination.name,
-            "departure": tomorrow.strftime("%d-%m-%Y"),
-            "return": "",
-        }
-
+        # Search query
         session = self.client.session
-        session["q"] = search_query
+        session["q"] = self.build_search_query()
         session.save()
 
-        # Cool now we need to simulate as if user has added our trip to the cart
-        self.client.post(trip.get_add_to_cart_url())
-        # User is on the order page and has filled in all the details
+        # Cart
+        self.client.post(self.trip.get_add_to_cart_url())
+
+        self.data = self.build_form_data()
+
+    def build_search_query(self):
+        """Helper method to just build a user trip search query"""
+
+        q = {
+            "trip_type": "round_trip",
+            "num_of_passengers": str(self.num_of_passengers),
+            "origin": f"{self.origin.name}",
+            "destination": f"{self.destination.name}",
+            "departure": self.tomorrow.strftime("%d-%m-%Y"),
+            "return": "",
+        }
+        return q
+
+    def build_form_data(self):
+        """Helper method to construct the order form post data"""
 
         # IMP Veer don't create passenger or order data using factories as it will be
         # saved in the DB. We want to create this data via post request
-        payer_name = "Gisela Vidal"
-        payer_email = "gisela@email.com"
-        payer_residence = "AR"
 
         data = {
             # management_form data
@@ -212,7 +184,7 @@ class OrderCreateTests(TestCase):
             "form-MIN_NUM_FORMS": 0,
             "form-MAX_NUM_FORMS": 1000,
             # Selected seats
-            f"seats{trip.id}": "1, 2",
+            f"seats{self.trip.id}": "1, 2",
             # Formset
             # Passenger 1 data
             "form-0-document_type": "PASSPORT",
@@ -233,29 +205,39 @@ class OrderCreateTests(TestCase):
             "form-1-birth_date": "03/07/1985",
             "form-1-phone_number": "1150254191",
             # Order Form data
-            "name": payer_name,
-            "email": payer_email,
-            "residence": payer_residence,
+            "name": "Gisela Vidal",
+            "email": "gisela@email.com",
+            "residence": "AR",
         }
 
-        # Cool. Now let's submit the order form via post
-        # Order creation will redirect to payments page so make `follow=True`
-        response = self.client.post(self.url, data=data, follow=True)
+        return data
 
-        # Verify that seats are put on hold since order is yet unpaid
-        trip = Trip.objects.first()
-        seat_1, seat_2 = trip.seats.all()
+    def test_order_success_redirects_to_payments(self):
+        response = self.client.post(self.url, data=self.data, follow=True)
 
-        self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
-        self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
+        self.assertRedirects(
+            response=response,
+            expected_url=self.success_url,
+            status_code=HTTPStatus.FOUND,
+            target_status_code=HTTPStatus.OK,
+        )
 
-        # Verify order is created correctly and unpaid
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.redirect_template_name)
+        self.assertContains(response, "Payment")
+        self.assertNotContains(response, "Hi I should not be on this page")
+        self.assertIsInstance(response.context["order"], Order)
+
+    def test_order_success_creates_order_correctly(self):
+        response = self.client.post(self.url, data=self.data, follow=True)
+
+        # Verify that order is created and unpaid
         order = Order.objects.first()
 
         self.assertEqual(Order.objects.count(), 1)
-        self.assertEqual(order.name, payer_name)
-        self.assertEqual(order.email, payer_email)
-        self.assertEqual(order.residence, payer_residence)
+        self.assertEqual(order.name, self.data["name"])
+        self.assertEqual(order.email, self.data["email"])
+        self.assertEqual(order.residence, self.data["residence"])
 
         # Verify order is unpaid
         self.assertFalse(order.paid)
@@ -269,40 +251,56 @@ class OrderCreateTests(TestCase):
         # Verify passengers are created correctly
         self.assertEqual(Passenger.objects.count(), 2)
 
-        # Verify redirection
-        expected_url = reverse_lazy("payments:home")
-        self.assertRedirects(
-            response=response,
-            expected_url=expected_url,
-            status_code=HTTPStatus.FOUND,
-            target_status_code=HTTPStatus.OK,
-        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_order_success_creates_order_items_correctly(self):
+        response = self.client.post(self.url, data=self.data, follow=True)
 
         # Verify OrderItems created correctly
+        order = Order.objects.first()
         order_item = OrderItem.objects.first()
+        trip = Trip.objects.first()
 
         self.assertEqual(OrderItem.objects.count(), 1)
         self.assertEqual(order_item.order, order)
         self.assertEqual(order_item.trip, trip)
         self.assertEqual(order_item.price, trip.price)
-        self.assertEqual(order_item.quantity, num_of_passengers)
+        self.assertEqual(order_item.quantity, self.num_of_passengers)
         self.assertEqual(order_item.seats, "1, 2")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
-        # Verify Cart is cleared
+    def test_order_success_puts_seats_on_hold(self):
+        response = self.client.post(self.url, data=self.data, follow=True)
+
+        trip = Trip.objects.first()
+        seat_1, seat_2 = trip.seats.all()
+
+        self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
+        self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_order_success_clears_the_cart(self):
+        response = self.client.post(self.url, data=self.data, follow=True)
+
+        session = self.client.session
+
         self.assertNotIn("cart", session)
         self.assertIsNone(session.get("cart"))
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
-        # Verify Order id is in session
-        # IMP access session propery again like this...
+    def test_order_success_places_order_id_in_sessoin(self):
+        response = self.client.post(self.url, data=self.data, follow=True)
+
+        order = Order.objects.first()
         session = self.client.session
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertIn("order", session)
         self.assertEqual(session.get("order"), str(order.id))
 
-        # Verify that order creation email has been sent
-        # Test that an email has been sent.
-        # Verify that the subject of the first message is correct.
-        # Check page redirected to home after success
-        self.assertEqual(len(mail.outbox), 1)
+    def test_order_success_sends_order_creation_email(self):
+        response = self.client.post(self.url, data=self.data, follow=True)
+        order = Order.objects.first()
 
         subject = f"Order nr. {order.id}"
         body = (
@@ -310,6 +308,7 @@ class OrderCreateTests(TestCase):
             f"You have successfully placed an order.\n"
             f"Your order ID is {order.id}."
         )
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, subject)
         self.assertEqual(mail.outbox[0].body, body)
         self.assertEqual(response.request["PATH_INFO"], reverse_lazy("payments:home"))
