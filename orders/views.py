@@ -153,6 +153,7 @@ class OrderCreateView(CreateView):
         # TODO: run this async with celery
         order_created(order_id=order_id)
 
+        # TODO: Should we add any success message to request here?
         # 8. Redirect to payment
         return response
 

@@ -1,14 +1,16 @@
+import pdb
 from datetime import timedelta
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
+from django.core import mail
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 from django.utils import timezone
 
 from cart.cart import Cart
 from orders.forms import OrderForm, PassengerForm
-from orders.models import Order, Passenger
+from orders.models import Order, OrderItem, Passenger
 from orders.views import OrderCreateView
 from trips.factories import LocationFactory, SeatFactory, TripTomorrowFactory
 from trips.models import Location, Seat, Trip
@@ -148,7 +150,7 @@ class OrderCreateTests(TestCase):
         session.save()
 
         tomorrow = timezone.now() + timedelta(days=1)
-        num_of_passengers = "2"
+        num_of_passengers = 2
 
         # Create two locations
         origin, destination = LocationFactory.create_batch(size=2)
@@ -182,7 +184,7 @@ class OrderCreateTests(TestCase):
         # this trip to book it
         search_query = {
             "trip_type": "round_trip",
-            "num_of_passengers": num_of_passengers,
+            "num_of_passengers": str(num_of_passengers),
             "origin": origin.name,
             "destination": destination.name,
             "departure": tomorrow.strftime("%d-%m-%Y"),
@@ -195,7 +197,6 @@ class OrderCreateTests(TestCase):
 
         # Cool now we need to simulate as if user has added our trip to the cart
         self.client.post(trip.get_add_to_cart_url())
-
         # User is on the order page and has filled in all the details
 
         # IMP Veer don't create passenger or order data using factories as it will be
@@ -277,6 +278,57 @@ class OrderCreateTests(TestCase):
             target_status_code=HTTPStatus.OK,
         )
 
+        # Verify OrderItems created correctly
+        order_item = OrderItem.objects.first()
+
+        self.assertEqual(OrderItem.objects.count(), 1)
+        self.assertEqual(order_item.order, order)
+        self.assertEqual(order_item.trip, trip)
+        self.assertEqual(order_item.price, trip.price)
+        self.assertEqual(order_item.quantity, num_of_passengers)
+        self.assertEqual(order_item.seats, "1, 2")
+
+        # Verify Cart is cleared
+        self.assertNotIn("cart", session)
+        self.assertIsNone(session.get("cart"))
+
+        # Verify Order id is in session
+        # IMP access session propery again like this...
+        session = self.client.session
+        self.assertIn("order", session)
+        self.assertEqual(session.get("order"), str(order.id))
+
+        # Verify that order creation email has been sent
+        # Test that an email has been sent.
+        # Verify that the subject of the first message is correct.
+        # Check page redirected to home after success
+        self.assertEqual(len(mail.outbox), 1)
+
+        subject = f"Order nr. {order.id}"
+        body = (
+            f"Dear {order.name},\n\n"
+            f"You have successfully placed an order.\n"
+            f"Your order ID is {order.id}."
+        )
+        self.assertEqual(mail.outbox[0].subject, subject)
+        self.assertEqual(mail.outbox[0].body, body)
+        self.assertEqual(response.request["PATH_INFO"], reverse_lazy("payments:home"))
+
     def test_order_validation_errors_for_invalid_post_data(self):
         # TODO
         pass
+
+    def test_expired_session_marks_seats_as_avaiable_again(self):
+        self.fail()
+
+    def test_order_creation_for_invalid_seat_numbers_redirects_with_message(self):
+        self.fail()
+
+    def test_order_creation_for_invalid_trip_redirects_with_message(self):
+        self.fail()
+
+    def test_valid_coupon_is_applied_to_order_successfully(self):
+        self.fail()
+
+    def test_invalid_coupon_redirects_with_message(self):
+        self.fail()
