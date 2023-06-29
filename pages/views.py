@@ -95,6 +95,10 @@ def favicon(request: HttpRequest) -> FileResponse:
     return FileResponse(file, headers={"Content-Type": "image/x-icon"})
 
 
+class LandingPageView(TemplateView):
+    template_name = "pages/landing.html"
+
+
 class BasePageView(TemplateView):
     template_name = "layouts/base.html"
 

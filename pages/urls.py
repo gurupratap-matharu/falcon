@@ -13,6 +13,7 @@ urlpatterns = [
     path("contact/", views.ContactPageView.as_view(), name="contact"),
     path("feedback/", views.FeedbackPageView.as_view(), name="feedback"),
     path("favicon.ico", views.favicon),
+    path("landing/", views.LandingPageView.as_view(), name="landing"),
     path("base/", views.BasePageView.as_view(), name="base"),  # TODO: Veer remove this!
     path(
         "base-hero/",
