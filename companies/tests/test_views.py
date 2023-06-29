@@ -4,7 +4,12 @@ from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
 from companies.factories import CompanyFactory
-from companies.views import CompanyDashboardView, CompanyDetailView, CompanyListView
+from companies.views import (
+    CompanyBookView,
+    CompanyDashboardView,
+    CompanyDetailView,
+    CompanyListView,
+)
 from users.factories import (
     CompanyOwnerFactory,
     StaffuserFactory,
@@ -76,6 +81,30 @@ class CompanyDetailViewTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
         self.assertContains(response, self.company.name)
+
+
+class CompanyBookViewTests(TestCase):
+    """
+    Test suite for dedicated company ticket booking view.
+    """
+
+    def setUp(self):
+        self.company = CompanyFactory()
+        self.url = reverse_lazy("companies:company-book", args=[str(self.company.slug)])
+        self.template_name = "companies/company_book.html"
+
+    def test_company_book_view_is_accessible(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertIn("company", response.context)
+        self.assertContains(response, self.company.name)
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+    def test_company_book_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, CompanyBookView.as_view().__name__)
 
 
 class CompanyDashboardTests(TestCase):
