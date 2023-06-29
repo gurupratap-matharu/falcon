@@ -408,21 +408,36 @@ class OrderCancelTests(TestCase):
 
     def test_order_cancel_releases_seats_to_be_available_again(self):
         # Create a trip with two onhold seats
-        trip = TripTomorrowFactory()
+        outbound_trip, return_trip = TripTomorrowFactory.create_batch(size=2)
+
+        # Create two onhold seats for outbound trip
         SeatFactory.reset_sequence(1)
         seat_1, seat_2 = SeatFactory.create_batch(
-            size=2, trip=trip, seat_status=Seat.ONHOLD
+            size=2, trip=outbound_trip, seat_status=Seat.ONHOLD
+        )
+
+        # Create two onhold seats for return trip
+        SeatFactory.reset_sequence(1)
+        seat_3, seat_4 = SeatFactory.create_batch(
+            size=2, trip=return_trip, seat_status=Seat.ONHOLD
         )
 
         # Verify that the seats are onhold
         self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
         self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
+        self.assertEqual(seat_3.seat_status, Seat.ONHOLD)
+        self.assertEqual(seat_4.seat_status, Seat.ONHOLD)
 
-        # Create an order and link it to the trip with an order item
+        # Create an order and link it to the trip with order items
         order = OrderFactory()
-        order_item = OrderItemFactory(order=order, trip=trip)
-        order_item.seats = f"{seat_1.seat_number}, {seat_2.seat_number}"
-        order_item.save()
+
+        outbound_order_item = OrderItemFactory(order=order, trip=outbound_trip)
+        outbound_order_item.seats = f"{seat_1.seat_number}, {seat_2.seat_number}"
+        outbound_order_item.save()
+
+        return_order_item = OrderItemFactory(order=order, trip=return_trip)
+        return_order_item.seats = f"{seat_3.seat_number}, {seat_4.seat_number}"
+        return_order_item.save()
 
         # Try cancelling the order
         url = reverse_lazy("orders:order_cancel", args=[str(order.id)])
@@ -430,7 +445,11 @@ class OrderCancelTests(TestCase):
 
         seat_1.refresh_from_db()
         seat_2.refresh_from_db()
+        seat_3.refresh_from_db()
+        seat_4.refresh_from_db()
 
         # Verify that the seats are available again
         self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
         self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_3.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_4.seat_status, Seat.AVAILABLE)
