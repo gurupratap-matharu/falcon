@@ -40,6 +40,7 @@ company_admin_patterns = [
 urlpatterns = [
     # Public Views
     path("", views.CompanyListView.as_view(), name="company_list"),
+    path("landing/", views.CompanyLandingView.as_view(), name="company-landing"),
     path("<slug:slug>/", views.CompanyDetailView.as_view(), name="company_detail"),
     #
     # Company Admin Views
