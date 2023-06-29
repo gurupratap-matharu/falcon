@@ -73,7 +73,7 @@ class OrderPassengerInline(admin.TabularInline):
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ("order", "trip", "quantity", "price", "seats")
-    readonly_fields = ("order", "trip", "price", "seats", "quantity")
+    readonly_fields = ("order", "trip", "price")
 
 
 @admin.register(Order)

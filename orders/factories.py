@@ -4,8 +4,6 @@ import factory
 from factory import fuzzy
 from faker import Faker
 
-from trips.factories import TripTomorrowFactory
-
 from .models import Order, OrderItem, Passenger
 
 fake = Faker()
@@ -90,8 +88,6 @@ def make_order_data(size=20, trip=None):
     Encompasses all factories in this script.
     """
 
-    trip = trip or TripTomorrowFactory()
-
     # 1. Create random orders
     orders = OrderFactory.create_batch(size=size)
 
@@ -107,13 +103,18 @@ def make_order_data(size=20, trip=None):
         order.save()
 
         # 3. If trip is given build all order items for this trip else use random trips
-        OrderItemFactory.create_batch(
-            size=num_trips,
-            order=order,
-            quantity=num_passengers,
-            trip=trip,
-            price=trip.price,
-        )
+        if trip:
+            OrderItemFactory.create_batch(
+                size=num_trips,
+                order=order,
+                quantity=num_passengers,
+                trip=trip,
+                price=trip.price,
+            )
+        else:
+            OrderItemFactory.create_batch(
+                size=num_trips, order=order, quantity=num_passengers
+            )
 
     return orders
 
