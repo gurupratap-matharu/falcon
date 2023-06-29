@@ -9,7 +9,7 @@ from django.urls import resolve, reverse_lazy
 from django.utils import timezone
 
 from cart.cart import Cart
-from orders.factories import OrderFactory
+from orders.factories import OrderFactory, OrderItemFactory
 from orders.forms import OrderForm, PassengerForm
 from orders.models import Order, OrderItem, Passenger
 from orders.views import OrderCreateView, order_cancel
@@ -405,3 +405,32 @@ class OrderCancelTests(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), self.warning_msg)
+
+    def test_order_cancel_releases_seats_to_be_available_again(self):
+        # Create a trip with two onhold seats
+        trip = TripTomorrowFactory()
+        SeatFactory.reset_sequence(1)
+        seat_1, seat_2 = SeatFactory.create_batch(
+            size=2, trip=trip, seat_status=Seat.ONHOLD
+        )
+
+        # Verify that the seats are onhold
+        self.assertEqual(seat_1.seat_status, Seat.ONHOLD)
+        self.assertEqual(seat_2.seat_status, Seat.ONHOLD)
+
+        # Create an order and link it to the trip with an order item
+        order = OrderFactory()
+        order_item = OrderItemFactory(order=order, trip=trip)
+        order_item.seats = f"{seat_1.seat_number}, {seat_2.seat_number}"
+        order_item.save()
+
+        # Try cancelling the order
+        url = reverse_lazy("orders:order_cancel", args=[str(order.id)])
+        self.client.post(url)
+
+        seat_1.refresh_from_db()
+        seat_2.refresh_from_db()
+
+        # Verify that the seats are available again
+        self.assertEqual(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)

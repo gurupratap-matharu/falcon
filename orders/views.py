@@ -181,8 +181,13 @@ def order_cancel(request, order_id=None):
         logger.info("removed order from session...")
 
     order = get_object_or_404(Order, id=order_id)
+    for item in order.items.all():
+        trip, seat_numbers = item.trip, item.seats
 
-    logger.info("cancelling order:%s" % order)
+        logger.info("trip:%s, seats:%s" % (trip, seat_numbers))
+        trip.release_seats(seat_numbers=seat_numbers)
+
+    logger.info("cancelled order:%s..." % order)
 
     messages.warning(request=request, message=message)
 

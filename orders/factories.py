@@ -54,6 +54,7 @@ class OrderItemFactory(factory.django.DjangoModelFactory):
     trip = factory.SubFactory("trips.factories.TripFactory")
     price = factory.LazyAttribute(lambda obj: obj.trip.price)
     quantity = factory.Faker("random_int", min=1, max=5)
+    # TODO: add seats here
 
 
 class PassengerFactory(factory.django.DjangoModelFactory):
