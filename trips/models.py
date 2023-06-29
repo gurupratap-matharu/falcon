@@ -73,7 +73,7 @@ class FutureManager(models.Manager):
 
         return self.filter(status=Trip.ACTIVE)
 
-    def search(self, origin=None, destination=None, departure=None):
+    def search(self, origin=None, destination=None, departure=None, company_slug=None):
         """
         Search only active future trips based on
             - origin
@@ -93,6 +93,10 @@ class FutureManager(models.Manager):
         qs = qs.filter(
             origin=origin, destination=destination, departure__date=departure
         )
+
+        if company_slug:
+            qs = qs.filter(company__slug=company_slug)
+
         qs = qs.annotate(availability=availability)
         qs = qs.select_related("company", "origin", "destination")
 

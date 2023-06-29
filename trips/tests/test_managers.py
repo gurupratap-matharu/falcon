@@ -223,10 +223,12 @@ class FutureManagerSearchTests(TestCase):
 
     @classmethod
     def setUpTestData(cls) -> None:
-        # 1. Create three locations
+        # 1. Create three locations and a company
         cls.buenos_aires = LocationFactory(name="Buenos Aires")
         cls.mendoza = LocationFactory(name="Mendoza")
         cls.bariloche = LocationFactory(name="Bariloche")
+
+        cls.company = CompanyFactory()
 
         # 2. Create helper dates as strings
         cls.today = cls.get_date()
@@ -236,14 +238,27 @@ class FutureManagerSearchTests(TestCase):
 
         # 3. Create some past and future trips
         cls.trips_past = TripPastFactory.create_batch(
-            size=2, origin=cls.buenos_aires, destination=cls.mendoza, status=Trip.ACTIVE
+            size=2,
+            origin=cls.buenos_aires,
+            destination=cls.mendoza,
+            status=Trip.ACTIVE,
+            company=cls.company,
         )
 
         cls.trips_tomorrow = TripTomorrowFactory.create_batch(
-            size=2, origin=cls.buenos_aires, destination=cls.mendoza, status=Trip.ACTIVE
+            size=2,
+            origin=cls.buenos_aires,
+            destination=cls.mendoza,
+            status=Trip.ACTIVE,
+            company=cls.company,
         )
+
         cls.trips_day_after_tomorrow = TripDayAfterTomorrowFactory.create_batch(
-            size=2, origin=cls.buenos_aires, destination=cls.mendoza, status=Trip.ACTIVE
+            size=2,
+            origin=cls.buenos_aires,
+            destination=cls.mendoza,
+            status=Trip.ACTIVE,
+            company=cls.company,
         )
 
         cls.all_trips = (
@@ -409,3 +424,32 @@ class FutureManagerSearchTests(TestCase):
         self.assertIn("company", related_fields)
         self.assertIn("origin", related_fields)
         self.assertIn("destination", related_fields)
+
+    def test_search_results_are_filtered_by_a_company(self):
+        """
+        Search results can be specified for only one company.
+        Our test data is generated for only one company.
+        """
+
+        # Let's create one trip for another company
+        another_company = CompanyFactory()
+        another_trip = TripTomorrowFactory(
+            origin=self.buenos_aires,
+            destination=self.mendoza,
+            company=another_company,
+            status=Trip.ACTIVE,
+        )
+
+        # Get trips only tomorrow for another company
+        qs_tomorrow = Trip.future.search(
+            origin=self.buenos_aires,
+            destination=self.mendoza,
+            departure=self.tomorrow,
+            company_slug=another_company.slug,  # <-- added this
+        )
+
+        trip_found = qs_tomorrow.first()
+
+        self.assertEqual(qs_tomorrow.count(), 1)
+        self.assertEqual(trip_found, another_trip)
+        self.assertEqual(trip_found.company, another_company)
