@@ -27,6 +27,12 @@ class CompanyLandingView(TemplateView):
     template_name = "companies/company_landing.html"
 
 
+class CompanyBookView(DetailView):
+    model = Company
+    context_object_name = "company"
+    template_name = "companies/company_book.html"
+
+
 # Company Facing Views
 
 
