@@ -34,6 +34,11 @@ class CompanyModelTests(TestCase):
 
         self.assertEqual(self.company.get_coupon_list_url(), expected_url)
 
+    def test_get_booking_url(self):
+        expected_url = f"/companies/{self.company.slug.lower()}/book/"
+
+        self.assertEqual(self.company.get_booking_url(), expected_url)
+
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.company._meta.verbose_name_plural), "companies")
 
