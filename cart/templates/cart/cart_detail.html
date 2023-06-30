@@ -66,48 +66,46 @@
                             </td>
                         </tr>
                     {% endfor %}
-                    {% if cart.items %}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="align-middle text-center text-sm">
-                                <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Subtotal</p>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <p class="text-xs font-weight-bold mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="align-middle text-center text-sm">
-                                <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">
-                                    "{{ cart.coupon.code }}" Coupon ({{ cart.coupon.discount }}% off)
-                                </p>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <span class="text-xs font-weight-bold mb-0">- $ {{ cart.get_discount|floatformat:"-3g" }}</span>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="align-middle text-center">
-                                <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Total</p>
-                            </td>
-                            <td class="align-middle text-center">
-                                <p class="font-weight-bold mb-0">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
-                            </td>
-                        </tr>
-                    {% endif %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Subtotal</p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs font-weight-bold mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">
+                                "{{ cart.coupon.code }}" Coupon ({{ cart.coupon.discount }}% off)
+                            </p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <span class="text-xs font-weight-bold mb-0">- $ {{ cart.get_discount|floatformat:"-3g" }}</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="align-middle text-center">
+                            <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Total</p>
+                        </td>
+                        <td class="align-middle text-center">
+                            <p class="font-weight-bold mb-0">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

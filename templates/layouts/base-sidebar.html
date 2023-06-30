@@ -167,7 +167,7 @@
                         {% url 'cart:cart_detail' as url_cart %}
                         <a class="nav-link {% if request.path == url_cart %}active{% endif %}" href="{{ url_cart }}">
                             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-cart text-dark"></i>
+                                <i class="ni ni-cart text-{% if request.path == url_cart %}white{% else %}dark{% endif %}"></i>
                             </div>
                             <span class="nav-link-text ms-1">Cart</span>
                         </a>
