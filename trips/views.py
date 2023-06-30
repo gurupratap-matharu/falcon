@@ -61,7 +61,7 @@ class TripListView(ListView):
         else redirect to home with a valid message.
         """
 
-        q = self.request.GET
+        q = request.GET
 
         try:
             form = self.form_class(q)
@@ -72,7 +72,7 @@ class TripListView(ListView):
             return redirect(reverse_lazy("pages:home"))
 
         logger.info("search query:%s..." % q)
-        self.request.session["q"] = q
+        request.session["q"] = q
 
         return super().get(request, *args, **kwargs)
 
