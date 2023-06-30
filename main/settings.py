@@ -311,7 +311,7 @@ LOGGING = {
 # django extensions
 SHELL_PLUS_IMPORTS = [
     "import json",
-    "from datetime import datetime",
+    "from datetime import datetime, timedelta",
     "from users.factories import UserFactory, StaffuserFactory, SuperuserFactory, CompanyOwnerFactory",
     "from companies.factories import CompanyFactory",
     "from trips.factories import TripFactory, TripTomorrowFactory, SeatFactory, SeatWithPassengerFactory",
