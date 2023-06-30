@@ -331,8 +331,6 @@ class OrderCreatePostTests(TestCase):
     def test_valid_coupon_is_applied_to_order_successfully(self):
         self.fail()
 
-    def test_invalid_coupon_redirects_with_message(self):
-        self.fail()
 
 
 class OrderCancelTests(TestCase):

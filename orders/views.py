@@ -150,7 +150,6 @@ class OrderCreateView(CreateView):
         # 6. Save order.id in session so payments can access it
         order_id = str(order.id)
         self.request.session["order"] = order_id
-        self.request.session.set_expiry(300)
 
         # 7. Send order creation email
         # TODO: run this async with celery
