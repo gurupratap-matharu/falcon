@@ -9,6 +9,25 @@ from django.utils.translation import gettext_lazy as _
 logger = logging.getLogger(__name__)
 
 
+class ValidManager(models.Manager):
+    """
+    Coupon model manager that allows to query only valid coupons.
+    """
+
+    def get_queryset(self):
+        """
+        Filter out only valid coupons
+        """
+
+        logger.info("showing only active couponts (🎟️)...")
+
+        now = timezone.now()
+        qs = super().get_queryset()
+        qs = qs.filter(valid_from__lte=now, valid_to__gte=now, active=True)
+
+        return qs
+
+
 class Coupon(models.Model):
     """One time use coupons to apply a discount to a cart"""
 
@@ -34,8 +53,10 @@ class Coupon(models.Model):
     class Meta:
         ordering = ("valid_to",)
 
-    def clean(self):
+    objects = models.Manager()
+    valid = ValidManager()
 
+    def clean(self):
         # Don't allow valid_from date to be in the past
         if self.valid_from.date() < timezone.now().date():
             raise ValidationError(
@@ -61,7 +82,7 @@ class Coupon(models.Model):
         now = timezone.now()
         return self.active and (self.valid_from < now < self.valid_to)
 
-    def deactivate(self):
+    def redeem(self):
         """Used when a coupon is redeemed by a user so that it cannot be used again"""
 
         if not self.is_valid():
@@ -73,4 +94,4 @@ class Coupon(models.Model):
         self.save()
 
     def __str__(self):
-        return self.code
+        return f"{self.code}"
