@@ -1,15 +1,19 @@
+from datetime import timedelta
 from http import HTTPStatus
 
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
+from django.utils import timezone
 
 from companies.factories import CompanyFactory
+from companies.models import Company
 from companies.views import (
     CompanyBookView,
     CompanyDashboardView,
     CompanyDetailView,
     CompanyListView,
 )
+from trips.factories import TripTomorrowFactory
 from users.factories import (
     CompanyOwnerFactory,
     StaffuserFactory,
@@ -100,6 +104,7 @@ class CompanyBookViewTests(TestCase):
         self.assertTemplateUsed(response, self.template_name)
         self.assertIn("company", response.context)
         self.assertContains(response, self.company.name)
+        self.assertContains(response, self.company.slug)
         self.assertNotContains(response, "Hi I should not be on this page!")
 
     def test_company_book_url_resolves_correct_view(self):
