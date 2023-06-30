@@ -24,7 +24,6 @@ class CouponListView(CRUDMixins, ListView):
 
 
 class CouponApplyView(FormView):
-
     http_method_names = ["post"]
     success_url: str = reverse_lazy("cart:cart_detail")
 
@@ -55,7 +54,7 @@ def coupon_apply(request):
             messages.success(request, success_msg)
             logger.info("applied coupon(💸):%s..." % coupon)
 
-            coupon.deactivate()
+            coupon.redeem()
 
         except Coupon.DoesNotExist:
             logger.info("couldn't find coupon(📮):%s..." % code)

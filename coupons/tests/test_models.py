@@ -68,7 +68,6 @@ class CouponModelTests(TestCase):
             c.full_clean()  # <-- not called automatically on save
 
     def test_coupon_discount_cannot_be_less_than_zero_or_more_than_hundred(self):
-
         with self.assertRaises(ValidationError):
             c = CouponFactory.build(discount=-1)
             c.full_clean()
@@ -92,7 +91,7 @@ class CouponModelTests(TestCase):
         self.assertTrue(coupon.active)
         self.assertTrue(coupon.is_valid())
 
-        coupon.deactivate()
+        coupon.redeem()
 
         self.assertFalse(coupon.active)
         self.assertFalse(coupon.is_valid())
@@ -113,7 +112,7 @@ class CouponModelTests(TestCase):
         self.assertFalse(coupon.is_valid())
 
         with self.assertRaises(ValidationError):
-            coupon.deactivate()
+            coupon.redeem()
 
         self.assertFalse(coupon.active)
         self.assertFalse(coupon.is_valid())
