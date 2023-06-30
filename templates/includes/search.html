@@ -1,21 +1,12 @@
 {% load static %}
 
-<div class="page-header min-height-200 border-radius-xl"
-     style="background-image: url({% static 'assets/img/curved-images/curved0.jpg' %});
-            background-position-y: 50%">
-    <span class="mask bg-gradient-primary opacity-6"></span>
-</div>
 <div class="card card-body blur shadow-blur mx-md-4 mt-n6">
     <form action="{% url 'trips:trip-list' %}" method="get" autocomplete="on">
         <div class="row gx-md-3 mb-3">
             <div class="col-8 col-sm-3 col-lg-2">
                 <select class="form-select bg-transparent" name="trip_type" id="trip_type" aria-label="Trip type" required>
-                    <option value="round_trip" {% if not request.session.q.trip_type == "one_way" %}selected{% endif %}>
-                        Round trip
-                    </option>
-                    <option value="one_way" {% if request.session.q.trip_type == "one_way" %}selected{% endif %}>
-                        One way
-                    </option>
+                    <option value="round_trip" {% if not request.session.q.trip_type == "one_way" %}selected{% endif %}>Round trip</option>
+                    <option value="one_way" {% if request.session.q.trip_type == "one_way" %}selected{% endif %}>One way</option>
                 </select>
             </div>
             <div class="col-4 col-sm-2 col-lg-1">
@@ -25,9 +16,7 @@
                         aria-label="Num of passengers"
                         required>
                     {% for i in '12345'|make_list %}
-                        <option value="{{ i }}" {% if request.session.q.num_of_passengers == i %}selected{% endif %}>
-                            {{ i }}
-                        </option>
+                        <option value="{{ i }}" {% if request.session.q.num_of_passengers == i %}selected{% endif %}>{{ i }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -48,7 +37,7 @@
                            tabindex="1"
                            id="origin"
                            value="{{ request.session.q.origin }}"
-                           required/>
+                           required />
                 </div>
             </div>
             <div class="col-12 col-md-3">
@@ -66,7 +55,7 @@
                            tabindex="1"
                            id="destination"
                            value="{{ request.session.q.destination }}"
-                           required/>
+                           required />
                 </div>
             </div>
             <div class="col-12 col-md-3">
@@ -83,7 +72,7 @@
                            maxlength="2048"
                            tabindex="1"
                            value="{{ request.session.q.departure }}"
-                           required/>
+                           required />
                 </div>
             </div>
             <div class="col-12 col-md-3">
@@ -99,7 +88,7 @@
                            spellcheck="false"
                            maxlength="2048"
                            tabindex="1"
-                           value="{{ request.session.q.return }}"/>
+                           value="{{ request.session.q.return }}" />
                 </div>
             </div>
         </div>

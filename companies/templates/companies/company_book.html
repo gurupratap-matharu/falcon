@@ -1,4 +1,4 @@
-{% extends "layouts/base-sidebar.html" %}
+{% extends "pages/home.html" %}
 
 {% load static %}
 
@@ -10,10 +10,14 @@
     {{ company }}
 {% endblock breadcrumb %}
 
-{% block page_title %}
-    Search
-{% endblock page_title %}
-
 {% block content %}
-    <h1>{{ company }}</h1>
+    <div class="page-header min-height-200 border-radius-xl"
+         style="background-image: url({% static 'assets/img/curved-images/curved7.jpg' %});
+                background-position-y: 50%">
+        {% comment %} <span class="mask bg-gradient-primary opacity-6"></span> {% endcomment %}
+    </div>
+
+    {% include "includes/search.html" %}
+    {% include "includes/offcanvas-calendar.html" %}
+
 {% endblock content %}
