@@ -36,3 +36,9 @@ class CouponValidFactory(CouponFactory):
     valid_from = datetime.now(tz=ZoneInfo("UTC"))
     valid_to = factory.LazyAttribute(lambda o: o.valid_from + timedelta(days=7))
     active = True
+
+
+class CouponInvalidFactory(CouponFactory):
+    """Always create an invalid coupon"""
+
+    active = False
