@@ -1,19 +1,15 @@
-from datetime import timedelta
 from http import HTTPStatus
 
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
-from django.utils import timezone
 
 from companies.factories import CompanyFactory
-from companies.models import Company
 from companies.views import (
     CompanyBookView,
     CompanyDashboardView,
     CompanyDetailView,
     CompanyListView,
 )
-from trips.factories import TripTomorrowFactory
 from users.factories import (
     CompanyOwnerFactory,
     StaffuserFactory,

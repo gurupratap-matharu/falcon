@@ -170,5 +170,5 @@ class PassengerFormTests(SimpleTestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.errors["birth_date"][0],
-            "Your birth date (2099-01-01) cannot be in the future!",
+            "Your birth date (2099-01-01) is invalid!",
         )
