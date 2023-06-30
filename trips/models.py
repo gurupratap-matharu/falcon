@@ -85,18 +85,17 @@ class FutureManager(models.Manager):
         destination = get_object_or_404(Location, name=destination)
         departure = datetime.strptime(departure, "%d-%m-%Y").date()
 
-        availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
-
-        logger.info("searching from:%s to:%s on:%s" % (origin, destination, departure))
-
-        qs = self.active()
-        qs = qs.filter(
-            origin=origin, destination=destination, departure__date=departure
+        logger.info(
+            "searching from:%s to:%s on:%s company:%s"
+            % (origin, destination, departure, company_slug)
         )
 
-        if company_slug:
-            qs = qs.filter(company__slug=company_slug)
+        qs = self.active()
+        qs = qs.filter(origin=origin, destination=destination)
+        qs = qs.filter(departure__date=departure)
+        qs = qs.filter(company__slug=company_slug) if company_slug else qs
 
+        availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
         qs = qs.annotate(availability=availability)
         qs = qs.select_related("company", "origin", "destination")
 
