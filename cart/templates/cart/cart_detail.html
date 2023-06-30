@@ -61,12 +61,12 @@
                         {% endwith %}
                     {% empty %}
                         <tr>
-                            <td class="p-5">
+                            <td class="p-5 text-center" colspan="8">
                                 <h5>Cart is Empty 🛒</h5>
                             </td>
                         </tr>
                     {% endfor %}
-                    {% if cart.coupon %}
+                    {% if cart.items %}
                         <tr>
                             <td></td>
                             <td></td>
@@ -95,19 +95,19 @@
                             </td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="align-middle text-center">
+                                <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Total</p>
+                            </td>
+                            <td class="align-middle text-center">
+                                <p class="font-weight-bold mb-0">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
+                            </td>
+                        </tr>
                     {% endif %}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="align-middle text-center">
-                            <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Total</p>
-                        </td>
-                        <td class="align-middle text-center">
-                            <p class="font-weight-bold mb-0">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
