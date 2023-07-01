@@ -28,9 +28,24 @@
                 background-position-y: 50%">
         <span class="mask bg-gradient-primary opacity-6"></span>
     </div>
+    <div class="d-flex d-md-none justify-content-center mt-3">
+        <button class="btn btn-round bg-gradient-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample">Edit Search</button>
+    </div>
+    <div class="collapse" id="collapseExample">
 
-    {% include "includes/search.html" %}
+        {% include "includes/search.html" %}
 
+    </div>
+    <div class="d-none d-md-inline">
+
+        {% include "includes/search.html" %}
+
+    </div>
     <div class="row justify-content-center my-4">
         <div class="col-md-12 col-xl-10">
             {% comment %} {% include "includes/filters.html" %} {% endcomment %}
@@ -45,7 +60,7 @@
                             <input type="hidden" name="departure" value="{{ value|date:"d-m-Y" }}">
                             <input type="hidden" name="return" value="{{ request.session.q.return }}" />
                             <button class="nav-link {% if value|date:"d-m-Y" == request.GET.departure %}active{% endif %}" type="submit">
-                                {{ value|date:"j D" }}
+                                {{ value|date:"D j" }}
                             </button>
                         </form>
                     </li>
