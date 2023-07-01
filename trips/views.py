@@ -1,4 +1,6 @@
 import logging
+import pdb
+from datetime import datetime, timedelta
 from typing import Any, Dict
 
 from django.contrib import messages
@@ -54,6 +56,20 @@ class TripListView(ListView):
     context_object_name: str = "trips"
     invalid_query_msg = " Please try again 🙏"
     form_class = TripSearchForm
+
+    def get_date_ladder(self):
+        departure = self.request.GET.get("departure")
+        date = datetime.strptime(departure, "%d-%m-%Y")
+
+        ladder = (date + timedelta(days=x) for x in range(-1, 2))
+        ladder = (x for x in ladder if x >= datetime.now())
+
+        return ladder
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["date_ladder"] = self.get_date_ladder()
+        return context
 
     def get(self, request, *args, **kwargs):
         """
