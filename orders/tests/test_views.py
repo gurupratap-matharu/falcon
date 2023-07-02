@@ -332,7 +332,6 @@ class OrderCreatePostTests(TestCase):
         self.fail()
 
 
-
 class OrderCancelTests(TestCase):
     """
     Test suite to cancel an order
