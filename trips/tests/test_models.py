@@ -264,11 +264,11 @@ class TripModelTests(TestCase):
 
         self.assertEqual(trip.seats_available, 3)  # type:ignore
 
-    def test_trip_duration_is_correctly_in_hours(self):
+    def test_trip_duration_is_correctly_calculated_in_hours_and_minutes(self):
         actual = self.trip.duration  # type:ignore
 
-        time_delta = self.trip.arrival - self.trip.departure  # type:ignore
-        expected = time_delta.seconds // 3600
+        td = self.trip.arrival - self.trip.departure  # type:ignore
+        expected = ":".join(str(td).split(":")[:2])
 
         self.assertEqual(actual, expected)
 

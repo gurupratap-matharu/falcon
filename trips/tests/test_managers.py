@@ -1,7 +1,8 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from django.http import Http404
 from django.test import TestCase
+from django.utils import timezone
 
 from companies.factories import CompanyFactory
 from trips.factories import (
@@ -453,3 +454,47 @@ class FutureManagerSearchTests(TestCase):
         self.assertEqual(qs_tomorrow.count(), 1)
         self.assertEqual(trip_found, another_trip)
         self.assertEqual(trip_found.company, another_company)
+
+    def test_search_results_are_ordered_correctly(self):
+        Trip.objects.all().delete()
+
+        d = timezone.now() + timedelta(days=1)
+
+        morning = d.replace(hour=8)
+        afternoon = d.replace(hour=13)
+        evening = d.replace(hour=20)
+
+        for departure in (morning, afternoon, evening):
+            TripTomorrowFactory(
+                origin=self.buenos_aires,
+                destination=self.mendoza,
+                departure=departure,
+                status=Trip.ACTIVE,
+            )
+
+        # Make sure three trips in DB
+        self.assertEqual(Trip.objects.count(), 3)
+
+        # Get trips ordered by departure descending (latest by time)
+        qs = Trip.future.search(
+            origin=self.buenos_aires,
+            destination=self.mendoza,
+            departure=self.tomorrow,
+            ordering="-departure",  # <-- added this
+        )
+
+        self.assertEqual(qs.first().departure, evening)
+        self.assertEqual(qs.last().departure, morning)
+
+        # Get trips ordered by price ascending (cheapest)
+        qs = Trip.future.search(
+            origin=self.buenos_aires,
+            destination=self.mendoza,
+            departure=self.tomorrow,
+            ordering="price",  # <-- added this
+        )
+
+        expected = min(Trip.objects.values_list("price", flat=True))
+        actual = qs.first().price
+        self.assertEqual(actual, expected)
+        self.assertEqual(qs.last().departure, morning)
