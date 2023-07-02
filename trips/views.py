@@ -99,7 +99,9 @@ class TripListView(ListView):
             destination=q.get("destination"),
             departure=q.get("departure"),
             company_slug=q.get("company"),
+            ordering=q.get("ordering"),
         )
+
         return qs
 
 

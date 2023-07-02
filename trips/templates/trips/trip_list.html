@@ -28,24 +28,9 @@
                 background-position-y: 50%">
         <span class="mask bg-gradient-primary opacity-6"></span>
     </div>
-    <div class="d-flex d-md-none justify-content-center mt-3">
-        <button class="btn btn-round bg-gradient-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExample"
-                aria-expanded="false"
-                aria-controls="collapseExample">Edit Search</button>
-    </div>
-    <div class="collapse" id="collapseExample">
 
-        {% include "includes/search.html" %}
+    {% include "includes/search.html" %}
 
-    </div>
-    <div class="d-none d-md-inline">
-
-        {% include "includes/search.html" %}
-
-    </div>
     <div class="row justify-content-center my-4">
         <div class="col-md-12 col-xl-10">
             {% comment %} {% include "includes/filters.html" %} {% endcomment %}
@@ -66,6 +51,13 @@
                     </li>
                 {% endfor %}
             </ul>
+            {% with path=request.get_full_path klass="list-group-item list-group-item-action" ordering=request.GET.ordering %}
+                <div class="list-group list-group-horizontal">
+                    <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price">Cheapest</a>
+                    <a class="{{ klass }} {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure">Earliest</a>
+                    <a class="{{ klass }} {% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure">Latest</a>
+                </div>
+            {% endwith %}
             {% for trip in trips %}
                 <div class="card my-3">
                     <div class="card-body">

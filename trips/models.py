@@ -73,7 +73,14 @@ class FutureManager(models.Manager):
 
         return self.filter(status=Trip.ACTIVE)
 
-    def search(self, origin=None, destination=None, departure=None, company_slug=None):
+    def search(
+        self,
+        origin=None,
+        destination=None,
+        departure=None,
+        company_slug=None,
+        ordering=None,
+    ):
         """
         Search only active future trips based on
             - origin
@@ -98,6 +105,7 @@ class FutureManager(models.Manager):
         availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
         qs = qs.annotate(availability=availability)
         qs = qs.select_related("company", "origin", "destination")
+        qs = qs.order_by(ordering) if ordering else qs
 
         return qs
 
@@ -230,14 +238,6 @@ class Trip(models.Model):
         """
         return self.name
 
-    # TODO implemente custom model manager to
-    # Filter trips by - (origin, destination, date)
-    # Should return only trips that are
-    #   - due in the future
-    #   - have seats available
-    #   - having status active and not onhold or other
-    #   - ordered by most booked to least booked
-
     def get_absolute_url(self):
         # TODO: Veer can we make this <origin>/<destination>/<company>/<id>?
         # Like how blog posts have unique urls
@@ -261,8 +261,7 @@ class Trip(models.Model):
         )
 
     def get_status_context(self):
-        context = "success" if self.status == Trip.ACTIVE else "danger"
-        return context
+        return "success" if self.status == Trip.ACTIVE else "danger"
 
     def book_seat(self, seat):
         """Mark a seat as booked"""
@@ -365,10 +364,10 @@ class Trip(models.Model):
         )  # type:ignore
 
     @property
-    def duration(self):
-        """Calculates the trip duration in hours"""
+    def duration(self) -> str:
+        """Calculates the trip duration in hours as string"""
         td = self.arrival - self.departure
-        return td.seconds // 3600
+        return ":".join(str(td).split(":")[:2])
 
     @property
     def is_active(self) -> bool:
