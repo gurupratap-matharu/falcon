@@ -59,11 +59,9 @@ class TripListView(ListView):
     def get_date_ladder(self):
         departure = self.request.GET.get("departure")
         date = datetime.strptime(departure, "%d-%m-%Y")
-
         ladder = (date + timedelta(days=x) for x in range(-1, 2))
-        ladder = (x for x in ladder if x >= datetime.now())
 
-        return ladder
+        return [x for x in ladder if x >= datetime.now()]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
