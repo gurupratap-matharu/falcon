@@ -486,6 +486,18 @@ class FutureManagerSearchTests(TestCase):
         self.assertEqual(qs.first().departure, evening)
         self.assertEqual(qs.last().departure, morning)
 
+        # Get trips ordered by departure ascending (earliest by time)
+        # This is also the default strategy
+        qs = Trip.future.search(
+            origin=self.buenos_aires,
+            destination=self.mendoza,
+            departure=self.tomorrow,
+            ordering="departure",  # <-- added this
+        )
+
+        self.assertEqual(qs.first().departure, morning)
+        self.assertEqual(qs.last().departure, evening)
+
         # Get trips ordered by price ascending (cheapest)
         qs = Trip.future.search(
             origin=self.buenos_aires,
@@ -497,4 +509,3 @@ class FutureManagerSearchTests(TestCase):
         expected = min(Trip.objects.values_list("price", flat=True))
         actual = qs.first().price
         self.assertEqual(actual, expected)
-        self.assertEqual(qs.last().departure, morning)
