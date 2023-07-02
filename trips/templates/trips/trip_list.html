@@ -33,20 +33,21 @@
 
     <div class="row justify-content-center my-4">
         <div class="col-md-12 col-xl-10">
-            {% comment %} {% include "includes/filters.html" %} {% endcomment %}
             <ul class="nav nav-tabs justify-content-center my-4">
                 {% for value in date_ladder %}
                     <li class="nav-item">
                         <form action="" method="get">
-                            <input type="hidden" name="trip_type" value="{{ request.session.q.trip_type }}" />
-                            <input type="hidden" name="num_of_passengers" value="{{ request.session.q.num_of_passengers }}" />
-                            <input type="hidden" name="origin" value="{{ request.session.q.origin }}" />
-                            <input type="hidden" name="destination" value="{{ request.session.q.destination }}" />
-                            <input type="hidden" name="departure" value="{{ value|date:"d-m-Y" }}">
-                            <input type="hidden" name="return" value="{{ request.session.q.return }}" />
-                            <button class="nav-link {% if value|date:"d-m-Y" == request.GET.departure %}active{% endif %}" type="submit">
-                                {{ value|date:"D j" }}
-                            </button>
+                            {% with q=request.session.q %}
+                                <input type="hidden" name="trip_type" value="{{ q.trip_type }}" />
+                                <input type="hidden" name="num_of_passengers" value="{{ q.num_of_passengers }}" />
+                                <input type="hidden" name="origin" value="{{ q.origin }}" />
+                                <input type="hidden" name="destination" value="{{ q.destination }}" />
+                                <input type="hidden" name="departure" value="{{ value|date:"d-m-Y" }}">
+                                <input type="hidden" name="return" value="{{ q.return }}" />
+                                <button class="nav-link {% if value|date:"d-m-Y" == q.departure %}active{% endif %}" type="submit">
+                                    {{ value|date:"D j" }}
+                                </button>
+                            {% endwith %}
                         </form>
                     </li>
                 {% endfor %}
