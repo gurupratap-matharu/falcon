@@ -215,3 +215,4 @@ class CompanyDashboardTests(TestCase):
         self.assertContains(response, self.company)
         self.assertEqual(self.company, response.context["company"])
         self.assertNotContains(response, "Hi I should not be on this page!")
+        self.assertIn("kpis", response.context)

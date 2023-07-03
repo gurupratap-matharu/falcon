@@ -44,9 +44,10 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
     template_name = "companies/dashboard.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        slug = self.kwargs["slug"]
+
         context = super().get_context_data(**kwargs)
-        context["trips"] = Trip.future.for_company(
-            company_slug=self.kwargs["slug"], active=False
-        )
+        context["trips"] = Trip.future.for_company(company_slug=slug, active=False)
+        context["kpis"] = Trip.past.kpis(company_slug=slug)
 
         return context
