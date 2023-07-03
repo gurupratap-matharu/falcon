@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.apps import apps
 from django.db import models
@@ -27,20 +27,38 @@ class PastManager(models.Manager):
         qs = super().get_queryset()
         return qs.filter(departure__lt=timezone.now())
 
-    def kpis(self, company_slug=None):
-        logger.info("crunching kpis...")
+    def kpis(self, company_slug=None, date=None):
+        """
+        Generate the KPI data for a company for a particular date.
+        We need this only on past data perhaps only for yesterday's date or any
+        arbitrary date to show on the company dashboard page.
+
+        Key kpis are
+            - Sales in $$$
+            - Bookings i.e. tickets sold
+            - Occupancy %
+            - Num of trips done in a day
+        """
 
         Seat = self.get_model("Seat")
+
+        yesterday = (timezone.now() - timedelta(days=1)).date()
+        date = date or yesterday
+
+        logger.info("crunching kpis for %s %s..." % (company_slug, date))
 
         # TODO: Review: Any seat that is not available is considered as occupied
         total = Cast(Count("seats"), FloatField())
         occupied = Count("seats", filter=~Q(seats__seat_status=Seat.AVAILABLE))
+
+        # Find occupancy as %
         occupancy = Cast(100 * Sum("occupied") / Sum("total"), IntegerField())
 
         # Find revenue = price * bookings
         revenue = Cast(F("price") * occupied, IntegerField())
 
         qs = self.get_queryset()
+        qs = qs.filter(departure__date=date)
         qs = qs.filter(company__slug=company_slug) if company_slug else qs
         qs = qs.annotate(total=total, occupied=occupied, revenue=revenue)
 

@@ -528,7 +528,7 @@ class PastManagerTests(TestCase):
         cls.past_trips = TripPastFactory.create_batch(size=2, company=cls.company)
         cls.future_trips = TripTomorrowFactory.create_batch(size=2, company=cls.company)
         cls.trips = cls.past_trips + cls.future_trips
-        
+
         for trip in cls.trips:
             SeatFactory.reset_sequence(1)
             SeatFactory.create_batch(size=5, trip=trip)

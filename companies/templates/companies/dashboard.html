@@ -30,7 +30,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    ${{ kpis.sales|intcomma }}
+                                    ${{ kpis.sales|default:0|intcomma }}
                                     <span class="text-success text-sm font-weight-bolder">+55%</span>
                                 </h5>
                             </div>
@@ -52,7 +52,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Occupancy</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    +{{ kpis.occupancy }}%
+                                    +{{ kpis.occupancy|default:0 }}%
                                     <span class="text-success text-sm font-weight-bolder">+3%</span>
                                 </h5>
                             </div>
@@ -74,7 +74,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">New Bookings</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    +{{ kpis.bookings }}
+                                    +{{ kpis.bookings|default:0 }}
                                     <span class="text-danger text-sm font-weight-bolder">-2%</span>
                                 </h5>
                             </div>
@@ -96,7 +96,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Trips</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    #{{ kpis.trips|intcomma }}
+                                    #{{ kpis.trips|default:0|intcomma }}
                                     <span class="text-success text-sm font-weight-bolder">+5%</span>
                                 </h5>
                             </div>
@@ -113,7 +113,7 @@
     </div>
     <div class="row my-4">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-            <div class="card">
+            <div class="card min-height-400">
                 <div class="card-header pb-0">
                     <div class="row">
                         <div class="col-lg-6 col-7">
