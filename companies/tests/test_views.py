@@ -215,4 +215,7 @@ class CompanyDashboardTests(TestCase):
         self.assertContains(response, self.company)
         self.assertEqual(self.company, response.context["company"])
         self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Test kpi in context
         self.assertIn("kpis", response.context)
+        self.assertIsInstance(response.context["kpis"], dict)

@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load humanize %}
+
 {% block title %}
     {% if company %}
         {{ company.name }} | Dashboard
@@ -28,7 +30,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    $53,000
+                                    ${{ kpis.sales|intcomma }}
                                     <span class="text-success text-sm font-weight-bolder">+55%</span>
                                 </h5>
                             </div>
@@ -48,9 +50,9 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Occupancy</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    2,300
+                                    +{{ kpis.occupancy }}%
                                     <span class="text-success text-sm font-weight-bolder">+3%</span>
                                 </h5>
                             </div>
@@ -70,9 +72,9 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">New Clients</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">New Bookings</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    +3,462
+                                    +{{ kpis.bookings }}
                                     <span class="text-danger text-sm font-weight-bolder">-2%</span>
                                 </h5>
                             </div>
@@ -92,9 +94,9 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Sales</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Trips</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    $103,430
+                                    #{{ kpis.trips|intcomma }}
                                     <span class="text-success text-sm font-weight-bolder">+5%</span>
                                 </h5>
                             </div>

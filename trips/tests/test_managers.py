@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from companies.factories import CompanyFactory
+from companies.models import Company
 from trips.factories import (
     LocationFactory,
     SeatFactory,
@@ -12,7 +13,7 @@ from trips.factories import (
     TripPastFactory,
     TripTomorrowFactory,
 )
-from trips.models import Seat, Trip
+from trips.models import Location, Seat, Trip
 
 
 class FutureManagerTests(TestCase):
@@ -284,6 +285,11 @@ class FutureManagerSearchTests(TestCase):
         self.assertEqual(Trip.objects.count(), 6)
         self.assertEqual(Trip.future.count(), 4)
 
+    def test_future_manager_get_model_method(self):
+        self.assertEqual(Trip.future.get_model("Location"), Location)
+        self.assertEqual(Trip.future.get_model("trip"), Trip)
+        self.assertEqual(Trip.future.get_model("Seat"), Seat)
+
     def test_search_raises_404_for_missing_fields(self):
         """
         Check if any of the query params is not supplied to the manager we should raise
@@ -509,3 +515,44 @@ class FutureManagerSearchTests(TestCase):
         expected = min(Trip.objects.values_list("price", flat=True))
         actual = qs.first().price
         self.assertEqual(actual, expected)
+
+
+class PastManagerTests(TestCase):
+    """
+    Test suite to validate that the past manager works correctly.
+    """
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        cls.company = CompanyFactory()
+        cls.past_trips = TripPastFactory.create_batch(size=2, company=cls.company)
+        cls.future_trips = TripTomorrowFactory.create_batch(size=2, company=cls.company)
+        cls.trips = cls.past_trips + cls.future_trips
+        
+        for trip in cls.trips:
+            SeatFactory.reset_sequence(1)
+            SeatFactory.create_batch(size=5, trip=trip)
+
+    def test_setup_data_is_correctly_created(self):
+        self.assertEqual(Company.objects.count(), 1)
+        self.assertEqual(Trip.objects.count(), 4)
+
+    def test_past_manager_get_model_method(self):
+        self.assertEqual(Trip.past.get_model("Location"), Location)
+        self.assertEqual(Trip.past.get_model("trip"), Trip)
+        self.assertEqual(Trip.past.get_model("Seat"), Seat)
+
+    def test_past_manager_only_returns_past_trips(self):
+        trips = Trip.past.all()
+
+        self.assertEqual(trips.count(), 2)
+
+        self.assertIn(self.past_trips[0], trips)
+        self.assertIn(self.past_trips[1], trips)
+
+        self.assertNotIn(self.future_trips[0], trips)
+        self.assertNotIn(self.future_trips[1], trips)
+
+    def test_past_manager_kpis(self):
+        self.assertIsInstance(Trip.past.kpis(), dict)
+        # TODO: Write complete test for kpis once we have more development
