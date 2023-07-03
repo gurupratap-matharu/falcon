@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.apps import apps
 from django.db import models
-from django.db.models import Avg, Case, Count, F, Q, Sum, When
+from django.db.models import Case, Count, F, Q, Sum, When
 from django.db.models.fields import FloatField, IntegerField
 from django.db.models.functions import Cast, Round
 from django.shortcuts import get_object_or_404
@@ -18,6 +18,9 @@ class PastManager(models.Manager):
     Specifically useful for generating statistics from them
     """
 
+    def get_model(self, name=None):
+        return apps.get_model("trips", name)
+
     def get_queryset(self):
         """Build stats only on past trips"""
 
@@ -26,22 +29,26 @@ class PastManager(models.Manager):
 
     def kpis(self, company_slug=None):
         logger.info("crunching kpis...")
-        Seat = apps.get_model(app_label="trips", model_name="Seat")
+
+        Seat = self.get_model("Seat")
 
         # TODO: Review: Any seat that is not available is considered as occupied
+        total = Cast(Count("seats"), FloatField())
         occupied = Count("seats", filter=~Q(seats__seat_status=Seat.AVAILABLE))
+        occupancy = Cast(100 * Sum("occupied") / Sum("total"), IntegerField())
 
         # Find revenue = price * bookings
         revenue = Cast(F("price") * occupied, IntegerField())
 
         qs = self.get_queryset()
         qs = qs.filter(company__slug=company_slug) if company_slug else qs
-        qs = qs.annotate(occupied=occupied, revenue=revenue)
+        qs = qs.annotate(total=total, occupied=occupied, revenue=revenue)
 
         kpis = qs.aggregate(
-            avg_occupancy=Avg("occupied"),
-            bookings=Sum("occupied"),
-            sales=Sum("revenue"),
+            occupancy=occupancy,  # <- occupancy % on avg
+            bookings=Sum("occupied"),  # <-- Num tickets sold
+            sales=Sum("revenue"),  # <-- Sales in $$
+            trips=Count("id"),  # <-- Num of trips done
         )
 
         return kpis
