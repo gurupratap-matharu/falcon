@@ -10,7 +10,12 @@ from companies.factories import CompanyFactory
 from coupons.forms import CouponForm
 from coupons.models import Coupon
 from coupons.views import CouponCreateView, coupon_apply
-from users.factories import CompanyOwnerFactory
+from users.factories import (
+    CompanyOwnerFactory,
+    StaffuserFactory,
+    SuperuserFactory,
+    UserFactory,
+)
 
 
 class CouponApplyViewTests(TestCase):
@@ -128,6 +133,7 @@ class CouponCreateViewTests(TestCase):
         cls.owner = CompanyOwnerFactory()
         cls.company = CompanyFactory(owner=cls.owner)
         cls.url = reverse_lazy("companies:coupon-create", args=[cls.company.slug])
+        cls.login_url = reverse_lazy("account_login")
         cls.template_name = "coupons/coupon_form.html"
 
     def test_coupon_create_url_resolves_correct_view(self):
@@ -136,20 +142,83 @@ class CouponCreateViewTests(TestCase):
 
         self.assertEqual(view.func.__name__, CouponCreateView.as_view().__name__)
 
+    def test_coupon_create_view_redirects_to_login_for_anonymous_user(self):
+        # access the url without logging in.
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_create_view_is_not_accessible_by_staff_user(self):
+        # ARRANGE
+        # Create a staff user
+        user = StaffuserFactory()
+        self.client.force_login(user)
+
+        # Let him / her try to access first company's url
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and a staff user
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is NOT given access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_create_view_is_not_accessible_by_logged_in_normal_public_user(self):
+        # ARRANGE
+        # Create a public user
+        user = UserFactory()
+        self.client.force_login(user)
+
+        # Let him / her try to access first company's url
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is NOT given access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_create_view_is_not_accessible_by_another_company_owner(self):
+        # ARRANGE
+        # Create a random company owner
+        another_owner = CompanyOwnerFactory()
+        self.client.force_login(another_owner)
+
+        # Let him / her try to access first company's url
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(another_owner.is_superuser)
+        self.assertFalse(another_owner.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is NOT given access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
     def test_coupon_create_view_is_accessible_by_company_owner(self):
         """
         Check if a company owner can access the coupon create page from their admin.
         """
-
-        self.client.force_login(self.owner)
+        user = self.owner
+        self.client.force_login(user)
 
         response = self.client.get(self.url)
 
         # Assert user is correctly authenticated and neither superuser nor staff
-        self.assertFalse(self.owner.is_superuser)
-        self.assertFalse(self.owner.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertEqual(user, self.company.owner)
         self.assertTrue(response.wsgi_request.user.is_authenticated)
-        self.assertEqual(self.owner, self.company.owner)
 
         # Assert user is given access
         self.assertEqual(response.status_code, HTTPStatus.OK)
