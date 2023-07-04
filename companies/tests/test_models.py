@@ -34,6 +34,11 @@ class CompanyModelTests(TestCase):
 
         self.assertEqual(self.company.get_coupon_list_url(), expected_url)
 
+    def test_get_coupon_create_url(self):
+        expected_url = f"/companies/{self.company.slug.lower()}/admin/coupons/create/"
+
+        self.assertEqual(self.company.get_coupon_create_url(), expected_url)
+
     def test_get_booking_url(self):
         expected_url = f"/companies/{self.company.slug.lower()}/book/"
 
