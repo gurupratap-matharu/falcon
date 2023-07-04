@@ -9,7 +9,7 @@ from django.views.generic import CreateView, FormView, ListView
 
 from trips.views import CRUDMixins
 
-from .forms import CouponApplyForm
+from .forms import CouponApplyForm, CouponForm
 from .models import Coupon
 
 logger = logging.getLogger(__name__)
@@ -27,7 +27,12 @@ class CouponCreateView(CRUDMixins, CreateView):
     """Create a coupon for a company"""
 
     model = Coupon
+    form_class = CouponForm
     template_name = "coupons/coupon_form.html"
+    success_message = "Coupon created successfully 🎟️✨🤩"
+
+    def get_success_url(self):
+        return self.company.get_coupon_list_url()
 
 
 class CouponApplyView(FormView):

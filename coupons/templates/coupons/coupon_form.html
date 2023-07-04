@@ -1,1 +1,74 @@
-<h2>Create Coupon</h2>
+{% extends "layouts/base-company.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ company.name }} | Coupons
+{% endblock title %}
+
+{% block breadcrumb %}
+    Coupons
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    {{ company.name }}
+{% endblock page_title %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="card w-50">
+            <div class="card-header">
+                <h6>
+                    <a href="{{ company.get_coupon_list_url }}" class="icon-move-left">
+                        <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+                        </i>
+                        Back
+                    </a>
+                </h6>
+            </div>
+            <div class="card-body">
+                <form method="post" role="form text-left">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {% for field in form.visible_fields %}
+                        <div class="mb-3">
+                            <label>{{ field.label }}</label>
+                            <div class="text-danger">{{ field.errors }}</div>
+                            {{ field }}
+                            <div class="form-text ms-2">{{ field.help_text|safe }}</div>
+                        </div>
+                    {% endfor %}
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ company.get_coupon_list_url }}" class="btn btn-white me-3">Cancel</a>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
+    <script>
+         console.log("coupon_form.js loaded 👋");
+
+         window.addEventListener("DOMContentLoaded", function() {
+              const config = {
+                   enableTime: true,
+                   dateFormat: "Y-m-d H:i",
+                   altInput: true,
+                   altFormat: "F j, H:i",
+                   defaultDate: "today",
+                   minDate: "today",
+                   maxDate: new Date().fp_incr(330), // 330 days from now,
+                   locale: {
+                        firstDayOfWeek: 1, // start from Monday
+                   },
+              };
+
+              flatpickr("#id_valid_from", config);
+              flatpickr("#id_valid_to", config);
+         });
+    </script>
+{% endblock js %}
