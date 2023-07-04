@@ -21,6 +21,7 @@ class CouponListView(CRUDMixins, ListView):
     model = Coupon
     template_name = "coupons/coupon_list.html"
     context_object_name = "coupons"
+    paginate_by = 12
 
 
 class CouponCreateView(CRUDMixins, CreateView):
