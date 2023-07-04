@@ -147,6 +147,89 @@ class CouponListViewTests(TestCase):
         self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
         self.assertTemplateNotUsed(response, self.template_name)
 
+    def test_coupon_list_view_is_not_accessible_by_staff_user(self):
+        # ARRANGE
+        # Create a staff user
+        user = StaffuserFactory()
+        self.client.force_login(user)
+
+        # Let him / her try to access first company's coupon list url
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and a staff user
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is NOT given access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_list_view_is_not_accessible_by_another_company_owner(self):
+        # ARRANGE
+        # Create a random company owner
+        user = CompanyOwnerFactory()
+        another_company = CompanyFactory(owner=user)
+        self.client.force_login(user)
+
+        # Let him / her try to access first company's coupon list url
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertEqual(user, another_company.owner)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is NOT given access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_list_view_is_not_accessible_by_logged_in_normal_public_user(self):
+        # ARRANGE
+        # Create a public user
+        user = UserFactory()
+        self.client.force_login(user)
+
+        # Let him / her try to access first company's coupon list url
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is NOT given access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_list_view_is_accessible_by_super_user(self):
+        """
+        Super user should be allowed to any view. No questions asked
+        """
+
+        user = SuperuserFactory()
+        self.client.force_login(user)
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and is superuser
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        self.assertNotEqual(user, self.company.owner)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Coupons")
+        self.assertContains(response, self.company.name)
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Assert context is correctly built
+        company = response.context["company"]
+        self.assertEqual(company, self.company)
+
     def test_coupon_list_view_is_accessible_by_company_user(self):
         """Check if a company staff | owner can access the coupon list page."""
 
@@ -259,6 +342,36 @@ class CouponCreateViewTests(TestCase):
         # Assert user is NOT given access
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
         self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_create_view_is_accessible_by_super_user(self):
+        """
+        Super user should be allowed to any view. No questions asked
+        """
+
+        user = SuperuserFactory()
+        self.client.force_login(user)
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and is superuser
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        self.assertNotEqual(user, self.company.owner)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Coupon")
+        self.assertContains(response, "Create")
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Assert form in response
+        self.assertIsInstance(response.context["form"], CouponForm)
+
+        # Assert context is correctly built
+        company = response.context["company"]
+        self.assertEqual(company, self.company)
 
     def test_coupon_create_view_is_accessible_by_company_owner(self):
         """
