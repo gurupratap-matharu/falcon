@@ -7,9 +7,10 @@ from django.urls import resolve, reverse_lazy
 from django.utils import timezone
 
 from companies.factories import CompanyFactory
+from coupons.factories import CouponFactory
 from coupons.forms import CouponForm
 from coupons.models import Coupon
-from coupons.views import CouponCreateView, coupon_apply
+from coupons.views import CouponCreateView, CouponListView, coupon_apply
 from users.factories import (
     CompanyOwnerFactory,
     StaffuserFactory,
@@ -119,8 +120,62 @@ class CouponApplyViewTests(TestCase):
 
 
 class CouponListViewTests(TestCase):
-    # TODO: PLEASE IMPLEMENT
-    pass
+    """
+    Test suite to check coupon list for a company.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        # TODO: generate the coupon for a company only
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.coupons = CouponFactory.create_batch(size=2)
+        cls.url = reverse_lazy("companies:coupon-list", args=[cls.company.slug])
+        cls.login_url = reverse_lazy("account_login")
+        cls.template_name = "coupons/coupon_list.html"
+
+    def test_coupon_list_url_resolves_correct_view(self):
+        view = resolve(reverse_lazy("companies:coupon-list", args=[self.company.slug]))
+        self.assertEqual(view.func.__name__, CouponListView.as_view().__name__)
+
+    def test_coupon_list_view_redirects_to_login_for_anonymous_user(self):
+        # access the url without logging in.
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_coupon_list_view_is_accessible_by_company_user(self):
+        """Check if a company staff | owner can access the coupon list page."""
+
+        user = self.owner
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertEqual(user, self.company.owner)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, self.company.name)
+        self.assertContains(response, "Coupons")
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Assert valid coupons are shown
+        coupons = response.context["coupons"]
+        self.assertEqual(len(coupons), 2)
+        self.assertIn(self.coupons[0], coupons)
+        self.assertIn(self.coupons[1], coupons)
+
+        # Assert company itself in context
+        self.assertEqual(self.company, response.context["company"])
 
 
 class CouponCreateViewTests(TestCase):
