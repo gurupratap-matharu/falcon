@@ -39,8 +39,9 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Valid From</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Vatil Until</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Discount</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Active</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Discount %</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Is Valid?</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Is Redeemed?</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Edit</th>
                             </tr>
                         </thead>
@@ -64,7 +65,10 @@
                                         <p class="text-xs mb-0">{{ coupon.discount }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-xs mb-0">{{ coupon.active }}</p>
+                                        <p class="text-xs mb-0">{{ coupon.is_valid|yesno:"Yes,No,Maybe" }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs mb-0">{{ coupon.active|yesno:"No,Yes,Maybe" }}</p>
                                     </td>
                                     <td class="align-middle">
                                         <div class="d-flex">
