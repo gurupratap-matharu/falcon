@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from django.views.generic import FormView, ListView
+from django.views.generic import CreateView, FormView, ListView
 
 from trips.views import CRUDMixins
 
@@ -21,6 +21,13 @@ class CouponListView(CRUDMixins, ListView):
     model = Coupon
     template_name = "coupons/coupon_list.html"
     context_object_name = "coupons"
+
+
+class CouponCreateView(CRUDMixins, CreateView):
+    """Create a coupon for a company"""
+
+    model = Coupon
+    template_name = "coupons/coupon_form.html"
 
 
 class CouponApplyView(FormView):

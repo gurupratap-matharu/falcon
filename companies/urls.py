@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from coupons import views as coupon_views
+from coupons.views import CouponCreateView, CouponListView
 from trips import views as trip_views
 
 from . import views
@@ -33,7 +33,8 @@ company_admin_patterns = [
         trip_views.RecurrenceView.as_view(),
         name="trip-recurrence",
     ),
-    path("coupons/", coupon_views.CouponListView.as_view(), name="coupon-list"),
+    path("coupons/", CouponListView.as_view(), name="coupon-list"),
+    path("coupons/create/", CouponCreateView.as_view(), name="coupon-create"),
 ]
 
 
