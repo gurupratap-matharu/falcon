@@ -1,25 +1,17 @@
-{% extends "layouts/base-sidebar.html" %}
+{% extends "layouts/base-company.html" %}
 
 {% load static %}
 
 {% block title %}
-    {% if company %}
-        {{ company.name }}
-    {% else %}
-        Coupons
-    {% endif %}
+    {{ company.name }} | Coupons
 {% endblock title %}
 
 {% block breadcrumb %}
-    {% if company %}
-        {{ company.name }}
-    {% else %}
-        Coupons
-    {% endif %}
+    Coupons
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    Coupons
+    {{ company.name }}
 {% endblock page_title %}
 
 {% block content %}
