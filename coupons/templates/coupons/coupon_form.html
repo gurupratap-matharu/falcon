@@ -59,15 +59,18 @@
                    dateFormat: "Y-m-d H:i",
                    altInput: true,
                    altFormat: "F j, H:i",
-                   defaultDate: "today",
+                   defaultDate: new Date(),
                    minDate: "today",
                    maxDate: new Date().fp_incr(330), // 330 days from now,
+                   defaultHour: 9,
+                   defaultMinute: 0,
                    locale: {
                         firstDayOfWeek: 1, // start from Monday
                    },
               };
 
               flatpickr("#id_valid_from", config);
+              config['defaultDate'] = new Date().fp_incr(7);;
               flatpickr("#id_valid_to", config);
          });
     </script>
