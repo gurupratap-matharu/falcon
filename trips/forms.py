@@ -181,32 +181,18 @@ class TripCreateForm(forms.ModelForm):
             "mode",
             "description",
         )
-
+        control = {"class": "form-control", "required": "required"}
+        select = {"class": "form-select", "required": "required"}
+        formats = "%Y-%m-%d %H:%M:%S"
         widgets = {
-            "name": forms.TextInput(
-                attrs={"class": "form-control", "required": "required"}
-            ),
-            "origin": forms.Select(
-                attrs={"class": "form-select", "required": "required"}
-            ),
-            "destination": forms.Select(
-                attrs={"class": "form-select", "required": "required"}
-            ),
-            "departure": forms.DateTimeInput(
-                format="%Y-%m-%d %H:%M:%S", attrs={"class": "form-control departure"}
-            ),
-            "arrival": forms.DateTimeInput(
-                format="%Y-%m-%d %H:%M:%S", attrs={"class": "form-control arrival"}
-            ),
-            "price": forms.NumberInput(
-                attrs={"class": "form-control", "required": "required"}
-            ),
-            "status": forms.Select(
-                attrs={"class": "form-select", "required": "required"}
-            ),
-            "mode": forms.Select(
-                attrs={"class": "form-select", "required": "required"}
-            ),
+            "name": forms.TextInput(attrs=control),
+            "origin": forms.Select(attrs=select),
+            "destination": forms.Select(attrs=select),
+            "departure": forms.DateTimeInput(format=formats, attrs=control),
+            "arrival": forms.DateTimeInput(format=formats, attrs=control),
+            "price": forms.NumberInput(attrs=control),
+            "status": forms.Select(attrs=select),
+            "mode": forms.Select(attrs=select),
             "description": forms.Textarea(
                 attrs={
                     "class": "form-control",
@@ -231,6 +217,9 @@ class RecurrenceForm(forms.Form):
         (rrule.MONTHLY, _("Every Month")),
     ]
 
+    control = {"class": "form-control"}
+    select = {"class": "form-select"}
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -244,21 +233,21 @@ class RecurrenceForm(forms.Form):
         label=_("Starts"),
         initial=datetime.now,
         error_messages={"required": _("Please enter start date")},
-        widget=forms.DateTimeInput(attrs={"class": "form-control"}),
+        widget=forms.DateTimeInput(attrs=control),
     )
 
     freq = forms.ChoiceField(
         label=_("Repeats"),
         help_text=_("Frequency of the event (required)"),
         choices=FREQUENCY_CHOICES,
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(attrs=select),
     )
 
     until = forms.DateTimeField(
         label=_("End Repeat"),
         help_text=_("Provide either End repeat or Count."),
         required=False,
-        widget=forms.DateTimeInput(attrs={"class": "form-control"}),
+        widget=forms.DateTimeInput(attrs=control),
     )
 
     count = forms.IntegerField(
@@ -269,7 +258,7 @@ class RecurrenceForm(forms.Form):
         ),
         required=False,
         validators=[MinValueValidator(0), MaxValueValidator(1000)],
-        widget=forms.NumberInput(attrs={"class": "form-control"}),
+        widget=forms.NumberInput(attrs=control),
     )
 
     interval = forms.IntegerField(
@@ -281,7 +270,7 @@ class RecurrenceForm(forms.Form):
         ),
         required=False,
         validators=[MinValueValidator(0), MaxValueValidator(10)],
-        widget=forms.NumberInput(attrs={"class": "form-control"}),
+        widget=forms.NumberInput(attrs=control),
     )
 
     def _clean_dt(self, dt):

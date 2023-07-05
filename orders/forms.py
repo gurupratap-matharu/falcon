@@ -68,56 +68,25 @@ class PassengerForm(forms.ModelForm):
         model = Passenger
         exclude = ("created_on", "updated_on")
 
+        select = {"class": "form-select", "required": "required"}
+        control = {"class": "form-control", "required": "required"}
         widgets = {
-            "document_type": forms.Select(
-                attrs={
-                    "class": "form-select",
-                    "required": "required",
-                }
-            ),
+            "document_type": forms.Select(attrs=select),
             "document_number": forms.TextInput(
-                attrs={
-                    "placeholder": "Document Number",
-                    "class": "form-control",
-                    "required": "required",
-                }
+                attrs={"placeholder": "Document Number", **control}
             ),
             "first_name": forms.TextInput(
-                attrs={
-                    "placeholder": "First Name",
-                    "class": "form-control",
-                    "required": "required",
-                }
+                attrs={"placeholder": "First Name", **control}
             ),
-            "last_name": forms.TextInput(
-                attrs={
-                    "placeholder": "Last Name",
-                    "class": "form-control",
-                    "required": "required",
-                }
-            ),
+            "last_name": forms.TextInput(attrs={"placeholder": "Last Name", **control}),
             "birth_date": forms.DateInput(
-                attrs={
-                    "input_type": "date",
-                    "placeholder": "Date of Birth",
-                    "class": "form-control",
-                    "required": "required",
-                }
+                attrs={"input_type": "date", "placeholder": "Date of Birth", **control}
             ),
             "phone_number": forms.TextInput(
-                attrs={
-                    "placeholder": "Phone",
-                    "type": "tel",
-                    "class": "form-control",
-                    "required": "required",
-                }
+                attrs={"placeholder": "Phone", "type": "tel", **control}
             ),
-            "nationality": forms.Select(
-                attrs={"class": "form-select", "required": "required"}
-            ),
-            "gender": forms.Select(
-                attrs={"class": "form-select", "required": "required"}
-            ),
+            "nationality": forms.Select(attrs=select),
+            "gender": forms.Select(attrs=select),
         }
 
     def clean_first_name(self):
