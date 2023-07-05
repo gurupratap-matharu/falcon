@@ -127,44 +127,46 @@
                 <span class="btn-inner--text">Download</span>
             </a>
         </div>
-        <div class="card-body px-0 pt-0 pb-2">
+        <div class="card-body px-0 pt-0 pb-2 bg-gradient-white overflow-y-scroll" style="height: 450px;">
             <div class="table-responsive">
-                <table class="table align-items-center mb-0">
+                <table class="table table-hover table-borderless align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Seat Number</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nationality</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gender</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Document</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Number</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                            {% with klass="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" %}
+                                <th class="{{ klass }}">Seat Number</th>
+                                <th class="{{ klass }} ps-2">Name</th>
+                                <th class="{{ klass }} ps-2">Nationality</th>
+                                <th class="{{ klass }} ps-2">Gender</th>
+                                <th class="{{ klass }} ps-2">Document</th>
+                                <th class="{{ klass }} ps-2">Number</th>
+                                <th class="{{ klass }} ps-2">Status</th>
+                            {% endwith %}
                         </tr>
                     </thead>
                     <tbody>
                         {% for seat in seats %}
-                            {% with passenger=seat.passenger %}
+                            {% with passenger=seat.passenger klass="text-sm font-weight-bold mb-0" %}
                                 <tr>
                                     <td>
-                                        <h6 class="ms-5 text-secondary text-sm">{{ seat.seat_number }}</h6>
+                                        <p class="{{ klass }} ms-5">{{ seat.seat_number }}</p>
                                     </td>
                                     <td>
-                                        <h6 class="mb-0 text-secondary text-sm">{{ passenger.get_full_name }}</h6>
+                                        <p class="{{ klass }}">{{ passenger.get_full_name }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-sm text-secondary mb-0">{{ passenger.nationality.name }}</p>
+                                        <p class="{{ klass }}">{{ passenger.nationality.name }}</p>
                                     </td>
                                     <td>
-                                        <span class="text-sm text-secondary mb-0">{{ passenger.get_gender_display }}</span>
+                                        <p class="{{ klass }}">{{ passenger.get_gender_display }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-sm text-secondary mb-0">{{ passenger.get_document_type_display }}</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-sm">{{ passenger.document_number }}</span>
+                                        <p class="{{ klass }}">{{ passenger.get_document_type_display }}</p>
                                     </td>
                                     <td>
-                                        <p class="mb-0 text-secondary text-sm">{{ seat.get_seat_status_display }}</p>
+                                        <p class="{{ klass }}">{{ passenger.document_number }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="{{ klass }}">{{ seat.get_seat_status_display }}</p>
                                     </td>
                                 </tr>
                             {% endwith %}
