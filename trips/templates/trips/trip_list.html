@@ -24,6 +24,7 @@
 
 {% block content %}
     <div class="page-header min-height-200 border-radius-xl"
+         id="top"
          style="background-image: url({% static 'assets/img/curved-images/curved0.jpg' %});
                 background-position-y: 50%">
         <span class="mask bg-gradient-primary opacity-6"></span>
@@ -31,7 +32,7 @@
 
     {% include "includes/search.html" %}
 
-    <div class="row justify-content-center my-4">
+    <div class="row justify-content-center my-4" id="ordering">
         <div class="col-md-12 col-xl-10">
             <ul class="nav nav-tabs justify-content-center my-4">
                 {% for value in date_ladder %}
@@ -54,9 +55,9 @@
             </ul>
             {% with path=request.get_full_path klass="list-group-item list-group-item-action" ordering=request.GET.ordering %}
                 <div class="list-group list-group-horizontal">
-                    <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price">Cheapest</a>
-                    <a class="{{ klass }} {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure">Earliest</a>
-                    <a class="{{ klass }} {% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure">Latest</a>
+                    <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price#ordering">Cheapest</a>
+                    <a class="{{ klass }} {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure#ordering">Earliest</a>
+                    <a class="{{ klass }} {% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure#ordering">Latest</a>
                 </div>
             {% endwith %}
             {% for trip in trips %}
@@ -115,11 +116,15 @@
                         </div>
                     </div>
                 </div>
+               
             {% empty %}
                 <h5 class="text-center mt-5">No results!</h5>
             {% endfor %}
+            <div class="d-flex justify-content-center">
+                <a href="#top">Top</a>
+            </div>
         </div>
-    </div>
+        </div>
 
     {% include "includes/offcanvas-calendar.html" %}
 
