@@ -134,3 +134,13 @@ COMPANIES = [
     "Expreso Transamericano",
     "Rio Uruguay de Flecha de Oro",
 ]
+
+SEAT_CHARTS = [
+    "Cama",
+    "Cama Executivo",
+    "Cama Individual",
+    "Cama Suite",
+    "Semi Cama",
+    "Semi Cama Promocional",
+    "Semi Cama Promocional No Reembolsable",
+]
