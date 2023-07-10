@@ -2,15 +2,15 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Account Inactive" %}{% endblock %}
+{% block title %}
+    {% trans "Account Inactive" %}
+{% endblock title %}
 
 {% block content %}
-<h3 class="font-weight-bolder text-info text-gradient">{% trans "Account Inactive!" %}</h3>
-
-<p class="mb-4 text-sm mx-auto">
-    <p>{% trans "This account is inactive." %}</p>
-    If you wish to reactivate please
-    <a href="{% url 'pages:contact' %}" class="text-info text-gradient font-weight-bold">
-        contact us!</a>
-</p>
-{% endblock %}
+    <h3 class="font-weight-bolder text-info text-gradient">{% trans "Account Inactive!" %}</h3>
+    <p class="mb-4 text-sm mx-auto">
+        <p>{% trans "This account is inactive." %}</p>
+        If you wish to reactivate please
+        <a href="{% url 'pages:contact' %}" class="text-info text-gradient font-weight-bold">contact us!</a>
+    </p>
+{% endblock content %}
