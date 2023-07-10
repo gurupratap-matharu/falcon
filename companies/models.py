@@ -83,7 +83,7 @@ class SeatChart(models.Model):
     """
 
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200)
     json = models.JSONField()
     company = models.ForeignKey(
         "Company", related_name="seatcharts", on_delete=models.CASCADE
