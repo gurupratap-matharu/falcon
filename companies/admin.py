@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Company
+from .models import Company, SeatChart
 
 
 @admin.register(Company)
@@ -25,3 +25,10 @@ class CompanyAdmin(admin.ModelAdmin):
         return "-"
 
     logo.short_description = "Logo"
+
+
+@admin.register(SeatChart)
+class SeatChartAdmin(admin.ModelAdmin):
+    list_display = ("title", "company")
+    prepopulated_fields = {"slug": ("title",)}
+    raw_id_fields = ("company",)
