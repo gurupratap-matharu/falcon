@@ -74,3 +74,30 @@ class Company(models.Model):
 
     def get_booking_url(self):
         return reverse_lazy("companies:company-book", kwargs={"slug": self.slug})
+
+
+class SeatChart(models.Model):
+    """
+    Represents a seat map to be used in UI for a specific seating requirement
+    by a company.
+    """
+
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+    json = models.JSONField()
+    company = models.ForeignKey(
+        "Company", related_name="seatcharts", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        ordering = ("title",)
+
+    def __str__(self):
+        return f"{self.title}"
+
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            logger.info("slugifying %s:%s..." % (self.title, slugify(self.title)))
+            self.slug = slugify(self.name)
+
+        return super().save(*args, **kwargs)
