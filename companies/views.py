@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView, TemplateView
 from trips.models import Trip
 
 from .mixins import OwnerMixin
-from .models import Company
+from .models import Company, SeatChart
 
 logger = logging.getLogger(__name__)
 
@@ -51,3 +51,15 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
         context["kpis"] = Trip.past.kpis(company_slug=slug)
 
         return context
+
+
+class SeatChartListView(OwnerMixin, TemplateView):
+    model = SeatChart
+    context_object_name = "seatcharts"
+    template_name = "companies/seatchart_list.html"
+
+
+class SeatChartDetailView(OwnerMixin, DetailView):
+    model = SeatChart
+    pk_url_kwarg = "id"
+    context_object_name = "seatchart"
