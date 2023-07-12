@@ -96,7 +96,7 @@ class SeatChart(models.Model):
         ordering = ("title",)
 
     def __str__(self):
-        return f"{self.company} {self.title}"
+        return f"{self.title}"
 
     def get_absolute_url(self):
         return reverse_lazy(

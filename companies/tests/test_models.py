@@ -156,7 +156,7 @@ class SeatChartTests(TestCase):
         cls.seatchart = SeatChartFactory(company=cls.company)
 
     def test_string_representation(self):
-        expected = f"{self.company} {self.seatchart.title}"
+        expected = f"{self.seatchart.title}"
         self.assertEqual(str(self.seatchart), expected)
 
     def test_get_absolute_url(self):
