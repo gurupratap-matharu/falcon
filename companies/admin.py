@@ -30,5 +30,4 @@ class CompanyAdmin(admin.ModelAdmin):
 @admin.register(SeatChart)
 class SeatChartAdmin(admin.ModelAdmin):
     list_display = ("title", "company")
-    prepopulated_fields = {"slug": ("title",)}
     raw_id_fields = ("company",)

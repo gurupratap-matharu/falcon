@@ -1,4 +1,5 @@
 import logging
+import uuid
 
 from django.conf import settings
 from django.db import models
@@ -82,22 +83,17 @@ class SeatChart(models.Model):
     by a company.
     """
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200)
     json = models.JSONField()
     company = models.ForeignKey(
         "Company", related_name="seatcharts", on_delete=models.CASCADE
     )
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ("title",)
 
     def __str__(self):
         return f"{self.title}"
-
-    def save(self, *args, **kwargs) -> None:
-        if not self.slug:
-            logger.info("slugifying %s:%s..." % (self.title, slugify(self.title)))
-            self.slug = slugify(self.name)
-
-        return super().save(*args, **kwargs)
