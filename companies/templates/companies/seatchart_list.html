@@ -1,1 +1,23 @@
-<h1>SeatChart List</h1>
+{% extends "layouts/base-company.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ company.name }} | SeatCharts
+{% endblock title %}
+
+{% block breadcrumb %}
+    {{ company.name }}
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    SeatCharts
+{% endblock page_title %}
+
+{% block content %}
+    <div class="list-group">
+        {% for seatchart in company.seatcharts.all %}
+            <a href="{{ seatchart.get_absolute_url }}" class="list-group-item list-group-item-action">{{ seatchart }}</a>
+        {% endfor %}
+    </div>
+{% endblock content %}
