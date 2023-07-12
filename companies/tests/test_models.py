@@ -1,8 +1,13 @@
 from django.db import IntegrityError
 from django.test import TestCase
 
-from companies.factories import CompanyFactory
-from companies.models import Company, company_cover_path, company_thumbnail_path
+from companies.factories import CompanyFactory, SeatChartFactory
+from companies.models import (
+    Company,
+    SeatChart,
+    company_cover_path,
+    company_thumbnail_path,
+)
 from users.factories import CompanyOwnerFactory
 
 
@@ -137,3 +142,56 @@ class CompanyImagePaths(TestCase):
         expected = f"companies/{self.company.slug}/thumbnails/{filename}"
 
         self.assertEqual(actual, expected)
+
+
+class SeatChartTests(TestCase):
+    """
+    Test suite for the seat chart model.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.seatchart = SeatChartFactory(company=cls.company)
+
+    def test_string_representation(self):
+        expected = f"{self.company} {self.seatchart.title}"
+        self.assertEqual(str(self.seatchart), expected)
+
+    def test_get_absolute_url(self):
+        expected_url = f"/companies/{self.company.slug.lower()}/admin/seatcharts/{self.seatchart.id}/"
+        self.assertEqual(self.seatchart.get_absolute_url(), expected_url)
+
+    def test_seatchart_model_creation_is_accurate(self):
+        seatchart_from_db = SeatChart.objects.first()
+
+        self.assertEqual(SeatChart.objects.count(), 1)
+        self.assertEqual(seatchart_from_db.title, self.seatchart.title)
+        self.assertEqual(seatchart_from_db.json, self.seatchart.json)
+        self.assertEqual(seatchart_from_db.company, self.company)
+
+    def test_seatchart_title_max_length(self):
+        seatchart = SeatChart.objects.first()
+        max_length = seatchart._meta.get_field("title").max_length
+
+        self.assertEqual(max_length, 200)
+
+    def test_seatcharts_are_ordered_by_title(self):
+        SeatChart.objects.all().delete()
+
+        titles = ("executive", "premium", "economy", "promotional")
+
+        for title in titles:
+            SeatChartFactory(title=title)
+
+        seatcharts = SeatChart.objects.all()
+
+        self.assertEqual(seatcharts[0].title, "economy")
+        self.assertEqual(seatcharts[1].title, "executive")
+        self.assertEqual(seatcharts[2].title, "premium")
+        self.assertEqual(seatcharts[3].title, "promotional")
+
+        ordering = seatcharts[0]._meta.ordering[0]
+
+        self.assertEqual(ordering, "title")
