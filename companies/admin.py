@@ -29,5 +29,5 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(SeatChart)
 class SeatChartAdmin(admin.ModelAdmin):
-    list_display = ("title", "company")
+    list_display = ("company", "title", "created_on", "updated_on")
     raw_id_fields = ("company",)

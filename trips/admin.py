@@ -73,7 +73,6 @@ class TripOrderInline(admin.TabularInline):
 
 
 class PassengerSeatInline(admin.TabularInline):
-
     model = Trip.passengers.through  # <- This is the Seat model
     extra = 0
     can_delete = False
@@ -100,7 +99,6 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = ("name", "abbr", "slug")
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ("name",)
-    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Trip)
