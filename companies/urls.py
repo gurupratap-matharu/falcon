@@ -35,6 +35,12 @@ company_admin_patterns = [
     ),
     path("coupons/", CouponListView.as_view(), name="coupon-list"),
     path("coupons/create/", CouponCreateView.as_view(), name="coupon-create"),
+    path("seatcharts/", views.SeatChartListView.as_view(), name="seatchart-list"),
+    path(
+        "seatcharts/<uuid:id>/",
+        views.SeatChartDetailView.as_view(),
+        name="seatchart-detail",
+    ),
 ]
 
 

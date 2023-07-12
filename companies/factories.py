@@ -52,6 +52,5 @@ class SeatChartFactory(factory.django.DjangoModelFactory):
         model = SeatChart
 
     title = factory.Faker("random_element", elements=SEAT_CHARTS)
-    slug = factory.LazyAttribute(lambda o: slugify(o.title))
     company = factory.SubFactory("companies.factories.CompanyFactory")
     json = factory.Dict({"badger": ["stoat"]}, dict_factory=JSONFactory)
