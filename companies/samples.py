@@ -262,7 +262,7 @@ SEAT_CHART_DICT = {
                 "selectedSeats": [],
                 "indexerColumns": {"visible": False},
             },
-            "cart": {"visible": True, "currency": "ARS ", "submitLabel": "Confirm"},
+            "cart": {"visible": False, "currency": "ARS ", "submitLabel": "Confirm"},
         },
     },
     "upper": {
@@ -357,7 +357,7 @@ SEAT_CHART_DICT = {
                 "selectedSeats": [],
                 "indexerColumns": {"visible": False},
             },
-            "cart": {"visible": True, "currency": "ARS ", "submitLabel": "Confirm"},
+            "cart": {"visible": False, "currency": "ARS ", "submitLabel": "Confirm"},
         },
     },
 }

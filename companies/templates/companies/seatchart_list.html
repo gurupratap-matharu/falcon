@@ -18,6 +18,8 @@
     <div class="list-group">
         {% for seatchart in company.seatcharts.all %}
             <a href="{{ seatchart.get_absolute_url }}" class="list-group-item list-group-item-action">{{ seatchart }}</a>
+        {% empty %}
+            <a href="" class="list-group-item list-group-item-action">You do not have any seatcharts yet!</a>
         {% endfor %}
     </div>
 {% endblock content %}
