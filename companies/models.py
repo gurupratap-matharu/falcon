@@ -76,6 +76,9 @@ class Company(models.Model):
     def get_booking_url(self):
         return reverse_lazy("companies:company-book", kwargs={"slug": self.slug})
 
+    def get_seatchart_url(self):
+        return reverse_lazy("companies:seatchart-list", kwargs={"slug": self.slug})
+
 
 class SeatChart(models.Model):
     """
