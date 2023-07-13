@@ -4,11 +4,13 @@ from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
 from companies.factories import CompanyFactory, SeatChartFactory
+from companies.models import Company, SeatChart
 from companies.views import (
     CompanyBookView,
     CompanyDashboardView,
     CompanyDetailView,
     CompanyListView,
+    SeatChartDetailView,
     SeatChartListView,
 )
 from users.factories import (
@@ -334,6 +336,133 @@ class SeatChartListTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
         self.assertContains(response, "SeatCharts")
+        self.assertContains(response, self.company)
+        self.assertEqual(self.company, response.context["company"])
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+
+class SeatChartDetailTests(TestCase):
+    """
+    Test suite for seatchart detail view.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.seatchart = SeatChartFactory(company=cls.company)
+        cls.template_name = "companies/seatchart_detail.html"
+        cls.url = reverse_lazy(
+            "companies:seatchart-detail", args=[cls.company.slug, str(cls.seatchart.id)]
+        )
+        cls.login_url = reverse_lazy("account_login")
+
+    def test_setup_data_is_correctly_generated(self):
+        company_from_db = Company.objects.first()
+        seatchart_from_db = SeatChart.objects.first()
+
+        self.assertEqual(Company.objects.count(), 1)
+        self.assertEqual(SeatChart.objects.count(), 1)
+        self.assertEqual(seatchart_from_db.company, company_from_db)
+
+    def test_seatchart_detail_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, SeatChartDetailView.as_view().__name__)
+
+    def test_seatchart_detail_view_redirects_to_login_for_anonymous_user(self):
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_seatchart_detail_view_is_not_accessible_by_logged_in_normal_public_user(
+        self,
+    ):
+        user = UserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_seatchart_detail_view_is_not_accessible_by_another_company_owner(
+        self,
+    ):
+        """
+        Company B owner should not be able to access the seatcharts for Company A
+        """
+        # Create another company owner and log her in
+        user = CompanyOwnerFactory()
+        self.client.force_login(user)  # type:ignore
+
+        # Make company B owner try to access company A seatchart detail view
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_seatchart_detail_view_is_not_accessible_by_staffuser(self):
+        user = StaffuserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is staff but not superuser and correctly authenticated
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert staff user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_seatchart_detail_view_is_accessible_by_superuser(self):
+        user = SuperuserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is staff | superuser and correctly authenticated
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, self.seatchart.title)
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+    def test_seatchart_detail_view_is_accessible_by_company_user(self):
+        """Check if a company staff | owner can access the seatchart detail view."""
+
+        user = self.owner
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, self.seatchart.title)
         self.assertContains(response, self.company)
         self.assertEqual(self.company, response.context["company"])
         self.assertNotContains(response, "Hi I should not be on this page!")
