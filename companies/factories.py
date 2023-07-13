@@ -6,7 +6,7 @@ import factory
 from faker import Faker
 
 from .models import Company, SeatChart
-from .samples import COMPANIES, SEAT_CHARTS
+from .samples import COMPANIES, SEAT_CHART_DICT, SEAT_CHARTS
 
 fake = Faker()
 
@@ -53,4 +53,4 @@ class SeatChartFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker("random_element", elements=SEAT_CHARTS)
     company = factory.SubFactory("companies.factories.CompanyFactory")
-    json = factory.Dict({"badger": ["stoat"]}, dict_factory=JSONFactory)
+    json = factory.Dict(SEAT_CHART_DICT, dict_factory=JSONFactory)
