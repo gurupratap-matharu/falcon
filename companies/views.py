@@ -56,7 +56,7 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
 class SeatChartListView(OwnerMixin, TemplateView):
     template_name = "companies/seatchart_list.html"
 
-    
+
 class SeatChartDetailView(OwnerMixin, DetailView):
     model = SeatChart
     pk_url_kwarg = "id"
