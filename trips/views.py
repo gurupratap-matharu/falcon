@@ -202,6 +202,9 @@ class TripCreateView(CRUDMixins, CreateView):
 
         seat_numbers = lower + upper
 
+        if not seat_numbers:
+            messages.warning(self.request, "SeatChart is invalid!")
+
         # Finally create the seats
         seats = trip.create_seats(*seat_numbers)
         logger.info("created seats: %s" % seats)
