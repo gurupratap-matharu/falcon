@@ -226,20 +226,6 @@ class TripCreateForm(forms.ModelForm):
         if arrival < departure:
             self.add_error("arrival", _("Arrival cannot be earlier than departure!"))
 
-    def create_seats(self, title=None):
-        """
-        After the trip object is created we call this handy method
-        to create relevant seats from the provided seatchart.
-        """
-
-        trip = self.instance
-        company = trip.company
-
-        seat_chart = get_object_or_404(SeatChart, title=title, company=company)
-        seats = trip.create_seats(*seat_numbers)
-
-        return seats
-
 
 class RecurrenceForm(forms.Form):
     """
