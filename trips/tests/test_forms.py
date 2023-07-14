@@ -1,3 +1,4 @@
+import pdb
 from datetime import datetime, timedelta
 
 from django.core.exceptions import ValidationError
@@ -8,7 +9,8 @@ from django.utils import timezone
 from dateutil import rrule
 
 from trips.factories import LocationFactory
-from trips.forms import RecurrenceForm, TripSearchForm
+from trips.forms import RecurrenceForm, TripCreateForm, TripSearchForm
+from trips.models import Trip
 
 
 class TripSearchFormTests(TestCase):
@@ -256,6 +258,95 @@ class TripSearchFormTests(TestCase):
 
         with self.assertRaises(ValidationError):
             form_2.validate()
+
+
+class TripCreateFormTests(TestCase):
+    """
+    Test suite to validate trip creation model form.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.now = timezone.now()
+        cls.yesterday = cls.now - timedelta(days=1)
+        cls.tomorrow = cls.now + timedelta(days=1)
+        cls.day_after = cls.now + timedelta(days=2)
+
+        cls.origin = LocationFactory(name="Buenos Aires")
+        cls.destination = LocationFactory(name="Mendoza")
+
+    def test_trip_create_form_is_valid_for_valid_data(self):
+        data = {
+            "name": "demo trip",
+            "origin": self.origin,
+            "destination": self.destination,
+            "departure": self.tomorrow,
+            "arrival": self.day_after,
+            "price": 10,
+            "status": Trip.ACTIVE,
+            "mode": Trip.DIRECT,
+        }
+
+        form = TripCreateForm(data=data)
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.errors, {})
+
+    def test_trip_create_form_is_invalid_for_departure_in_past(self):
+        data = {
+            "name": "demo trip",
+            "origin": self.origin,
+            "destination": self.destination,
+            "departure": self.yesterday,  # <-- departure in past
+            "arrival": self.day_after,
+            "price": 10,
+            "status": Trip.ACTIVE,
+            "mode": Trip.DIRECT,
+        }
+
+        form = TripCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+        error_msg = ["Departure cannot be in the past!"]
+        self.assertEqual(form.errors["departure"], error_msg)
+
+    def test_trip_create_form_is_invalid_for_arrival_earlier_than_departure(self):
+        data = {
+            "name": "demo trip",
+            "origin": self.origin,
+            "destination": self.destination,
+            "departure": self.day_after,
+            "arrival": self.tomorrow,  # <- arrival earlier than departure
+            "price": 10,
+            "status": Trip.ACTIVE,
+            "mode": Trip.DIRECT,
+        }
+
+        form = TripCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+        error_msg = ["Arrival cannot be earlier than departure!"]
+        self.assertEqual(form.errors["arrival"], error_msg)
+
+    def test_trip_create_form_throws_error_for_same_origin_and_destination(self):
+        data = {
+            "name": "demo trip",
+            "origin": self.origin,
+            "destination": self.origin,  # <- destination same as origin (invalid)
+            "departure": self.tomorrow,
+            "arrival": self.day_after,
+            "price": 10,
+            "status": Trip.ACTIVE,
+            "mode": Trip.DIRECT,
+        }
+
+        form = TripCreateForm(data=data)
+
+        error_msg = ["origin and destination cannot be same"]
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors["origin"], error_msg)
+        self.assertEqual(form.errors["destination"], error_msg)
 
 
 class RecurrenceFormTests(TestCase):
