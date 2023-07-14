@@ -554,6 +554,26 @@ class TripModelTests(TestCase):
         self.assertEqual(future_trip.status, self.trip.status)
         self.assertEqual(future_trip.image, self.trip.image)
 
+    def test_trip_create_seats_works_correctly(self):
+        """Check if bulk creating seats works perfectly"""
+
+        trip = self.trip
+        # Let's remove all seats
+        trip.seats.all().delete()
+
+        # Check our trip has no seats
+        self.assertEqual(trip.seats.count(), 0)
+
+        # Let's create odd numbered seats: [1,3,5,7,9]
+        seat_numbers = [x for x in range(1, 10) if x % 2]
+        trip.create_seats(*seat_numbers)
+
+        # Validate seats are correctly generated
+        self.assertEqual(trip.seats.count(), 5)
+
+        seat_numbers_in_db = trip.seats.values_list("seat_number", flat=True)
+        self.assertEqual(seat_numbers, list(seat_numbers_in_db))
+
 
 class SeatModelTests(TestCase):
     """Test suite for the Seat Model"""
