@@ -152,7 +152,9 @@ class CompanyTripDetailView(CRUDMixins, DetailView):
         context = super().get_context_data(**kwargs)
         # self.object refers to the trip of this view
         # add seats with related passengers to context
-        context["seats"] = self.object.seats.select_related("passenger")
+        context["seats"] = self.object.seats.order_by("seat_number").select_related(
+            "passenger"
+        )
 
         return context
 
