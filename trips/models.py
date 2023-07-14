@@ -294,18 +294,23 @@ class Trip(models.Model):
         """Is the trip currently in transit"""
         return self.departure < timezone.now() < self.arrival
 
-    def create_seats(self, *seat_numbers, seat_type=None):
+    def create_seats(self, *seat_numbers):
         """
         Create multiple seats for a trips in one go based on a list of
         seat numbers.
         """
 
-        logger.info("trip: %s" % self)
-        logger.info("seats: %s", (seat_numbers,))
         logger.info("creating seats...")
+        logger.info("seats: %s", (seat_numbers,))
 
-        for seat_number in seat_numbers:
-            self.seats.create(seat_number=seat_number)
+        # TODO
+        # Is try except needed here? Or an atomic transaction.
+
+        objs = [
+            Seat(trip=self, seat_number=seat_number) for seat_number in seat_numbers
+        ]
+
+        return Seat.objects.bulk_create(objs)
 
     def create_occurrences(self, departures):
         """
