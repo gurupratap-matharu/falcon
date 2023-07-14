@@ -19,6 +19,7 @@ from django.views.generic import (
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from companies.mixins import OwnerMixin
+from companies.models import SeatChart
 
 from .forms import RecurrenceForm, TripCreateForm, TripSearchForm
 from .models import Location, Trip
@@ -167,11 +168,43 @@ class TripCreateView(CRUDMixins, CreateView):
     def form_valid(self, form):
         logger.info("trip form is valid(🌟)...")
 
-        form.instance.company = self.company  # type:ignore
-        return super().form_valid(form)
+        form.instance.company = self.company
+
+        # Save trip and get http response
+        response = super().form_valid(form)
+
+        # Create the seats
+        self.create_trip_seats(trip=form.instance)
+
+        return response
 
     def get_success_url(self) -> str:
         return self.company.get_trip_list_url()  # type:ignore
+
+    def create_trip_seats(self, trip):
+        """
+        After the trip object is created we call this handy method
+        to create relevant seats from the provided seatchart.
+        """
+
+        # Pull the seatchart from DB
+        title = self.request.POST["seatchart"]
+        seatchart = get_object_or_404(SeatChart, title=title, company=self.company)
+
+        # Find which seat numbers need to be created for both floors
+        lower = seatchart.json.get("lower").get("enabledSeats", [])
+        upper = seatchart.json.get("upper").get("enabledSeats", [])
+
+        logger.info("lower seats: %s" % lower)
+        logger.info("upper seats: %s" % upper)
+
+        seat_numbers = lower + upper
+
+        # Finally create the seats
+        seats = trip.create_seats(*seat_numbers)
+        logger.info("created seats: %s" % seats)
+
+        return seats
 
 
 class TripUpdateView(CRUDMixins, UpdateView):
