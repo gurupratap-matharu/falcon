@@ -1,4 +1,5 @@
 import logging
+import pdb
 import uuid
 from datetime import timedelta
 
@@ -293,6 +294,19 @@ class Trip(models.Model):
         """Is the trip currently in transit"""
         return self.departure < timezone.now() < self.arrival
 
+    def create_seats(self, *seat_numbers, seat_type=None):
+        """
+        Create multiple seats for a trips in one go based on a list of
+        seat numbers.
+        """
+
+        logger.info("trip: %s" % self)
+        logger.info("seats: %s", (seat_numbers,))
+        logger.info("creating seats...")
+
+        for seat_number in seat_numbers:
+            self.seats.create(seat_number=seat_number)
+
     def create_occurrences(self, departures):
         """
         Create multiple occurrences for a trip in one go based on a list
@@ -362,6 +376,9 @@ class Seat(models.Model):
     seat_status = models.CharField(
         choices=SEAT_STATUS_CHOICES, default=AVAILABLE, max_length=1
     )
+
+    class Meta:
+        unique_together = ("trip", "seat_number")
 
     def __str__(self):
         return f"{str(self.seat_number)}"

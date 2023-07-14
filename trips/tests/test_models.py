@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from django.core.exceptions import ValidationError
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.test import TestCase
 from django.utils import timezone
 
@@ -568,7 +568,11 @@ class SeatModelTests(TestCase):
 
     def test_verbose_name_plural(self):
         seat = SeatFactory()
-        self.assertEqual(str(seat._meta.verbose_name_plural), "seats")  # type:ignore
+        self.assertEqual(str(seat._meta.verbose_name_plural), "seats")
+
+    def test_unique_together_constraint_is_present(self):
+        seat = SeatFactory()
+        self.assertEqual(seat._meta.unique_together[0], ("trip", "seat_number"))
 
     def test_seat_model_creation_is_accurate(self):
         trip = TripFactory()
@@ -602,3 +606,32 @@ class SeatModelTests(TestCase):
         seat.book()  # type:ignore
         self.assertEqual(seat.seat_status, Seat.BOOKED)
         self.assertEqual(trip.seats_available, 0)  # type:ignore
+
+    def test_creating_another_seat_with_same_seat_number_raises_integrity_error(self):
+        """
+        Each trip can only have unique seat numbers. Duplicates are not allowed.
+        """
+
+        # Create a trip with seat number 5
+        trip = TripTomorrowFactory()
+        s = SeatFactory(seat_number=5, trip=trip)
+
+        # Make sure its correct
+        self.assertEqual(s.seat_number, 5)
+
+        # Try creating another seat with same number for the same trip
+        # This should not be allowed
+        try:
+            with transaction.atomic():
+                SeatFactory(seat_number=5, trip=trip)
+                self.fail("Duplicate seat numbers created!")
+        except IntegrityError:
+            pass
+
+        # Try creating seat with number 5 for another random trip
+        # This is allowed.
+        trip_2 = TripTomorrowFactory()
+        s_2 = SeatFactory(seat_number=5, trip=trip_2)
+
+        self.assertEqual(s_2.seat_number, 5)
+        self.assertEqual(s_2.trip, trip_2)
