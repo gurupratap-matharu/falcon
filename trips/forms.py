@@ -203,6 +203,18 @@ class TripCreateForm(forms.ModelForm):
             ),
         }
 
+    def clean(self):
+        cd = super().clean()
+
+        origin = cd.get("origin")
+        destination = cd.get("destination")
+
+        # origin and destination cannot be same
+        if origin == destination:
+            msg = _("origin and destination cannot be same")
+            self.add_error("origin", msg)
+            self.add_error("destination", msg)
+
 
 class RecurrenceForm(forms.Form):
     """
