@@ -1,12 +1,11 @@
-import json
-
 from django.template.defaultfilters import slugify
 
 import factory
+from factory import fuzzy
 from faker import Faker
 
 from .models import Company, SeatChart
-from .samples import COMPANIES, SEAT_CHART_DICT, SEAT_CHARTS
+from .samples import COMPANIES, SEAT_CHART_DICTS, SEAT_CHART_TITLES
 
 fake = Faker()
 
@@ -36,21 +35,10 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     owner = factory.SubFactory("users.factories.CompanyOwnerFactory")
 
 
-class JSONFactory(factory.DictFactory):
-    """
-    Use with factory.Dict to make JSON strings.
-    """
-
-    @classmethod
-    def _generate(cls, create, attrs):
-        obj = super()._generate(create, attrs)
-        return json.dumps(obj)
-
-
 class SeatChartFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = SeatChart
 
-    title = factory.Faker("random_element", elements=SEAT_CHARTS)
+    title = factory.Faker("random_element", elements=SEAT_CHART_TITLES)
     company = factory.SubFactory("companies.factories.CompanyFactory")
-    json = factory.Dict(SEAT_CHART_DICT, dict_factory=JSONFactory)
+    json = fuzzy.FuzzyChoice(SEAT_CHART_DICTS)
