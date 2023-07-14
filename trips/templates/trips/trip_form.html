@@ -1,4 +1,4 @@
-{% extends "layouts/base-sidebar.html" %}
+{% extends "layouts/base-company.html" %}
 
 {% load static %}
 
@@ -46,8 +46,8 @@
                         <!--SeatChart Select Box-->
                         <div class="form-group">
                             <label for="seatChart">SeatChart</label>
-                            <select class="form-select">
-                                <option>-----------</option>
+                            <select class="form-select" name="seatchart" aria-label="Seat Chart Type" required>
+                                <option value="">Please select</option>
                                 {% for seatchart in company.seatcharts.all %}
                                     <option value="{{ seatchart.title }}">{{ seatchart }}</option>
                                 {% endfor %}
