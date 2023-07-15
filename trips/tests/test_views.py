@@ -10,7 +10,7 @@ from django.utils import timezone
 
 from dateutil import rrule
 
-from companies.factories import CompanyFactory
+from companies.factories import CompanyFactory, SeatChartFactory
 from trips.factories import (
     LocationFactory,
     SeatFactory,
@@ -332,10 +332,19 @@ class TripCreateViewTests(TestCase):
     def setUpTestData(cls):
         cls.owner = CompanyOwnerFactory()
         cls.company = CompanyFactory(owner=cls.owner)
+        cls.seatchart = SeatChartFactory(company=cls.company)
+
         cls.login_url = reverse_lazy("account_login")
-        cls.url = reverse_lazy("companies:trip-create", args=[str(cls.company.slug)])
-        cls.template_name = "trips/trip_form.html"
         cls.permission = "trips.add_trip"
+        cls.template_name = "trips/trip_form.html"
+        cls.url = reverse_lazy("companies:trip-create", args=[str(cls.company.slug)])
+
+        cls.now = timezone.now()
+        cls.tomorrow = cls.now + timedelta(days=1)
+        cls.day_after = cls.now + timedelta(days=2)
+
+    def get_seat_numbers(self, floor="lower") -> list:
+        return self.seatchart.json.get(floor, {}).get("enabledSeats", [])
 
     def test_company_trip_create_url_resolves_correct_view(self):
         view = resolve(self.url)
@@ -441,30 +450,42 @@ class TripCreateViewTests(TestCase):
         This is an end-to-end kind of test for trip creation.
         """
 
+        # Arrange
+
+        # Make sure no trip in DB
+        self.assertEqual(Trip.objects.count(), 0)
+
         # Create two locations as trip needs their ids since they are foreign keys
         origin, destination = LocationFactory.create_batch(size=2)
-        # Build data
+
+        # Build post data
+        # Make sure departure in future and arrival > departure
+        departure = self.tomorrow.strftime("%Y-%m-%d %H:%m")
+        arrival = self.day_after.strftime("%Y-%m-%d %H:%m")
+
         data = {
-            "name": "Europe Trip",
+            "name": "Argentina Trip",
             "origin": str(origin.id),
             "destination": str(destination.id),
-            "departure": "2023-03-16 15:00",
-            "arrival": "2023-03-31 16:00",
-            "price": "1",
+            "departure": departure,
+            "arrival": arrival,
+            "price": "10",
             "status": "A",
             "mode": "D",
             "image": "",
-            "description": "",
+            "description": "My awesome Argentina Trip",
+            "seatchart": self.seatchart.title,  # <- pass company seatchart
         }
 
-        self.client.force_login(self.owner)  # type:ignore
+        # ACT
+        self.client.force_login(self.owner)
 
         # Creation will redirect to trip-detail so make `follow=True`
         response = self.client.post(path=self.url, data=data, follow=True)
 
         # Get trip created in DB
         trip = Trip.objects.first()
-        expected_url = self.company.get_trip_list_url()  # type:ignore
+        expected_url = self.company.get_trip_list_url()
 
         # Verify redirection
         self.assertRedirects(
@@ -474,10 +495,10 @@ class TripCreateViewTests(TestCase):
             target_status_code=HTTPStatus.OK,
         )
 
-        # Verify DB count and content
+        # Verify Trip created in DB
         self.assertEqual(Trip.objects.count(), 1)
-        self.assertEqual(trip.name, "Europe Trip")
-        self.assertEqual(trip.slug, "europe-trip")
+        self.assertEqual(trip.name, "Argentina Trip")
+        self.assertEqual(trip.slug, "argentina-trip")
         self.assertEqual(trip.origin, origin)
         self.assertEqual(trip.destination, destination)
         self.assertEqual(trip.status, "A")
@@ -490,6 +511,13 @@ class TripCreateViewTests(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), TripCreateView.success_message)
+
+        # Verify seats for trip correctly created based on seatchart
+        seat_numbers = self.get_seat_numbers("lower") + self.get_seat_numbers("upper")
+        seats_from_db = list(trip.seats.values_list("seat_number", flat=True))
+
+        self.assertEqual(trip.seats.count(), len(seat_numbers))
+        self.assertEqual(seats_from_db, seat_numbers)
 
 
 class TripUpdateViewTests(TestCase):

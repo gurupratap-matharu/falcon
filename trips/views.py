@@ -1,4 +1,5 @@
 import logging
+import pdb
 from datetime import datetime, timedelta
 from typing import Any, Dict
 
@@ -190,12 +191,12 @@ class TripCreateView(CRUDMixins, CreateView):
         """
 
         # Pull the seatchart from DB
-        title = self.request.POST["seatchart"]
+        title = self.request.POST.get("seatchart")
         seatchart = get_object_or_404(SeatChart, title=title, company=self.company)
 
         # Find which seat numbers need to be created for both floors
-        lower = seatchart.json.get("lower").get("enabledSeats", [])
-        upper = seatchart.json.get("upper").get("enabledSeats", [])
+        lower = seatchart.json.get("lower", {}).get("enabledSeats", [])
+        upper = seatchart.json.get("upper", {}).get("enabledSeats", [])
 
         logger.info("lower seats: %s" % lower)
         logger.info("upper seats: %s" % upper)
