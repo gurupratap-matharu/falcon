@@ -58,8 +58,15 @@ def order_confirmed(order_id, payment_id):
     order.confirm(payment_id=payment_id)
 
     # 2 Generate the Email object
-    subject = f"FalconHunt - Invoice no. {order.id}"
-    message = "Please, find attached the invoice for your recent purchase."
+    subject = "FalconHunt - Tickets Booked!"
+    message = (
+        f"Dear {order.name},\n\n"
+        "Your tickets are booked!\n"
+        "Please find attached the invoice and tickets for your recent purchase.\n\n"
+        "Regards,\n"
+        "FalconHunt Team"
+    )
+
     email = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
 
     # 3 Create pdf doc using weasy print
@@ -68,7 +75,7 @@ def order_confirmed(order_id, payment_id):
 
     # 4 Attach pdf to email object
     email.attach(
-        filename=f"invoice_{order.name}.pdf",
+        filename=f"Invoice-{order.name}.pdf",
         content=out.getvalue(),
         mimetype="application/pdf",
     )
