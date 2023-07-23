@@ -3,7 +3,9 @@
         <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="copyright text-center text-sm text-muted text-lg-start">
-                    © <script>document.write(new Date().getFullYear())</script>
+                    © <script>
+      document.write(new Date().getFullYear())
+ </script>
                     Falcon. Made with &#128150; in Argentina 🇦🇷
                 </div>
             </div>
@@ -22,7 +24,7 @@
                         <a href="{% url 'pages:privacy' %}" class="nav-link text-muted">Privacy</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link text-muted">Blog</a>
+                        <a href="/blog/" class="nav-link text-muted">Blog</a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'pages:contact' %}" class="nav-link pe-0 text-muted">Contact</a>

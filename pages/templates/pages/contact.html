@@ -7,10 +7,9 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="card card-plain mt-8">
+    <div class="card card-plain mt-7">
         <div class="card-header pb-0 text-left bg-transparent">
             <h3 class="font-weight-bolder text-primary text-gradient">Contact Us</h3>
-            <p>{% trans "Enter your message below, and we'll contact your shortly." %}</p>
         </div>
         <div class="card-body">
             <form method="post">
@@ -28,7 +27,7 @@
             </form>
         </div>
         <div class="card-footer text-center pt-0 px-lg-2 px-1">
-            <p class="mb-4 text-sm mx-auto">
+            <p class="text-sm mx-auto">
                 Go back
                 <a href="{% url 'pages:home' %}" class="text-primary text-gradient font-weight-bold">Home</a>
             </p>

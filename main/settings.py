@@ -322,7 +322,7 @@ SHELL_PLUS_IMPORTS = [
 ]
 
 # Simple captcha
-CAPTCHA_IMAGE_SIZE = (200, 80)
+CAPTCHA_IMAGE_SIZE = (100, 10)
 
 
 # Mercado pago
