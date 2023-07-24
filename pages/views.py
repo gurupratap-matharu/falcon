@@ -111,6 +111,10 @@ class IndexPageView(TemplateView):
     template_name = "layouts/index.html"
 
 
+class AlpinePageView(TemplateView):
+    template_name: str = "pages/alpine.html"
+
+
 @csrf_exempt
 def dummy_response(request):
     if request.method == "POST":

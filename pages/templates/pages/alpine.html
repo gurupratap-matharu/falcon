@@ -1,0 +1,30 @@
+{% extends "layouts/base-sidebar.html" %}
+
+{% block title %}
+    Alpine
+{% endblock title %}
+
+{% block content %}
+    <h1 x-data="{ message: 'Django ❤️ Alpine' }" x-text="message"></h1>
+    <h2>Counter</h2>
+    <div x-data="{ count: 0}">
+        <button x-on:click="count++">Increment</button>
+        <h3 x-text="count"></h3>
+    </div>
+    <hr>
+    <h2>Dropdown</h2>
+    <div x-data="{ open: false}">
+        <button @click="open = ! open">Toggle</button>
+        <div x-show="open" @click.outside="open = false">Contents...</div>
+    </div>
+    <hr>
+    <h2>Search</h2>
+    <div x-data="{ search: '', items: ['apple', 'apricot', 'orange', 'banana'],  get filteredItems() { return this.items.filter(i => i.startsWith(this.search)) } }">
+        <input x-model="search" type="search" placeholder="Search...">
+        <ul>
+            <template x-for="item in filteredItems" :key="item">
+                <li x-text="item"></li>
+            </template>
+        </ul>
+    </div>
+{% endblock content %}
