@@ -1,5 +1,3 @@
-{% load static %}
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -9,7 +7,7 @@
     </head>
     <body class="bg-red-100">
         <div class="container">
-            <img class="my-6 w-16" src="{% static 'assets/img/logo-ct-dark.png' %}" />
+            <img class="my-6 w-16" src="https://falconhunt.xyz/static/assets/img/logo-ct-dark.png" />
             <span class="ms-1 font-weight-bold">Falcon</span>
             <div class="space-y-4 mb-6">
                 <h1 class="text-4xl fw-800">Thanks for your order, {{ order.name }}</h1>
@@ -50,8 +48,8 @@
                 <hr class="my-6">
                 <p>Have questions?</p>
                 <p>
-                    Feel free to <a href="{% url 'pages:contact' %}">contact us</a>.
-                    You can also check out our <a href="">FAQ</a> or our <a href="">support</a> page for more information
+                    Feel free to <a href="mailto:support@falconhunt.xyz">contact us</a>.
+                    You can also check out our <a href="https://falconhunt.xyz/faq/">FAQ</a> or our <a href="https://falconhunt.xyz/support/">support</a> page for more information
                 </p>
             </div>
         </div>
