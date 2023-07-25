@@ -14,6 +14,9 @@ help:
 collectstatic:
 	python manage.py collectstatic --noinput
 
+compile-emails:
+	bootstrap-email -p 'orders/templates/orders/emails/raw/*' -d 'orders/templates/orders/emails/compiled/*'
+	
 clean:
 	rm -rf __pycache__ .pytest_cache
 
