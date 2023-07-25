@@ -3,8 +3,9 @@ from io import BytesIO
 from timeit import default_timer as timer
 
 from django.conf import settings
-from django.core.mail import EmailMessage, send_mail
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 
 from .drawers import burn_order_pdf
 from .models import Order
@@ -23,19 +24,39 @@ def order_created(order_id):
 
     order = get_object_or_404(Order, id=order_id)
 
-    subject = f"Order nr. {order.id}"
+    subject = "Your Invoice from Falcon"
     message = (
-        f"Dear {order.name},\n\n"
-        f"You have successfully placed an order.\n"
+        f"Thanks for your order {order.name},\n\n"
+        f"Attached is your invoice.\n"
         f"Your order ID is {order.id}."
     )
-    mail_sent = send_mail(
-        subject,
-        message,
-        settings.DEFAULT_FROM_EMAIL,
-        [order.email],
-        fail_silently=False,
+    html_message = render_to_string(
+        "orders/emails/compiled/invoice.html", {"order": order}
     )
+
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[order.email],
+    )
+
+    # Create pdf invoice using weasy print
+    out = BytesIO()
+    burn_order_pdf(target=out, order=order)
+
+    # Attach pdf invoice to email object
+    email.attach(
+        filename=f"Invoice-{order.name}.pdf",
+        content=out.getvalue(),
+        mimetype="application/pdf",
+    )
+
+    # Attach html version as an alternative
+    email.attach_alternative(content=html_message, mimetype="text/html")
+
+    # Send email
+    mail_sent = email.send(fail_silently=False)
 
     end = timer()
     logger.info("order_created(📜) took: %0.2f seconds!" % (end - start))
