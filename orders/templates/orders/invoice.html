@@ -7,11 +7,9 @@
         <title>Document</title>
     </head>
     <body>
-        <body>
-            <h1>Falconhunt</h1>
-            <p>
-                Invoice no. {{ order.id }}
-            </br>
+        <h1>Falconhunt</h1>
+        <p>Invoice no. {{ order.id }}</p>
+        <p>
             <span class="secondary">{{ order.created_on|date:"M d, Y" }}</span>
         </p>
         <h3>Bill to</h3>
@@ -59,5 +57,4 @@
             {% endif %}
         </span>
     </body>
-</body>
 </html>
