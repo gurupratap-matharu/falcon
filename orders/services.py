@@ -79,7 +79,7 @@ def order_confirmed(order_id, payment_id):
     order.confirm(payment_id=payment_id)
 
     # 2 Generate the Email object
-    subject = "FalconHunt - Tickets Booked!"
+    subject = "Your tickets from Falcon"
     message = (
         f"Dear {order.name},\n\n"
         "Your tickets are booked!\n"
