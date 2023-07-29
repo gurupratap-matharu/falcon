@@ -13,24 +13,21 @@ from weasyprint import CSS, HTML
 logger = logging.getLogger(__name__)
 
 
-def burn_order_pdf(target=None, order=None):
+def burn_invoice_pdf(target=None, context=None):
     """
     Render the order to plain old HTML and burn it to a pdf on the provided object.
     """
     start = timer()
 
-    html = render_to_string("orders/invoice.html", {"order": order})
+    logger.info("burning invoice to pdf 🔥...")
 
-    render = HTML(string=html)
+    html = render_to_string(template_name="orders/invoice.html", context=context)
     stylesheet = CSS(finders.find("assets/css/invoice.css"))
-
-    # We pull the write_pdf attribute like this as directly calling it hangs our lint
-    make_pdf = getattr(render, "write_pdf")
-
-    make_pdf(target, [stylesheet])
+    HTML(string=html).write_pdf(target, stylesheets=[stylesheet])
 
     end = timer()
-    logger.info("drawing order pdf(🎨) took:%0.2f seconds..." % (end - start))
+
+    logger.info("burning invoice to pdf 🔥 took:%0.2f seconds..." % (end - start))
 
     return target
 

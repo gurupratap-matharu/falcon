@@ -14,19 +14,16 @@ table {
 table th,
 table td {
   text-align: left;
-  font-size: 14px;
   padding: 10px;
   margin: 0;
 }
 
-tbody tr:nth-child(odd) {
-  background: #efefef;
+thead th {
+  border-bottom: 1px solid black;
+  font-weight: normal;
 }
 
-thead th,
 tbody tr.total {
-  background: #5993bb;
-  color: #fff;
   font-weight: bold;
 }
 
@@ -34,13 +31,41 @@ h1 {
   margin: 0;
 }
 
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+
+.border-top {
+  border-top: 1px solid lightgrey;
+}
+
+.brand-logo {
+  border: solid black;
+  padding-inline: 1rem;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 5% auto;
+}
+
+.invoice-details {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin: 5% auto;
+}
+
 .secondary {
   color: #bbb;
   margin-bottom: 20px;
-}
-
-.num {
-  text-align: right;
 }
 
 .paid,

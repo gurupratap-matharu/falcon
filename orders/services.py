@@ -7,8 +7,8 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 
-from .drawers import burn_order_pdf
-from .models import Order
+from .drawers import burn_invoice_pdf
+from .models import Order, OrderItem
 
 logger = logging.getLogger(__name__)
 
@@ -22,16 +22,15 @@ def order_created(order_id):
     """
     start = timer()
 
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order.objects.prefetch_related("items"), id=order_id)
+    items = OrderItem.objects.filter(order=order).select_related("trip")
+    context = {"order": order, "items": items}
 
     subject = "Your Invoice from Falcon"
     message = (
         f"Thanks for your order {order.name},\n\n"
         f"Attached is your invoice.\n"
         f"Your order ID is {order.id}."
-    )
-    html_message = render_to_string(
-        "orders/emails/compiled/invoice.html", {"order": order}
     )
 
     email = EmailMultiAlternatives(
@@ -43,7 +42,7 @@ def order_created(order_id):
 
     # Create pdf invoice using weasy print
     out = BytesIO()
-    burn_order_pdf(target=out, order=order)
+    burn_invoice_pdf(target=out, context=context)
 
     # Attach pdf invoice to email object
     email.attach(
@@ -53,6 +52,9 @@ def order_created(order_id):
     )
 
     # Attach html version as an alternative
+    html_message = render_to_string(
+        template_name="orders/emails/compiled/invoice.html", context=context
+    )
     email.attach_alternative(content=html_message, mimetype="text/html")
 
     # Send email
@@ -92,7 +94,7 @@ def order_confirmed(order_id, payment_id):
 
     # 3 Create pdf doc using weasy print
     out = BytesIO()
-    burn_order_pdf(target=out, order=order)
+    burn_invoice_pdf(target=out, order=order)
 
     # 4 Attach pdf to email object
     email.attach(
