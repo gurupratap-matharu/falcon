@@ -1,14 +1,13 @@
 import logging
-from io import BytesIO
 from timeit import default_timer as timer
 
 from django.conf import settings
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 
-from .drawers import burn_invoice_pdf
-from .models import Order, OrderItem
+from orders.drawers import burn_invoice_pdf, burn_ticket_pdf
+from orders.models import Order, OrderItem
 
 logger = logging.getLogger(__name__)
 
@@ -41,13 +40,12 @@ def order_created(order_id):
     )
 
     # Create pdf invoice using weasy print
-    out = BytesIO()
-    burn_invoice_pdf(target=out, context=context)
+    content = burn_invoice_pdf(context=context)
 
     # Attach pdf invoice to email object
     email.attach(
         filename=f"Invoice-{order.name}.pdf",
-        content=out.getvalue(),
+        content=content,
         mimetype="application/pdf",
     )
 
@@ -58,6 +56,7 @@ def order_created(order_id):
     email.attach_alternative(content=html_message, mimetype="text/html")
 
     # Send email
+    logger.info("sending invoice via email 💌...")
     mail_sent = email.send(fail_silently=False)
 
     end = timer()
@@ -69,42 +68,56 @@ def order_created(order_id):
 def order_confirmed(order_id, payment_id):
     """
     When an order is successfully confirmed / paid we
-
         - book all seats in an order with passengers
-        - send an invoice via e-mail to the payer.
-
+        - send tickets via e-mail to the payer.
     """
+
     start = timer()
 
     # 1 Get the order details and confirm it
-    order = get_object_or_404(Order, id=order_id)
-    order.confirm(payment_id=payment_id)
+    order = get_object_or_404(Order.objects.prefetch_related("items"), id=order_id)
+    # items = OrderItem.objects.filter(order=order).select_related("trip")
+    context = {"order": order, "trip": order.trips.first()}
+
+    logger.info("confirming order...")
+    # order.confirm(payment_id=payment_id)
 
     # 2 Generate the Email object
     subject = "Your tickets from Falcon"
     message = (
-        f"Dear {order.name},\n\n"
-        "Your tickets are booked!\n"
-        "Please find attached the invoice and tickets for your recent purchase.\n\n"
-        "Regards,\n"
-        "FalconHunt Team"
+        f"Thanks for your order {order.name},\n\n"
+        f"Attached is your ticket.\n"
+        f"Your order ID is {order.id}."
     )
 
-    email = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[order.email],
+    )
 
-    # 3 Create pdf doc using weasy print
-    out = BytesIO()
-    burn_invoice_pdf(target=out, order=order)
+    # Create pdf ticket using weasy print
+    content = burn_ticket_pdf(context=context)
 
-    # 4 Attach pdf to email object
+    # Attach pdf ticket to email object
     email.attach(
-        filename=f"Invoice-{order.name}.pdf",
-        content=out.getvalue(),
+        filename=f"Ticket-{order.name}.pdf",
+        content=content,
         mimetype="application/pdf",
     )
 
-    # 5 Send email
-    email.send(fail_silently=False)
+    # Attach html version as an alternative
+    html_message = render_to_string(
+        template_name="orders/emails/compiled/ticket.html", context=context
+    )
+    email.attach_alternative(content=html_message, mimetype="text/html")
+
+    # Send email
+    logger.info("sending tickets via email 💌...")
+    mail_sent = email.send(fail_silently=False)
 
     end = timer()
     logger.info("order_confirmed(🔒) took: %0.2f seconds!" % (end - start))
+
+    return mail_sent
