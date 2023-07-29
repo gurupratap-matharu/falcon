@@ -40,7 +40,7 @@
         </section>
         <section id="ticket">
             {% with url="https://falconhunt.xyz" %}
-                {% qr_from_text url size="M" %}
+                {% qr_from_text url size="M" dark_color="#cb0c9f" %}
             {% endwith %}
             <ul>
                 <li>{{ trip.origin }} → {{ trip.destination }}</li>
