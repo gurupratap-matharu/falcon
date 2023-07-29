@@ -23,6 +23,7 @@ urlpatterns = [
     path("profile/<str:slug>/", views.PublicProfilePageView.as_view(), name="profile"),
     path("index/", views.IndexPageView.as_view(), name="index"),
     path("alpine/", views.AlpinePageView.as_view(), name="alpine"),
+    path("qrcode/", views.QRCodePageView.as_view(), name="qrcode"),
     path("dummy/", views.dummy_response, name="dummy"),
     path("time/", views.get_time, name="time"),
 ]
