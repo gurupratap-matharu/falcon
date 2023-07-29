@@ -1,5 +1,4 @@
 import io
-import pdb
 
 from django.http import HttpResponse
 from django.test import TestCase

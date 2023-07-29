@@ -3,7 +3,6 @@ from typing import Any, Dict
 
 from django import http
 from django.contrib import messages
-from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
