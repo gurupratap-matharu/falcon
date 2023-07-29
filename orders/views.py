@@ -6,15 +6,16 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import modelformset_factory
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
+
+from django_weasyprint import WeasyTemplateResponseMixin
 
 from cart.cart import Cart
 
-from .drawers import burn_order_pdf, burn_ticket_pdf
 from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
 from .services import order_created
@@ -193,43 +194,26 @@ def order_cancel(request, order_id=None):
     return redirect("pages:home")
 
 
-@staff_member_required
-def admin_order_pdf(request, order_id):
-    """
-    Staff view used in admin interface to view the invoice of any order
-    """
-    order = get_object_or_404(Order, id=order_id)
-
-    response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f"attachment; filename={order.name}.pdf"
-
-    burn_order_pdf(target=response, order=order)
-
-    return response
+class InvoiceView(DetailView):
+    model = Order
+    pk_url_kwarg = "order_id"
+    template_name = "orders/invoice.html"
 
 
-def ticket(request, order_id):
-    """
-    Simple view to see a preview of the final ticket render in html format
-    """
-
-    order = get_object_or_404(Order, id=order_id)
-    context = {
-        "order": order,
-        "trip": order.trips.first(),  # type:ignore
-        "passengers": order.passengers.all(),
-    }
-    return render(request, "orders/ticket.html", context)
+class InvoicePDFView(WeasyTemplateResponseMixin, InvoiceView):
+    pass
 
 
-def ticket_pdf(request, order_id):
-    """Generate a PDF ticket for download"""
+class TicketView(DetailView):
+    model = Order
+    pk_url_kwarg = "order_id"
+    template_name = "orders/ticket.html"
 
-    order = get_object_or_404(Order, id=order_id)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["trip"] = self.object.trips.first()
+        return context
 
-    response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = "attachment; filename=tickets.pdf"
 
-    burn_ticket_pdf(request=request, target=response, order=order)
-
-    return response
+class TicketPDFView(WeasyTemplateResponseMixin, TicketView):
+    pass
