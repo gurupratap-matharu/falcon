@@ -97,7 +97,6 @@ class Order(models.Model):
         passengers = self.passengers.all()
 
         for order_item in self.items.all():  # type:ignore
-
             order_item.trip.book_seats_with_passengers(
                 seat_numbers=order_item.seats, passengers=passengers
             )
@@ -147,6 +146,12 @@ class OrderItem(models.Model):
         """
 
         return self.price * self.quantity
+
+    def get_checkin_url(self):
+        return reverse(
+            "orders:checkin",
+            kwargs={"order_id": str(self.order.id), "orderitem_id": self.id},
+        )
 
 
 class Passenger(models.Model):

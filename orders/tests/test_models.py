@@ -294,6 +294,12 @@ class OrderItemModelTests(TestCase):
         with self.assertRaises(ValidationError):
             order_item.full_clean()
 
+    def test_order_item_check_in_url(self):
+        actual = self.order_item.get_checkin_url()
+        expected = f"/orders/{self.order.id}/{self.order_item.id}/checkin/"
+
+        self.assertEqual(actual, expected)
+
 
 class PassengerModelTests(TestCase):
     """Test suite for the Passenger Model"""
