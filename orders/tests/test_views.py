@@ -9,12 +9,14 @@ from django.urls import resolve, reverse_lazy
 from django.utils import timezone
 
 from cart.cart import Cart
+from companies.factories import CompanyFactory
 from orders.factories import OrderFactory, OrderItemFactory
 from orders.forms import OrderForm, PassengerForm
 from orders.models import Order, OrderItem, Passenger
-from orders.views import OrderCreateView, order_cancel
+from orders.views import OrderCheckInView, OrderCreateView, order_cancel
 from trips.factories import LocationFactory, SeatFactory, TripTomorrowFactory
 from trips.models import Seat, Trip
+from users.factories import CompanyOwnerFactory, UserFactory
 
 
 class OrderCreateTests(TestCase):
@@ -450,3 +452,102 @@ class OrderCancelTests(TestCase):
         self.assertEqual(seat_2.seat_status, Seat.AVAILABLE)
         self.assertEqual(seat_3.seat_status, Seat.AVAILABLE)
         self.assertEqual(seat_4.seat_status, Seat.AVAILABLE)
+
+
+class OrderCheckInTests(TestCase):
+    """
+    Test suite for checking in an order item.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        # Create an company with owner and a valid trip
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.trip = TripTomorrowFactory(company=cls.company)
+
+        # Make an order, order_item for this trip
+        cls.order = OrderFactory()
+        cls.order_item_1 = OrderItemFactory(order=cls.order, trip=cls.trip)
+
+        cls.url = cls.order_item_1.get_checkin_url()
+        cls.template_name = "orders/checkin.html"
+        cls.login_url = reverse_lazy("account_login")
+
+    def test_order_checkin_url_resolves_order_checkin_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, OrderCheckInView.as_view().__name__)
+
+    def test_company_owner_can_access_order_checkin(self):
+        """
+        The qr code use to checkin a passenger should be accessible only by
+        the company owner or a superuser.
+        """
+
+        # Make the company owner login
+        user = self.owner
+        self.client.force_login(user)
+
+        # Try accessing the url (typically via qr code a get request will be sent)
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        self.assertContains(response, "Checkin")
+        self.assertContains(response, self.company)
+        self.assertEqual(self.company, response.context["company"])
+        self.assertEqual(self.order_item_1, response.context["item"])
+        self.assertIn("item", response.context)
+
+    def test_order_checkin_view_is_not_accessible_by_logged_in_normal_public_user(
+        self,
+    ):
+        # Make a normal user and authenticate him/her
+        user = UserFactory()
+        self.client.force_login(user)  # type:ignore
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_order_checkin_view_is_not_accessible_by_anonymous_user(self):
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_order_checkin_view_is_not_accessible_by_another_company_owner(self):
+        """
+        Company B owner should not be able to checkin a passenger for Company A
+        by scanning the QR
+        """
+
+        # Create another company owner and log her in
+        user = CompanyOwnerFactory()
+        self.client.force_login(user)
+
+        response = self.client.get(self.url)
+
+        # Assert user is not staff | superuser and correctly authenticated
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        # Assert user is forbidden access
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertTemplateNotUsed(response, self.template_name)
