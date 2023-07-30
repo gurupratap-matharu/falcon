@@ -9,11 +9,12 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, TemplateView
 
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from cart.cart import Cart
+from companies.mixins import OwnerMixin
 
 from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
@@ -216,3 +217,27 @@ class TicketView(DetailView):
 
 class TicketPDFView(WeasyTemplateResponseMixin, TicketView):
     pass
+
+
+class OrderCheckInView(OwnerMixin, DetailView):
+    """
+    Veer this is a placeholder view that will checkin all the passengers in an order
+    item. Typically this view will be triggered via scanning a QR code and a get request.
+
+    Only the company owner or super user can access this. Some logic has to be implemented
+    to checkin the actual passenger. For now a place holder to validate qr codes.
+    """
+
+    model = OrderItem
+    template_name = "orders/checkin.html"
+    context_object_name = "item"
+
+    def get_object(self):
+        order_item = get_object_or_404(
+            OrderItem,
+            pk=self.kwargs.get("orderitem_id"),
+            order=self.kwargs.get("order_id"),
+        )
+
+        logger.info("checking in:%s" % order_item)
+        return order_item

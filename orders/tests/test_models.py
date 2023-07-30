@@ -296,7 +296,9 @@ class OrderItemModelTests(TestCase):
 
     def test_order_item_check_in_url(self):
         actual = self.order_item.get_checkin_url()
-        expected = f"/orders/{self.order.id}/{self.order_item.id}/checkin/"
+        base_url = f"/companies/{self.order_item.trip.company.slug}/admin/"
+        checkin_url = f"orders/{self.order.id}/{self.order_item.id}/checkin/"
+        expected = base_url + checkin_url
 
         self.assertEqual(actual, expected)
 

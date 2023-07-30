@@ -149,8 +149,12 @@ class OrderItem(models.Model):
 
     def get_checkin_url(self):
         return reverse(
-            "orders:checkin",
-            kwargs={"order_id": str(self.order.id), "orderitem_id": self.id},
+            "companies:checkin",
+            kwargs={
+                "slug": self.trip.company.slug,
+                "order_id": str(self.order.id),
+                "orderitem_id": self.id,
+            },
         )
 
 

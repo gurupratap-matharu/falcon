@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 from coupons.views import CouponCreateView, CouponListView
+from orders.views import OrderCheckInView
 from trips import views as trip_views
 
 from . import views
@@ -40,6 +41,11 @@ company_admin_patterns = [
         "seatcharts/<uuid:id>/",
         views.SeatChartDetailView.as_view(),
         name="seatchart-detail",
+    ),
+    path(
+        "orders/<uuid:order_id>/<int:orderitem_id>/checkin/",
+        OrderCheckInView.as_view(),
+        name="checkin",
     ),
 ]
 
