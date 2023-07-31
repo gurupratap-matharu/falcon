@@ -2,6 +2,7 @@ import logging
 from timeit import default_timer as timer
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
@@ -10,6 +11,7 @@ from orders.drawers import burn_invoice_pdf, burn_ticket_pdf
 from orders.models import Order, OrderItem
 
 logger = logging.getLogger(__name__)
+domain = Site.objects.get_current().domain
 
 
 def order_created(order_id):
@@ -74,15 +76,20 @@ def order_confirmed(order_id, payment_id):
 
     start = timer()
 
-    # 1 Get the order details and confirm it
+    # Get the order details
     order = get_object_or_404(Order.objects.prefetch_related("items"), id=order_id)
-    # items = OrderItem.objects.filter(order=order).select_related("trip")
-    context = {"order": order, "trip": order.trips.first()}
+    items = OrderItem.objects.filter(order=order).select_related("trip")
 
+    item = items.first()  # <-- fix this
+
+    qr_url = f"https://{domain}{item.get_checkin_url()}"
+    context = dict(order=order, item=item, trip=item.trip, qr_url=qr_url)
+
+    # Confirm the order
     logger.info("confirming order...")
-    # order.confirm(payment_id=payment_id)
+    # order.confirm(payment_id=payment_id) # <-- TODO fix this
 
-    # 2 Generate the Email object
+    # Generate the Email object
     subject = "Your tickets from Falcon"
     message = (
         f"Thanks for your order {order.name},\n\n"
