@@ -15,21 +15,21 @@
             <h1 id="name">{{ trip.company }}</h1>
             <h1 id="destination">{{ trip.origin }} → {{ trip.destination }}</h1>
             <dl>
-                <dt>Bus</dt>
+                <dt>Passengers</dt>
                 <dd>
-                    DL31
+                    {{ order.passengers.count }}
                 </dd>
-                <dt>Gate</dt>
+                <dt>Terminal</dt>
                 <dd>
-                    29
+                    1
                 </dd>
                 <dt>Seat</dt>
                 <dd>
-                    26E
+                    {{ item.seats }}
                 </dd>
-                <dt>Zone</dt>
+                <dt>Platforma</dt>
                 <dd>
-                    4
+                    12
                 </dd>
             </dl>
             <ul>
@@ -39,9 +39,7 @@
             </ul>
         </section>
         <section id="ticket">
-            {% with url="https://falconhunt.xyz" %}
-                {% qr_from_text url size="M" dark_color="#cb0c9f" %}
-            {% endwith %}
+            {% qr_from_text qr_url size="S" dark_color="#2a3239" %}
             <ul>
                 <li>{{ trip.origin }} → {{ trip.destination }}</li>
                 <li>{{ trip.departure|date:"P" }}</li>
