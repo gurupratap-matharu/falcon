@@ -8,6 +8,7 @@ from django.contrib.staticfiles import finders
 from django.template.loader import render_to_string
 
 from weasyprint import CSS, HTML
+from weasyprint.text.fonts import FontConfiguration
 
 logger = logging.getLogger(__name__)
 
@@ -45,9 +46,10 @@ def burn_ticket_pdf(context=None):
 
     html = render_to_string(template_name, context)
     stylesheet = CSS(css_path)
+    font_config = FontConfiguration()
 
     pdf = HTML(string=html).write_pdf(
-        stylesheets=[stylesheet], presentational_hints=True
+        stylesheets=[stylesheet], font_config=font_config, presentational_hints=True
     )
 
     end = timer()
