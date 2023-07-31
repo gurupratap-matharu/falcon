@@ -1,280 +1,237 @@
+{% extends "layouts/base-sidebar.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
-              crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'assets/css/seats/seatchart.min.css' %}" />
-        <script src="https://unpkg.com/htmx.org@1.8.6"
-                integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx"
-                crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div class="d-flex justify-content-center mb-3">
-            <h1>HTMX ❤️ Django</h1>
+{% block content %}
+    <div class="d-flex justify-content-center mb-3">
+        <h1>HTMX ❤️ Django</h1>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">Seat Chart</div>
+        <div class="card-body" id="seatChart">Hello</div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Polling every 10s</h5>
         </div>
-        <div class="alert alert-primary d-flex justify-content-end" id="counter"></div>
-        <div class="card">
-            <div class="card-header">Seat Chart</div>
-            <div class="card-body" id="seatChart">Hello</div>
+        <div class="card-body">
+            <div hx-get="{% url 'pages:time' %}" hx-trigger="every 10s"></div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <h5>Polling every 10s</h5>
-            </div>
-            <div class="card-body">
-                <div hx-get="{% url 'pages:time' %}" hx-trigger="every 10s"></div>
-            </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Send Post Request</h5>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <h5>Send Post Request</h5>
-            </div>
-            <div class="card-body">
-                <button class="btn btn-success" hx-post="{% url 'pages:dummy' %}" hx-trigger="click">Click Me!</button>
-            </div>
+        <div class="card-body">
+            <button class="btn btn-success" hx-post="{% url 'pages:dummy' %}" hx-trigger="click">Click Me!</button>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <h5>Active Search</h5>
-            </div>
-            <div class="card-body">
-                <input type="text"
-                       name="q"
-                       placeholder="Your name?"
-                       class="form-control"
-                       hx-get="{% url 'pages:dummy' %}"
-                       hx-trigger="keyup changed delay:500ms"
-                       hx-target="#answer" />
-            </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Active Search</h5>
         </div>
-        <div class="d-flex justify-content-center p-3" id="answer"></div>
-        <hr />
-        <div class="card">
-            <div class="card-header">
-                <h5>On Mouse Enter</h5>
-            </div>
-            <div class="card-body">
-                <div hx-post="{% url 'pages:dummy' %}" hx-trigger="mouseenter">Bring you mouse here 🐁</div>
-            </div>
+        <div class="card-body">
+            <input type="text"
+                   name="q"
+                   placeholder="Your name?"
+                   class="form-control"
+                   hx-get="{% url 'pages:dummy' %}"
+                   hx-trigger="keyup changed delay:500ms"
+                   hx-target="#answer" />
         </div>
-        <div class="card mb-3">
-            <div class="card-header">
-                <h5>Request Indicator</h5>
-            </div>
-            <div class="card-body">
-                <button hx-get="{% url 'pages:dummy' %}?sleep=5" class="btn btn-warning">
-                    Go to sleep
-                    <img src="{% static 'assets/svg/loaders/grid.svg' %}" alt="loading indicator" class="htmx-indicator" width="25" height="25" />
-                </button>
-                <button hx-get="{% url 'pages:dummy' %}?sleep=5" hx-indicator="#indicator" class="btn btn-light">Go to sleep</button>
-                <img id="indicator"
-                     src="{% static 'assets/svg/loaders/grid.svg' %}"
-                     alt="loading indicator"
-                     class="htmx-indicator"
-                     width="25"
-                     height="25" />
-            </div>
+    </div>
+    <div class="d-flex justify-content-center p-1" id="answer"></div>
+    <hr />
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>On Mouse Enter</h5>
         </div>
-        <div class="card mb-3">
-            <div class="card-header">
-                <h5>Form Validation</h5>
-            </div>
-            <div class="card-body">
-                <form class="row g-3" novalidate>
-                    <div class="mb-3">
-                        <label for="validationServerUsername" class="form-label">Username</label>
-                        <div class="input-group has-validation">
-                            <span class="input-group-text" id="inputGroupPrepend3">@</span>
-                            <input type="text"
-                                   class="form-control is-invalid"
-                                   id="validationServerUsername"
-                                   aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
-                                   required>
-                            <div id="validationServerUsernameFeedback" class="invalid-feedback">username already taken</div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control is-valid" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Looks bad!</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control is-invalid" id="exampleInputPassword1" required>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
+        <div class="card-body">
+            <div hx-post="{% url 'pages:dummy' %}" hx-trigger="mouseenter">Bring you mouse here 🐁</div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <h5>SVG Spinners</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col col-md-3">
-                        <p>ball-triangle</p>
-                        <img src="{% static 'assets/svg/loaders/ball-triangle.svg' %}" class="bg-primary" width="50" height="50" />
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Request Indicator</h5>
+        </div>
+        <div class="card-body">
+            <button hx-get="{% url 'pages:dummy' %}?sleep=5" class="btn btn-warning">
+                Go to sleep
+                <img src="{% static 'assets/svg/loaders/grid.svg' %}" alt="loading indicator" class="htmx-indicator" width="25" height="25" />
+            </button>
+            <button hx-get="{% url 'pages:dummy' %}?sleep=5" hx-indicator="#indicator" class="btn btn-light">Go to sleep</button>
+            <img id="indicator"
+                 src="{% static 'assets/svg/loaders/grid.svg' %}"
+                 alt="loading indicator"
+                 class="htmx-indicator"
+                 width="25"
+                 height="25" />
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Form Validation</h5>
+        </div>
+        <div class="card-body">
+            <form class="row g-3" novalidate>
+                <div class="mb-3">
+                    <label for="validationServerUsername" class="form-label">Username</label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend3">@</span>
+                        <input type="text"
+                               class="form-control is-invalid"
+                               id="validationServerUsername"
+                               aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
+                               required>
+                        <div id="validationServerUsernameFeedback" class="invalid-feedback">username already taken</div>
                     </div>
-                    <div class="col col-md-3">
-                        <p>audio</p>
-                        <img src="{% static 'assets/svg/loaders/audio.svg' %}" class="bg-primary" width="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>bars</p>
-                        <img src="{% static 'assets/svg/loaders/bars.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>circles</p>
-                        <img src="{% static 'assets/svg/loaders/circles.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>grid</p>
-                        <img src="{% static 'assets/svg/loaders/grid.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>hearts</p>
-                        <img src="{% static 'assets/svg/loaders/hearts.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>oval</p>
-                        <img src="{% static 'assets/svg/loaders/oval.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>puff</p>
-                        <img src="{% static 'assets/svg/loaders/puff.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>rings</p>
-                        <img src="{% static 'assets/svg/loaders/rings.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>spinning circles</p>
-                        <img src="{% static 'assets/svg/loaders/spinning-circles.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>tail spin</p>
-                        <img src="{% static 'assets/svg/loaders/tail-spin.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
-                    <div class="col col-md-3">
-                        <p>three dots</p>
-                        <img src="{% static 'assets/svg/loaders/three-dots.svg' %}" class="bg-primary" width="50" height="50" />
-                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control is-valid" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Looks bad!</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control is-invalid" id="exampleInputPassword1" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>SVG Spinners</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col col-md-3">
+                    <p>ball-triangle</p>
+                    <img src="{% static 'assets/svg/loaders/ball-triangle.svg' %}" width="50" height="50" class="bg-gradient-dark rounded-1 p-2" />
+                </div>
+                <div class="col col-md-3">
+                    <p>audio</p>
+                    <img src="{% static 'assets/svg/loaders/audio.svg' %}" class="bg-info rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>bars</p>
+                    <img src="{% static 'assets/svg/loaders/bars.svg' %}" class="bg-primary rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>circles</p>
+                    <img src="{% static 'assets/svg/loaders/circles.svg' %}" class="bg-info rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>grid</p>
+                    <img src="{% static 'assets/svg/loaders/grid.svg' %}" class="bg-gradient-primary rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>hearts</p>
+                    <img src="{% static 'assets/svg/loaders/hearts.svg' %}" class="bg-gradient-danger rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>oval</p>
+                    <img src="{% static 'assets/svg/loaders/oval.svg' %}" class="bg-gradient-success rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>puff</p>
+                    <img src="{% static 'assets/svg/loaders/puff.svg' %}" class="bg-gradient-warning rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>rings</p>
+                    <img src="{% static 'assets/svg/loaders/rings.svg' %}" class="bg-gradient-dark rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>spinning circles</p>
+                    <img src="{% static 'assets/svg/loaders/spinning-circles.svg' %}"
+                         class="bg-gradient-info rounded-1 p-2"
+                         width="50"
+                         height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>tail spin</p>
+                    <img src="{% static 'assets/svg/loaders/tail-spin.svg' %}" class="bg-gradient-primary rounded-1 p-2" width="50" height="50" />
+                </div>
+                <div class="col col-md-3">
+                    <p>three dots</p>
+                    <img src="{% static 'assets/svg/loaders/three-dots.svg' %}" class="bg-gradient-light rounded-1 p-2" width="50" height="50" />
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-                crossorigin="anonymous"></script>
-        <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}"></script>
-        <script>
-             const element = document.getElementById('seatChart');
+    </div>
+{% endblock content %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'assets/js/htmx/htmx.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}"></script>
+    <script>
+         const element = document.getElementById('seatChart');
 
 
-             const options = {
-                  map: {
-                       rows: 10,
-                       columns: 4,
-                       seatTypes: {
-                            default: {
-                                 label: 'Economy',
-                                 cssClass: 'economy',
-                                 price: 15,
-                            },
-                            first: {
-                                 label: 'First Class',
-                                 cssClass: 'first-class',
-                                 price: 25,
-                                 seatRows: [0, 1, 2],
-                            },
-                            reduced: {
-                                 label: 'Reduced',
-                                 cssClass: 'reduced',
-                                 price: 10,
-                                 seatRows: [7, 8, 9],
-                            },
-                       },
-                       disabledSeats: [{
-                            row: 2,
-                            col: 2
-                       }, {
-                            row: 2,
-                            col: 3
-                       }, {
-                            row: 3,
-                            col: 2
-                       }, {
-                            row: 3,
-                            col: 3
-                       }],
-                       reservedSeats: [{
-                            row: 0,
-                            col: 0
-                       }, {
-                            row: 0,
-                            col: 1
-                       }, ],
-                       selectedSeats: [{
-                            row: 1,
-                            col: 1
-                       }, {
-                            row: 1,
-                            col: 2
-                       }],
-                       columnSpacers: [2],
-                  },
-             };
+         const options = {
+              map: {
+                   rows: 10,
+                   columns: 4,
+                   seatTypes: {
+                        default: {
+                             label: 'Economy',
+                             cssClass: 'economy',
+                             price: 15,
+                        },
+                        first: {
+                             label: 'First Class',
+                             cssClass: 'first-class',
+                             price: 25,
+                             seatRows: [0, 1, 2],
+                        },
+                        reduced: {
+                             label: 'Reduced',
+                             cssClass: 'reduced',
+                             price: 10,
+                             seatRows: [7, 8, 9],
+                        },
+                   },
+                   disabledSeats: [{
+                        row: 2,
+                        col: 2
+                   }, {
+                        row: 2,
+                        col: 3
+                   }, {
+                        row: 3,
+                        col: 2
+                   }, {
+                        row: 3,
+                        col: 3
+                   }],
+                   reservedSeats: [{
+                        row: 0,
+                        col: 0
+                   }, {
+                        row: 0,
+                        col: 1
+                   }, ],
+                   selectedSeats: [{
+                        row: 1,
+                        col: 1
+                   }, {
+                        row: 1,
+                        col: 2
+                   }],
+                   columnSpacers: [2],
+              },
+         };
 
 
-             const sc = new Seatchart(element, options);
-             sc.addEventListener('submit', function handleSubmit(e) {
-                  alert('Total: ' + e.total + '€');
-             });
-        </script>
-        <script>
-             // Set the date we're counting down to
-             const now = new Date().getTime();
-             const fiveMinutesLater = now + (1000 * 5);
-
-             console.log(`now:${now} fiveMinutesLater:${fiveMinutesLater}`);
-
-             // Update the count down every 1 second
-             const counter = setInterval(function() {
-
-                  // Get today's date and time
-                  var now = new Date().getTime();
-
-                  // Find the distance between now and the count down date
-                  var distance = fiveMinutesLater - now;
-
-                  // Time calculations for days, hours, minutes and seconds
-                  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                  // Display the result in the element with id="alert"
-                  elem = document.getElementById('counter');
-                  elem.innerHTML = minutes + "m " + seconds + "s ";
-
-                  // If the count down is finished, write some text 
-                  if (distance < 0) {
-                       clearInterval(counter);
-                       elem.innerHTML = "EXPIRED";
-                  }
-             }, 1000);
-        </script>
-    </body>
-</html>
+         const sc = new Seatchart(element, options);
+         sc.addEventListener('submit', function handleSubmit(e) {
+              alert('Total: ' + e.total + '€');
+         });
+    </script>
+{% endblock js %}
