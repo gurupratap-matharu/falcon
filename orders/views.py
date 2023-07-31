@@ -3,6 +3,7 @@ from typing import Any, Dict
 
 from django import http
 from django.contrib import messages
+from django.contrib.sites.models import Site
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -21,6 +22,8 @@ from .models import Order, OrderItem, Passenger
 from .services import order_created
 
 logger = logging.getLogger(__name__)
+
+domain = Site.objects.get_current().domain
 
 
 class OrderCreateView(CreateView):
@@ -211,7 +214,15 @@ class TicketView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["trip"] = self.object.trips.first()
+
+        item = self.object.items.first()
+        qr_url = f"https://{domain}{item.get_checkin_url()}"
+        logger.info("qr_url:%s" % qr_url)
+
+        context["item"] = item
+        context["trip"] = item.trip
+        context["qr_url"] = qr_url
+
         return context
 
 
