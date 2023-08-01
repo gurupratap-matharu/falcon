@@ -1,10 +1,40 @@
 {% extends "layouts/base-sidebar.html" %}
 
+{% load i18n %}
+
 {% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center mb-3">
         <h1>HTMX ❤️ Django</h1>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Change Language</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <div class="row">
+                    <div class="col-2">
+                        <select name="language" class="form-select">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                    {{ language.name_local }} ({{ language.code }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" class="btn bg-gradient-primary mb-0" value="Go">
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="card mb-3">
         <div class="card-header">Seat Chart</div>
