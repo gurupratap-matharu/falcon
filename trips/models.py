@@ -25,10 +25,10 @@ class Location(models.Model):
     In domain sense this can be a bus terminal for intercity buses.
     """
 
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    name = models.CharField(_("name"), max_length=200)
+    slug = models.SlugField(_("slug"), max_length=200, unique=True)
     abbr = models.CharField(
-        verbose_name=_("Abbreviation"),
+        verbose_name=_("abbreviation"),
         max_length=7,
         blank=True,
         help_text=_("Used internally as a reference"),
@@ -86,8 +86,8 @@ class Trip(models.Model):
     orders = models.ManyToManyField(
         to="orders.Order", through="orders.OrderItem", related_name="trips"
     )
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200)
+    name = models.CharField(_("name"), max_length=200)
+    slug = models.SlugField(_("slug"), max_length=200)
     origin = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="trips_outbound"
     )
@@ -97,20 +97,22 @@ class Trip(models.Model):
     departure = models.DateTimeField(verbose_name=_("Departure Date & Time"))
     arrival = models.DateTimeField(verbose_name=_("Arrival Date & Time"))
     price = models.DecimalField(
-        max_digits=10, decimal_places=2, validators=[MinValueValidator(1)]
+        _("price"), max_digits=10, decimal_places=2, validators=[MinValueValidator(1)]
     )
     status = models.CharField(
+        _("status"),
         max_length=2,
         choices=TRIP_STATUS_CHOICES,
         default=ACTIVE,
     )
     mode = models.CharField(
+        _("mode"),
         max_length=2,
         choices=TRIP_MODE_CHOICES,
         default=DIRECT,
     )
-    image = models.ImageField(upload_to="trips/%Y/%m/%d", blank=True)
-    description = models.TextField(blank=True)
+    image = models.ImageField(_("image"), upload_to="trips/%Y/%m/%d", blank=True)
+    description = models.TextField(_("description"), blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -374,11 +376,13 @@ class Seat(models.Model):
         "orders.Passenger", on_delete=models.CASCADE, related_name="seats", null=True
     )
     seat_number = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(60)]
+        _("seat number"), validators=[MinValueValidator(1), MaxValueValidator(60)]
     )
-    seat_type = models.CharField(choices=SEAT_TYPE_CHOICES, default=CAMA, max_length=1)
+    seat_type = models.CharField(
+        _("seat type"), choices=SEAT_TYPE_CHOICES, default=CAMA, max_length=1
+    )
     seat_status = models.CharField(
-        choices=SEAT_STATUS_CHOICES, default=AVAILABLE, max_length=1
+        _("seat status"), choices=SEAT_STATUS_CHOICES, default=AVAILABLE, max_length=1
     )
 
     class Meta:

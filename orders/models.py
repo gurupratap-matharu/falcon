@@ -21,9 +21,12 @@ class Order(models.Model):
 
     passengers = models.ManyToManyField("Passenger", related_name="orders")
 
-    name = models.CharField(max_length=50)
-    email = models.EmailField(help_text=_("We'll email the ticket to this email id."))
+    name = models.CharField(_("name"), max_length=50)
+    email = models.EmailField(
+        _("email"), help_text=_("We'll email the ticket to this email id.")
+    )
     residence = CountryField(
+        _("residence"),
         blank_label="(Country of residence)",
         help_text=_("This helps us to show you the best payment options."),
     )  # type: ignore
@@ -183,14 +186,16 @@ class Passenger(models.Model):
     ]
 
     document_type = models.CharField(
-        choices=DOCUMENT_TYPE_CHOICES, max_length=10
+        _("document type"), choices=DOCUMENT_TYPE_CHOICES, max_length=10
     )  # Could this be a foreign key?
-    document_number = models.CharField(max_length=50)  # How can we verify this?
-    nationality = CountryField(blank_label="(Nationality)")  # type: ignore
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
-    birth_date = models.DateField(validators=[validate_birth_date])
+    document_number = models.CharField(
+        _("document number"), max_length=50
+    )  # How can we verify this?
+    nationality = CountryField(_("nationality"), blank_label="(Nationality)")  # type: ignore
+    first_name = models.CharField(_("first name"), max_length=50)
+    last_name = models.CharField(_("last name"), max_length=50)
+    gender = models.CharField(_("gender"), choices=GENDER_CHOICES, max_length=1)
+    birth_date = models.DateField(_("birth date"), validators=[validate_birth_date])
 
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,15}$",
@@ -199,7 +204,7 @@ class Passenger(models.Model):
         ),
     )
     phone_number = models.CharField(
-        validators=[phone_regex], max_length=17
+        _("phone number"), validators=[phone_regex], max_length=17
     )  # how to separate country code out?
 
     created_on = models.DateTimeField(auto_now_add=True)

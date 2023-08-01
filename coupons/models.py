@@ -15,6 +15,7 @@ class Coupon(models.Model):
     """One time use coupons to apply a discount to a cart"""
 
     code = models.CharField(
+        verbose_name=_("code"),
         max_length=50,
         unique=True,
         help_text=_("Please use capital letters without spaces. Ex: SUMMER10"),
@@ -25,13 +26,14 @@ class Coupon(models.Model):
             )
         ],
     )
-    valid_from = models.DateTimeField(default=timezone.now)
-    valid_to = models.DateTimeField()
+    valid_from = models.DateTimeField(_("valid from"), default=timezone.now)
+    valid_to = models.DateTimeField(_("valid to"))
     discount = models.PositiveIntegerField(
+        _("discount"),
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         help_text=_("Percentage value (0 to 100%)"),
     )
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(_("active"), default=True)
 
     class Meta:
         ordering = ("valid_to",)
