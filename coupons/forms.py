@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from coupons.models import Coupon
 
@@ -7,7 +8,8 @@ class CouponApplyForm(forms.Form):
     """Simple form to allow a user to apply a coupon to the cart"""
 
     code = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Code", "class": "form-control"})
+        label=_("coupon"),
+        widget=forms.TextInput(attrs={"placeholder": "Code", "class": "form-control"}),
     )
 
 

@@ -19,15 +19,17 @@ def company_thumbnail_path(instance, filename):
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=300, unique=True)
-    description = models.CharField(max_length=800, blank=True)
-    website = models.URLField(blank=True)
-    address = models.CharField(max_length=200)
-    phone = models.CharField(max_length=20)
-    email = models.EmailField()
+    name = models.CharField(_("name"), max_length=200)
+    slug = models.SlugField(_("slug"), max_length=300, unique=True)
+    description = models.CharField(_("description"), max_length=800, blank=True)
+    website = models.URLField(_("website"), blank=True)
+    address = models.CharField(_("address"), max_length=200)
+    phone = models.CharField(_("phone"), max_length=20)
+    email = models.EmailField(_("email"))
     cover = models.ImageField(
-        verbose_name=_("Cover photo"), upload_to=company_cover_path, blank=True
+        verbose_name=_("Cover photo"),
+        upload_to=company_cover_path,
+        blank=True,
     )
     thumbnail = models.ImageField(
         verbose_name=_("Thumbnail photo"), upload_to=company_thumbnail_path, blank=True
@@ -87,8 +89,8 @@ class SeatChart(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=200)
-    json = models.JSONField()
+    title = models.CharField(_("title"), max_length=200)
+    json = models.JSONField(_("json"))
     company = models.ForeignKey(
         "Company", related_name="seatcharts", on_delete=models.CASCADE
     )
