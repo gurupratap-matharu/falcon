@@ -47,6 +47,12 @@ showmigrations:
 makemigrations:
 	python manage.py makemigrations
 
+makemessages:
+	django-admin makemessages --all
+
+compilemessages:
+	django-admin compilemessages 
+	
 migrate:
 	python manage.py migrate
 
