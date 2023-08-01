@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <footer class="footer px-0 mx-4 shadow-none border-radius-xl">
     <div class="container-fluid py-3 px-3">
         <div class="row align-items-center justify-content-lg-between">
@@ -11,6 +13,25 @@
             </div>
             <div class="col-lg-6">
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                    <li class="nav-item">
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <div class="input-group input-group-sm mb-3">
+                                <select name="language" class="form-select form-select-sm bg-transparent">
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    {% for language in languages %}
+                                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                            {{ language.code|title }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-outline-primary mb-0" type="submit" id="button-addon2">Go</button>
+                            </div>
+                        </form>
+                    </li>
                     <li class="nav-item">
                         <a href="{% url 'pages:about' %}" class="nav-link text-muted">About</a>
                     </li>
