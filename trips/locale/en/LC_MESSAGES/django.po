@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-01 12:48-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: trips/admin.py:21
+msgid "Time"
+msgstr ""
+
+#: trips/admin.py:35
+msgid "Future 7 days"
+msgstr ""
+
+#: trips/admin.py:36
+msgid "Future 30 days"
+msgstr ""
+
+#: trips/forms.py:85
+msgid "Departure date is invalid"
+msgstr ""
+
+#: trips/forms.py:93 trips/forms.py:223
+msgid "Departure cannot be in the past!"
+msgstr ""
+
+#: trips/forms.py:117
+msgid "Return date is invalid"
+msgstr ""
+
+#: trips/forms.py:130 trips/forms.py:136
+msgid "Trip type is not valid"
+msgstr ""
+
+#: trips/forms.py:148 trips/forms.py:156
+msgid "Number of passengers is not valid"
+msgstr ""
+
+#: trips/forms.py:214
+msgid "origin and destination cannot be same"
+msgstr ""
+
+#: trips/forms.py:227
+msgid "Arrival cannot be earlier than departure!"
+msgstr ""
+
+#: trips/forms.py:237
+msgid "Every Hour"
+msgstr ""
+
+#: trips/forms.py:238
+msgid "Every Day"
+msgstr ""
+
+#: trips/forms.py:239
+msgid "Every Week"
+msgstr ""
+
+#: trips/forms.py:240
+msgid "Every Month"
+msgstr ""
+
+#: trips/forms.py:256
+msgid "Starts"
+msgstr ""
+
+#: trips/forms.py:258
+msgid "Please enter start date"
+msgstr ""
+
+#: trips/forms.py:263
+msgid "Repeats"
+msgstr ""
+
+#: trips/forms.py:264
+msgid "Frequency of the event (required)"
+msgstr ""
+
+#: trips/forms.py:270
+msgid "End Repeat"
+msgstr ""
+
+#: trips/forms.py:271 trips/forms.py:344
+msgid "Provide either End repeat or Count."
+msgstr ""
+
+#: trips/forms.py:277
+msgid "Count"
+msgstr ""
+
+#: trips/forms.py:279
+msgid ""
+"(Optional) End repeat after these many occurrences (between 0-1000). Provide "
+"either End repeat or Count."
+msgstr ""
+
+#: trips/forms.py:288
+msgid "Interval"
+msgstr ""
+
+#: trips/forms.py:291
+msgid ""
+"(Optional) Time between consecutive occurrences. Ex for daily repeats 1: "
+"Every day, 2: Every other day, 3: every third day and so on..."
+msgstr ""
+
+#: trips/forms.py:304
+#, python-format
+msgid "datetime (%(dt)s) cannot be in the past!"
+msgstr ""
+
+#: trips/forms.py:339
+msgid "End time cannot be less than Start time."
+msgstr ""
+
+#: trips/models.py:28 trips/models.py:89
+msgid "name"
+msgstr ""
+
+#: trips/models.py:29 trips/models.py:90
+msgid "slug"
+msgstr ""
+
+#: trips/models.py:31
+msgid "abbreviation"
+msgstr ""
+
+#: trips/models.py:34
+msgid "Used internally as a reference"
+msgstr ""
+
+#: trips/models.py:97
+msgid "Departure Date & Time"
+msgstr ""
+
+#: trips/models.py:98
+msgid "Arrival Date & Time"
+msgstr ""
+
+#: trips/models.py:100
+msgid "price"
+msgstr ""
+
+#: trips/models.py:103
+msgid "status"
+msgstr ""
+
+#: trips/models.py:109
+msgid "mode"
+msgstr ""
+
+#: trips/models.py:114
+msgid "image"
+msgstr ""
+
+#: trips/models.py:115
+msgid "description"
+msgstr ""
+
+#: trips/models.py:137
+msgid "Arrival date cannot be less than departure date"
+msgstr ""
+
+#: trips/models.py:379
+msgid "seat number"
+msgstr ""
+
+#: trips/models.py:382
+msgid "seat type"
+msgstr ""
+
+#: trips/models.py:385
+msgid "seat status"
+msgstr ""

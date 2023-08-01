@@ -1,0 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-01 10:55-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: orders/forms.py:130
+#, python-format
+msgid "Your birth date (%(birth_date)s) is invalid!"
+msgstr "¡Tu fecha de nacimiento (%(birth_date)s) no es válida!"
+
+#: orders/models.py:24
+msgid "name"
+msgstr "nombre"
+
+#: orders/models.py:26
+msgid "email"
+msgstr "email"
+
+#: orders/models.py:26
+msgid "We'll email the ticket to this email id."
+msgstr "Enviaremos los pasajes a este email"
+
+#: orders/models.py:29
+msgid "residence"
+msgstr "país de residencia"
+
+#: orders/models.py:31
+msgid "This helps us to show you the best payment options."
+msgstr "Esto nos ayuda a mostrarle las mejores opciones de pago."
+
+#: orders/models.py:189
+msgid "document type"
+msgstr "tipo de documento"
+
+#: orders/models.py:192
+msgid "document number"
+msgstr "número de documento"
+
+#: orders/models.py:194
+msgid "nationality"
+msgstr "nacionalidad"
+
+#: orders/models.py:195
+msgid "first name"
+msgstr "nombre"
+
+#: orders/models.py:196
+msgid "last name"
+msgstr "apellidos"
+
+#: orders/models.py:197
+msgid "gender"
+msgstr "género"
+
+#: orders/models.py:198
+msgid "birth date"
+msgstr "fecha de nacimiento"
+
+#: orders/models.py:203
+msgid ""
+"Phone number must be entered in the format: '+999999999'. Up to 15 digits "
+"allowed."
+msgstr "El número de teléfono debe ingresarse en el formato: '+999999999'. Se permiten hasta 15 dígitos."
+
+#: orders/models.py:207
+msgid "phone number"
+msgstr "teléfono"
+
+#: orders/validators.py:21
+#, python-format
+msgid "Your birth date (%(value)s) cannot be in the future!🤭"
+msgstr "¡Tu fecha de nacimiento (%(value)s) no puede ser en el futuro!🤭"
+
+#: orders/validators.py:28
+#, python-format
+msgid "%(value)s doesn't seem right. Age is %(age)s years!👵🏻"
+msgstr "%(value)s no parece correcto. ¡La edad es %(age)s años!👵🏻"
