@@ -81,6 +81,9 @@ class Company(models.Model):
     def get_seatchart_url(self):
         return reverse_lazy("companies:seatchart-list", kwargs={"slug": self.slug})
 
+    def get_live_status_url(self):
+        return reverse_lazy("companies:live-status", kwargs={"slug": self.slug})
+
 
 class SeatChart(models.Model):
     """

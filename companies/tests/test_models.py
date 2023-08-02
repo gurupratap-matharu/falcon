@@ -54,6 +54,11 @@ class CompanyModelTests(TestCase):
 
         self.assertEqual(self.company.get_seatchart_url(), expected_url)
 
+    def test_get_live_status_url(self):
+        expected_url = f"/companies/{self.company.slug.lower()}/admin/live/"
+
+        self.assertEqual(self.company.get_live_status_url(), expected_url)
+
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.company._meta.verbose_name_plural), "companies")
 
