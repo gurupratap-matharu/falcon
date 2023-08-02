@@ -10,6 +10,7 @@ from companies.views import (
     CompanyDashboardView,
     CompanyDetailView,
     CompanyListView,
+    LiveStatusView,
     SeatChartDetailView,
     SeatChartListView,
 )
@@ -466,3 +467,22 @@ class SeatChartDetailTests(TestCase):
         self.assertContains(response, self.company)
         self.assertEqual(self.company, response.context["company"])
         self.assertNotContains(response, "Hi I should not be on this page!")
+
+
+class LiveStatusViewTests(TestCase):
+    """
+    Test suite for live GPS map view
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.url = reverse_lazy("companies:live-status", args=[cls.company.slug])
+
+    def test_live_status_url_resolves_correct_view(self):
+        view = resolve(self.url)
+
+        self.assertEqual(view.func.__name__, LiveStatusView.as_view().__name__)
+
+    # TODO WRITE PERMISSION TESTS
