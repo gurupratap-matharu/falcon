@@ -61,3 +61,7 @@ class SeatChartDetailView(OwnerMixin, DetailView):
     model = SeatChart
     pk_url_kwarg = "id"
     context_object_name = "seatchart"
+
+
+class LiveStatusView(OwnerMixin, TemplateView):
+    template_name = "companies/live_status.html"

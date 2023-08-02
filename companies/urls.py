@@ -47,6 +47,7 @@ company_admin_patterns = [
         OrderCheckInView.as_view(),
         name="checkin",
     ),
+    path("live/", views.LiveStatusView.as_view(), name="live-status"),
 ]
 
 
