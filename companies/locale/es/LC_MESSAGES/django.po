@@ -19,44 +19,44 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: companies/models.py:22
 msgid "name"
-msgstr ""
+msgstr "nombre"
 
 #: companies/models.py:23
 msgid "slug"
-msgstr ""
+msgstr "slug"
 
 #: companies/models.py:24
 msgid "description"
-msgstr ""
+msgstr "descripción"
 
 #: companies/models.py:25
 msgid "website"
-msgstr ""
+msgstr "sitio web"
 
 #: companies/models.py:26
 msgid "address"
-msgstr ""
+msgstr "dirección"
 
 #: companies/models.py:27
 msgid "phone"
-msgstr ""
+msgstr "teléfono"
 
 #: companies/models.py:28
 msgid "email"
-msgstr ""
+msgstr "email"
 
 #: companies/models.py:30
 msgid "Cover photo"
-msgstr ""
+msgstr "Cover photo"
 
 #: companies/models.py:35
 msgid "Thumbnail photo"
-msgstr ""
+msgstr "Thumbnail photo"
 
 #: companies/models.py:92
 msgid "title"
-msgstr ""
+msgstr "título"
 
 #: companies/models.py:93
 msgid "json"
-msgstr ""
+msgstr "json"

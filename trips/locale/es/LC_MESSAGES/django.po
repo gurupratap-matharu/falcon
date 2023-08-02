@@ -19,169 +19,171 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: trips/admin.py:21
 msgid "Time"
-msgstr ""
+msgstr "Tiempo"
 
 #: trips/admin.py:35
 msgid "Future 7 days"
-msgstr ""
+msgstr "Futuro 7 días"
 
 #: trips/admin.py:36
 msgid "Future 30 days"
-msgstr ""
+msgstr "Futuro 30 días"
 
 #: trips/forms.py:85
 msgid "Departure date is invalid"
-msgstr ""
+msgstr "La fecha de salida no es válida"
 
 #: trips/forms.py:93 trips/forms.py:223
 msgid "Departure cannot be in the past!"
-msgstr ""
+msgstr "¡La fecha de salida no puede ser en el pasado!"
 
 #: trips/forms.py:117
 msgid "Return date is invalid"
-msgstr ""
+msgstr "La fecha de vuelta no es válida"
 
 #: trips/forms.py:130 trips/forms.py:136
 msgid "Trip type is not valid"
-msgstr ""
+msgstr "Trip type no es válido"
 
 #: trips/forms.py:148 trips/forms.py:156
 msgid "Number of passengers is not valid"
-msgstr ""
+msgstr "El número de pasajeros no es válido"
 
 #: trips/forms.py:214
 msgid "origin and destination cannot be same"
-msgstr ""
+msgstr "el orígen y el destino no puede ser el mismo"
 
 #: trips/forms.py:227
 msgid "Arrival cannot be earlier than departure!"
-msgstr ""
+msgstr "¡La llegada no puede ser anterior a la salida!"
 
 #: trips/forms.py:237
 msgid "Every Hour"
-msgstr ""
+msgstr "Cada Hora"
 
 #: trips/forms.py:238
 msgid "Every Day"
-msgstr ""
+msgstr "Cada día"
 
 #: trips/forms.py:239
 msgid "Every Week"
-msgstr ""
+msgstr "Cada semana"
 
 #: trips/forms.py:240
 msgid "Every Month"
-msgstr ""
+msgstr "Cada mes"
 
 #: trips/forms.py:256
 msgid "Starts"
-msgstr ""
+msgstr "Empieza"
 
 #: trips/forms.py:258
 msgid "Please enter start date"
-msgstr ""
+msgstr "Por favor entrar la fecha de comienzo"
 
 #: trips/forms.py:263
 msgid "Repeats"
-msgstr ""
+msgstr "Repite"
 
 #: trips/forms.py:264
 msgid "Frequency of the event (required)"
-msgstr ""
+msgstr "Frecuencia del evento (requerido)"
 
 #: trips/forms.py:270
 msgid "End Repeat"
-msgstr ""
+msgstr "Finalizar repetición"
 
 #: trips/forms.py:271 trips/forms.py:344
 msgid "Provide either End repeat or Count."
-msgstr ""
+msgstr "Proveer solo finalizar repetición o count"
 
 #: trips/forms.py:277
 msgid "Count"
-msgstr ""
+msgstr "Count"
 
 #: trips/forms.py:279
 msgid ""
 "(Optional) End repeat after these many occurrences (between 0-1000). Provide "
 "either End repeat or Count."
 msgstr ""
+"(Opcional) Finalice la repetición después de tantas ocurrencias (entre 0 y 1000). Proveer solo finalizar repetición o Count."
 
 #: trips/forms.py:288
 msgid "Interval"
-msgstr ""
+msgstr "Intervalo"
 
 #: trips/forms.py:291
 msgid ""
 "(Optional) Time between consecutive occurrences. Ex for daily repeats 1: "
 "Every day, 2: Every other day, 3: every third day and so on..."
 msgstr ""
+"(Opcional) Tiempo entre ocurrencias consecutivas. Por ejemplo, para repeticiones diarias 1: todos los días, 2: cada dos días, 3: cada tercer día y así sucesivamente..."
 
 #: trips/forms.py:304
 #, python-format
 msgid "datetime (%(dt)s) cannot be in the past!"
-msgstr ""
+msgstr "datetime (%(dt)s) no puede ser en el pasado!"
 
 #: trips/forms.py:339
 msgid "End time cannot be less than Start time."
-msgstr ""
+msgstr "La hora de finalización no puede ser inferior a la hora de inicio."
 
 #: trips/models.py:28 trips/models.py:89
 msgid "name"
-msgstr ""
+msgstr "nombre"
 
 #: trips/models.py:29 trips/models.py:90
 msgid "slug"
-msgstr ""
+msgstr "slug"
 
 #: trips/models.py:31
 msgid "abbreviation"
-msgstr ""
+msgstr "abreviación"
 
 #: trips/models.py:34
 msgid "Used internally as a reference"
-msgstr ""
+msgstr "Usado internamente como una referencia"
 
 #: trips/models.py:97
 msgid "Departure Date & Time"
-msgstr ""
+msgstr "Fecha y hora de salida"
 
 #: trips/models.py:98
 msgid "Arrival Date & Time"
-msgstr ""
+msgstr "Fecha y hora de llegada"
 
 #: trips/models.py:100
 msgid "price"
-msgstr ""
+msgstr "precio"
 
 #: trips/models.py:103
 msgid "status"
-msgstr ""
+msgstr "estado"
 
 #: trips/models.py:109
 msgid "mode"
-msgstr ""
+msgstr "modo"
 
 #: trips/models.py:114
 msgid "image"
-msgstr ""
+msgstr "imagen"
 
 #: trips/models.py:115
 msgid "description"
-msgstr ""
+msgstr "descripción"
 
 #: trips/models.py:137
 msgid "Arrival date cannot be less than departure date"
-msgstr ""
+msgstr "La fecha de llegada no puede ser antes que la fecha de salida"
 
 #: trips/models.py:379
 msgid "seat number"
-msgstr ""
+msgstr "número de butaca"
 
 #: trips/models.py:382
 msgid "seat type"
-msgstr ""
+msgstr "tipo de butaca"
 
 #: trips/models.py:385
 msgid "seat status"
-msgstr ""
+msgstr "estado de butaca"
