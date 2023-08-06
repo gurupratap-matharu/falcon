@@ -24,8 +24,8 @@ class ProfilePageView(LoginRequiredMixin, TemplateView):
     template_name: str = "users/profile.html"
 
 
-class ProfileEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    template_name: str = "users/profile_edit.html"
+class AccountSettingsView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+    template_name: str = "users/settings.html"
     form_class = ProfileEditForm
     success_url = reverse_lazy("users:profile")
     success_message: str = "Profile updated successfully!"

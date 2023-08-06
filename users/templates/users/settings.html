@@ -1,0 +1,30 @@
+{% extends "layouts/base-account.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {{ user.get_full_name }} | {% trans "Edit Profile" %} | Falcon
+{% endblock title %}
+
+{% block content %}
+    <div class="card card-plain mt-8">
+        <div class="card-header pb-0 text-left bg-transparent">
+            <h3 class="font-weight-bolder text-primary text-gradient">{% trans "Edit Profile" %}</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'users:settings' %}">
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                    <div class="mb-3">
+                        <div class="text-danger">{{ field.errors }}</div>
+                        {{ field }}
+                        <div class="form-text ms-2">{{ field.help_text|safe }}</div>
+                    </div>
+                {% endfor %}
+                <div class="text-center">
+                    <button type="submit" name="action" class="btn bg-gradient-primary w-100 mt-4 mb-0">{% trans "Save Profile" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

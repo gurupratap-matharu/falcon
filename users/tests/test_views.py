@@ -7,7 +7,7 @@ from django.urls import resolve, reverse
 
 from users.factories import UserFactory
 from users.forms import AccountDeleteForm, ProfileEditForm
-from users.views import AccountDeleteView, ProfileEditView, ProfilePageView
+from users.views import AccountDeleteView, AccountSettingsView, ProfilePageView
 
 CustomUser = get_user_model()
 
@@ -43,7 +43,7 @@ class ProfileEditTests(TestCase):
 
     def setUp(self):
         self.user = UserFactory()
-        self.url = reverse("users:profile-edit")
+        self.url = reverse("users:settings")
         self.valid_data = {
             "first_name": "Inderpal Singh",
             "last_name": "Matharu",
@@ -72,7 +72,7 @@ class ProfileEditTests(TestCase):
 
     def test_profile_edit_resolves_profileeditview(self):
         view = resolve(self.url)
-        self.assertEqual(view.func.__name__, ProfileEditView.as_view().__name__)
+        self.assertEqual(view.func.__name__, AccountSettingsView.as_view().__name__)
 
     def test_profile_edit_view_renders_profile_edit_form(self):
         self.client.force_login(self.user)  # type: ignore
@@ -93,7 +93,7 @@ class ProfileEditTests(TestCase):
 
         # Check that a confirmation message is included in the response
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), ProfileEditView.success_message)
+        self.assertEqual(str(messages[0]), AccountSettingsView.success_message)
 
         # Check that profile is updated successfully
         user = CustomUser.objects.first()
