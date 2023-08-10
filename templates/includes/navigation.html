@@ -43,24 +43,21 @@
                 <li class="nav-item d-flex align-items-center">
                     {% if request.user.is_authenticated %}
                         <div class="dropdown nav-link">
-                            <a href="#"
-                               class="nav-link d-flex lh-1 text-reset p-0 border border-primary"
-                               data-bs-toggle="dropdown"
-                               aria-label="Open user menu">
+                            <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                                 {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
                                     {% if avatar_url %}
                                         <img src="{{ avatar_url }}" class="avatar avatar-sm" />
                                     {% else %}
-                                        <span class="avatar avatar-sm text-primary text-gradient">{{ request.user.email|slice:":2"|upper }}</span>
+                                        <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
                                     {% endif %}
                                 {% endwith %}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <a class="dropdown-item border-radius-md" href="{% url 'pages:profile' request.user.username %}">Profile</a>
-                                <a class="dropdown-item border-radius-md" href="{% url 'pages:feedback' %}">Feedback</a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="{% url 'pages:profile' request.user.username %}">Profile</a>
+                                <a class="dropdown-item" href="{% url 'pages:feedback' %}">Feedback</a>
                                 <hr class="dropdown-divider" />
-                                <a class="dropdown-item border-radius-md" href="{% url 'users:settings' %}">Settings</a>
-                                <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Sign out</a>
+                                <a class="dropdown-item" href="{% url 'users:settings' %}">Settings</a>
+                                <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
                             </div>
                         </div>
                     {% else %}
