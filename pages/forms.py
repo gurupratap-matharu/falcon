@@ -4,7 +4,7 @@ from django import forms
 from django.conf import settings
 from django.core.mail import send_mail
 
-from captcha.fields import CaptchaField
+from captcha.fields import CaptchaField, CaptchaTextInput
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,11 @@ class FeedbackForm(forms.Form):
             }
         ),
     )
-    captcha = CaptchaField()
+    captcha = CaptchaField(
+        widget=CaptchaTextInput(
+            attrs={"class": "form-control mt-3", "placeholder": "captcha"}
+        )
+    )
 
     def send_mail(self):
         from_email = self.cleaned_data["email"]
@@ -78,10 +82,13 @@ class ContactForm(forms.Form):
             }
         ),
     )
-    captcha = CaptchaField()
+    captcha = CaptchaField(
+        widget=CaptchaTextInput(
+            attrs={"class": "form-control mt-3", "placeholder": "captcha"}
+        )
+    )
 
     def send_mail(self):
-
         subject = self.cleaned_data["subject"]
         from_email = self.cleaned_data["email"]
         message = "From: {name}\nEmail: {email}\n\n{message}".format(

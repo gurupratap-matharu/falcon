@@ -339,8 +339,7 @@ SHELL_PLUS_IMPORTS = [
 ]
 
 # Simple captcha
-CAPTCHA_IMAGE_SIZE = (100, 10)
-
+CAPTCHA_IMAGE_SIZE = (100, 50)
 
 # Mercado pago
 MP_PUBLIC_KEY = os.getenv("MP_PUBLIC_KEY")
