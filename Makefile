@@ -3,13 +3,14 @@ APP_LIST ?= blog cart companies coupons main orders pages payments trips users
 
 help:
 	@echo "Available commands"
-	@echo " - ci               : lints, migrations, tests, coverage"
-	@echo " - install          : installs production requirements"
-	@echo " - isort            : sorts all imports of the project"
-	@echo " - lint             : lints the codebase"
-	@echo " - runserver              : runs the development server"
-	@echo " - setup-test-data  : erases the db and loads mock data"
-	@echo " - shellplus        : runs the development shell"
+	@echo "ci - lints, migrations, tests, coverage"
+	@echo "install - installs production requirements"
+	@echo "isort - sorts all imports of the project"
+	@echo "runserver - runs the development server"
+	@echo "setup-test-data - erases the db and loads mock data"
+	@echo "shellplus - runs the development shell"
+	@echo "lint - check style with black, flake8, sort python with isort, and indent html"
+	@echo "format - enforce a consistent code style across the codebase and sort python files with isort"
 
 collectstatic:
 	python manage.py collectstatic --noinput
@@ -64,15 +65,16 @@ runserver:
 
 build: install makemigrations migrate runserver
 
-isort:
-	poetry run isort . --check-only --profile black
-
 format:
-	poetry run black . --check 
+	poetry run black --target-version py37 .
+	poetry run isort . --profile black
+	git ls-files '*.html' | xargs djlint --reformat
 
-lint: isort format
+lint:
+	poetry run black --target-version py37 --check --diff .
+	poetry run isort . --check-only --profile black
 	poetry run ruff .
-	# djlint .
+	git ls-files '*.html' | xargs djlint --check
 
 test: check migrations-check
 	coverage run --source='.' manage.py test
