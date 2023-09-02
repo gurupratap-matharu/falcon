@@ -138,15 +138,9 @@
                             <td>{{ passenger.get_full_name }}</td>
                             <td>{{ passenger.get_document_type_display }}</td>
                             <td>{{ passenger.document_number }}</td>
-                            <td>
-                                {{ passenger.nationality.name }}
-                            </td>
-                            <td>
-                                {{ passenger.get_gender_display }}
-                            </td>
-                            <td>
-                                {{ seat.get_seat_status_display }}
-                            </td>
+                            <td>{{ passenger.nationality.name }}</td>
+                            <td>{{ passenger.get_gender_display }}</td>
+                            <td>{{ seat.get_seat_status_display }}</td>
                         </tr>
                     {% endwith %}
                 {% endfor %}
