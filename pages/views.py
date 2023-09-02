@@ -99,6 +99,10 @@ class LandingPageView(TemplateView):
     template_name = "pages/landing.html"
 
 
+class HelpPageView(TemplateView):
+    template_name = "pages/help.html"
+
+
 class BasePageView(TemplateView):
     template_name = "layouts/base.html"
 

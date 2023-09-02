@@ -12,6 +12,7 @@ from pages.views import (
     AboutPageView,
     ContactPageView,
     FeedbackPageView,
+    HelpPageView,
     PrivacyPageView,
     PublicProfilePageView,
     TermsPageView,
@@ -128,7 +129,6 @@ class ContactPageTests(TestCase):
 
     @tag("email")
     def test_contact_page_sends_email_for_valid_data(self):
-
         response = self.client.post(self.url, data=self.valid_data)
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -203,7 +203,6 @@ class FeedbackPageTests(TestCase):
 
     @tag("email")
     def test_feedback_page_sends_email_for_valid_data(self):
-
         response = self.client.post(self.url, data=self.valid_data)
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -259,3 +258,21 @@ class PublicProfilePageTests(TestCase):
     def test_profile_page_url_resolves_homepageview(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PublicProfilePageView.as_view().__name__)
+
+
+@tag("pages", "fast")
+class HelpPageTests(SimpleTestCase):
+    def setUp(self):
+        self.url = reverse("pages:help")
+        self.template_name = "pages/help.html"
+
+    def test_help_page_works_correctly(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Help")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+    def test_help_page_url_resolves_help_page_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, HelpPageView.as_view().__name__)
