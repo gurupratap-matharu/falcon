@@ -46,7 +46,7 @@
                             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                                 {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
                                     {% if avatar_url %}
-                                        <img src="{{ avatar_url }}" class="avatar avatar-sm" />
+                                        <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" />
                                     {% else %}
                                         <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
                                     {% endif %}

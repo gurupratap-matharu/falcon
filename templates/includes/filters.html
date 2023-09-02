@@ -4,17 +4,13 @@
        href="#filters"
        role="button"
        aria-expanded="false"
-       aria-controls="collapseExample">
-        Filters
-    </a>
+       aria-controls="collapseExample">Filters</a>
     <div class="dropdown">
         <button class="btn btn-white dropdown-toggle"
                 type="button"
                 id="sortPriceButton"
                 data-bs-toggle="dropdown"
-                aria-expanded="false">
-            Price
-        </button>
+                aria-expanded="false">Price</button>
         <ul class="dropdown-menu" aria-labelledby="sortPriceButton">
             <li>
                 <form action="{% url 'trips:trip-list' %}" method="get">

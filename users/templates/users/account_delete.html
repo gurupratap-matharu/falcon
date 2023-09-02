@@ -27,16 +27,16 @@
                         {{ field.help_text }}
                     </div>
                 {% endfor %}
-                <a href="{% url 'users:profile' %}" class="btn bg-gradient-primary">Nevermind</a>
-                <button type="submit" name="action" class="btn btn-default mx-3">{% trans "Delete" %}</button>
+                <a href="{% url 'users:profile' %}" class="btn btn-white">{% trans "Cancel" %}</a>
+                <button type="submit" name="action" class="btn btn-danger mx-3">{% trans "Delete" %}</button>
             </form>
         </div>
     </div>
     <script>
-        const add_form_classes = () => {
-            const delete_checkbox = document.querySelector('#id_delete');
-            delete_checkbox.classList.add('form-check-input');
-        }
-        document.addEventListener("DOMContentLoaded", add_form_classes);
+         const add_form_classes = () => {
+              const delete_checkbox = document.querySelector('#id_delete');
+              delete_checkbox.classList.add('form-check-input');
+         }
+         document.addEventListener("DOMContentLoaded", add_form_classes);
     </script>
 {% endblock content %}
