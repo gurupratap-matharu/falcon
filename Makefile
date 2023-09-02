@@ -66,12 +66,12 @@ runserver:
 build: install makemigrations migrate runserver
 
 format:
-	poetry run black --target-version py37 .
+	poetry run black .
 	poetry run isort . --profile black
 	git ls-files '*.html' | xargs djlint --reformat
 
 lint:
-	poetry run black --target-version py37 --check --diff .
+	poetry run black --check --diff .
 	poetry run isort . --check-only --profile black
 	poetry run ruff .
 	git ls-files '*.html' | xargs djlint --check
