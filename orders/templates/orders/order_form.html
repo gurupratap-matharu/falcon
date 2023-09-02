@@ -132,15 +132,13 @@
                             </div>
                         {% endfor %}
                         <div class="form-check form-check-info text-left ms-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required/>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required />
                             <label class="form-check-label" for="flexCheckDefault">
                                 I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
                             </label>
                         </div>
                         <div class="d-flex justify-content-center mt-4">
-                            <button class="btn bg-gradient-primary w-100" type="submit">
-                                Checkout
-                            </button>
+                            <button class="btn bg-gradient-primary w-100" type="submit">Checkout</button>
                         </div>
                     </div>
                 </div>
@@ -156,9 +154,7 @@
             {% empty %}
                 <div class="card mx-3 mx-md-0 mt-3 mt-md-0">
                     <div class="card-body">
-                        <h5>
-                            Cart is empty! 📭
-                        </h5>
+                        <h5>Cart is empty! 📭</h5>
                     </div>
                 </div>
             {% endfor %}
@@ -168,59 +164,40 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#fareSummary"
                         aria-expanded="true"
-                        aria-controls="fareSummary">
-                    Fare Summary
-                </button>
+                        aria-controls="fareSummary">Fare Summary</button>
                 <div class="collapse" id="fareSummary">
                     <div class="card bg-transparent shadow-xl">
-                        <div class="overflow-hidden position-relative border-radius-xl"
-                             style="background-image: url({% static "assets/img/curved-images/curved13.jpg" %})">
+                        <div class="overflow-hidden position-relative border-radius-xl" style="background-image: url({% static "assets/img/curved-images/curved13.jpg" %})">
                             <div class="card-body position-relative z-index-1 p-3">
                                 <i class="fas fa-coins text-white p-2" aria-hidden="true"></i>
                                 {% for item in cart %}
                                     {% with trip=item.trip %}
                                         <div class="mb-3">
-                                            <p class="text-white opacity-8 mb-0">
-                                                {{ trip.origin }} - {{ trip.destination }}
-                                            </p>
+                                            <p class="text-white opacity-8 mb-0">{{ trip.origin }} - {{ trip.destination }}</p>
                                             {% with ""|center:item.quantity as range %}
                                                 {% for _ in range %}
                                                     <div class="d-flex justify-content-between mb-1">
-                                                        <div class="text-white text-sm">
-                                                            Passenger {{ forloop.counter }}
-                                                        </div>
-                                                        <div class="text-white">
-                                                            ${{ trip.price }}
-                                                        </div>
+                                                        <div class="text-white text-sm">Passenger {{ forloop.counter }}</div>
+                                                        <div class="text-white">${{ trip.price }}</div>
                                                     </div>
                                                 {% endfor %}
                                             {% endwith %}
                                             <div class="text-white mb-0">
-                                                <h6 class="text-white mb-0 d-inline">
-                                                </h6>
-                                                <h6 class="text-white mb-0">
-                                                </h6>
+                                                <h6 class="text-white mb-0 d-inline"></h6>
+                                                <h6 class="text-white mb-0"></h6>
                                             </div>
                                         </div>
                                     {% endwith %}
                                 {% endfor %}
                                 {% if cart.coupon %}
                                     <div class="d-flex justify-content-between mb-1">
-                                        <div class="text-white text-sm">
-                                            Coupon ({{ cart.coupon.discount }}% off)
-                                        </div>
-                                        <div class="text-white">
-                                            - $ {{ cart.get_discount|floatformat:"-3g" }}
-                                        </div>
+                                        <div class="text-white text-sm">Coupon ({{ cart.coupon.discount }}% off)</div>
+                                        <div class="text-white">- $ {{ cart.get_discount|floatformat:"-3g" }}</div>
                                     </div>
                                 {% endif %}
                                 <div class="d-flex justify-content-between mb-1">
-                                    <div class="text-white text-sm">
-                                        Total
-                                    </div>
-                                    <div class="text-white">
-                                        ${{ cart.get_total_price_after_discount|floatformat:"-3g" }}
-                                    </div>
+                                    <div class="text-white text-sm">Total</div>
+                                    <div class="text-white">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</div>
                                 </div>
                             </div>
                         </div>
