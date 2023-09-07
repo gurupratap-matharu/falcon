@@ -1,11 +1,13 @@
-{% load static %}
+{% load static i18n %}
 
 <!DOCTYPE html>
-<html lang="en">
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="author" content="Falcon Team" />
         {% comment %} <link rel="apple-touch-icon" sizes="76x76" href="" />
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'icons/favicon-32x32.png' %}">
@@ -18,8 +20,11 @@
                 Falcon
             {% endblock title %}
 
+            {% block title_suffix %}
+                | Book Bus tickets
+            {% endblock title_suffix %}
+
         </title>
-        <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-2GLN3JT3JD"></script>
         <script>
              if (document.location.hostname.search("falconhunt.xyz") !== -1) {
@@ -33,14 +38,10 @@
                   gtag('config', c);
              }
         </script>
-        <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-        <!-- Nucleo Icons -->
         <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
         <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
-        <!-- Font Awesome Icons -->
         <script src="https://kit.fontawesome.com/546230838a.js" crossorigin="anonymous"></script>
-        <!-- CSS Files -->
         <link rel="stylesheet" id="pagestyle" href="{% static 'assets/css/soft-ui-dashboard.css' %}" />
         <link rel="stylesheet" href="{% static 'assets/css/seats/seatchart.min.css' %}" />
         <link rel="stylesheet" href="{% static 'assets/css/autocomplete.css' %}" />
@@ -56,15 +57,15 @@
 
         {{ request.session.q|json_script:"q" }}
         {% comment %} {% include "includes/right-sidebar.html" %} {% endcomment %}
-        <!--   Core JS Files   -->
         <script type="text/javascript" src="{% static 'assets/js/core/popper.min.js' %}" defer></script>
         <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.min.js' %}" defer></script>
         <script type="text/javascript" src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}" defer></script>
         <script type="text/javascript" src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}" defer></script>
-        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{% static 'assets/js/soft-ui-dashboard.min.js' %}" defer></script>
         <script src="{% static 'assets/js/topbar/topbar.js' %}" defer></script>
-        <!-- Custom JS -->
+
+        {% block modal %}
+        {% endblock modal %}
 
         {% block js %}
         {% endblock js %}
