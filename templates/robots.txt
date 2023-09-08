@@ -14,3 +14,6 @@ Disallow: /coupons/
 
 User-agent: GPTBot
 Disallow: /
+
+# Sitemap files
+Sitemap: https://{{ request.get_host }}/sitemap.xml
