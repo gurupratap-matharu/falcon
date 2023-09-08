@@ -75,6 +75,11 @@ class FeedbackPageView(SuccessMessageMixin, FormView):
         return super().form_valid(form)
 
 
+class RobotsTxtView(TemplateView):
+    template_name = "robots.txt"
+    content_type = "text/plain"
+
+
 @require_GET
 @cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
 def favicon(request: HttpRequest) -> FileResponse:

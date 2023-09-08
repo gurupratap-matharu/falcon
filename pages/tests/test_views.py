@@ -15,6 +15,7 @@ from pages.views import (
     HelpPageView,
     PrivacyPageView,
     PublicProfilePageView,
+    RobotsTxtView,
     TermsPageView,
 )
 from users.factories import UserFactory
@@ -90,6 +91,24 @@ class PrivacyPageTests(SimpleTestCase):
     def test_privacy_page_url_resolves_privacypageview(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PrivacyPageView.as_view().__name__)
+
+
+class RobotsTxtTests(SimpleTestCase):
+    def setUp(self):
+        self.url = reverse("pages:robots")
+        self.template_name = "robots.txt"
+
+    def test_robots_txt_works_correctly(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertNotContains(response, "Hi I should not be on this page")
+        self.assertEqual(response["content-type"], "text/plain")
+
+    def test_robots_txt_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, RobotsTxtView.as_view().__name__)
 
 
 @tag("pages", "fast")
