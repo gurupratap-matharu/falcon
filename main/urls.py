@@ -33,7 +33,7 @@ sitemaps = {
 
 urlpatterns = [
     # Django admin
-    path("admin/", admin.site.urls),
+    path("private/", admin.site.urls),
     # Set language
     path("i18n/", include("django.conf.urls.i18n")),
     # User management

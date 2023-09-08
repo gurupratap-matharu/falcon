@@ -1,5 +1,15 @@
 User-Agent: *
 Disallow: /admin/
+Disallow: /private/
+Disallow: /trips/
+Disallow: /account/
+Disallow: /accounts/
+Disallow: /captcha/
+Disallow: /trips/
+Disallow: /cart/
+Disallow: /orders/
+Disallow: /payments/
+Disallow: /coupons/
 
 User-agent: GPTBot
 Disallow: /

@@ -105,6 +105,12 @@ class RobotsTxtTests(SimpleTestCase):
         self.assertTemplateUsed(response, self.template_name)
         self.assertNotContains(response, "Hi I should not be on this page")
         self.assertEqual(response["content-type"], "text/plain")
+        self.assertTrue(response.content.startswith(b"User-Agent: *\n"))
+
+    def test_post_disallowed_for_robots_txt(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_robots_txt_url_resolves_correct_view(self):
         view = resolve(self.url)
