@@ -3,34 +3,11 @@
 {% load static %}
 
 {% block basecontent %}
-    <header>
 
-        {% include "includes/navigation-floating.html" %}
+    {% include "includes/navigation-floating.html" %}
+    {% include "includes/header-hero.html" %}
 
-    </header>
-    <div class="page-header align-items-start pb-11"
-         style="background-image: url({% static 'assets/img/curved-images/curved1.jpg' %})">
-        <span class="mask bg-gradient-primary opacity-6"></span>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 text-center mx-auto">
-                    <h1 class="text-white">
-
-                        {% block hero_title %}
-                        {% endblock hero_title %}
-
-                    </h1>
-                    <p class="text-lead text-white">
-
-                        {% block hero_message %}
-                        {% endblock hero_message %}
-
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     {% block content %}
     {% endblock content %}
 
