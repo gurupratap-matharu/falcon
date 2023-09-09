@@ -40,6 +40,9 @@
             </div>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-flex align-items-center">
+                    <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{% url 'pages:help' %}">Help</a>
+                </li>
+                <li class="nav-item d-flex align-items-center">
                     {% if request.user.is_authenticated %}
                         <div class="dropdown nav-link">
                             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">

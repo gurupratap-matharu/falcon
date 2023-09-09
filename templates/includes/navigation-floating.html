@@ -1,88 +1,60 @@
-<nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
-    <div class="container-fluid pe-0">
-        <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="{% url 'pages:home' %}">Falcon</a>
-        <button class="navbar-toggler shadow-none ms-2"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navigation"
-                aria-controls="navigation"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon mt-2">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-            </span>
-        </button>
-        <div class="collapse navbar-collapse" id="navigation">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{% url 'pages:home' %}">
-                        <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                        Dashboard
-                    </a>
-                </li>
-                {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link me-2" href="{% url 'users:profile' %}">
-                            <i class="fa fa-user opacity-6 text-dark me-1"></i>
-                            Profile
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link me-2" href="{% url 'account_signup' %}">
-                            <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                            Sign Up
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link me-2" href="{% url 'account_login' %}">
-                            <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                            Sign In
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-            <li class="nav-item d-flex align-items-center">
-                <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" href="{% url 'pages:feedback' %}">Feedback</a>
-            </li>
-            <ul class="navbar-nav d-lg-block d-none">
-                <li class="nav-item">
-                    <a href="" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark">Routes</a>
-                </li>
-            </ul>
-            {% if request.user.is_authenticated %}
-                <ul class="navbar-nav d-lg-block ms-2">
-                    <li class="nav-item">
-                        <div class="dropdown nav-link">
-                            <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                                {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
-                                    {% if avatar_url %}
-                                        <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" />
-                                    {% else %}
-                                        <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
-                                    {% endif %}
-                                {% endwith %}
-                            </a>
-                            <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownMenuButton">
-                                <li>
-                                    <a class="dropdown-item border-radius-md" href="{% url 'pages:profile' request.user.username %}">Profile</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-radius-md" href="{% url 'users:profile' %}">Edit Profile</a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Sign out</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            {% endif %}
+<div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+        <div class="col-12">
+            <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+                <div class="container-fluid pe-0">
+                    <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="{% url 'pages:home' %}">Falcon</a>
+                    <button class="navbar-toggler shadow-none ms-2"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navigation"
+                            aria-controls="navigation"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon mt-2">
+                            <span class="navbar-toggler-bar bar1"></span>
+                            <span class="navbar-toggler-bar bar2"></span>
+                            <span class="navbar-toggler-bar bar3"></span>
+                        </span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="">
+                                    <i class="fa fa-chart-pie opacity-6 text-dark me-1" aria-hidden="true"></i>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" href="">
+                                    <i class="fa fa-user opacity-6 text-dark me-1" aria-hidden="true"></i>
+                                    Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" href="">
+                                    <i class="fas fa-user-circle opacity-6 text-dark me-1" aria-hidden="true"></i>
+                                    Sign Up
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" href="">
+                                    <i class="fas fa-key opacity-6 text-dark me-1" aria-hidden="true"></i>
+                                    Sign In
+                                </a>
+                            </li>
+                        </ul>
+                        <li class="nav-item d-flex align-items-center">
+                            <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" href="">Online Builder</a>
+                        </li>
+                        <ul class="navbar-nav d-lg-block d-none">
+                            <li class="nav-item">
+                                <a href="" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-primary">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
     </div>
-</nav>
+</div>

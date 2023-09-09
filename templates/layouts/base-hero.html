@@ -4,131 +4,39 @@
 
 {% block basecontent %}
     <header>
-        <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
-            <div class="container">
-                <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="{% url 'pages:home' %}">Falcon</a>
-                <button class="navbar-toggler shadow-none ms-2"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navigation"
-                        aria-controls="navigation"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon mt-2">
-                        <span class="navbar-toggler-bar bar1"></span>
-                        <span class="navbar-toggler-bar bar2"></span>
-                        <span class="navbar-toggler-bar bar3"></span>
-                    </span>
-                </button>
-                <div class="collapse navbar-collapse" id="navigation">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{% url 'pages:home' %}">
-                                <i class="fa fa-chart-pie opacity-6  me-1"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        {% if request.user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link me-2" href="{% url 'users:profile' %}">
-                                    <i class="fa fa-user opacity-6  me-1"></i>
-                                    Profile
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link me-2" href="{% url 'account_signup' %}">
-                                    <i class="fas fa-user-circle opacity-6  me-1"></i>
-                                    Sign Up
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link me-2" href="{% url 'account_login' %}">
-                                    <i class="fas fa-key opacity-6  me-1"></i>
-                                    Sign In
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                    <li class="nav-item d-flex align-items-center">
-                        <a class="btn btn-round btn-sm mb-0 btn-outline-white me-2" href="{% url 'pages:feedback' %}">Feedback</a>
-                    </li>
-                    <ul class="navbar-nav d-lg-block d-none">
-                        <li class="nav-item">
-                            <a href="" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-light">Routes</a>
-                        </li>
-                    </ul>
-                    {% if request.user.is_authenticated %}
-                        <ul class="navbar-nav d-lg-block ms-2">
-                            <li class="nav-item">
-                                <div class="dropdown nav-link">
-                                    <div class="avatar avatar-sm rounded-circle position-relative dropdown-toggle"
-                                         id="dropdownMenuButton"
-                                         data-bs-toggle="dropdown"
-                                         aria-expanded="false"
-                                         type="button">
-                                        <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}"
-                                             alt="profile_image"
-                                             class="w-100 border-radius-lg shadow-sm" />
-                                    </div>
-                                    <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownMenuButton">
-                                        <li>
-                                            <a class="dropdown-item border-radius-md" href="{% url 'pages:profile' request.user.username %}">Profile</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item border-radius-md" href="{% url 'users:profile' %}">Edit Profile</a>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider" />
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Sign out</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    {% endif %}
-                </div>
-            </div>
-        </nav>
+
+        {% include "includes/navigation-floating.html" %}
+
     </header>
-    <main class="main-content mt-0">
-        <section class="min-vh-90">
-            <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
-                 style="background-image: url({% static 'assets/img/curved-images/curved1.jpg' %})">
-                <span class="mask bg-gradient-primary opacity-6"></span>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 text-center mx-auto">
-                            <h1 class="text-white mb-2 mt-5">
+    <div class="page-header align-items-start pb-11"
+         style="background-image: url({% static 'assets/img/curved-images/curved1.jpg' %})">
+        <span class="mask bg-gradient-primary opacity-6"></span>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 text-center mx-auto">
+                    <h1 class="text-white">
 
-                                {% block hero_title %}
-                                    Falcon
-                                {% endblock hero_title %}
+                        {% block hero_title %}
+                        {% endblock hero_title %}
 
-                            </h1>
-                            <p class="text-lead text-white">
+                    </h1>
+                    <p class="text-lead text-white">
 
-                                {% block hero_message %}
-                                {% endblock hero_message %}
+                        {% block hero_message %}
+                        {% endblock hero_message %}
 
-                            </p>
-                        </div>
-                    </div>
+                    </p>
                 </div>
             </div>
-            <div class="container">
-
-                {% block content %}
-                {% endblock content %}
-
-            </div>
-        </section>
-        <div class="container">
-
-            {% include "includes/footer.html" %}
-
         </div>
-    </main>
+    </div>
+
+    {% block content %}
+    {% endblock content %}
+
+    <div class="container">
+
+        {% include "includes/footer.html" %}
+
+    </div>
 {% endblock basecontent %}

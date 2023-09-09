@@ -1,4 +1,4 @@
-{% extends "layouts/base-sidebar.html" %}
+{% extends "layouts/base-hero.html" %}
 
 {% load static %}
 
@@ -15,89 +15,10 @@
 {% endblock page_title %}
 
 {% block content %}
-    <div class="page-header min-height-200 border-radius-xl"
-         style="background-image: url({% static 'assets/img/curved-images/curved0.jpg' %});
-                background-position-y: 50%">
-        <span class="mask bg-gradient-primary opacity-6"></span>
-    </div>
 
     {% include "includes/search.html" %}
     {% include "includes/offcanvas-calendar.html" %}
 
-    {% comment %} Dummy placeholder cards
-    <div class="card mx-md-4 mt-4">
-        <div class="card-header bg-transparent">
-            <h3>Trips from Buenos Aires</h3>
-        </div>
-        <div class="card card-body">
-            <div class="row justify-space-between">
-                <div class="col-12 col-md-6">
-                    <a href="">
-                        <div class="card card-plain border border-light mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{% static 'assets/img/places/mendoza.jpg' %}" class="img-fluid border-radius-xl" alt="Mendoza">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-n3">Mendoza</h5>
-                                        <p class="card-text mt-n2">Apr 17-26</p>
-                                        <p class="card-text mt-n3">
-                                            <small class="text-muted">3 Stops - 27 Hs</small>
-                                        </p>
-                                        <h6 class="card-text d-flex justify-content-end">ARS 15700</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="">
-                        <div class="card card-plain border border-light mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{% static 'assets/img/places/cordoba.jpg' %}" class="img-fluid border-radius-xl" alt="Cordoba">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-n3">Cordoba</h5>
-                                        <p class="card-text mt-n2">Apr 17-26</p>
-                                        <p class="card-text mt-n3">
-                                            <small class="text-muted">3 Stops - 13 Hs</small>
-                                        </p>
-                                        <h6 class="card-text d-flex justify-content-end">ARS 12610</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="">
-                        <div class="card card-plain border border-light mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{% static 'assets/img/places/mar-del-plata.jpg' %}" class="img-fluid border-radius-xl" alt="MarDelPlata">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-n3">Mar Del Plata</h5>
-                                        <p class="card-text mt-n2">May 11-26</p>
-                                        <p class="card-text mt-n3">
-                                            <small class="text-muted">2 Stops - 5 Hs</small>
-                                        </p>
-                                        <h6 class="card-text d-flex justify-content-end">ARS 5700</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="ratio ratio-4x3 h-100">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d9522063.247738117!2d-63.29578512921517!3d-38.28078211116765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sar!4v1673033058382!5m2!1ses-419!2sar" width="600" height="400" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="border border-radius-xl"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
 {% endblock content %}
 
 {% block js %}
