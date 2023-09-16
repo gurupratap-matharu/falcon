@@ -43,4 +43,11 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    from django.views.generic import TemplateView
+
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Add routes to test error templates
+    urlpatterns += [
+        path("test404/", TemplateView.as_view(template_name="404.html")),
+        path("test500/", TemplateView.as_view(template_name="500.html")),
+    ]
