@@ -166,39 +166,37 @@
                         aria-expanded="true"
                         aria-controls="fareSummary">Fare Summary</button>
                 <div class="collapse" id="fareSummary">
-                    <div class="card bg-transparent shadow-xl">
-                        <div class="overflow-hidden position-relative border-radius-xl" style="background-image: url({% static "assets/img/curved-images/curved13.jpg" %})">
-                            <div class="card-body position-relative z-index-1 p-3">
-                                <i class="fas fa-coins text-white p-2" aria-hidden="true"></i>
-                                {% for item in cart %}
-                                    {% with trip=item.trip %}
-                                        <div class="mb-3">
-                                            <p class="text-white opacity-8 mb-0">{{ trip.origin }} - {{ trip.destination }}</p>
-                                            {% with ""|center:item.quantity as range %}
-                                                {% for _ in range %}
-                                                    <div class="d-flex justify-content-between mb-1">
-                                                        <div class="text-white text-sm">Passenger {{ forloop.counter }}</div>
-                                                        <div class="text-white">${{ trip.price }}</div>
-                                                    </div>
-                                                {% endfor %}
-                                            {% endwith %}
-                                            <div class="text-white mb-0">
-                                                <h6 class="text-white mb-0 d-inline"></h6>
-                                                <h6 class="text-white mb-0"></h6>
-                                            </div>
+                    <div class="card shadow-xl">
+                        <div class="card-body p-3">
+                            <i class="fas fa-coins p-2" aria-hidden="true"></i>
+                            {% for item in cart %}
+                                {% with trip=item.trip %}
+                                    <div class="mb-3">
+                                        <p class="opacity-8 mb-0">{{ trip.origin }} - {{ trip.destination }}</p>
+                                        {% with ""|center:item.quantity as range %}
+                                            {% for _ in range %}
+                                                <div class="d-flex justify-content-between mb-1">
+                                                    <div class="text-sm">Passenger {{ forloop.counter }}</div>
+                                                    ${{ trip.price }}
+                                                </div>
+                                            {% endfor %}
+                                        {% endwith %}
+                                        <div class="mb-0">
+                                            <h6 class="mb-0 d-inline"></h6>
+                                            <h6 class="mb-0"></h6>
                                         </div>
-                                    {% endwith %}
-                                {% endfor %}
-                                {% if cart.coupon %}
-                                    <div class="d-flex justify-content-between mb-1">
-                                        <div class="text-white text-sm">Coupon ({{ cart.coupon.discount }}% off)</div>
-                                        <div class="text-white">- $ {{ cart.get_discount|floatformat:"-3g" }}</div>
                                     </div>
-                                {% endif %}
+                                {% endwith %}
+                            {% endfor %}
+                            {% if cart.coupon %}
                                 <div class="d-flex justify-content-between mb-1">
-                                    <div class="text-white text-sm">Total</div>
-                                    <div class="text-white">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</div>
+                                    <div class="text-sm">Coupon ({{ cart.coupon.discount }}% off)</div>
+                                    <div>- $ {{ cart.get_discount|floatformat:"-3g" }}</div>
                                 </div>
+                            {% endif %}
+                            <div class="d-flex justify-content-between mb-1">
+                                <div class="text-sm">Total</div>
+                                ${{ cart.get_total_price_after_discount|floatformat:"-3g" }}
                             </div>
                         </div>
                     </div>
