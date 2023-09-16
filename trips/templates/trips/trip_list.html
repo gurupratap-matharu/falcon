@@ -27,36 +27,13 @@
     {% include "includes/navigation-floating.html" %}
 
     <header class="header-2">
-        <div class="page-header min-vh-35 relative"
+        <div class="page-header min-vh-25 relative"
              style="background-image: url('{% static 'assets/img/curved-images/curved1.jpg' %}')">
             <span class="mask bg-gradient-primary"></span>
-            <div class="position-absolute w-100 z-index-1 bottom-0">
-                <svg class="waves"
-                     xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                     viewBox="0 24 150 40"
-                     preserveAspectRatio="none"
-                     shape-rendering="auto">
-                    <defs>
-                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
-                    </defs>
-                    <g class="moving-waves">
-                    <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.40"></use>
-                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.35)"></use>
-                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.25)"></use>
-                    <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.20)"></use>
-                    <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.15)"></use>
-                    <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0.95"></use>
-                    </g>
-                </svg>
-            </div>
         </div>
     </header>
-
-    {% include "includes/search.html" %}
-
     <div class="row justify-content-center my-4" id="ordering">
-        <div class="col-md-12 col-xl-10">
+        <div class="col-md-12 col-lg-10">
             <ul class="nav nav-tabs justify-content-center my-4">
                 {% for value in date_ladder %}
                     <li class="nav-item">
@@ -143,14 +120,19 @@
                 <h5 class="text-center mt-5">No results!</h5>
             {% endfor %}
             <div class="d-flex justify-content-center">
-                <a href="#top">Top</a>
+                <a href="#top">
+                    <h2>
+                        <i class="bi bi-arrow-up-circle"></i>
+                    </h2>
+                </a>
             </div>
         </div>
     </div>
+    <div class="container">
 
-    {% include "includes/offcanvas-calendar.html" %}
-    {% include "includes/footer-grand.html" %}
+        {% include "includes/footer.html" %}
 
+    </div>
 {% endblock basecontent %}
 
 {% block js %}
