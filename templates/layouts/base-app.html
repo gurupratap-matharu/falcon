@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
+{% block breadcrumb %}
+{% endblock breadcrumb %}
+
+{% block page_title %}
+{% endblock page_title %}
+
+{% block basecontent %}
+
+    {% include "includes/navigation-floating.html" %}
+    {% include "includes/alert.html" %}
+
+    <div class="container min-vh-85 py-md-4 mt-7">
+
+        {% block content %}
+        {% endblock content %}
+
+        {% include "includes/footer.html" %}
+
+    </div>
+{% endblock basecontent %}

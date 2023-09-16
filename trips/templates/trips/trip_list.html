@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/base-app.html" %}
 
 {% load static %}
 
@@ -22,18 +22,9 @@
     Results
 {% endblock page_title %}
 
-{% block basecontent %}
-
-    {% include "includes/navigation-floating.html" %}
-
-    <header class="header-2">
-        <div class="page-header min-vh-25 relative"
-             style="background-image: url('{% static 'assets/img/curved-images/curved1.jpg' %}')">
-            <span class="mask bg-gradient-primary"></span>
-        </div>
-    </header>
-    <div class="row justify-content-center my-4" id="ordering">
-        <div class="col-md-12 col-lg-10">
+{% block content %}
+    <div class="row justify-content-center" id="ordering">
+        <div class="col-12">
             <ul class="nav nav-tabs justify-content-center my-4">
                 {% for value in date_ladder %}
                     <li class="nav-item">
@@ -128,12 +119,7 @@
             </div>
         </div>
     </div>
-    <div class="container">
-
-        {% include "includes/footer.html" %}
-
-    </div>
-{% endblock basecontent %}
+{% endblock content %}
 
 {% block js %}
     <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
