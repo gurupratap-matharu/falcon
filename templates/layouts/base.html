@@ -13,8 +13,10 @@
         <meta name="keywords" content="Bus, Argentina, Tickets, Travel, Pasajes" />
         <meta name="author" content="Falcon Team" />
         {# djlint:off #}
-        <meta name="description" content="{% block description %}{% endblock description %}" />
+        <meta name="description" content="{% block description %}FalconHunt provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
+        
         {% block og_tags %}
+        
         <meta property="og:title" content="{% block og_title %}FalconHunt{% endblock og_title %}" />
         <meta property="og:description" content="{% block og_description %}{% spaceless %}Book your bus tickets for Argentina.{% endspaceless %}{% endblock og_description %}" />
         <meta property="og:image" content="{% block og_img %}{% static "assets/img/logos/logo.png" %}{% endblock og_img %}" />
@@ -28,6 +30,7 @@
         <meta property="twitter:creator" content="FalconHunt" />
         <meta property="twitter:site" content="FalconHunt" />
         <meta property="twitter:card" content="{% block twitter_card %}Summary{% endblock twitter_card %}">
+        
         {% endblock og_tags %}
 
         {# djlint:on #}
@@ -46,7 +49,6 @@
         <script>
              if (document.location.hostname.search("falconhunt.xyz") !== -1) {
                   window.dataLayer = window.dataLayer || [];
-
 
                   function gtag() {
                        dataLayer.push(arguments);
