@@ -1,9 +1,23 @@
+{% load static %}
+
 <div class="container position-sticky z-index-sticky top-0">
     <div class="row">
         <div class="col-12">
             <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-2 mx-md-4">
                 <div class="container-fluid pe-0">
-                    <a class="navbar-brand font-weight-bolder" href="{% url 'pages:home' %}">Falcon</a>
+                    <a class="navbar-brand font-weight-bolder d-flex align-items-center"
+                       href="{% url 'pages:home' %}"
+                       rel="tooltip"
+                       title="Falcon Hunt"
+                       data-placement="bottom">
+                        <img src="{% static 'assets/img/logos/logo.svg' %}"
+                             alt="Falcon Logo"
+                             width="25"
+                             height="20"
+                             class="img-fluid me-2"
+                             aria-hidden="true">
+                        Falcon
+                    </a>
                     <button class="navbar-toggler shadow-none"
                             type="button"
                             data-bs-toggle="collapse"
@@ -18,39 +32,62 @@
                         </span>
                     </button>
                     <div class="collapse navbar-collapse" id="navigation">
-                        <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
+                        <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="">
-                                    <i class="fa fa-chart-pie opacity-6 text-dark me-1" aria-hidden="true"></i>
-                                    Dashboard
+                                    <i class="bi bi-currency-exchange opacity-6 text-dark me-1" aria-hidden="true"></i>
+                                    Currency
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-2" href="">
-                                    <i class="fa fa-user opacity-6 text-dark me-1" aria-hidden="true"></i>
-                                    Profile
+                                <a class="nav-link me-2" href="{% url 'pages:help' %}">
+                                    <i class="bi bi-question-circle-fill opacity-6 text-dark me-1" aria-hidden="true"></i>
+                                    Help
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link me-2" href="">
-                                    <i class="fas fa-user-circle opacity-6 text-dark me-1" aria-hidden="true"></i>
-                                    Sign Up
-                                </a>
+                            <li class="nav-item d-flex align-items-center mb-2 mb-lg-0">
+                                <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" href="">Get Listed</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link me-2" href="">
-                                    <i class="fas fa-key opacity-6 text-dark me-1" aria-hidden="true"></i>
-                                    Sign In
-                                </a>
+                            <li class="nav-item d-flex align-items-center">
+                                {% if request.user.is_authenticated %}
+                                    <div class="dropdown nav-link p-0">
+                                        <a href="#"
+                                           id="dropdownMenuButton"
+                                           data-bs-toggle="dropdown"
+                                           aria-expanded="false"
+                                           aria-label="Open user menu"
+                                           type="button">
+                                            {% with avatar_url=request.user.socialaccount_set.all.0.get_avatar_url %}
+                                                {% if avatar_url %}
+                                                    <img src="{{ avatar_url }}" alt="profile_image" class="avatar avatar-sm rounded-circle" />
+                                                {% else %}
+                                                    <span class="avatar avatar-sm rounded-circle border border-primary text-dark">{{ request.user.email|slice:":2"|upper }}</span>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <a class="dropdown-item border-radius-md" href="">Profile</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item border-radius-md" href="">Edit Profile</a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Logout</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <a href="{% url 'account_login' %}" class="nav-item">
+                                        <a class="btn btn-round btn-sm mb-0 bg-gradient-primary me-2" href="{% url 'account_login' %}">Sign in</a>
+                                    </a>
+                                {% endif %}
                             </li>
                         </ul>
-                        <li class="nav-item d-flex align-items-center">
-                            <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" href="">Online Builder</a>
-                        </li>
                         <ul class="navbar-nav d-lg-block d-none">
-                            <li class="nav-item">
-                                <a href="" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-primary">Login</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
