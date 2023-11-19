@@ -241,6 +241,12 @@ class TripPassengerPdfView(WeasyTemplateResponseMixin, CompanyTripDetailView):
     pdf_filename = "passengers.pdf"
 
 
+class LocationListView(ListView):
+    model = Location
+    context_object_name = "locations"
+    template_name = "trips/location_list.html"
+
+
 class LocationDetailView(DetailView):
     model = Location
     context_object_name = "location"

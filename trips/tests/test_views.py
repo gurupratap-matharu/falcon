@@ -1,3 +1,4 @@
+import pdb
 from datetime import timedelta
 from decimal import Decimal
 from http import HTTPStatus
@@ -25,6 +26,7 @@ from trips.views import (
     CompanyTripDetailView,
     CompanyTripListView,
     LocationDetailView,
+    LocationListView,
     RecurrenceView,
     TripCreateView,
     TripDetailView,
@@ -38,6 +40,35 @@ from users.factories import (
     SuperuserFactory,
     UserFactory,
 )
+
+
+class LocationListViewTests(TestCase):
+    """
+    Test suite for location list view.
+    """
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        cls.locations = LocationFactory.create_batch(size=3)
+        cls.url = reverse_lazy("trips:location-list")
+        cls.template_name = "trips/location_list.html"
+
+    def test_location_list_url_resolves_correct_view(self):
+        view = resolve(self.url)
+
+        self.assertEqual(view.func.__name__, LocationListView.as_view().__name__)
+
+    def test_location_list_view_works(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "All Locations")
+        self.assertNotContains(response, "Hi I should not be on this page")
+        self.assertIn("locations", response.context)
+
+        # Make sure all locations are listed
+        self.assertEqual(len(response.context["locations"]), len(self.locations))
 
 
 class LocationDetailViewTests(TestCase):
