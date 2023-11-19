@@ -58,7 +58,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class StaffuserFactory(UserFactory):
-    """Internal users to Falcon with staff privileges"""
+    """Internal users to Kpiola with staff privileges"""
 
     is_staff = True
     username = factory.Sequence(lambda n: "staffuser%d" % n)

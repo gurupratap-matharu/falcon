@@ -257,9 +257,9 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "'Falcon' <noreply@falconhunt.xyz>"
+DEFAULT_FROM_EMAIL = "'Kpiola' <noreply@kpiola.com.ar>"
 DEFAULT_TO_EMAIL = "gurupratap.matharu@gmail.com"
-SERVER_EMAIL = "django@falconhunt.xyz"
+SERVER_EMAIL = "django@kpiola.com.ar"
 RECIPIENT_LIST = ["gurupratap.matharu@gmail.com", "veerplaying@gmail.com"]
 ADMINS = [
     ("Gurupratap", "gurupratap.matharu@gmail.com"),
@@ -273,7 +273,7 @@ ADMINS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-CSRF_TRUSTED_ORIGINS = ["https://*.falconhunt.xyz", "https://*.127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://*.kpiola.com.ar", "https://*.127.0.0.1"]
 
 LOGGING = {
     "version": 1,
@@ -302,7 +302,7 @@ LOGGING = {
         "file": {
             "level": "WARNING",
             "class": "logging.FileHandler",
-            "filename": "./django-falcon.log",
+            "filename": "./django-kpiola.log",
             "formatter": "verbose",
         },
     },

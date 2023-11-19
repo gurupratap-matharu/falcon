@@ -27,7 +27,7 @@ def order_created(order_id):
     items = OrderItem.objects.filter(order=order).select_related("trip")
     context = {"order": order, "items": items}
 
-    subject = "Your Invoice from Falcon"
+    subject = "Your Invoice from Kpiola"
     message = (
         f"Thanks for your order {order.name},\n\n"
         f"Attached is your invoice.\n"
@@ -90,7 +90,7 @@ def order_confirmed(order_id, payment_id):
     # order.confirm(payment_id=payment_id) # <-- TODO fix this
 
     # Generate the Email object
-    subject = "Your tickets from Falcon"
+    subject = "Your tickets from Kpiola"
     message = (
         f"Thanks for your order {order.name},\n\n"
         f"Attached is your ticket.\n"

@@ -41,7 +41,7 @@ class OrderCreatedTests(TestCase):
         email = mail.outbox[0]
 
         # Check email details
-        self.assertEqual(email.subject, "Your Invoice from Falcon")
+        self.assertEqual(email.subject, "Your Invoice from Kpiola")
         self.assertEqual(email.to, [self.order.email])
         self.assertEqual(email.from_email, settings.DEFAULT_FROM_EMAIL)
         self.assertIsNotNone(email.attachments)
@@ -99,7 +99,7 @@ class OrderConfirmedTests(TestCase):
         email = mail.outbox[0]
 
         # Check email details
-        self.assertEqual(email.subject, "Your tickets from Falcon")
+        self.assertEqual(email.subject, "Your tickets from Kpiola")
         self.assertEqual(email.to, [self.order.email])
         self.assertEqual(email.from_email, settings.DEFAULT_FROM_EMAIL)
         self.assertIsNotNone(email.attachments)

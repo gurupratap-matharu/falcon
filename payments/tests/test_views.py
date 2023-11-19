@@ -144,7 +144,7 @@ class PaymentSuccessViewTests(SimpleTestCase):
 
     def test_payment_success_page_contains_correct_html(self):
         self.assertContains(self.response, "success")
-        self.assertContains(self.response, "Falcon")
+        self.assertContains(self.response, "Kpiola")
 
     def test_payment_success_page_does_not_contain_incorrect_html(self):
         self.assertNotContains(self.response, "Hi there! I should not be on this page.")

@@ -110,7 +110,7 @@ class PaymentView(TemplateView):
             },
             "auto_return": "approved",
             "notification_url": notification_url,
-            "statement_descriptor": "FalconHunt",
+            "statement_descriptor": "Kpiola",
             "external_reference": str(order.id),
             "binary_mode": True,
         }

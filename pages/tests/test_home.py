@@ -25,7 +25,7 @@ class HomePageTests(SimpleTestCase):
     def test_homepage_works(self):
         self.assertEqual(self.response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(self.response, self.template_name)
-        self.assertContains(self.response, "Falcon")
+        self.assertContains(self.response, "Kpiola")
         self.assertNotContains(self.response, "Hi there! I should not be on this page.")
 
     def test_homepage_url_resolves_homepageview(self):

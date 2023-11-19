@@ -10,9 +10,9 @@ from trips.models import Seat
 
 from .models import Location, Trip
 
-admin.site.site_header = "Falcon 🚌"
-admin.site.site_title = "Falcon Admin Portal"
-admin.site.index_title = "Welcome to Falcon Admin Portal"
+admin.site.site_header = "Kpiola 🚌"
+admin.site.site_title = "Kpiola Admin Portal"
+admin.site.index_title = "Welcome to Kpiola Admin Portal"
 
 
 class FutureFilter(admin.SimpleListFilter):
