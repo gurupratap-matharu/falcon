@@ -49,7 +49,7 @@ class LocationListViewTests(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         cls.locations = LocationFactory.create_batch(size=3)
-        cls.url = reverse_lazy("trips:location-list")
+        cls.url = reverse_lazy("locations:location-list")
         cls.template_name = "trips/location_list.html"
 
     def test_location_list_url_resolves_correct_view(self):

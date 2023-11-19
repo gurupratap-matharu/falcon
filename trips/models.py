@@ -48,7 +48,7 @@ class Location(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse_lazy("trips:location-detail", kwargs={"slug": self.slug})
+        return reverse_lazy("locations:location-detail", kwargs={"slug": self.slug})
 
 
 class Trip(models.Model):
