@@ -12,6 +12,7 @@ urlpatterns = [
     path("privacy/", views.PrivacyPageView.as_view(), name="privacy"),
     path("contact/", views.ContactPageView.as_view(), name="contact"),
     path("feedback/", views.FeedbackPageView.as_view(), name="feedback"),
+    path("sitemap/", views.SitemapPageView.as_view(), name="sitemap"),
     path("robots.txt", views.RobotsTxtView.as_view(), name="robots"),
     path("favicon.ico", views.favicon),
     path("landing/", views.LandingPageView.as_view(), name="landing"),

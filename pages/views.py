@@ -36,6 +36,10 @@ class PrivacyPageView(TemplateView):
     template_name: str = "pages/privacy.html"
 
 
+class SitemapPageView(TemplateView):
+    template_name: str = "pages/sitemap.html"
+
+
 class PublicProfilePageView(DetailView):
     """
     Renders a public profile view which is accessible at

@@ -16,6 +16,7 @@ from pages.views import (
     PrivacyPageView,
     PublicProfilePageView,
     RobotsTxtView,
+    SitemapPageView,
     TermsPageView,
 )
 from users.factories import UserFactory
@@ -91,6 +92,24 @@ class PrivacyPageTests(SimpleTestCase):
     def test_privacy_page_url_resolves_privacypageview(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PrivacyPageView.as_view().__name__)
+
+
+class SiteMapPageTests(SimpleTestCase):
+    def setUp(self):
+        self.url = reverse("pages:sitemap")
+        self.template_name = "pages/sitemap.html"
+
+    def test_sitemap_page_works(self):
+        self.response = self.client.get(self.url)
+
+        self.assertEqual(self.response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(self.response, self.template_name)
+        self.assertContains(self.response, "Sitemap")
+        self.assertNotContains(self.response, "Hi I should not be on this page!")
+
+    def test_sitemap_page_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, SitemapPageView.as_view().__name__)
 
 
 class RobotsTxtTests(SimpleTestCase):
