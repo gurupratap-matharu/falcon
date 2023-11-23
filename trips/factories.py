@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 from django.template.defaultfilters import slugify
 
 import factory
+from django_countries import countries
 from factory import fuzzy
 from faker import Faker
 
@@ -38,7 +39,16 @@ class LocationFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("random_element", elements=TERMINALS)
     slug = factory.LazyAttribute(lambda o: slugify(o.name))
-    abbr = factory.LazyAttribute(lambda o: o.name.lower()[:3])
+    abbr = factory.LazyAttribute(lambda o: o.name.lower()[:5])
+
+    address_line1 = factory.Faker("address")
+    city = factory.Faker("city")
+    state = factory.Faker("state")
+    postal_code = factory.Faker("postalcode")
+    country = factory.Faker("random_element", elements=list(dict(countries)))
+
+    latitude = factory.LazyAttribute(lambda _: round(fake.latitude(), 6))
+    longitude = factory.LazyAttribute(lambda _: round(fake.longitude(), 6))
 
 
 class TripFactory(factory.django.DjangoModelFactory):

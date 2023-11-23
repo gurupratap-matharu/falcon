@@ -30,23 +30,34 @@ class LocationModelTests(TestCase):
         self.assertEqual(str(self.location), f"{self.location.name}")
 
     def test_verbose_name_plural(self):
-        self.assertEqual(str(self.location._meta.verbose_name_plural), "locations")
+        self.assertEqual(str(self.location._meta.verbose_name), "Location")
+        self.assertEqual(str(self.location._meta.verbose_name_plural), "Locations")
 
     def test_get_absolute_url(self):
         location_from_db = Location.objects.first()
 
-        actual_url = location_from_db.get_absolute_url()  # type:ignore
-        expected_url = f"/trips/locations/{location_from_db.slug}/"  # type:ignore
+        actual_url = location_from_db.get_absolute_url()
+        expected_url = f"/locations/{location_from_db.slug}/"
 
         self.assertEqual(actual_url, expected_url)
 
     def test_location_model_creation_is_accurate(self):
-        location_from_db = Location.objects.first()
+        obj = Location.objects.first()
 
         self.assertEqual(Location.objects.count(), 1)
-        self.assertEqual(location_from_db.name, self.location.name)
-        self.assertEqual(location_from_db.slug, self.location.slug)
-        self.assertEqual(location_from_db.abbr, self.location.abbr)
+
+        self.assertEqual(obj.name, self.location.name)
+        self.assertEqual(obj.slug, self.location.slug)
+        self.assertEqual(obj.abbr, self.location.abbr)
+
+        self.assertEqual(obj.address_line1, self.location.address_line1)
+        self.assertEqual(obj.city, self.location.city)
+        self.assertEqual(obj.state, self.location.state)
+        self.assertEqual(obj.postal_code, self.location.postal_code)
+        self.assertEqual(obj.country, self.location.country)
+
+        self.assertEqual(obj.latitude, self.location.latitude)
+        self.assertEqual(obj.longitude, self.location.longitude)
 
     def test_location_slug_is_auto_generated_even_if_not_supplied(self):
         location = Location.objects.create(name="san carlos de bariloche")
@@ -63,23 +74,29 @@ class LocationModelTests(TestCase):
         )
         self.assertEqual(obj.slug, "san-carlos-de-bariloche")
 
-    def test_location_name_max_length(self):
+    def test_max_length_of_all_fields(self):
         location = Location.objects.first()
-        max_length = location._meta.get_field("name").max_length  # type:ignore
 
-        self.assertEqual(max_length, 200)
+        def get_length(field_name):
+            return location._meta.get_field(field_name).max_length
 
-    def test_location_slug_max_length(self):
+        self.assertEqual(get_length("name"), 200)
+        self.assertEqual(get_length("slug"), 200)
+        self.assertEqual(get_length("abbr"), 7)
+        self.assertEqual(get_length("address_line1"), 128)
+        self.assertEqual(get_length("address_line2"), 128)
+        self.assertEqual(get_length("city"), 64)
+        self.assertEqual(get_length("state"), 40)
+        self.assertEqual(get_length("postal_code"), 10)
+
+    def test_latitude_longitude_structure(self):
         location = Location.objects.first()
-        max_length = location._meta.get_field("slug").max_length  # type:ignore
 
-        self.assertEqual(max_length, 200)
+        self.assertEqual(location._meta.get_field("latitude").max_digits, 9)
+        self.assertEqual(location._meta.get_field("longitude").max_digits, 9)
 
-    def test_location_abbr_max_length(self):
-        location = Location.objects.first()
-        max_length = location._meta.get_field("abbr").max_length  # type:ignore
-
-        self.assertEqual(max_length, 7)
+        self.assertEqual(location._meta.get_field("latitude").decimal_places, 6)
+        self.assertEqual(location._meta.get_field("longitude").decimal_places, 6)
 
     def test_locations_are_ordered_by_name(self):
         Location.objects.all().delete()

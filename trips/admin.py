@@ -96,7 +96,16 @@ class PassengerSeatInline(admin.TabularInline):
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ("name", "abbr", "slug")
+    list_display = (
+        "name",
+        "abbr",
+        "city",
+        "state",
+        "postal_code",
+        "country",
+        "latitude",
+        "longitude",
+    )
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ("name",)
 
