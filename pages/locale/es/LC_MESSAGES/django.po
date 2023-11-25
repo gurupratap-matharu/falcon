@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-01 13:34-0300\n"
+"POT-Creation-Date: 2023-11-23 15:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pages/templates/pages/about.html:14
-msgid "About Falcon"
-msgstr "Sobre Falcon"
+msgid "About Kpiola"
+msgstr ""
 
 #: pages/templates/pages/about.html:15
 msgid "Our mission is to give everyone a voice and show them the world."
@@ -31,9 +31,13 @@ msgid ""
 "We believe that everyone deserves to have a voice, and that the world is a "
 "better place when we listen, share and build community through our stories."
 msgstr ""
-"Creemos que todos merecen tener una voz, y que el mundo es un"
-"mejor lugar cuando escuchamos, compartimos y construimos comunidad a través de nuestras historias."
+"Creemos que todos merecen tener una voz, y que el mundo es unmejor lugar "
+"cuando escuchamos, compartimos y construimos comunidad a través de nuestras "
+"historias."
 
 #: pages/templates/pages/contact.html:25 pages/templates/pages/feedback.html:25
 msgid "Send"
 msgstr "Enviar"
+
+#~ msgid "About Falcon"
+#~ msgstr "Sobre Falcon"

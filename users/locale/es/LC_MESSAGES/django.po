@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-01 12:48-0300\n"
+"POT-Creation-Date: 2023-11-23 15:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: users/templates/users/account_delete.html:6
 msgid "Delete Account"
 msgstr ""
@@ -25,19 +26,22 @@ msgstr ""
 msgid "We're sorry to see you go"
 msgstr ""
 
+#: users/templates/users/account_delete.html:30
+msgid "Cancel"
+msgstr ""
+
 #: users/templates/users/account_delete.html:31
 msgid "Delete"
 msgstr ""
 
-#: users/templates/users/profile_edit.html:6
-#: users/templates/users/profile_edit.html:12
+#: users/templates/users/settings.html:6
 msgid "Edit Profile"
 msgstr ""
 
-#: users/templates/users/profile_edit.html:28
-msgid "Save Profile"
+#: users/templates/users/settings.html:12
+msgid "My Account"
 msgstr ""
 
-#: users/templates/users/profile_edit.html:34
-msgid "View Profile"
+#: users/templates/users/settings.html:25
+msgid "Save"
 msgstr ""

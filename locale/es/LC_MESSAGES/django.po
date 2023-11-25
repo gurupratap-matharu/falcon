@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-01 12:50-0300\n"
+"POT-Creation-Date: 2023-11-25 16:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,15 +28,15 @@ msgstr "Español"
 
 #: templates/account/account_inactive.html:6
 msgid "Account Inactive"
-msgstr ""
+msgstr "Cuenta Desactivada"
 
 #: templates/account/account_inactive.html:10
 msgid "Account Inactive!"
-msgstr ""
+msgstr "Cuenta Desactivada!"
 
 #: templates/account/account_inactive.html:12
 msgid "This account is inactive."
-msgstr ""
+msgstr "Esta cuenta esta desactivada."
 
 #: templates/account/email/email_confirmation_message.txt:7
 #, python-format
@@ -116,7 +116,7 @@ msgid "Forgot Password?"
 msgstr ""
 
 #: templates/account/password_reset.html:8
-#: templates/account/password_reset_done.html:6
+#: templates/account/password_reset_done.html:8
 msgid "Password Reset"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Reset My Password"
 msgstr ""
 
-#: templates/account/password_reset_done.html:21
+#: templates/account/password_reset_done.html:23
 msgid ""
 "\n"
 "            We have sent you an e-mail!<br><br>\n"
@@ -172,8 +172,8 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-#: templates/account/verification_sent.html:5
-#: templates/account/verification_sent.html:11
+#: templates/account/verification_sent.html:6
+#: templates/account/verification_sent.html:12
 msgid "Verify Your E-mail Address"
 msgstr ""
 
@@ -188,10 +188,90 @@ msgid ""
 "            "
 msgstr ""
 
+#: templates/includes/footer-grand.html:60
+msgid "Company"
+msgstr "Empresa"
+
+#: templates/includes/footer-grand.html:63
+msgid "About Us"
+msgstr "Sobre nosotros"
+
+#: templates/includes/footer-grand.html:66
+msgid "Work with us"
+msgstr "Trabaja con nosotros"
+
+#: templates/includes/footer-grand.html:69
+msgid "Partners"
+msgstr "Partners"
+
+#: templates/includes/footer-grand.html:72
+msgid "Blog"
+msgstr "Blog"
+
+#: templates/includes/footer-grand.html:79
+msgid "Resources"
+msgstr "Recursos"
+
+#: templates/includes/footer-grand.html:82
+msgid "Press"
+msgstr "Prensa"
+
+#: templates/includes/footer-grand.html:85
+msgid "Affiliate Program"
+msgstr "Programa de Afiliación"
+
+#: templates/includes/footer-grand.html:92
+msgid "Help & Support"
+msgstr "Soporte y Ayuda"
+
+#: templates/includes/footer-grand.html:95
+msgid "Contact Us"
+msgstr "Contacto"
+
+#: templates/includes/footer-grand.html:98
+msgid "Help Center"
+msgstr "Ayuda"
+
+#: templates/includes/footer-grand.html:101
+msgid "Feedback"
+msgstr "Comentarios"
+
+#: templates/includes/footer-grand.html:108
+msgid "Useful Links"
+msgstr "Enlaces útiles"
+
+#: templates/includes/footer-grand.html:111
+msgid "Terms & Conditions"
+msgstr "Términos y condiciones"
+
+#: templates/includes/footer-grand.html:114
+msgid "Privacy Policy"
+msgstr "Política de privacidad"
+
+#: templates/includes/footer-grand.html:117
+msgid "FAQ"
+msgstr "Preguntas Frecuentes"
+
+#: templates/includes/footer-grand.html:120
+msgid "Agencies"
+msgstr "Agencias"
+
+#: templates/includes/footer-grand.html:123
+msgid "Sitemap"
+msgstr "Mapa del sitio"
+
+#: templates/includes/footer-grand.html:131
+msgid "All rights reserved. Copyright ©"
+msgstr "Todos los derechos reservados. Copyright ©"
+
+#: templates/includes/footer-grand.html:135
+msgid "Made with ❤️ in Argentina 🇦🇷"
+msgstr "Hecho con ❤️ en Argentina 🇦🇷"
+
 #: templates/socialaccount/connections.html:6
 #: templates/socialaccount/connections.html:12
 msgid "Account Connections"
-msgstr ""
+msgstr "Conexiones de cuentas"
 
 #: templates/socialaccount/connections.html:15
 msgid ""
@@ -214,32 +294,32 @@ msgstr ""
 msgid "Add a 3rd Party Account"
 msgstr ""
 
-#: templates/socialaccount/login.html:6
+#: templates/socialaccount/login.html:8
 msgid "Sign In"
 msgstr ""
 
-#: templates/socialaccount/login.html:14
+#: templates/socialaccount/login.html:16
 #, python-format
 msgid ""
 "Connect\n"
 "      %(provider)s"
 msgstr ""
 
-#: templates/socialaccount/login.html:17
+#: templates/socialaccount/login.html:20
 #, python-format
 msgid ""
 "You are about to connect a new third party account from\n"
 "      %(provider)s."
 msgstr ""
 
-#: templates/socialaccount/login.html:21
+#: templates/socialaccount/login.html:25
 #, python-format
 msgid ""
 "Sign In Via\n"
 "      %(provider)s"
 msgstr ""
 
-#: templates/socialaccount/login.html:23
+#: templates/socialaccount/login.html:29
 #, python-format
 msgid ""
 "You are about to sign in using a third party account from\n"
