@@ -1,4 +1,4 @@
-APP_LIST ?= blog cart companies coupons main orders pages payments trips users
+APP_LIST ?= blog cart companies coupons main orders pages payments trips users tags
 .PHONY: collectstatic run test ci install install-dev migrations staticfiles
 
 help:
@@ -12,12 +12,15 @@ help:
 	@echo "lint - check style with black, flake8, sort python with isort, and indent html"
 	@echo "format - enforce a consistent code style across the codebase and sort python files with isort"
 
+tags:
+	ctags --recurse=yes --exclude=.git --exclude=docs --exclude=static --exclude=staticfiles
+
 collectstatic:
 	python manage.py collectstatic --noinput
 
 compile-emails:
 	bootstrap-email -p 'orders/templates/orders/emails/raw/*' -d 'orders/templates/orders/emails/compiled/*'
-	
+
 clean:
 	rm -rf __pycache__ .pytest_cache
 
@@ -32,10 +35,10 @@ install:
 
 update:
 	poetry update
-	
+
 setup_test_data:
 	python manage.py setup_test_data
-	
+
 shellplus:
 	python manage.py shell_plus --print-sql
 
@@ -52,8 +55,8 @@ makemessages:
 	django-admin makemessages --all
 
 compilemessages:
-	django-admin compilemessages 
-	
+	django-admin compilemessages
+
 migrate:
 	python manage.py migrate
 
@@ -109,13 +112,11 @@ reload:
 
 	@echo "🦄 restarting gunicorn service..."
 	@sudo systemctl restart falcon-gunicorn.service
-	
+
 	@echo "⚙️ reloading nginx..."
 	@sudo nginx -s reload
-	
+
 	@echo "All done! 💅💫💖"
 
 logs:
 	@sudo journalctl -fu falcon-gunicorn.service
-	
-
