@@ -1,7 +1,42 @@
-POST https://meili.falconhunt.xyz/indexes/terminals/search HTTP/1.1
+### Get a list of all indexes
+# You need to use the Admin API key in bearer token here
+GET https://meili.kpiola.com.ar/indexes/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer 0c1f0faf6a874f1aea5600af60c49e29553569b13bc49b5b72e9fa9ec5dd99a8
+
+
+### Search for a specific terminal
+
+POST https://meili.kpiola.com.ar/indexes/terminals/search HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer b84dcfe153e3bf50d1c4368cc80b4a67e0ba63df29c5aac9a8276c6c4e556353
 
 {
     "q": "la"
 }
+
+
+### Search for a specific movie
+
+POST https://meili.kpiola.com.ar/indexes/movies/search HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer b84dcfe153e3bf50d1c4368cc80b4a67e0ba63df29c5aac9a8276c6c4e556353
+
+{
+    "q": "botman"
+}
+
+### load new data
+curl \
+  -X POST 'https://meili.kpiola.com.ar/indexes/terminals/documents?primaryKey=id' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer 0c1f0faf6a874f1aea5600af60c49e29553569b13bc49b5b72e9fa9ec5dd99a8' \
+  --data-binary @cities.json
+
+### Get task status
+GET https://meili.kpiola.com.ar/tasks/2/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer 0c1f0faf6a874f1aea5600af60c49e29553569b13bc49b5b72e9fa9ec5dd99a8
+
+
+
