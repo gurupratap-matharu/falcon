@@ -87,8 +87,8 @@
                    hx-trigger="keyup changed delay:500ms"
                    hx-target="#answer" />
         </div>
+        <div class="d-flex justify-content-center p-1" id="answer"></div>
     </div>
-    <div class="d-flex justify-content-center p-1" id="answer"></div>
     <hr />
     <div class="card mb-3">
         <div class="card-header">
@@ -111,9 +111,9 @@
             <img id="indicator"
                  src="{% static 'assets/svg/loaders/grid.svg' %}"
                  alt="loading indicator"
-                 class="htmx-indicator"
-                 width="25"
-                 height="25" />
+                 class="htmx-indicator bg-dark rounded-1 p-1"
+                 width="50"
+                 height="50" />
         </div>
     </div>
     <div class="card mb-3">
