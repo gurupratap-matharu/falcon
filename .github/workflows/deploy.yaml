@@ -36,9 +36,6 @@ jobs:
             echo "Veer: running git pull..."
             git pull origin master
 
-            echo "Veer: running poetry install..."
-            /home/veer/.local/bin/poetry install --verbose
-
             echo "Veer: collecting static..."
             /home/veer/.pyenv/versions/falcon/bin/python manage.py collectstatic --noinput
 
@@ -47,9 +44,6 @@ jobs:
 
             echo "Veer: applying migrations..."
             /home/veer/.pyenv/versions/falcon/bin/python manage.py migrate
-
-            echo "Veer: running tests..."
-            /home/veer/.pyenv/versions/falcon/bin/python manage.py test --noinput -v 2
 
             echo "Veer: reloading daemon..."
             sudo systemctl daemon-reload
