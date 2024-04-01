@@ -14,9 +14,9 @@
         <meta name="author" content="Kpiola Team" />
         {# djlint:off #}
         <meta name="description" content="{% block description %}Kpiola provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
-        
+
         {% block og_tags %}
-        
+
         <meta property="og:title" content="{% block og_title %}Kpiola{% endblock og_title %}" />
         <meta property="og:description" content="{% block og_description %}{% spaceless %}Book your bus tickets for Argentina.{% endspaceless %}{% endblock og_description %}" />
         <meta property="og:image" content="{% block og_img %}{% static "assets/img/logos/logo.png" %}{% endblock og_img %}" />
@@ -26,18 +26,17 @@
         <meta property="og:image:type" content="image/png" />
         <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:site_name" content="Kpiola" />
-        
+
         <meta property="twitter:creator" content="Kpiola" />
         <meta property="twitter:site" content="Kpiola" />
         <meta property="twitter:card" content="{% block twitter_card %}Summary{% endblock twitter_card %}">
-        
+
         {% endblock og_tags %}
 
         {# djlint:on #}
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/icons/favicons/apple-touch-icon.png' %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/icons/favicons/favicon-32x32.png' %}">
         <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/icons/favicons/favicon-16x16.png' %}">
-        <link rel="manifest" href="{% static 'assets/icons/favicons/site.webmanifest' %}">
         <link rel="mask-icon" href="{% static 'assets/icons/favicons/safari-pinned-tab.svg' %}" color="#000000">
         <meta name="msapplication-TileColor" content="#9f00a7">
         <meta name="theme-color" content="#ffffff">
@@ -45,17 +44,12 @@
         {# djlint:off #}
         <title>{% block title %}Book Bus Tickets{% endblock title %} | Kpiola</title>
         {# djlint:on #}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2GLN3JT3JD"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCQZXE3FHQ"></script>
         <script>
-             if (document.location.hostname.search("Kpiola.xyz") !== -1) {
-                  window.dataLayer = window.dataLayer || [];
-
-                  function gtag() {
-                       dataLayer.push(arguments);
-                  }
-                  gtag('js', new Date());
-                  gtag('config', c);
-             }
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KCQZXE3FHQ');
         </script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
         <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
