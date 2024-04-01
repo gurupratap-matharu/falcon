@@ -64,8 +64,8 @@ exclude = '''
 [tool.djlint]
 exclude = ".venv,venv,.tox,.eggs,.git"
 extend_exclude = ".custom"
-blank_line_before_tag = "load,extends,include,block"
-blank_line_after_tag = "load,extends,include,endblock"
+blank_line_before_tag = "load,extends,include,block,blocktranslate"
+blank_line_after_tag = "load,extends,include,endblock,endblocktranslate"
 profile = "django"
 max_line_length = 120
 max_attribute_length = 120
