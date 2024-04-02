@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% blocktranslate with name=order.name order_id=order.id %}
+New booking from {{ name }} | Order id {{ order_id }}
+{% endblocktranslate %}

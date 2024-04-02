@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% blocktranslate with name=order.name booking_id=order.id %}
+
+Dear {{ name }},
+
+Pack you bags! Your booking is confirmed.
+Booking ID: {{ booking_id }}{% endblocktranslate %}
+
+Trip {{ item.trip }}
+Total Cost: ${{ order.get_total_cost }}
+
+Regards,
+Kpiola Support Team
+https://www.kpiola.com.ar
+Email: support@kpiola.com.ar
+Tel: +54 9 11 5025 4191

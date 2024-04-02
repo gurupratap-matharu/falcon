@@ -1,0 +1,23 @@
+{% load i18n %}
+
+{% blocktranslate with name=order.name booking_id=order.id email=order.email whatsapp=order.whatsapp country=order.residence.name created=order.created_on %}
+Hey,
+
+You have received a new booking from {{ name }}.
+
+Booking Id: {{ booking_id }}
+Created on: {{ created }}
+
+Email: {{ email }}
+Whatsapp: {{ whatsapp }}
+Country: {{ country }}{% endblocktranslate %}
+Trip: {{ item.trip }}
+Total Cost: ${{ order.get_total_cost }}
+
+If you have any questions regarding this booking, please reply to this email.
+
+Regards,
+Kpiola Support Team
+https://www.kpiola.com.ar
+Email: support@kpiola.com.ar
+Tel: +54 9 11 5025 4191
