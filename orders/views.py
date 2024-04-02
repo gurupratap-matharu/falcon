@@ -19,7 +19,6 @@ from companies.mixins import OwnerMixin
 
 from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
-from .services import order_created
 
 logger = logging.getLogger(__name__)
 
@@ -88,7 +87,7 @@ class OrderCreateView(CreateView):
             - proceed to payment
         """
 
-        logger.info("veer order form is valid(💋)...")
+        logger.info("order form is valid...")
 
         cart = Cart(self.request)
         formset = self.get_formset()
@@ -96,32 +95,29 @@ class OrderCreateView(CreateView):
         if not formset.is_valid():
             return super().form_invalid(form)
 
-        logger.info("veer passenger formset.is_valid(💑)")
+        logger.info("passenger formset is valid...")
 
-        # First get the http response that this method has to return
+        # Get the http response that this method has to return
         # this also sets the self.object (order)
         response = super().form_valid(form)
 
-        # 1. create an order object thats saved to the DB
+        # Create an order object thats saved to the DB
         order = self.object
 
         # Apply coupon to order if needed
         if cart.coupon:
-            logger.info("attaching coupon(🎟️) to order(🗽)...")
+            logger.info("attaching coupon %s..." % cart.coupon)
             order.coupon = cart.coupon
             order.discount = cart.coupon.discount
             order.save()
 
-        logger.info("veer created order(🗽) %s" % order)
-
-        # 2. create valid passenger objects
+        # Create passenger objects
         passengers = formset.save()
-        logger.info("veer created passengers(👨‍👩‍👧‍👦)%s" % passengers)
+        logger.info("passengers created %s..." % passengers)
 
-        # 3. create and save order -> passenger m2m
+        # Create and save order -> passenger m2m
         order.passengers.add(*passengers)
         order.save()
-        logger.info("veer order.passengers.all(): %s" % order.passengers.all())
 
         for item in cart:
             trip = item["trip"]
@@ -129,16 +125,13 @@ class OrderCreateView(CreateView):
             # Extract seat numbers from POST data and clean them
             seat_numbers = self.request.POST.get(f"seats{trip.id}", "")
 
-            # 4. Mark the seats for hold for each trip
-            logger.info(
-                "veer for trip: %s you selected seats: %s" % (trip, seat_numbers)
-            )
-
+            # Mark the seats for hold for each trip
             seats = trip.hold_seats(seat_numbers)
 
-            logger.info("veer I've put on hold seats %s", seats)
+            logger.info("Trip: %s selected seats: %s" % (trip, seat_numbers))
+            logger.info("seats held %s...", seats)
 
-            # 5. create order item objects (order, trip, seatnos) combo
+            # Create order item objects (order, trip, seatnos) combo
             order_item = OrderItem.objects.create(
                 order=order,
                 trip=trip,
@@ -147,20 +140,16 @@ class OrderCreateView(CreateView):
                 seats=seat_numbers,
             )
 
-            logger.info("veer created order_item(📝): %s", order_item)
+            logger.info("order_item %s...", order_item)
 
         cart.clear()
 
-        # 6. Save order.id in session so payments can access it
+        # Save order.id in session so payments can access it
         order_id = str(order.id)
         self.request.session["order"] = order_id
 
-        # 7. Send order creation email
-        # TODO: run this async with celery
-        order_created(order_id=order_id)
-
         # TODO: Should we add any success message to request here?
-        # 8. Redirect to payment
+        # Redirect to payment
         return response
 
 
