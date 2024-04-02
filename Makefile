@@ -76,7 +76,7 @@ format:
 lint:
 	poetry run black --check --diff .
 	poetry run isort . --check-only --profile black
-	poetry run ruff .
+	poetry run ruff check .
 	git ls-files '*.html' | xargs djlint --check
 
 test: check migrations-check
@@ -87,7 +87,7 @@ security:
 	poetry run bandit -r .
 	poetry run safety check
 
-ci: lint security test
+ci: format lint security test
 
 superuser:
 	python manage.py createsuperuser
