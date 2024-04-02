@@ -4,6 +4,7 @@ dashboard/
 static/
 reqs/
 docs/
+.tidyrc
 
 # Macos
 .DS_Store
