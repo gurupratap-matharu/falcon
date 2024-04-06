@@ -11,11 +11,10 @@ Created on: {{ created }}
 Email: {{ email }}
 Whatsapp: {{ whatsapp }}
 Country: {{ country }}{% endblocktranslate %}
+
 Trip: {{ item.trip }}
 Total Cost: ${{ order.get_total_cost }}
-
 If you have any questions regarding this booking, please reply to this email.
-
 Regards,
 Kpiola Support Team
 https://www.kpiola.com.ar

@@ -9,7 +9,6 @@ Booking ID: {{ booking_id }}{% endblocktranslate %}
 
 Trip {{ item.trip }}
 Total Cost: ${{ order.get_total_cost }}
-
 Regards,
 Kpiola Support Team
 https://www.kpiola.com.ar
