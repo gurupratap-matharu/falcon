@@ -23,12 +23,12 @@ psycopg2 = "^2.9.5"
 mercadopago = "^2.2.0"
 stripe = "^5.0.0"
 django-countries = "^7.5"
-weasyprint = "^57.2"
+weasyprint = "^61.2"
 django-simple-captcha = "^0.5.17"
 django-qr-code = "^3.1.1"
-django-weasyprint = "^2.2.0"
 parameterized = "^0.8.1"
 django = "^5.0"
+django-weasyprint = "^2.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
