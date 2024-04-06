@@ -8,21 +8,97 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Bus ticket">
         <title>Bus Ticket</title>
-        <link rel="stylesheet" href="{% static 'assets/css/ticket.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'assets/css/ticket.css' %}">
     </head>
     <body>
         <section>
-            <h2>Veer add your awesome ticket here</h2>
+            {{ trip.departure }} Trip to {{ trip.origin }} - {{ trip.destination }}
         </section>
+        <hr>
         <section>
-            <h2>Some more important trip details here</h2>
+            <p>
+                Prepared for <strong>{{ order.name }}</strong>
+            </p>
+            <p>
+                Reservation Code <strong>{{ code }}</strong>
+            </p>
+            <p>
+                Company <strong>{{ company }}</strong>
+            </p>
+        </section>
+        <hr>
+        <section>
+            <div class="departure-container">
+                <p>
+                    DEPARTURE: <strong>{{ trip.departure|date:"l d F Y H:i" }}</strong>
+                </p>
+                <p>{{ company|upper }}</p>
+            </div>
+            <div class="container">
+                <article>
+                    <p>{{ company|upper }}</p>
+                    <p>Trip {{ trip_code }}</p>
+                    <p>Duration {{ trip.duration }}</p>
+                    <p>Status: Confirmed</p>
+                </article>
+                <article>
+                    <div>
+                        <section class="trip">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>{{ trip.origin.abbr|upper }}</td>
+                                        <td>{{ trip.destination.abbr|upper }}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ trip.origin }}</td>
+                                        <td>{{ trip.destination }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <div class="container">
+                            <div class="departure">
+                                <p>Departing at</p>
+                                <strong>{{ trip.departure|date:"H:i" }}</strong>
+                                <p>{{ trip.departure|date:"l d F" }}</p>
+                            </div>
+                            <div class="arrival">
+                                <p>Arrival at</p>
+                                <strong>{{ trip.arrival|date:"H:i" }}</strong>
+                                <p>{{ trip.arrival|date:"l d F" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section class="passengers">
+            <table>
+                <thead>
+                    <tr class="table-header">
+                        <td>Passenger</td>
+                        <td>Seats</td>
+                        <td>Class</td>
+                        <td>Booking</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for passenger in passengers %}
+                        <tr>
+                            <td>{{ passenger.get_full_name }}</td>
+                            <td>{{ forloop.counter }}</td>
+                            <td>Executive</td>
+                            <td>Confirmed</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
         <section>
             {% qr_from_text qr_url size="S" dark_color="#2a3239" %}
-            <ul>
-                <li>{{ trip.origin }} → {{ trip.destination }}</li>
-                <li>{{ trip.departure|date:"P" }}</li>
-            </ul>
         </section>
     </body>
 </html>

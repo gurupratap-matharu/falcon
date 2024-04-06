@@ -203,13 +203,20 @@ class TicketView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        item = self.object.items.first()
+        order = self.object
+        item = order.items.first()
+        trip = item.trip
+        company = trip.company
         qr_url = f"https://{domain}{item.get_checkin_url()}"
         logger.info("qr_url:%s" % qr_url)
 
+        context["company"] = company
+        context["order"] = order
         context["item"] = item
-        context["trip"] = item.trip
+        context["trip"] = trip
+        context["code"] = str(order.id).split("-")[-1]
+        context["trip_code"] = str(trip.id).split("-")[-1]
+        context["passengers"] = order.passengers.all()
         context["qr_url"] = qr_url
 
         return context

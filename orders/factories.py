@@ -23,6 +23,7 @@ class OrderFactory(factory.django.DjangoModelFactory):
     )
     residence = factory.Faker("country_code")
     paid = factory.Faker("boolean")
+    payment_id = factory.LazyAttribute(lambda obj: fake.bban() if obj.paid else "")
 
     @factory.post_generation
     def passengers(self, create, extracted, **kwargs):
