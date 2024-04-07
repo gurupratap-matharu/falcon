@@ -12,7 +12,7 @@
     </head>
     <body>
         <section>
-            {{ trip.departure }} Trip to {{ trip.origin }} - {{ trip.destination }}
+            <strong>{{ trip.departure }}</strong> Trip to <strong>{{ trip.origin }} - {{ trip.destination }}</strong>
         </section>
         <hr>
         <section>
@@ -29,17 +29,23 @@
         <hr>
         <section>
             <div class="departure-container">
-                <p>
-                    DEPARTURE: <strong>{{ trip.departure|date:"l d F Y H:i" }}</strong>
-                </p>
-                <p>{{ company|upper }}</p>
+                <div>
+                    <p>
+                        DEPARTURE: <strong>{{ trip.departure|date:"l d F Y H:i" }}</strong>
+                    </p>
+                </div>
+                <div>
+                    <p>{{ company|upper }}</p>
+                </div>
             </div>
             <div class="container">
                 <article>
-                    <p>{{ company|upper }}</p>
-                    <p>Trip {{ trip_code }}</p>
-                    <p>Duration {{ trip.duration }}</p>
-                    <p>Status: Confirmed</p>
+                    <p>
+                        <strong>{{ company|upper }}</strong>
+                    </p>
+                    <p class="smaller">Trip: {{ trip_code }}</p>
+                    <p class="smaller">Duration: {{ trip.duration }}</p>
+                    <p class="smaller">Status: Confirmed</p>
                 </article>
                 <article>
                     <div>
@@ -61,14 +67,14 @@
                         </section>
                         <div class="container">
                             <div class="departure">
-                                <p>Departing at</p>
-                                <strong>{{ trip.departure|date:"H:i" }}</strong>
-                                <p>{{ trip.departure|date:"l d F" }}</p>
+                                <p class="smaller">Departing at</p>
+                                <strong class="larger">{{ trip.departure|date:"H:i" }}</strong>
+                                <p class="smaller">{{ trip.departure|date:"l d F" }}</p>
                             </div>
                             <div class="arrival">
-                                <p>Arrival at</p>
-                                <strong>{{ trip.arrival|date:"H:i" }}</strong>
-                                <p>{{ trip.arrival|date:"l d F" }}</p>
+                                <p class="smaller">Arrival at</p>
+                                <strong class="larger">{{ trip.arrival|date:"H:i" }}</strong>
+                                <p class="smaller">{{ trip.arrival|date:"l d F" }}</p>
                             </div>
                         </div>
                     </div>
