@@ -69,11 +69,15 @@ jobs:
       - name: Run tests
         run: poetry run coverage run --source='.' manage.py test -v 2
 
+        # run the next steps even if some tests fails see `if: always()`
+
       - name: Generate xml report
         run: poetry run coverage xml
+        if: always()
 
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v3
+        if: always()
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
