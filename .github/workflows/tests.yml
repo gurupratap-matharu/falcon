@@ -66,9 +66,6 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: Run checks
-        run: poetry run python manage.py check
-
       - name: Run tests
         run: poetry run coverage run --source='.' manage.py test -v 2
 
