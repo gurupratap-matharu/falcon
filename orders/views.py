@@ -223,7 +223,11 @@ class TicketView(DetailView):
 
 
 class TicketPDFView(WeasyTemplateResponseMixin, TicketView):
-    pass
+    pdf_attachment = False
+
+    def get_pdf_filename(self):
+        name = self.object.name.replace(" ", "-")
+        return f"Tickets-{name}.pdf"
 
 
 class OrderCheckInView(OwnerMixin, DetailView):
