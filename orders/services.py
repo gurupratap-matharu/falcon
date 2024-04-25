@@ -37,7 +37,7 @@ def order_confirmed(order_id, payment_id):
 
     # Confirm the order
     logger.info("confirming order...")
-    order.confirm(payment_id=payment_id)
+    # order.confirm(payment_id=payment_id)
 
     context = {"order": order, "item": item, "current_site": current_site}
 
@@ -52,7 +52,8 @@ def order_confirmed(order_id, payment_id):
         subject=subject,
         body=body,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[order.email, settings.DEFAULT_TO_EMAIL],
+        to=[order.email],
+        cc=[settings.DEFAULT_TO_EMAIL],
     )
 
     # Attach html version as an alternative
@@ -87,14 +88,14 @@ def order_confirmed(order_id, payment_id):
 
     subject = render_to_string(subject_path, context).strip()
     body = render_to_string(body_path, context).strip()
-    # company_email = item.trip.company.email  # TODO: disabled to avoid spams
-    company_email = settings.DEFAULT_TO_EMAIL  # TODO: Change this later
+    company_email = item.trip.company.email
 
     company_email = EmailMultiAlternatives(
         subject=subject,
         body=body,
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=[company_email],
+        cc=[settings.DEFAULT_TO_EMAIL],
     )
 
     # Send both emails in one go
