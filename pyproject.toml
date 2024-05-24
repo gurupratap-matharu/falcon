@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "falcon"
 version = "0.1.0"
-description = ""
+description = "Bus booking website"
 authors = ["Gurupratap Matharu <gurupratap.matharu@gmail.com>"]
 readme = "README.md"
 
