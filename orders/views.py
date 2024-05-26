@@ -22,7 +22,8 @@ from .models import Order, OrderItem, Passenger
 
 logger = logging.getLogger(__name__)
 
-domain = Site.objects.get_current().domain
+# domain = Site.objects.get_current().domain
+domain = ""
 
 
 class OrderCreateView(CreateView):
@@ -190,6 +191,28 @@ class InvoiceView(DetailView):
     model = Order
     pk_url_kwarg = "order_id"
     template_name = "orders/invoice.html"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        order = self.object
+        items = OrderItem.objects.filter(order=order).select_related("trip")
+        item = items.first()
+        trip = item.trip
+        company = trip.company
+        passengers = order.passengers.all()
+        qr_url = f"https://kpiola.com.ar/{item.get_checkin_url()}"
+
+        context["order"] = order
+        context["item"] = item
+        context["trip"] = trip
+        context["company"] = company
+        context["code"] = str(order.id).split("-")[-1]
+        context["trip_code"] = str(trip.id).split("-")[-1]
+        context["passengers"] = passengers
+        context["qr_url"] = qr_url
+
+        return context
 
 
 class InvoicePDFView(WeasyTemplateResponseMixin, InvoiceView):
