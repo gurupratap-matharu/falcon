@@ -2,18 +2,31 @@ import logging
 from timeit import default_timer as timer
 
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.core import mail
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 
-from orders.drawers import burn_invoice_pdf, burn_ticket_pdf
+from django_weasyprint.utils import django_url_fetcher
+from weasyprint import HTML
+
 from orders.models import Order, OrderItem
 
 logger = logging.getLogger(__name__)
 
-current_site = Site.objects.get_current()
+
+def burn_pdf(template_name, context) -> bytes:
+    """
+    Renders a django template to a pdf file.
+    """
+
+    pdf = HTML(
+        string=render_to_string(template_name, context),
+        url_fetcher=django_url_fetcher,
+        base_url="file://",
+    ).write_pdf()
+
+    return pdf
 
 
 def order_confirmed(order_id, payment_id):
@@ -31,15 +44,26 @@ def order_confirmed(order_id, payment_id):
     items = OrderItem.objects.filter(order=order).select_related("trip")
 
     item = items.first()  # <-- fix this
+    trip = item.trip
+    company = trip.company
+    passengers = order.passengers.all()
+    qr_url = f"https://kpiola.com.ar/{item.get_checkin_url()}"
 
-    # qr_url = f"https://{current_site.domain}{item.get_checkin_url()}"
-    # context = dict(order=order, item=item, trip=item.trip, qr_url=qr_url)
+    context = dict(
+        order=order,
+        item=item,
+        trip=trip,
+        company=company,
+        code=str(order.id).split("-")[-1],
+        trip_code=str(trip.id).split("-")[-1],
+        passengers=passengers,
+        qr_url=qr_url,
+    )
 
     # Confirm the order
-    logger.info("confirming order...")
+    # TODO
+    # logger.info("confirming order...")
     # order.confirm(payment_id=payment_id)
-
-    context = {"order": order, "item": item, "current_site": current_site}
 
     # User Email
     subject_path = "orders/emails/booking_confirmed_subject.txt"
@@ -62,20 +86,16 @@ def order_confirmed(order_id, payment_id):
     # )
     # user_email.attach_alternative(content=html_message, mimetype="text/html")
 
-    # Create pdf ticket using weasy print
-    ticket = burn_ticket_pdf(context=context)
+    # Create pdfs for ticket and invoice
+    ticket = burn_pdf(template_name="orders/ticket.html", context=context)
+    invoice = burn_pdf(template_name="orders/invoice.html", context=context)
 
-    # Attach pdf ticket to email
+    # Attach pdfs to email
     user_email.attach(
         filename=f"Ticket-{order.name}.pdf",
         content=ticket,
         mimetype="application/pdf",
     )
-
-    # Create pdf invoice using weasy print
-    invoice = burn_invoice_pdf(context=context)
-
-    # Attach pdf invoice to email
     user_email.attach(
         filename=f"Invoice-{order.name}.pdf",
         content=invoice,
