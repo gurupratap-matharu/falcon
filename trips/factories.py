@@ -1,5 +1,7 @@
+import itertools
 import logging
 import random
+from datetime import date
 from datetime import datetime as dt
 from datetime import timedelta as td
 from zoneinfo import ZoneInfo
@@ -12,7 +14,7 @@ from factory import fuzzy
 from faker import Faker
 
 from companies.factories import CompanyFactory
-from trips.models import Location, Seat, Trip
+from trips.models import Location, Route, Seat, Stop, Trip
 from trips.terminals import TERMINALS
 
 fake = Faker()
@@ -49,6 +51,42 @@ class LocationFactory(factory.django.DjangoModelFactory):
 
     latitude = factory.LazyAttribute(lambda _: round(fake.latitude(), 6))
     longitude = factory.LazyAttribute(lambda _: round(fake.longitude(), 6))
+
+
+class RouteFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Route
+
+    company = factory.SubFactory(CompanyFactory)
+    name = factory.LazyAttribute(lambda o: f"{o.origin} - {o.destination}")
+    slug = factory.LazyAttribute(lambda o: slugify(o.name))
+    description = factory.LazyAttribute(
+        lambda o: f"Trip from {o.origin} - {o.destination}.\n{fake.paragraph()}"
+    )
+    image = CustomImageField(color=fake.color)
+    origin = factory.SubFactory(LocationFactory)
+    destination = factory.SubFactory(LocationFactory)
+    category = fuzzy.FuzzyChoice(Route.CATEGORY_CHOICES, getter=lambda c: c[0])
+    duration = fuzzy.FuzzyFloat(1, 24, precision=2)
+    price = factory.LazyAttribute(
+        lambda o: {
+            f"{o.origin.abbr.strip()};{o.destination.abbr.strip()}": fake.random_number(
+                digits=5
+            )
+        }
+    )
+
+
+class StopFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Stop
+
+    name = factory.SubFactory(LocationFactory)
+    route = factory.SubFactory(RouteFactory)
+    arrival = factory.Faker("time_object")
+    departure = factory.LazyAttribute(
+        lambda o: (dt.combine(date(1, 1, 1), o.arrival) + td(minutes=10)).time()
+    )
 
 
 class TripFactory(factory.django.DjangoModelFactory):
@@ -112,9 +150,11 @@ class SeatFactory(factory.django.DjangoModelFactory):
     trip = factory.SubFactory(TripFactory)
     seat_number = factory.Sequence(lambda n: int(n))
     seat_type = factory.LazyAttribute(
-        lambda o: Seat.SEAT_TYPE_CHOICES[2][0]
-        if o.seat_number < 7
-        else Seat.SEAT_TYPE_CHOICES[1][0]
+        lambda o: (
+            Seat.SEAT_TYPE_CHOICES[2][0]
+            if o.seat_number < 7
+            else Seat.SEAT_TYPE_CHOICES[1][0]
+        )
     )
     seat_status = fuzzy.FuzzyChoice(Seat.SEAT_STATUS_CHOICES, getter=lambda c: c[0])
 
@@ -248,3 +288,33 @@ def make_trips_for_company(company="Albizzatti"):
         )
 
     return trips
+
+
+def make_route_stops(num_routes=1, stops_per_route=7):
+    """
+    Make a route and add a couple of stops to it in one go.
+    """
+
+    size = stops_per_route - 2
+
+    for _ in range(num_routes):
+        route = RouteFactory()
+
+        StopFactory(route=route, name=route.origin)  # Origin stop
+        StopFactory.create_batch(size=size, route=route)  # Intermediate stops
+        StopFactory(route=route, name=route.destination)  # Last stop
+
+        # Generate price json
+        qs = route.stops.select_related("name")
+        combinations = itertools.combinations(qs, 2)
+        price = dict()
+
+        for a, b in combinations:
+            code = f"{a.name.abbr.strip()};{b.name.abbr.strip()}"
+            cost = fake.random_number(digits=5)
+            price[code] = cost
+
+        logger.info("price:%s" % price)
+        route.price = price
+        route.save(update_fields=["price"])
+        logger.info("created route:%s" % route)
