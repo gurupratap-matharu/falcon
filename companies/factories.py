@@ -22,7 +22,7 @@ class CustomImageField(factory.django.ImageField):
 class CompanyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Company
-        django_get_or_create = ("name",)
+        django_get_or_create = ("slug",)
 
     name = factory.Faker("random_element", elements=COMPANIES)
     slug = factory.LazyAttribute(lambda o: slugify(o.name))

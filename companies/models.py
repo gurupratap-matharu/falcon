@@ -66,6 +66,9 @@ class Company(models.Model):
     def get_admin_url(self):
         return reverse_lazy("companies:dashboard", kwargs={"slug": self.slug})
 
+    def get_route_list_url(self):
+        return reverse_lazy("companies:route-list", kwargs={"slug": self.slug})
+
     def get_trip_list_url(self):
         return reverse_lazy("companies:trip-list", kwargs={"slug": self.slug})
 

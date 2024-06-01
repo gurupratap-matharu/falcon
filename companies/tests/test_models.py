@@ -1,5 +1,6 @@
 from django.db import IntegrityError
 from django.test import TestCase
+from django.urls import reverse_lazy
 
 from companies.factories import CompanyFactory, SeatChartFactory
 from companies.models import (
@@ -28,6 +29,13 @@ class CompanyModelTests(TestCase):
         expected_url = f"/companies/{self.company.slug.lower()}/admin/"
 
         self.assertEqual(self.company.get_admin_url(), expected_url)
+
+    def test_get_route_list_url(self):
+        actual = self.company.get_route_list_url()
+        expected = reverse_lazy(
+            "companies:route-list", kwargs={"slug": self.company.slug}
+        )
+        self.assertEqual(actual, expected)
 
     def test_get_trip_list_url(self):
         expected_url = f"/companies/{self.company.slug.lower()}/admin/trips/"
