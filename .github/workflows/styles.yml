@@ -44,4 +44,4 @@ jobs:
         run: poetry run isort . --check-only --profile black
 
       - name: Run Ruff
-        run: poetry run ruff .
+        run: poetry run ruff check .
