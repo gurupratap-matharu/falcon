@@ -1,3 +1,4 @@
+import logging
 from datetime import date, timedelta
 from typing import Any
 
@@ -8,7 +9,9 @@ from django.utils.translation import gettext_lazy as _
 
 from trips.models import Seat
 
-from .models import Location, Trip
+from .models import Location, Route, Stop, Trip
+
+logger = logging.getLogger(__name__)
 
 admin.site.site_header = "Kpiola 🚌"
 admin.site.site_title = "Kpiola Admin Portal"
@@ -108,6 +111,7 @@ class LocationAdmin(admin.ModelAdmin):
     )
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ("name",)
+    list_per_page = 30
 
 
 @admin.register(Trip)
@@ -147,3 +151,28 @@ class TripAdmin(admin.ModelAdmin):
 
     def availability(self, obj):
         return obj._availability
+
+
+class StopInline(admin.TabularInline):
+    model = Stop
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        qs = super().get_queryset(request)
+        return qs.select_related("name")
+
+
+@admin.register(Route)
+class RouteAdmin(admin.ModelAdmin):
+    list_display = (
+        "company",
+        "origin",
+        "destination",
+        "category",
+        "duration",
+        "active",
+    )
+    list_filter = ("active",)
+    list_select_related = ("company", "origin", "destination")
+    raw_id_fields = ("company", "origin", "destination")
+    prepopulated_fields = {"slug": ("name",)}
+    inlines = (StopInline,)
