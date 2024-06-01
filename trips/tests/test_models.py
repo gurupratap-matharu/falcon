@@ -4,6 +4,7 @@ from zoneinfo import ZoneInfo
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, transaction
 from django.test import TestCase
+from django.urls import reverse_lazy
 from django.utils import timezone
 
 from companies.factories import CompanyFactory
@@ -12,12 +13,14 @@ from orders.models import Passenger
 from trips.exceptions import SeatException, TripException
 from trips.factories import (
     LocationFactory,
+    RouteFactory,
     SeatFactory,
+    StopFactory,
     TripFactory,
     TripPastFactory,
     TripTomorrowFactory,
 )
-from trips.models import Location, Seat, Trip
+from trips.models import Location, Route, Seat, Stop, Trip
 
 
 class LocationModelTests(TestCase):
@@ -123,6 +126,166 @@ class LocationModelTests(TestCase):
         with self.assertRaises(IntegrityError):
             # repeat the same slug
             Location.objects.create(name="Mendoza Terminal", slug="mendoza")
+
+
+class RouteModelTests(TestCase):
+    """Test suite for the Route Model"""
+
+    def setUp(self):
+        self.route = RouteFactory()
+
+    def test_str_representation(self):
+        self.assertEqual(str(self.route), f"{self.route.name}")
+
+    def test_verbose_names(self):
+        self.assertEqual(self.route._meta.verbose_name, "Route")
+        self.assertEqual(self.route._meta.verbose_name_plural, "Routes")
+
+    def test_get_absolute_url(self):
+        self.skipTest("not yet implemented")
+
+    def test_admin_url(self):
+        actual = self.route.get_admin_url()
+        expected = reverse_lazy(
+            "companies:route-detail",
+            kwargs={"slug": self.route.company.slug, "id": str(self.route.id)},
+        )
+        self.assertEqual(actual, expected)
+
+    def test_route_model_creation_is_accurate(self):
+        obj = Route.objects.first()
+
+        self.assertEqual(Route.objects.count(), 1)
+
+        self.assertEqual(obj.name, self.route.name)
+        self.assertEqual(obj.slug, self.route.slug)
+        self.assertEqual(obj.company, self.route.company)
+        self.assertEqual(obj.description, self.route.description)
+        self.assertEqual(obj.image, self.route.image)
+        self.assertEqual(obj.category, self.route.category)
+        self.assertEqual(obj.origin, self.route.origin)
+        self.assertEqual(obj.destination, self.route.destination)
+        self.assertEqual(obj.duration, self.route.duration)
+        self.assertEqual(obj.price, self.route.price)
+        self.assertEqual(obj.active, self.route.active)
+
+    def test_route_slug_is_auto_generated_even_if_not_supplied(self):
+        route = Route.objects.create(name="bariloche to mendoza")
+
+        self.assertEqual(route.slug, "bariloche-to-mendoza")
+
+    def test_existing_slug_is_not_overwritten_when_updating_route(self):
+        name = "bariloche to mendoza"
+        slug = "bariloche-to-mendoza"
+
+        route = Route.objects.create(name=name)
+
+        self.assertEqual(route.slug, slug)
+
+        obj, created = Route.objects.update_or_create(
+            name=name, defaults={"name": "BARILOCHE TO MENDOZA"}
+        )
+        self.assertEqual(obj.slug, slug)
+
+    def test_max_length_of_all_fields(self):
+        def get_length(field_name):
+            return route._meta.get_field(field_name).max_length
+
+        route = Route.objects.first()
+
+        self.assertEqual(get_length("name"), 200)
+        self.assertEqual(get_length("slug"), 200)
+
+    def test_negative_duration_raises_error(self):
+        with self.assertRaises(ValidationError):
+            r = RouteFactory(duration=-1)
+            # Django validators are run only on calling full_clean() method
+            r.full_clean()
+
+    def test_excess_duration_raises_error(self):
+        with self.assertRaises(ValidationError):
+            r = RouteFactory(duration=101)
+            r.full_clean()
+
+    def test_route_price_field(self):
+        self.skipTest("Yet to implement")
+
+    def test_route_goes_from_method_works_correctly(self):
+        # make route go from a -> b -> c
+        a, b, c = StopFactory.create_batch(size=3, route=self.route)
+
+        # make some random stops not on route
+        d, e = StopFactory.create_batch(size=2)
+
+        loc_a, loc_b, loc_c = a.name, b.name, c.name
+        loc_d, loc_e = d.name, e.name
+
+        # Assert
+
+        # route goes from a -> b, a -> c, b -> c
+        self.assertTrue(self.route.goes_from(loc_a, loc_b))
+        self.assertTrue(self.route.goes_from(loc_a, loc_c))
+        self.assertTrue(self.route.goes_from(loc_b, loc_c))
+
+        # route doesn't go from c -> b, c -> a, b -> a
+        self.assertFalse(self.route.goes_from(loc_c, loc_b))
+        self.assertFalse(self.route.goes_from(loc_c, loc_a))
+        self.assertFalse(self.route.goes_from(loc_b, loc_a))
+
+        # route doesn't go to random stops not part of route
+        self.assertFalse(self.route.goes_from(loc_a, loc_d))
+        self.assertFalse(self.route.goes_from(loc_a, loc_e))
+        self.assertFalse(self.route.goes_from(loc_d, loc_b))
+        self.assertFalse(self.route.goes_from(loc_d, loc_c))
+        self.assertFalse(self.route.goes_from(loc_d, loc_e))
+
+
+class StopModelTests(TestCase):
+    """Test suite for the Stop Model"""
+
+    def setUp(self):
+        self.route = RouteFactory()
+        self.stop = StopFactory(route=self.route)
+
+    def test_str_representation(self):
+        self.assertEqual(str(self.stop), f"{self.stop.order}. {self.stop.name}")
+
+    def test_verbose_names(self):
+        self.assertEqual(self.stop._meta.verbose_name, "stop")
+        self.assertEqual(self.stop._meta.verbose_name_plural, "stops")
+
+    def test_stops_are_ordered_as_per_their_order_field(self):
+        stop_1, stop_2 = StopFactory.create_batch(size=2, route=self.route)
+
+        # remember self.stop has order 0 and is already created in setUp()
+        # query from db
+        stop_db_0, stop_db_1, stop_db_2 = Stop.objects.all()
+
+        self.assertEqual(self.stop._meta.ordering, ("order",))
+        self.assertEqual(stop_db_0, self.stop)
+        self.assertEqual(stop_db_1, stop_1)
+        self.assertEqual(stop_db_2, stop_2)
+
+    def test_get_absolute_url(self):
+        self.skipTest("not yet implemented")
+
+    def test_stop_model_creation_is_accurate(self):
+        obj = Stop.objects.first()
+
+        self.assertEqual(Stop.objects.count(), 1)
+
+        self.assertEqual(obj.name, self.stop.name)
+        self.assertEqual(obj.route, self.stop.route)
+        self.assertEqual(obj.order, self.stop.order)
+        self.assertEqual(obj.arrival, self.stop.arrival)
+        self.assertEqual(obj.departure, self.stop.departure)
+
+    def test_new_stops_have_order_automatically_created(self):
+        stop_1, stop_2 = StopFactory.create_batch(size=2, route=self.route)
+
+        self.assertEqual(self.stop.order, 0)
+        self.assertEqual(stop_1.order, 1)
+        self.assertEqual(stop_2.order, 2)
 
 
 class TripModelTests(TestCase):

@@ -13,8 +13,10 @@ from dateutil import rrule
 from companies.factories import CompanyFactory, SeatChartFactory
 from trips.factories import (
     LocationFactory,
+    RouteFactory,
     SeatFactory,
     SeatWithPassengerFactory,
+    StopFactory,
     TripFactory,
     TripPastFactory,
     TripTomorrowFactory,
@@ -22,6 +24,8 @@ from trips.factories import (
 from trips.forms import RecurrenceForm
 from trips.models import Seat, Trip
 from trips.views import (
+    CompanyRouteDetailView,
+    CompanyRouteListView,
     CompanyTripDetailView,
     CompanyTripListView,
     LocationDetailView,
@@ -1331,3 +1335,90 @@ class RecurrenceViewTests(TestCase):
         self.assertEqual(len(messages), 2)
         self.assertEqual(str(messages[0]), f"Total Occurrences: {count}")
         self.assertEqual(str(messages[1]), RecurrenceView.success_message)
+
+
+class CompanyRouteListViewTests(TestCase):
+    """Test suite for the company admin route list view"""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.route = RouteFactory(company=cls.company)
+        cls.url = cls.company.get_route_list_url()
+        cls.template_name = "trips/company_route_list.html"
+
+    def test_company_route_list_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, CompanyRouteListView.as_view().__name__)
+
+    def test_company_route_list_view_works(self):
+        # Make the company owner login to the platform
+        self.client.force_login(self.owner)
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(self.owner.is_superuser)
+        self.assertFalse(self.owner.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertEqual(self.owner, self.company.owner)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Routes")
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Assert valid context
+        routes = response.context["routes"]
+        self.assertEqual(len(routes), 1)
+
+        # Assert company itself in context
+        self.assertEqual(self.company, response.context["company"])
+
+
+class CompanyRouteDetailViewTests(TestCase):
+    """Test suite for the company route detail view"""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.route = RouteFactory(company=cls.company)
+        cls.stops = StopFactory.create_batch(size=5, route=cls.route)
+        cls.url = cls.route.get_admin_url()
+        cls.template_name = CompanyRouteDetailView.template_name
+
+    def test_company_route_detail_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, CompanyRouteDetailView.as_view().__name__)
+
+    def test_company_route_detail_view_works(self):
+        # Make the company owner login to the platform
+        self.client.force_login(self.owner)
+
+        response = self.client.get(self.url)
+
+        # Assert user is correctly authenticated and neither superuser nor staff
+        self.assertFalse(self.owner.is_superuser)
+        self.assertFalse(self.owner.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertEqual(self.owner, self.company.owner)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, self.route.name)
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Assert valid context
+        route = response.context["route"]
+        stops = response.context["stops"]
+
+        self.assertEqual(route, self.route)
+        self.assertEqual(list(stops), self.stops)
+        self.assertEqual(len(stops), 5)
+
+        # Assert company itself in context
+        self.assertEqual(self.company, response.context["company"])
