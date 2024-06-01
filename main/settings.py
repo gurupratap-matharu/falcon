@@ -331,7 +331,7 @@ SHELL_PLUS_IMPORTS = [
     "from datetime import datetime, timedelta",
     "from users.factories import UserFactory, StaffuserFactory, SuperuserFactory, CompanyOwnerFactory",
     "from companies.factories import CompanyFactory, SeatChartFactory",
-    "from trips.factories import LocationFactory",
+    "from trips.factories import LocationFactory, RouteFactory, StopFactory",
     "from trips.factories import TripFactory, TripTomorrowFactory, SeatFactory, SeatWithPassengerFactory",
     "from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory",
     "from orders.services import order_confirmed",
