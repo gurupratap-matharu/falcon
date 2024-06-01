@@ -13,6 +13,7 @@ from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 
 from trips.exceptions import SeatException, TripException
+from trips.fields import OrderField
 from trips.managers import FutureManager, PastManager
 from trips.seat_map import SEAT_MAP
 
@@ -65,6 +66,141 @@ class Location(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy("locations:location-detail", kwargs={"slug": self.slug})
+
+
+class Route(models.Model):
+    """
+    An operators creates routes which are blueprints of a line they operate on.
+    They are abstract in nature and don't belong to any particular date as such but have
+    all the information like stops, pricing, origin, destination, departure and arrivals.
+
+    Trips are created based on routes and have a date on which they run.
+    """
+
+    CAMA = "C"
+    SEMICAMA = "S"
+    EXECUTIVE = "E"
+    OTHER = "O"
+    CATEGORY_CHOICES = [
+        (CAMA, "Cama"),
+        (SEMICAMA, "Semicama"),
+        (EXECUTIVE, "Executive"),
+        (OTHER, "Other"),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    company = models.ForeignKey(
+        to="companies.Company",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="routes",
+    )
+    name = models.CharField(_("name"), max_length=200)
+    slug = models.SlugField(_("slug"), max_length=200)
+    description = models.TextField(_("description"), blank=True)
+    image = models.ImageField(_("image"), upload_to="routes/%Y/%m/%d", blank=True)
+    category = models.CharField(
+        _("category"), max_length=2, choices=CATEGORY_CHOICES, default=SEMICAMA
+    )
+    origin = models.ForeignKey(
+        "trips.Location",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="routes_outbound",
+    )
+    destination = models.ForeignKey(
+        "trips.Location",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="routes_inbound",
+    )
+    duration = models.FloatField(
+        _("Duration in Hours"),
+        default=3.5,
+        validators=[MinValueValidator(0.1), MaxValueValidator(100)],
+    )
+    price = models.JSONField(_("price"), default=dict)
+
+    active = models.BooleanField(_("active"), default=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("Route")
+        verbose_name_plural = _("Routes")
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    def get_admin_url(self):
+        return reverse_lazy(
+            "companies:route-detail",
+            kwargs={"id": str(self.id), "slug": self.company.slug},
+        )
+
+    def goes_from(self, origin, destination) -> bool:
+        """
+        Determine if this route goes from origin to destination.
+
+        - Both origin and destination should be part of the route's stops
+        - Origin should come before destination in the stop list i.e. origin's order
+          should be less than destination's order.
+        """
+        try:
+            qs = self.stops.all()
+            origin_stop = qs.get(name=origin)
+            destination_stop = qs.get(name=destination)
+
+        except Stop.DoesNotExist:
+            return False
+        else:
+            return origin_stop.order < destination_stop.order
+
+    def get_price(self, origin, destination):
+        """Calculate the price between two stops as per price chart stored in json"""
+
+        code = f"{origin.abbr.strip()};{destination.abbr.strip()}"
+        logger.info("code:%s" % code)
+
+        return self.price.get(code)
+
+
+class Stop(models.Model):
+    """
+    A route can have many intermediate stops in its journey. Each stop has an order in
+    the route with an arrival & departure time.
+
+    Eg route: A -> B -> C -> D
+
+    Here we have four stops where orgin is A and destination is D. B & C would be intermediate
+    stops.
+    """
+
+    name = models.ForeignKey(
+        "trips.Location", on_delete=models.CASCADE, related_name="route_stops"
+    )
+    route = models.ForeignKey(
+        "trips.Route", on_delete=models.CASCADE, related_name="stops"
+    )
+    arrival = models.TimeField(_("arrival"))
+    departure = models.TimeField(_("departure"))
+    order = OrderField(for_fields=["route"], blank=True)
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ("order",)
+        verbose_name = _("stop")
+        verbose_name_plural = _("stops")
+
+    def __str__(self):
+        return f"{self.order}. {self.name}"
 
 
 class Trip(models.Model):
