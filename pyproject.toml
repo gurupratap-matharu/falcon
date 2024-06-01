@@ -7,10 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-black = "^22.10.0"
-isort = "^5.10.1"
-bandit = "^1.7.4"
-safety = "^2.3.1"
 gunicorn = "^20.1.0"
 python-dotenv = "^0.21.0"
 django-extensions = "^3.2.1"
@@ -37,6 +33,10 @@ ipython = "^8.23.0"
 selenium = "^4.19.0"
 django-debug-toolbar = "^4.3.0"
 ruff = "^0.3.5"
+black = "^24.4.2"
+isort = "^5.13.2"
+bandit = "^1.7.8"
+safety = "^3.2.0"
 
 [build-system]
 requires = ["poetry-core"]
