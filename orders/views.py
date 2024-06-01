@@ -2,8 +2,8 @@ import logging
 from typing import Any, Dict
 
 from django import http
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.sites.models import Site
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -21,9 +21,6 @@ from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
 
 logger = logging.getLogger(__name__)
-
-# domain = Site.objects.get_current().domain
-domain = ""
 
 
 class OrderCreateView(CreateView):
@@ -201,7 +198,7 @@ class InvoiceView(DetailView):
         trip = item.trip
         company = trip.company
         passengers = order.passengers.all()
-        qr_url = f"https://kpiola.com.ar/{item.get_checkin_url()}"
+        qr_url = f"{settings.BASE_URL}{item.get_checkin_url()}"
 
         context["order"] = order
         context["item"] = item
@@ -230,7 +227,7 @@ class TicketView(DetailView):
         item = order.items.first()
         trip = item.trip
         company = trip.company
-        qr_url = f"https://{domain}{item.get_checkin_url()}"
+        qr_url = f"{settings.BASE_URL}{item.get_checkin_url()}"
         logger.info("qr_url:%s" % qr_url)
 
         context["company"] = company

@@ -40,6 +40,7 @@ DEBUG = int(os.getenv("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")  # type: ignore
 
+BASE_URL = os.getenv("BASE_URL", "")
 
 # Application definition
 
