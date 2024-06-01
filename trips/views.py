@@ -22,7 +22,7 @@ from companies.mixins import OwnerMixin
 from companies.models import SeatChart
 
 from .forms import RecurrenceForm, TripCreateForm, TripSearchForm
-from .models import Location, Trip
+from .models import Location, Route, Trip
 
 logger = logging.getLogger(__name__)
 
@@ -121,6 +121,36 @@ class CRUDMixins(OwnerMixin, SuccessMessageMixin):
     """
 
     pass
+
+
+class CompanyRouteListView(CRUDMixins, ListView):
+    """Shows all the routes for a company"""
+
+    model = Route
+    template_name = "trips/company_route_list.html"
+    context_object_name = "routes"
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return (
+            qs.filter(company__slug=self.kwargs["slug"])
+            .select_related("company", "origin", "destination")
+            .order_by("name")
+        )
+
+
+class CompanyRouteDetailView(CRUDMixins, DetailView):
+    """Show details on one particular route for a company"""
+
+    model = Route
+    pk_url_kwarg = "id"
+    context_object_name = "route"
+    template_name = "trips/company_route_detail.html"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["stops"] = self.object.stops.select_related("name")
+        return context
 
 
 class CompanyTripListView(CRUDMixins, ListView):

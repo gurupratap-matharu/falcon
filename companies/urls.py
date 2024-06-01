@@ -12,6 +12,12 @@ app_name = "companies"
 company_admin_patterns = [
     # Private Company Admin Endpoints
     path("", views.CompanyDashboardView.as_view(), name="dashboard"),
+    path("routes/", trip_views.CompanyRouteListView.as_view(), name="route-list"),
+    path(
+        "routes/<uuid:id>/",
+        trip_views.CompanyRouteDetailView.as_view(),
+        name="route-detail",
+    ),
     path("trips/", trip_views.CompanyTripListView.as_view(), name="trip-list"),
     path("trips/create/", trip_views.TripCreateView.as_view(), name="trip-create"),
     path(
