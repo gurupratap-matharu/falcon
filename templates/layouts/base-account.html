@@ -3,45 +3,44 @@
 {% load static %}
 
 {% block basecontent %}
-    <header>
-        <div class="container position-sticky z-index-sticky top-0">
+  <header>
+    <div class="container position-sticky z-index-sticky top-0">
 
-            {% include "includes/navigation-floating.html" %}
-
-        </div>
-    </header>
-
-    {% block main %}
-        <main class="main-content mt-0">
-            <section>
-                <div class="page-header min-vh-75">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-
-                                {% block content %}
-                                {% endblock content %}
-
-                                {% include "includes/alert.html" %}
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                                    <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                                         style="background-image:url({% static 'assets/img/curved-images/curved8.jpg' %})">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    {% endblock main %}
-
-    <div class="container mt-8">
-
-        {% include "includes/footer.html" %}
+      {% include "includes/navigation-floating.html" %}
 
     </div>
+  </header>
+
+  {% block main %}
+    <main class="main-content mt-0">
+      <section>
+        <div class="page-header min-vh-75">
+          <div class="container">
+            <div class="row">
+              <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+
+                {% block content %}
+                {% endblock content %}
+
+                {% include "includes/alert.html" %}
+
+              </div>
+              <div class="col-md-6">
+                <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+                  <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
+                       style="background-image:url({% static 'assets/img/curved-images/curved8.jpg' %})"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  {% endblock main %}
+
+  <div class="container mt-8">
+
+    {% include "includes/footer.html" %}
+
+  </div>
 {% endblock basecontent %}

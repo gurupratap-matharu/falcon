@@ -3,23 +3,23 @@
 {% load static %}
 
 {% block title %}
-    {{ trip }}
+  {{ trip }}
 {% endblock title %}
 
 {% block breadcrumb %}
-    {{ trip.company }}
+  {{ trip.company }}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    {{ trip }}
+  {{ trip }}
 {% endblock page_title %}
 
 {% block content %}
-    <div class="row">
-        <div class="col">
+  <div class="row">
+    <div class="col">
 
-            {% include "includes/trip_summary.html" %}
+      {% include "includes/trip_summary.html" %}
 
-        </div>
     </div>
+  </div>
 {% endblock content %}

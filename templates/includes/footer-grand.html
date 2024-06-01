@@ -1,148 +1,149 @@
 {% load i18n %}
 
 <footer class="footer pt-5 mt-5">
-    <hr class="horizontal dark mb-5" />
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 mb-4 ms-auto">
-                <div>
-                    <h6 class="text-gradient text-primary font-weight-bolder">
-                        <a href="{% url 'pages:home' %}">Kpiola</a>
-                    </h6>
-                </div>
-                <div>
-                    <h6 class="mt-3 mb-2 opacity-8">Social</h6>
-                    <ul class="d-flex flex-row ms-n3 nav">
-                        <li class="nav-item">
-                            <a class="nav-link pe-1" target="_blank" href="">
-                                <i class="bi bi-facebook text-lg opacity-8"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link pe-1" target="_blank" href="">
-                                <i class="bi bi-twitter text-lg opacity-8"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link pe-1" target="_blank" href="">
-                                <i class="bi bi-instagram text-lg opacity-8"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link pe-1" target="_blank" href="">
-                                <i class="bi bi-youtube text-lg opacity-8"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="d-flex mt-3 mb-2">
-                        <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input name="next" type="hidden" value="{{ redirect_to }}" />
-                            <div class="input-group input-group-sm mb-3">
-                                <select name="language" class="form-select form-select-sm bg-transparent">
-                                    {% get_current_language as LANGUAGE_CODE %}
-                                    {% get_available_languages as LANGUAGES %}
-                                    {% get_language_info_list for LANGUAGES as languages %}
-                                    {% for language in languages %}
-                                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
-                                            {{ language.name }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                                <button class="btn btn-outline-primary mb-0" type="submit">Go</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-6 col-6 mb-4">
-                <div>
-                    <h6 class="text-gradient text-primary text-sm">{% trans "Company" %}</h6>
-                    <ul class="flex-column ms-n3 nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pages:about' %}">{% trans "About Us" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Work with us" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Partners" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Blog" %}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-6 col-6 mb-4">
-                <div>
-                    <h6 class="text-gradient text-primary text-sm">{% trans "Resources" %}</h6>
-                    <ul class="flex-column ms-n3 nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'locations:location-list' %}">{% trans "Terminals" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Companies" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Routes" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Press" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Affiliate Program" %}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-6 col-6 mb-4">
-                <div>
-                    <h6 class="text-gradient text-primary text-sm">{% trans "Help & Support" %}</h6>
-                    <ul class="flex-column ms-n3 nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pages:contact' %}">{% trans "Contact Us" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pages:help' %}">{% trans "Help Center" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pages:feedback' %}">{% trans "Feedback" %}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
-                <div>
-                    <h6 class="text-gradient text-primary text-sm">{% trans "Useful Links" %}</h6>
-                    <ul class="flex-column ms-n3 nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pages:terms' %}">{% trans "Terms & Conditions" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pages:privacy' %}">{% trans "Privacy Policy" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "FAQ" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{% trans "Agencies" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pages:sitemap' %}">{% trans "Sitemap" %}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="text-center">
-                    <p class="mt-4 nav-link">
-                        {% trans "All rights reserved. Copyright ©" %}
-                        <script>document.write(new Date().getFullYear());</script>
-                        {% trans "Made with ❤️ in Argentina 🇦🇷" %}
-                    </p>
-                </div>
-            </div>
+  <hr class="horizontal dark mb-5" />
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 mb-4 ms-auto">
+        <div>
+          <h6 class="text-gradient text-primary font-weight-bolder">
+            <a href="{% url 'pages:home' %}">Kpiola</a>
+          </h6>
         </div>
+        <div>
+          <ul class="d-flex flex-row ms-n3 nav">
+            <li class="nav-item">
+              <a class="nav-link pe-1" target="_blank" href="">
+                <i class="bi bi-facebook text-lg opacity-8"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pe-1" target="_blank" href="">
+                <i class="bi bi-twitter text-lg opacity-8"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pe-1" target="_blank" href="">
+                <i class="bi bi-instagram text-lg opacity-8"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pe-1" target="_blank" href="">
+                <i class="bi bi-youtube text-lg opacity-8"></i>
+              </a>
+            </li>
+          </ul>
+          <div class="d-flex mt-3 mb-2">
+            <form action="{% url 'set_language' %}" method="post">
+              {% csrf_token %}
+              <input name="next" type="hidden" value="{{ redirect_to }}" />
+              <div class="input-group input-group-sm mb-3">
+                <select name="language" class="form-select form-select-sm bg-transparent">
+                  {% get_current_language as LANGUAGE_CODE %}
+                  {% get_available_languages as LANGUAGES %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% for language in languages %}
+                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
+                      {{ language.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-outline-primary mb-0" type="submit">Go</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-6 col-6 mb-4">
+        <div>
+          <h6 class="text-gradient text-primary text-sm">{% trans "Company" %}</h6>
+          <ul class="flex-column ms-n3 nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages:about' %}">{% trans "About Us" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Work with us" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Partners" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Blog" %}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-6 col-6 mb-4">
+        <div>
+          <h6 class="text-gradient text-primary text-sm">{% trans "Resources" %}</h6>
+          <ul class="flex-column ms-n3 nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'locations:location-list' %}">{% trans "Terminals" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Companies" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Routes" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Press" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Affiliate Program" %}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-6 col-6 mb-4">
+        <div>
+          <h6 class="text-gradient text-primary text-sm">{% trans "Help & Support" %}</h6>
+          <ul class="flex-column ms-n3 nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages:contact' %}">{% trans "Contact Us" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages:help' %}">{% trans "Help Center" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages:feedback' %}">{% trans "Feedback" %}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-6 col-6 mb-4 me-auto">
+        <div>
+          <h6 class="text-gradient text-primary text-sm">{% trans "Useful Links" %}</h6>
+          <ul class="flex-column ms-n3 nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages:terms' %}">{% trans "Terms & Conditions" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages:privacy' %}">{% trans "Privacy Policy" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "FAQ" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">{% trans "Agencies" %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages:sitemap' %}">{% trans "Sitemap" %}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="text-center">
+          <p class="mt-4 nav-link">
+            {% trans "All rights reserved. Copyright ©" %}
+            <script>
+                 document.write(new Date().getFullYear());
+            </script>
+            {% trans "Made with ❤️ in Argentina 🇦🇷" %}
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
 </footer>

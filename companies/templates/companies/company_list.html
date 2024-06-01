@@ -3,43 +3,43 @@
 {% load static %}
 
 {% block title %}
-    Companies
+  Companies
 {% endblock title %}
 
 {% block breadcrumb %}
-    Companies
+  Companies
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    List
+  List
 {% endblock page_title %}
 
 {% block content %}
-    <div class="row">
-        {% for company in companies %}
-            <div class="col-md-3 mt-4">
-                <div class="card card-blog card-plain mx-3 mx-md-0">
-                    <div class="position-relative">
-                        <a class="d-block blur-shadow-image" href="{{ company.get_absolute_url }}">
-                            <img src="{% static 'assets/img/curved-images/curved1.jpg' %}"
-                                 alt="img-blur-shadow"
-                                 class="img-fluid shadow-lg border-radius-xl" />
-                        </a>
-                    </div>
-                    <div class="card-body px-1 pt-3">
-                        <p class="text-gradient text-primary mb-2 text-sm">Luxury Suite • 12 Buses • 3 Trips</p>
-                        <h5>
-                            <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
-                        </h5>
-                        <p>{{ company.description|truncatechars:70 }}</p>
-                        <div class="d-flex justify-content-end">
-                            <a type="button" href="{{ company.get_admin_url }}" class="btn btn-outline-primary btn-sm">Admin</a>
-                        </div>
-                    </div>
-                </div>
+  <div class="row">
+    {% for company in companies %}
+      <div class="col-md-3 mt-4">
+        <div class="card card-blog card-plain mx-3 mx-md-0">
+          <div class="position-relative">
+            <a class="d-block blur-shadow-image" href="{{ company.get_absolute_url }}">
+              <img src="{% static 'assets/img/curved-images/curved1.jpg' %}"
+                   alt="img-blur-shadow"
+                   class="img-fluid shadow-lg border-radius-xl" />
+            </a>
+          </div>
+          <div class="card-body px-1 pt-3">
+            <p class="text-gradient text-primary mb-2 text-sm">Luxury Suite • 12 Buses • 3 Trips</p>
+            <h5>
+              <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
+            </h5>
+            <p>{{ company.description|truncatechars:70 }}</p>
+            <div class="d-flex justify-content-end">
+              <a type="button" href="{{ company.get_admin_url }}" class="btn btn-outline-primary btn-sm">Admin</a>
             </div>
-        {% empty %}
-            <h5>There are no companies yet.</h5>
-        {% endfor %}
-    </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <h5>There are no companies yet.</h5>
+    {% endfor %}
+  </div>
 {% endblock content %}

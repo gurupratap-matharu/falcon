@@ -13,18 +13,18 @@
 
 {% block basecontent %}
 
-    {% include "includes/navigation-floating.html" %}
-    {% include "includes/alert.html" %}
+  {% include "includes/navigation-floating.html" %}
+  {% include "includes/alert.html" %}
 
-    <div class="container min-vh-85 py-md-4 mt-7">
+  <div class="container min-vh-85 py-md-4 mt-7">
 
-        {% block content %}
-        {% endblock content %}
+    {% block content %}
+    {% endblock content %}
 
-    </div>
-    <div class="container">
+  </div>
+  <div class="container">
 
-        {% include "includes/footer.html" %}
+    {% include "includes/footer.html" %}
 
-    </div>
+  </div>
 {% endblock basecontent %}

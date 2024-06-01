@@ -5,39 +5,39 @@
 {% load account %}
 
 {% block title %}
-    {% trans "Sign In" %}
+  {% trans "Sign In" %}
 {% endblock title %}
 
 {% block content %}
-    <div class="card card-plain mt-8">
-        <div class="card-header pb-0 text-left bg-transparent">
-            {% if process == "connect" %}
-                <h3 class="font-weight-bolder text-info text-gradient">
-                    {% blocktrans with provider.name as provider %}Connect
+  <div class="card card-plain mt-8">
+    <div class="card-header pb-0 text-left bg-transparent">
+      {% if process == "connect" %}
+        <h3 class="font-weight-bolder text-info text-gradient">
+          {% blocktrans with provider.name as provider %}Connect
       {{ provider }}{% endblocktrans %}
-                </h3>
-                <p>
-                    {% blocktrans with provider.name as provider %}You are about to connect a new third party account from
+        </h3>
+        <p>
+          {% blocktrans with provider.name as provider %}You are about to connect a new third party account from
       {{ provider }}.{% endblocktrans %}
-                </p>
-            {% else %}
-                <h3 class="font-weight-bolder text-info text-gradient">
-                    {% blocktrans with provider.name as provider %}Sign In Via
+        </p>
+      {% else %}
+        <h3 class="font-weight-bolder text-info text-gradient">
+          {% blocktrans with provider.name as provider %}Sign In Via
       {{ provider }}{% endblocktrans %}
-                </h3>
-                <p>
-                    {% blocktrans with provider.name as provider %}You are about to sign in using a third party account from
+        </h3>
+        <p>
+          {% blocktrans with provider.name as provider %}You are about to sign in using a third party account from
       {{ provider }}.{% endblocktrans %}
-                </p>
-            {% endif %}
-        </div>
-        <div class="card-body">
-            <form method="post" role="form">
-                {% csrf_token %}
-                <div class="text-center">
-                    <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Continue</button>
-                </div>
-            </form>
-        </div>
+        </p>
+      {% endif %}
     </div>
+    <div class="card-body">
+      <form method="post" role="form">
+        {% csrf_token %}
+        <div class="text-center">
+          <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock content %}

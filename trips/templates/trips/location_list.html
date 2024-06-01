@@ -3,25 +3,25 @@
 {% load static %}
 
 {% block title %}
-    All Locations
+  All Locations
 {% endblock title %}
 
 {% block breadcrumb %}
-    All Locations
+  All Locations
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    All Locations
+  All Locations
 {% endblock page_title %}
 
 {% block content %}
-    <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-            {% for location in locations %}
-                <div class="col p-1">
-                    <a href="{{ location.get_absolute_url }}">{{ location }}</a>
-                </div>
-            {% endfor %}
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+      {% for location in locations %}
+        <div class="col p-1">
+          <a href="{{ location.get_absolute_url }}">{{ location }}</a>
         </div>
+      {% endfor %}
     </div>
+  </div>
 {% endblock content %}

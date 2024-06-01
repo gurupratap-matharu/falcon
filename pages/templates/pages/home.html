@@ -3,19 +3,19 @@
 {% load static %}
 
 {% block title %}
-    Kpiola|Book Bus Tickets
+  Kpiola|Book Bus Tickets
 {% endblock title %}
 
 {% block content %}
 
-    {% include "includes/search.html" %}
-    {% include "includes/offcanvas-calendar.html" %}
+  {% include "includes/search.html" %}
+  {% include "includes/offcanvas-calendar.html" %}
 
 {% endblock content %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/autocomplete/autocomplete.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/autocomplete/config.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/autocomplete/autocomplete.min.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/autocomplete/config.js' %}" defer></script>
 {% endblock js %}

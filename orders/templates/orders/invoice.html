@@ -2,99 +2,99 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Invoice</title>
-        <link rel="stylesheet" href="{% static 'assets/css/invoice.css' %}">
-    </head>
-    <body>
-        <div class="flex-container">
-            <h1>Invoice</h1>
-            <div class="brand-logo">
-                <h1>Kpiola</h1>
-            </div>
-        </div>
-        <div class="invoice-details">
-            <div>
-                Invoice number
-                <br>
-                Date of issue
-                <br>
-                Date due
-                <br>
-            </div>
-            <div>
-                {{ order.id }}
-                <br>
-                {{ order.created_on|date:"F j, Y" }}
-                <br>
-                {{ order.created_on|date:"F j, Y" }}
-                <br>
-            </div>
-        </div>
-        <div class="flex-container">
-            <div>
-                <h3>Kpiola</h3>
-                Uspalla 471, CP 1143
-                <br>
-                Buenos Aires Argentina
-                <br>
-                support@kpiola.com.ar
-                <br>
-            </div>
-            <div>
-                <h3>Bill to</h3>
-                <p>
-                    {{ order.name }}
-                    <br>
-                    {{ order.email }}
-                </p>
-            </div>
-        </div>
-        <h3>Summary</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Qty</th>
-                    <th>Unit Price</th>
-                    <th>Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Bus ticket {{ trip.origin }} - {{ trip.destination }}</td>
-                    <td>{{ passengers.count }}</td>
-                    <td>${{ item.price }}</td>
-                    <td>${{ item.get_cost|floatformat:"-3g" }}</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td class="border-top">Subtotal</td>
-                    <td class="border-top">${{ order.get_total_cost_before_discount|floatformat:"-3g" }}</td>
-                </tr>
-                {% if order.coupon %}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td class="border-top">Coupon Discount</td>
-                        <td class="border-top">- ${{ order.get_discount|floatformat:"-3g" }}</td>
-                    </tr>
-                {% endif %}
-                <tr class="total">
-                    <td></td>
-                    <td></td>
-                    <td class="border-top">Total</td>
-                    <td class="border-top">${{ order.get_total_cost|floatformat:"-3g" }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <footer>
-            <hr>
-            {{ order.id }} | ${{ order.get_total_cost }} due {{ order.created_on|date:"F j, Y" }}
-        </footer>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <link rel="stylesheet" href="{% static 'assets/css/invoice.css' %}" />
+  </head>
+  <body>
+    <div class="flex-container">
+      <h1>Invoice</h1>
+      <div class="brand-logo">
+        <h1>Kpiola</h1>
+      </div>
+    </div>
+    <div class="invoice-details">
+      <div>
+        Invoice number
+        <br />
+        Date of issue
+        <br />
+        Date due
+        <br />
+      </div>
+      <div>
+        {{ order.id }}
+        <br />
+        {{ order.created_on|date:"F j, Y" }}
+        <br />
+        {{ order.created_on|date:"F j, Y" }}
+        <br />
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <h3>Kpiola</h3>
+        Uspalla 471, CP 1143
+        <br />
+        Buenos Aires Argentina
+        <br />
+        support@kpiola.com.ar
+        <br />
+      </div>
+      <div>
+        <h3>Bill to</h3>
+        <p>
+          {{ order.name }}
+          <br />
+          {{ order.email }}
+        </p>
+      </div>
+    </div>
+    <h3>Summary</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Bus ticket {{ trip.origin }} - {{ trip.destination }}</td>
+          <td>{{ passengers.count }}</td>
+          <td>${{ item.price }}</td>
+          <td>${{ item.get_cost|floatformat:"-3g" }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="border-top">Subtotal</td>
+          <td class="border-top">${{ order.get_total_cost_before_discount|floatformat:"-3g" }}</td>
+        </tr>
+        {% if order.coupon %}
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="border-top">Coupon Discount</td>
+            <td class="border-top">- ${{ order.get_discount|floatformat:"-3g" }}</td>
+          </tr>
+        {% endif %}
+        <tr class="total">
+          <td></td>
+          <td></td>
+          <td class="border-top">Total</td>
+          <td class="border-top">${{ order.get_total_cost|floatformat:"-3g" }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <footer>
+      <hr />
+      {{ order.id }} | ${{ order.get_total_cost }} due {{ order.created_on|date:"F j, Y" }}
+    </footer>
+  </body>
 </html>

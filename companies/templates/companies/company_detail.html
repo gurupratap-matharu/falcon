@@ -3,70 +3,70 @@
 {% load static %}
 
 {% block title %}
-    {{ company.name }}
+  {{ company.name }}
 {% endblock title %}
 
 {% block breadcrumb %}
-    Companies
+  Companies
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    {{ company.name }}
+  {{ company.name }}
 {% endblock page_title %}
 
 {% block content %}
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-plain">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-xl-5 col-lg-6 text-center">
-                                <a class="d-block blur-shadow-image">
-                                    <img class="w-100 border-radius-xl shadow-xl mx-auto" src="{% static 'assets/img/bus/bus4.jpg' %}" alt="company logo" />
-                                </a>
-                                <div class="row mt-4 pt-2 align-items-center">
-                                    <div class="col">
-                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus3.jpg' %}" alt="Company bus image" />
-                                    </div>
-                                    <div class="col">
-                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus2.jpg' %}" alt="Company bus image" />
-                                    </div>
-                                    <div class="col">
-                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus5.jpg' %}" alt="Company bus image" />
-                                    </div>
-                                    <div class="col">
-                                        <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus6.jpg' %}" alt="Company bus image" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-5 mx-auto">
-                                <a href="{% url 'companies:company_list' %}">
-                                    <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
-                                    </i>
-                                    Back
-                                </a>
-                                <h3 class="mt-lg-0 mt-4">{{ company.name }}</h3>
-                                <div class="rating">
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star" aria-hidden="true"></i>
-                                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
-                                </div>
-                                <br />
-                                <h6 class="mb-0 mt-3">Phone</h6>
-                                <h5>{{ company.phone }}</h5>
-                                <span class="badge badge-success">In Stock</span>
-                                <p class="card-text">{{ company.description }}</p>
-                                <div class="row mt-4">
-                                    <div class="col-lg-5">
-                                        <a class="btn bg-gradient-primary mb-0 mt-lg-auto w-100" type="button" name="button" href="{{ company.get_booking_url }}">Book</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% comment %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-plain">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-xl-5 col-lg-6 text-center">
+                <a class="d-block blur-shadow-image">
+                  <img class="w-100 border-radius-xl shadow-xl mx-auto" src="{% static 'assets/img/bus/bus4.jpg' %}" alt="company logo" />
+                </a>
+                <div class="row mt-4 pt-2 align-items-center">
+                  <div class="col">
+                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus3.jpg' %}" alt="Company bus image" />
+                  </div>
+                  <div class="col">
+                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus2.jpg' %}" alt="Company bus image" />
+                  </div>
+                  <div class="col">
+                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus5.jpg' %}" alt="Company bus image" />
+                  </div>
+                  <div class="col">
+                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus6.jpg' %}" alt="Company bus image" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5 mx-auto">
+                <a href="{% url 'companies:company_list' %}">
+                  <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+                  </i>
+                  Back
+                </a>
+                <h3 class="mt-lg-0 mt-4">{{ company.name }}</h3>
+                <div class="rating">
+                  <i class="fas fa-star" aria-hidden="true"></i>
+                  <i class="fas fa-star" aria-hidden="true"></i>
+                  <i class="fas fa-star" aria-hidden="true"></i>
+                  <i class="fas fa-star" aria-hidden="true"></i>
+                  <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                </div>
+                <br />
+                <h6 class="mb-0 mt-3">Phone</h6>
+                <h5>{{ company.phone }}</h5>
+                <span class="badge badge-success">In Stock</span>
+                <p class="card-text">{{ company.description }}</p>
+                <div class="row mt-4">
+                  <div class="col-lg-5">
+                    <a class="btn bg-gradient-primary mb-0 mt-lg-auto w-100" type="button" name="button" href="{{ company.get_booking_url }}">Book</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% comment %}
                         Veer for now we don't show the trips for a company on its detail page for simplicity
                         <div class="row mt-5">
                             <div class="col-12">
@@ -127,10 +127,10 @@
                                     </table>
                                 </div>
                             </div>
-                        </div> {% endcomment %}
-                    </div>
-                </div>
-            </div>
+            </div> {% endcomment %}
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 {% endblock content %}

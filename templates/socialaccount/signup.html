@@ -3,43 +3,43 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Signup" %}
+  {% trans "Signup" %}
 {% endblock title %}
 
 {% block content %}
-    <div class="card card-plain mt-8">
-        <div class="card-header pb-0 text-left bg-transparent">
-            <h3 class="font-weight-bolder text-info text-gradient">{% trans "Sign Up" %}</h3>
-            <p>
-                {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your
+  <div class="card card-plain mt-8">
+    <div class="card-header pb-0 text-left bg-transparent">
+      <h3 class="font-weight-bolder text-info text-gradient">{% trans "Sign Up" %}</h3>
+      <p>
+        {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your
       {{provider_name}} account to login to
       {{site_name}}.{% endblocktrans %}
-            </p>
-        </div>
-        <div class="card-body">
-            <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}" role="form">
-                {% csrf_token %}
-                {% for field in form.visible_fields %}
-                    <div class="mb-3">
-                        <div class="alert alert-primary text-white" role="alert">
-                            <span class="alert-text">{{ field.errors }}</span>
-                        </div>
-                        {{ field }}
-                        {{ field.help_text }}
-                    </div>
-                {% endfor %}
-                {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
-                <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">{% trans "Sign Up" %}</button>
-            </form>
-        </div>
+      </p>
     </div>
-    <script>
-  const add_form_classes = () => {
-    const email = document.querySelector('#id_email');
-    email.classList.add('form-control');
-  }
-  document.addEventListener("DOMContentLoaded", add_form_classes);
-    </script>
+    <div class="card-body">
+      <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}" role="form">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+          <div class="mb-3">
+            <div class="alert alert-primary text-white" role="alert">
+              <span class="alert-text">{{ field.errors }}</span>
+            </div>
+            {{ field }}
+            {{ field.help_text }}
+          </div>
+        {% endfor %}
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">{% trans "Sign Up" %}</button>
+      </form>
+    </div>
+  </div>
+  <script>
+       const add_form_classes = () => {
+            const email = document.querySelector('#id_email');
+            email.classList.add('form-control');
+       }
+       document.addEventListener("DOMContentLoaded", add_form_classes);
+  </script>
 {% endblock content %}

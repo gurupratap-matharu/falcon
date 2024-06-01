@@ -3,127 +3,127 @@
 {% load static %}
 
 {% block title %}
-    {% if company %}
-        {{ company.name }}
-    {% else %}
-        Trips
-    {% endif %}
+  {% if company %}
+    {{ company.name }}
+  {% else %}
+    Trips
+  {% endif %}
 {% endblock title %}
 
 {% block breadcrumb %}
-    {% if company %}
-        {{ company.name }}
-    {% else %}
-        Trips
-    {% endif %}
+  {% if company %}
+    {{ company.name }}
+  {% else %}
+    Trips
+  {% endif %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    Results
+  Results
 {% endblock page_title %}
 
 {% block content %}
-    <div class="row justify-content-center" id="ordering">
-        <div class="col-12">
-            <ul class="nav nav-tabs justify-content-center my-4">
-                {% for value in date_ladder %}
-                    <li class="nav-item">
-                        <form action="" method="get">
-                            {% with q=request.session.q %}
-                                <input type="hidden" name="trip_type" value="{{ q.trip_type }}" />
-                                <input type="hidden" name="num_of_passengers" value="{{ q.num_of_passengers }}" />
-                                <input type="hidden" name="origin" value="{{ q.origin }}" />
-                                <input type="hidden" name="destination" value="{{ q.destination }}" />
-                                <input type="hidden" name="departure" value="{{ value|date:"d-m-Y" }}">
-                                <input type="hidden" name="return" value="{{ q.return }}" />
-                                <button class="nav-link {% if value|date:"d-m-Y" == q.departure %}active{% endif %}" type="submit">
-                                    {{ value|date:"D j" }}
-                                </button>
-                            {% endwith %}
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
-            {% with path=request.get_full_path klass="list-group-item list-group-item-action" ordering=request.GET.ordering %}
-                <div class="list-group list-group-horizontal">
-                    <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price#ordering">Cheapest</a>
-                    <a class="{{ klass }} {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure#ordering">Earliest</a>
-                    <a class="{{ klass }} {% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure#ordering">Latest</a>
-                </div>
-            {% endwith %}
-            {% for trip in trips %}
-                <div class="card my-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3 mb-lg-0 mb-4">
-                                <p class="d-none">{% cycle '1' '2' '3' '4' '5' '6' '7' as filename %}</p>
-                                <a href="{{ trip.get_absolute_url }}">
-                                    <img src="{% static "assets/img/bus/bus"|add:filename|add:'.jpg' %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo" />
-                                </a>
-                            </div>
-                            <div class="col-md-6 border-md-end">
-                                <h5>{{ trip.company }}</h5>
-                                <div class="d-flex flex-row">
-                                    <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Accepts all major cards">
-                                        <i class="fa fa-thin fa-credit-card"></i>
-                                        <i class="fa fa-wallet"></i>
-                                    </div>
-                                    <span class="badge bg-light text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Seats available">{{ trip.availability }}</span>
-                                    <span class="me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Seat Type">{% cycle 'Cama' 'Semicama' 'Executive' %}</span>
-                                </div>
-                                <div class="row text-center mt-3">
-                                    <div class="col">
-                                        <h6 class="mb-1 text-dark font-weight-bold text-sm">{{ trip.departure|date:"D j M P" }}</h6>
-                                    </div>
-                                    <div class="col border-bottom">
-                                        <h6 class="text-dark text-sm mt-3 font-weight-bold">{{ trip.duration }} Hs</h6>
-                                    </div>
-                                    <div class="col">
-                                        <h6 class="mb-1 text-dark font-weight-bold text-sm">{{ trip.arrival|date:"D j M P" }}</h6>
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="col">
-                                        <h6 class="text-dark text-sm">{{ trip.origin }}</h6>
-                                    </div>
-                                    <div class="col">
-                                        <h6 class="text-dark text-sm font-weight-bold mt-2">{{ trip.get_mode_display }}</h6>
-                                    </div>
-                                    <div class="col">
-                                        <h6 class="text-dark text-sm">{{ trip.destination }}</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 align-self-center text-center">
-                                <form action="{{ trip.get_add_to_cart_url }}" method="post">
-                                    <button class="btn btn-outline-light mt-2 position-relative" type="submit">
-                                        <h5 class="font-weight-bolder mb-0">${{ trip.price|floatformat:"-2g" }}</h5>
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">+55%
-                                            <span class="visually-hidden">potential savings</span>
-                                        </span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <h5 class="text-center mt-5">No results!</h5>
-            {% endfor %}
-            <div class="d-flex justify-content-center">
-                <a href="#top">
-                    <h2>
-                        <i class="bi bi-arrow-up-circle"></i>
-                    </h2>
-                </a>
-            </div>
+  <div class="row justify-content-center" id="ordering">
+    <div class="col-12">
+      <ul class="nav nav-tabs justify-content-center my-4">
+        {% for value in date_ladder %}
+          <li class="nav-item">
+            <form action="" method="get">
+              {% with q=request.session.q %}
+                <input type="hidden" name="trip_type" value="{{ q.trip_type }}" />
+                <input type="hidden" name="num_of_passengers" value="{{ q.num_of_passengers }}" />
+                <input type="hidden" name="origin" value="{{ q.origin }}" />
+                <input type="hidden" name="destination" value="{{ q.destination }}" />
+                <input type="hidden" name="departure" value="{{ value|date:"d-m-Y" }}" />
+                <input type="hidden" name="return" value="{{ q.return }}" />
+                <button class="nav-link {% if value|date:"d-m-Y" == q.departure %}active{% endif %}" type="submit">
+                  {{ value|date:"D j" }}
+                </button>
+              {% endwith %}
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+      {% with path=request.get_full_path klass="list-group-item list-group-item-action" ordering=request.GET.ordering %}
+        <div class="list-group list-group-horizontal">
+          <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price#ordering">Cheapest</a>
+          <a class="{{ klass }} {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure#ordering">Earliest</a>
+          <a class="{{ klass }} {% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure#ordering">Latest</a>
         </div>
+      {% endwith %}
+      {% for trip in trips %}
+        <div class="card my-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 mb-lg-0 mb-4">
+                <p class="d-none">{% cycle '1' '2' '3' '4' '5' '6' '7' as filename %}</p>
+                <a href="{{ trip.get_absolute_url }}">
+                  <img src="{% static "assets/img/bus/bus"|add:filename|add:'.jpg' %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo" />
+                </a>
+              </div>
+              <div class="col-md-6 border-md-end">
+                <h5>{{ trip.company }}</h5>
+                <div class="d-flex flex-row">
+                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Accepts all major cards">
+                    <i class="fa fa-thin fa-credit-card"></i>
+                    <i class="fa fa-wallet"></i>
+                  </div>
+                  <span class="badge bg-light text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Seats available">{{ trip.availability }}</span>
+                  <span class="me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Seat Type">{% cycle 'Cama' 'Semicama' 'Executive' %}</span>
+                </div>
+                <div class="row text-center mt-3">
+                  <div class="col">
+                    <h6 class="mb-1 text-dark font-weight-bold text-sm">{{ trip.departure|date:"D j M P" }}</h6>
+                  </div>
+                  <div class="col border-bottom">
+                    <h6 class="text-dark text-sm mt-3 font-weight-bold">{{ trip.duration }} Hs</h6>
+                  </div>
+                  <div class="col">
+                    <h6 class="mb-1 text-dark font-weight-bold text-sm">{{ trip.arrival|date:"D j M P" }}</h6>
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col">
+                    <h6 class="text-dark text-sm">{{ trip.origin }}</h6>
+                  </div>
+                  <div class="col">
+                    <h6 class="text-dark text-sm font-weight-bold mt-2">{{ trip.get_mode_display }}</h6>
+                  </div>
+                  <div class="col">
+                    <h6 class="text-dark text-sm">{{ trip.destination }}</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 align-self-center text-center">
+                <form action="{{ trip.get_add_to_cart_url }}" method="post">
+                  <button class="btn btn-outline-light mt-2 position-relative" type="submit">
+                    <h5 class="font-weight-bolder mb-0">${{ trip.price|floatformat:"-2g" }}</h5>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">+55%
+                      <span class="visually-hidden">potential savings</span>
+                    </span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <h5 class="text-center mt-5">No results!</h5>
+      {% endfor %}
+      <div class="d-flex justify-content-center">
+        <a href="#top">
+          <h2>
+            <i class="bi bi-arrow-up-circle"></i>
+          </h2>
+        </a>
+      </div>
     </div>
+  </div>
 {% endblock content %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/autocomplete/autocomplete.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/autocomplete/config.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/autocomplete/autocomplete.min.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/autocomplete/config.js' %}" defer></script>
 {% endblock js %}

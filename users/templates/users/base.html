@@ -3,118 +3,118 @@
 {% load static %}
 
 {% block title %}
-    {{ user.get_full_name }} | Kpiola
+  {{ user.get_full_name }} | Kpiola
 {% endblock title %}
 
 {% block breadcrumb %}
-    Profile
+  Profile
 {% endblock breadcrumb %}
 
 {% block content %}
-    <div class="page-header min-height-300 border-radius-xl mt-4"
-         style="background-image: url({% static 'assets/img/curved-images/curved0.jpg' %});
-                background-position-y: 50%">
-        <span class="mask bg-gradient-primary opacity-6"></span>
-    </div>
-    <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
-        <div class="row gx-4">
-            <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                    {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
-                        {% if avatar_url %}
-                            <img src="{{ avatar_url }}" alt="profile image" class="avatar avatar-xl" />
-                        {% else %}
-                            <span class="avatar avatar-xl text-primary text-gradient border border-primary">{{ request.user.email|slice:":2"|upper }}</span>
-                        {% endif %}
-                    {% endwith %}
-                </div>
-            </div>
-            <div class="col-auto my-auto">
-                <div class="h-100">
-                    <h5 class="mb-1">{{ request.user.get_full_name }}</h5>
-                    <p class="mb-0 font-weight-bold text-sm">{{ request.user }}</p>
-                </div>
-            </div>
+  <div class="page-header min-height-300 border-radius-xl mt-4"
+       style="background-image: url({% static 'assets/img/curved-images/curved0.jpg' %});
+              background-position-y: 50%">
+    <span class="mask bg-gradient-primary opacity-6"></span>
+  </div>
+  <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+    <div class="row gx-4">
+      <div class="col-auto">
+        <div class="avatar avatar-xl position-relative">
+          {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
+            {% if avatar_url %}
+              <img src="{{ avatar_url }}" alt="profile image" class="avatar avatar-xl" />
+            {% else %}
+              <span class="avatar avatar-xl text-primary text-gradient border border-primary">{{ request.user.email|slice:":2"|upper }}</span>
+            {% endif %}
+          {% endwith %}
         </div>
-    </div>
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12 col-lg-3 mb-sm-3 mb-lg-0">
-                <div class="card position-sticky top-1 mb-3 h-100">
-                    <ul class="nav flex-column bg-white border-radius-lg p-3">
-                        <li class="nav-item">
-                            <a class="nav-link text-body" data-scroll="" href="{% url 'users:settings' %}">
-                                <div class="icon me-2">
-                                    <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm">My Account</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="{% url 'users:settings' %}">
-                                <div class="icon me-2">
-                                    <i class="bi bi-person-vcard-fill"></i>
-                                </div>
-                                <span class="text-sm">Edit Profile</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="{% url 'account_change_password' %}">
-                                <div class="icon me-2">
-                                    <i class="bi bi-pencil-fill" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm">Change Password</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#2fa">
-                                <div class="icon me-2">
-                                    <i class="bi bi-qr-code-scan" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm">2FA</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="{% url 'socialaccount_connections' %}">
-                                <div class="icon me-2">
-                                    <i class="bi bi-person-fill-gear" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm">Social Profiles</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#notifications">
-                                <div class="icon me-2">
-                                    <i class="bi bi-app-indicator" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm">Notifications</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#sessions">
-                                <div class="icon me-2">
-                                    <i class="bi bi-door-open-fill" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm">Sessions</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="{% url 'users:delete' %}">
-                                <div class="icon me-2">
-                                    <i class="bi bi-person-x-fill" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm text-danger">Delete Account</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-lg-9">
-
-                {% block settingscontent %}
-                {% endblock settingscontent %}
-
-            </div>
+      </div>
+      <div class="col-auto my-auto">
+        <div class="h-100">
+          <h5 class="mb-1">{{ request.user.get_full_name }}</h5>
+          <p class="mb-0 font-weight-bold text-sm">{{ request.user }}</p>
         </div>
+      </div>
     </div>
+  </div>
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12 col-lg-3 mb-sm-3 mb-lg-0">
+        <div class="card position-sticky top-1 mb-3 h-100">
+          <ul class="nav flex-column bg-white border-radius-lg p-3">
+            <li class="nav-item">
+              <a class="nav-link text-body" data-scroll="" href="{% url 'users:settings' %}">
+                <div class="icon me-2">
+                  <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
+                </div>
+                <span class="text-sm">My Account</span>
+              </a>
+            </li>
+            <li class="nav-item pt-2">
+              <a class="nav-link text-body" data-scroll="" href="{% url 'users:settings' %}">
+                <div class="icon me-2">
+                  <i class="bi bi-person-vcard-fill"></i>
+                </div>
+                <span class="text-sm">Edit Profile</span>
+              </a>
+            </li>
+            <li class="nav-item pt-2">
+              <a class="nav-link text-body" data-scroll="" href="{% url 'account_change_password' %}">
+                <div class="icon me-2">
+                  <i class="bi bi-pencil-fill" aria-hidden="true"></i>
+                </div>
+                <span class="text-sm">Change Password</span>
+              </a>
+            </li>
+            <li class="nav-item pt-2">
+              <a class="nav-link text-body" data-scroll="" href="#2fa">
+                <div class="icon me-2">
+                  <i class="bi bi-qr-code-scan" aria-hidden="true"></i>
+                </div>
+                <span class="text-sm">2FA</span>
+              </a>
+            </li>
+            <li class="nav-item pt-2">
+              <a class="nav-link text-body" data-scroll="" href="{% url 'socialaccount_connections' %}">
+                <div class="icon me-2">
+                  <i class="bi bi-person-fill-gear" aria-hidden="true"></i>
+                </div>
+                <span class="text-sm">Social Profiles</span>
+              </a>
+            </li>
+            <li class="nav-item pt-2">
+              <a class="nav-link text-body" data-scroll="" href="#notifications">
+                <div class="icon me-2">
+                  <i class="bi bi-app-indicator" aria-hidden="true"></i>
+                </div>
+                <span class="text-sm">Notifications</span>
+              </a>
+            </li>
+            <li class="nav-item pt-2">
+              <a class="nav-link text-body" data-scroll="" href="#sessions">
+                <div class="icon me-2">
+                  <i class="bi bi-door-open-fill" aria-hidden="true"></i>
+                </div>
+                <span class="text-sm">Sessions</span>
+              </a>
+            </li>
+            <li class="nav-item pt-2">
+              <a class="nav-link text-body" data-scroll="" href="{% url 'users:delete' %}">
+                <div class="icon me-2">
+                  <i class="bi bi-person-x-fill" aria-hidden="true"></i>
+                </div>
+                <span class="text-sm text-danger">Delete Account</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12 col-lg-9">
+
+        {% block settingscontent %}
+        {% endblock settingscontent %}
+
+      </div>
+    </div>
+  </div>
 {% endblock content %}

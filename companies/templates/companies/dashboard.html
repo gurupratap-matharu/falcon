@@ -5,373 +5,373 @@
 {% load humanize %}
 
 {% block title %}
-    {% if company %}
-        {{ company.name }} | Dashboard
-    {% else %}
-        Trips
-    {% endif %}
+  {% if company %}
+    {{ company.name }} | Dashboard
+  {% else %}
+    Trips
+  {% endif %}
 {% endblock title %}
 
 {% block breadcrumb %}
-    Dashboard
+  Dashboard
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    {{ company.name }}
+  {{ company.name }}
 {% endblock page_title %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
-                                <h5 class="font-weight-bolder mb-0">
-                                    ${{ kpis.sales|default:0|intcomma }}
-                                    <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="bi bi-coin text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
+                <h5 class="font-weight-bolder mb-0">
+                  ${{ kpis.sales|default:0|intcomma }}
+                  <span class="text-success text-sm font-weight-bolder">+55%</span>
+                </h5>
+              </div>
             </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Occupancy</p>
-                                <h5 class="font-weight-bolder mb-0">
-                                    +{{ kpis.occupancy|default:0 }}%
-                                    <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="bi bi-building-fill-up text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="bi bi-coin text-lg opacity-10" aria-hidden="true"></i>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">New Bookings</p>
-                                <h5 class="font-weight-bolder mb-0">
-                                    +{{ kpis.bookings|default:0 }}
-                                    <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="bi bi-ticket-perforated-fill text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Trips</p>
-                                <h5 class="font-weight-bolder mb-0">
-                                    #{{ kpis.trips|default:0|intcomma }}
-                                    <span class="text-success text-sm font-weight-bolder">+5%</span>
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="bi bi-bus-front-fill text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    <div class="row my-4">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-            <div class="card min-height-400">
-                <div class="card-header pb-0">
-                    <div class="row">
-                        <div class="col-lg-6 col-7">
-                            <a href="{{ company.get_trip_list_url }}">
-                                <h6>Trips</h6>
-                            </a>
-                            <p class="text-sm mb-0">
-                                <i class="fa fa-check text-info" aria-hidden="true"></i>
-                                <span class="font-weight-bold ms-1">30 done</span> this month
-                            </p>
-                        </div>
-                        <div class="col-lg-6 col-5 my-auto text-end">
-                            <a href="{{ company.get_trip_list_url }}" class="btn btn-outline-dark btn-sm">All Trips</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body px-1 pb-2">
-                    {% if not trips %}
-                        <div class="d-flex justify-content-center align-items-center min-vh-25">
-                            <p class="text-sm mb-0 text-capitalize font-weight-bold">No upcoming trips</p>
-                        </div>
-                    {% else %}
-                        <div class="table-responsive">
-                            <table class="table table-borderless align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Routes</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Departure</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Revenue</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Occupancy</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for trip in trips|slice:":6" %}
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ trip.origin }} - {{ trip.destination }}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-sm">
-                                                <span class="text-xs font-weight-bold">{{ trip.departure|date:"D j M P" }}</span>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <span class="text-xs font-weight-bold">${{ trip.revenue|floatformat:"-3g" }}</span>
-                                            </td>
-                                            <td class="align-middle">
-                                                {% with occupancy=trip.occupancy %}
-                                                    <div class="progress-wrapper w-75 mx-auto">
-                                                        <div class="progress-info">
-                                                            <div class="progress-percentage">
-                                                                <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-gradient-primary w-{{ occupancy }}"
-                                                                 role="progressbar"
-                                                                 aria-valuenow="{{ occupancy }}"
-                                                                 aria-valuemin="0"
-                                                                 aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                {% endwith %}
-                                            </td>
-                                            <td class="align-middle">
-                                                <div class="d-flex">
-                                                    <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
-                                                       class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                                        <i class="ni ni-bold-right" aria-hidden="true"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% endif %}
-                </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Occupancy</p>
+                <h5 class="font-weight-bolder mb-0">
+                  +{{ kpis.occupancy|default:0 }}%
+                  <span class="text-success text-sm font-weight-bolder">+3%</span>
+                </h5>
+              </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100">
-                <div class="card-header pb-0">
-                    <h6 class="mb-0">Categories</h6>
-                </div>
-                <div class="card-body pb-2">
-                    <ul class="list-group">
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                                    <i class="bi bi-ticket-perforated-fill opacity-10" aria-hidden="true"></i>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Coupons</h6>
-                                    <span class="text-xs">250 in stock, <span class="font-weight-bold">346+ sold</span></span>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <a href={{ company.get_coupon_list_url }} class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                    <i class="ni ni-bold-right" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                                    <i class="bi bi-grid-fill opacity-10" aria-hidden="true"></i>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">SeatCharts</h6>
-                                    <span class="text-xs">123 closed, <span class="font-weight-bold">15 open</span></span>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <a href="{{ company.get_seatchart_url }}"
-                                   class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                    <i class="ni ni-bold-right" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                                    <i class="bi bi-compass-fill opacity-10" aria-hidden="true"></i>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Live Status</h6>
-                                    <span class="text-xs">7 running</span>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <a href="{{ company.get_live_status_url }}"
-                                   class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                    <i class="ni ni-bold-right" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                                    <i class="bi bi-person-vcard-fill opacity-10" aria-hidden="true"></i>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Passenger Data</h6>
-                                    <span class="text-xs font-weight-bold">+ 430K</span>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                    <i class="ni ni-bold-right" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="bi bi-building-fill-up text-lg opacity-10" aria-hidden="true"></i>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="row mt-4">
-        <div class="col-lg-5 mb-lg-0 mb-4">
-            <div class="card z-index-2">
-                <div class="card-body p-3">
-                    <div class="border-radius-lg py-3 pe-1 mb-3">
-                        <div class="chart">
-                            <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-                        </div>
-                    </div>
-                    <h6 class="ms-2 mt-4 mb-0">Active Users</h6>
-                    <p class="text-sm ms-2">
-                        (<span class="font-weight-bolder">+23%</span>) than last week
-                    </p>
-                    <div class="container border-radius-lg">
-                        <div class="row">
-                            <div class="col-3 py-3 ps-0">
-                                <div class="d-flex mb-2">
-                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people-fill opacity-10 mt-2" aria-hidden="true"></i>
-                                    </div>
-                                    <p class="text-xs mt-1 mb-0 font-weight-bold">Users</p>
-                                </div>
-                                <h4 class="font-weight-bolder">36K</h4>
-                                <div class="progress w-75">
-                                    <div class="progress-bar bg-dark w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 py-3 ps-0">
-                                <div class="d-flex mb-2">
-                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-info text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-mouse2-fill mt-2 opacity-10" aria-hidden="true"></i>
-                                    </div>
-                                    <p class="text-xs mt-1 mb-0 font-weight-bold">Clicks</p>
-                                </div>
-                                <h4 class="font-weight-bolder">2m</h4>
-                                <div class="progress w-75">
-                                    <div class="progress-bar bg-dark w-90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 py-3 ps-0">
-                                <div class="d-flex mb-2">
-                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-warning text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-exchange opacity-10 mt-2" aria-hidden="true"></i>
-                                    </div>
-                                    <p class="text-xs mt-1 mb-0 font-weight-bold">Sales</p>
-                                </div>
-                                <h4 class="font-weight-bolder">435$</h4>
-                                <div class="progress w-75">
-                                    <div class="progress-bar bg-dark w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 py-3 ps-0">
-                                <div class="d-flex mb-2">
-                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-bus-front-fill opacity-10 mt-2" aria-hidden="true"></i>
-                                    </div>
-                                    <p class="text-xs mt-1 mb-0 font-weight-bold">Trips</p>
-                                </div>
-                                <h4 class="font-weight-bolder">43</h4>
-                                <div class="progress w-75">
-                                    <div class="progress-bar bg-dark w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">New Bookings</p>
+                <h5 class="font-weight-bolder mb-0">
+                  +{{ kpis.bookings|default:0 }}
+                  <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                </h5>
+              </div>
             </div>
-        </div>
-        <div class="col-lg-7">
-            <div class="card z-index-2">
-                <div class="card-header pb-0">
-                    <h6>Sales overview</h6>
-                    <p class="text-sm">
-                        <i class="fa fa-arrow-up text-success"></i>
-                        <span class="font-weight-bold">4% more</span> in 2023
-                    </p>
-                </div>
-                <div class="card-body p-3">
-                    <div class="chart">
-                        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                    </div>
-                </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="bi bi-ticket-perforated-fill text-lg opacity-10" aria-hidden="true"></i>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Trips</p>
+                <h5 class="font-weight-bolder mb-0">
+                  #{{ kpis.trips|default:0|intcomma }}
+                  <span class="text-success text-sm font-weight-bolder">+5%</span>
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="bi bi-bus-front-fill text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row my-4">
+    <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+      <div class="card min-height-400">
+        <div class="card-header pb-0">
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <a href="{{ company.get_trip_list_url }}">
+                <h6>Trips</h6>
+              </a>
+              <p class="text-sm mb-0">
+                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                <span class="font-weight-bold ms-1">30 done</span> this month
+              </p>
+            </div>
+            <div class="col-lg-6 col-5 my-auto text-end">
+              <a href="{{ company.get_trip_list_url }}" class="btn btn-outline-dark btn-sm">All Trips</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body px-1 pb-2">
+          {% if not trips %}
+            <div class="d-flex justify-content-center align-items-center min-vh-25">
+              <p class="text-sm mb-0 text-capitalize font-weight-bold">No upcoming trips</p>
+            </div>
+          {% else %}
+            <div class="table-responsive">
+              <table class="table table-borderless align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Routes</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Departure</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Revenue</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Occupancy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for trip in trips|slice:":6" %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ trip.origin }} - {{ trip.destination }}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-sm">
+                        <span class="text-xs font-weight-bold">{{ trip.departure|date:"D j M P" }}</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold">${{ trip.revenue|floatformat:"-3g" }}</span>
+                      </td>
+                      <td class="align-middle">
+                        {% with occupancy=trip.occupancy %}
+                          <div class="progress-wrapper w-75 mx-auto">
+                            <div class="progress-info">
+                              <div class="progress-percentage">
+                                <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
+                              </div>
+                            </div>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-primary w-{{ occupancy }}"
+                                   role="progressbar"
+                                   aria-valuenow="{{ occupancy }}"
+                                   aria-valuemin="0"
+                                   aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                        {% endwith %}
+                      </td>
+                      <td class="align-middle">
+                        <div class="d-flex">
+                          <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
+                             class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                            <i class="ni ni-bold-right" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100">
+        <div class="card-header pb-0">
+          <h6 class="mb-0">Categories</h6>
+        </div>
+        <div class="card-body pb-2">
+          <ul class="list-group">
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
+                  <i class="bi bi-ticket-perforated-fill opacity-10" aria-hidden="true"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Coupons</h6>
+                  <span class="text-xs">250 in stock, <span class="font-weight-bold">346+ sold</span></span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href={{ company.get_coupon_list_url }} class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                  <i class="ni ni-bold-right" aria-hidden="true"></i>
+                </a>
+              </div>
+            </li>
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
+                  <i class="bi bi-grid-fill opacity-10" aria-hidden="true"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">SeatCharts</h6>
+                  <span class="text-xs">123 closed, <span class="font-weight-bold">15 open</span></span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{{ company.get_seatchart_url }}"
+                   class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                  <i class="ni ni-bold-right" aria-hidden="true"></i>
+                </a>
+              </div>
+            </li>
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
+                  <i class="bi bi-compass-fill opacity-10" aria-hidden="true"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Live Status</h6>
+                  <span class="text-xs">7 running</span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{{ company.get_live_status_url }}"
+                   class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                  <i class="ni ni-bold-right" aria-hidden="true"></i>
+                </a>
+              </div>
+            </li>
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
+                  <i class="bi bi-person-vcard-fill opacity-10" aria-hidden="true"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Passenger Data</h6>
+                  <span class="text-xs font-weight-bold">+ 430K</span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                  <i class="ni ni-bold-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-lg-5 mb-lg-0 mb-4">
+      <div class="card z-index-2">
+        <div class="card-body p-3">
+          <div class="border-radius-lg py-3 pe-1 mb-3">
+            <div class="chart">
+              <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+            </div>
+          </div>
+          <h6 class="ms-2 mt-4 mb-0">Active Users</h6>
+          <p class="text-sm ms-2">
+            (<span class="font-weight-bolder">+23%</span>) than last week
+          </p>
+          <div class="container border-radius-lg">
+            <div class="row">
+              <div class="col-3 py-3 ps-0">
+                <div class="d-flex mb-2">
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people-fill opacity-10 mt-2" aria-hidden="true"></i>
+                  </div>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Users</p>
+                </div>
+                <h4 class="font-weight-bolder">36K</h4>
+                <div class="progress w-75">
+                  <div class="progress-bar bg-dark w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                  </div>
+                </div>
+              </div>
+              <div class="col-3 py-3 ps-0">
+                <div class="d-flex mb-2">
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-info text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-mouse2-fill mt-2 opacity-10" aria-hidden="true"></i>
+                  </div>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Clicks</p>
+                </div>
+                <h4 class="font-weight-bolder">2m</h4>
+                <div class="progress w-75">
+                  <div class="progress-bar bg-dark w-90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                  </div>
+                </div>
+              </div>
+              <div class="col-3 py-3 ps-0">
+                <div class="d-flex mb-2">
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-warning text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-currency-exchange opacity-10 mt-2" aria-hidden="true"></i>
+                  </div>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Sales</p>
+                </div>
+                <h4 class="font-weight-bolder">435$</h4>
+                <div class="progress w-75">
+                  <div class="progress-bar bg-dark w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                  </div>
+                </div>
+              </div>
+              <div class="col-3 py-3 ps-0">
+                <div class="d-flex mb-2">
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-bus-front-fill opacity-10 mt-2" aria-hidden="true"></i>
+                  </div>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Trips</p>
+                </div>
+                <h4 class="font-weight-bolder">43</h4>
+                <div class="progress w-75">
+                  <div class="progress-bar bg-dark w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="card z-index-2">
+        <div class="card-header pb-0">
+          <h6>Sales overview</h6>
+          <p class="text-sm">
+            <i class="fa fa-arrow-up text-success"></i>
+            <span class="font-weight-bold">4% more</span> in 2023
+          </p>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'assets/js/charts/demo.js' %}"></script>
-    {% comment %}
+  <script type="text/javascript" src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'assets/js/charts/demo.js' %}"></script>
+  {% comment %}
   Veer we have this new version of chart js available. But it throws a console error
   So keeping it disabled for the moment
   <script type="text/javascript" src="{% static 'assets/js/plugins/chart.min.js' %}" defer></script>
-    {% endcomment %}
+  {% endcomment %}
 {% endblock js %}

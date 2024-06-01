@@ -3,21 +3,21 @@
 {% load static %}
 
 {% block title %}
-    {{ company }}|Book Bus Tickets
+  {{ company }}|Book Bus Tickets
 {% endblock title %}
 
 {% block breadcrumb %}
-    {{ company }}
+  {{ company }}
 {% endblock breadcrumb %}
 
 {% block content %}
-    <div class="page-header min-height-200 border-radius-xl"
-         style="background-image: url({% static 'assets/img/curved-images/curved7.jpg' %});
-                background-position-y: 50%">
-        {% comment %} <span class="mask bg-gradient-primary opacity-6"></span> {% endcomment %}
-    </div>
+  <div class="page-header min-height-200 border-radius-xl"
+       style="background-image: url({% static 'assets/img/curved-images/curved7.jpg' %});
+              background-position-y: 50%">
+    {% comment %} <span class="mask bg-gradient-primary opacity-6"></span> {% endcomment %}
+  </div>
 
-    {% include "includes/search.html" %}
-    {% include "includes/offcanvas-calendar.html" %}
+  {% include "includes/search.html" %}
+  {% include "includes/offcanvas-calendar.html" %}
 
 {% endblock content %}

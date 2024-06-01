@@ -3,214 +3,214 @@
 {% load static %}
 
 {% block title %}
-    Order
+  Order
 {% endblock title %}
 
 {% block breadcrumb %}
-    Order
+  Order
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    Passenger Details
+  Passenger Details
 {% endblock page_title %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-12 col-lg-8">
-            <form method="post">
-                {% csrf_token %}
-                {{ formset.management_form }}
-                {{ formset.non_form_errors }}
-                <div class="mb-3">
-                    {% for item in cart %}
-                        {% with trip=item.trip %}
+  <div class="row">
+    <div class="col-12 col-lg-8">
+      <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {{ formset.non_form_errors }}
+        <div class="mb-3">
+          {% for item in cart %}
+            {% with trip=item.trip %}
 
-                            {% include "includes/seat_modal.html" %}
+              {% include "includes/seat_modal.html" %}
 
-                        {% endwith %}
-                    {% endfor %}
-                </div>
-                {% for form in formset %}
-                    <div class="card mb-3">
-                        <div class="card-header pb-0">
-                            <h5>Passenger {{ forloop.counter }}</h5>
-                        </div>
-                        <div class="card-body">
-                            {{ form.non_field_errors }}
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="text-danger">{{ form.document_type.errors }}</div>
-                                    <div class="mb-3">{{ form.document_type }}</div>
-                                    <div class="form-text ms-2">
-                                        <small>{{ form.document_type.help_text|safe }}</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <div class="text-danger">{{ form.document_number.errors }}</div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-text z-index-0">🔍</span>
-                                                {{ form.document_number }}
-                                            </div>
-                                        </div>
-                                        <div class="form-text ms-2">
-                                            <small>{{ form.document_number.help_text|safe }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="text-danger">{{ form.nationality.errors }}</div>
-                                    <div class="mb-3">{{ form.nationality }}</div>
-                                    <div class="form-text ms-2">
-                                        <small>{{ form.nationality.help_text|safe }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="text-danger">{{ form.first_name.errors }}</div>
-                                    <div class="mb-3">{{ form.first_name }}</div>
-                                    <div class="form-text ms-2">
-                                        <small>{{ form.first_name.help_text|safe }}</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="text-danger">{{ form.last_name.errors }}</div>
-                                    <div class="mb-3">{{ form.last_name }}</div>
-                                    <div class="form-text ms-2">
-                                        <small>{{ form.last_name.help_text|safe }}</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="text-danger">{{ form.gender.errors }}</div>
-                                    <div class="mb-3">{{ form.gender }}</div>
-                                    <div class="form-text ms-2">
-                                        <small>{{ form.gender.help_text|safe }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="text-danger">{{ form.birth_date.errors }}</div>
-                                    <div class="mb-3">{{ form.birth_date }}</div>
-                                    <div class="form-text ms-2">
-                                        <small>{{ form.birth_date.help_text|safe }}</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="text-danger">{{ form.phone_number.errors }}</div>
-                                        <div class="input-group">
-                                            <span class="input-group-text z-index-0">📞</span>
-                                            {{ form.phone_number }}
-                                        </div>
-                                        <div class="form-text ms-2">
-                                            <small>{{ form.phone_number.help_text|safe }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                <div class="card mt-3">
-                    <div class="card-header pb-0">
-                        <h5>Your Contact Information</h5>
-                    </div>
-                    <div class="card-body">
-                        {{ form.non_field_errors }}
-                        {% for field in form.visible_fields %}
-                            <div class="mb-3">
-                                {{ field.errors }}
-                                {{ field }}
-                                {% if field.help_text %}
-                                    <div class="form-text ms-2">
-                                        <small>{{ field.help_text|safe }}</small>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <div class="form-check form-check-info text-left ms-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required />
-                            <label class="form-check-label" for="flexCheckDefault">
-                                I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
-                            </label>
-                        </div>
-                        <div class="d-flex justify-content-center mt-4">
-                            <button class="btn bg-gradient-primary w-100" type="submit">Checkout</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            {% endwith %}
+          {% endfor %}
         </div>
-        <div class="col-12 col-lg-4">
-            {% for item in cart %}
-                {% with trip=item.trip %}
-
-                    {% include "includes/trip_summary.html" %}
-
-                {% endwith %}
-            {% empty %}
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Cart is empty! 📭</h5>
-                    </div>
-                </div>
-            {% endfor %}
-            <div class="card-body mb-3">
-                <button class="btn btn-white btn-lg w-100"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#fareSummary"
-                        aria-expanded="true"
-                        aria-controls="fareSummary">Fare Summary</button>
-                <div class="collapse" id="fareSummary">
-                    <div class="card shadow-xl">
-                        <div class="card-body p-3">
-                            <i class="fas fa-coins p-2" aria-hidden="true"></i>
-                            {% for item in cart %}
-                                {% with trip=item.trip %}
-                                    <div class="mb-3">
-                                        <p class="opacity-8 mb-0">{{ trip.origin }} - {{ trip.destination }}</p>
-                                        {% with ""|center:item.quantity as range %}
-                                            {% for _ in range %}
-                                                <div class="d-flex justify-content-between mb-1">
-                                                    <div class="text-sm">Passenger {{ forloop.counter }}</div>
-                                                    ${{ trip.price }}
-                                                </div>
-                                            {% endfor %}
-                                        {% endwith %}
-                                        <div class="mb-0">
-                                            <h6 class="mb-0 d-inline"></h6>
-                                            <h6 class="mb-0"></h6>
-                                        </div>
-                                    </div>
-                                {% endwith %}
-                            {% endfor %}
-                            {% if cart.coupon %}
-                                <div class="d-flex justify-content-between mb-1">
-                                    <div class="text-sm">Coupon ({{ cart.coupon.discount }}% off)</div>
-                                    <div>- $ {{ cart.get_discount|floatformat:"-3g" }}</div>
-                                </div>
-                            {% endif %}
-                            <div class="d-flex justify-content-between mb-1">
-                                <div class="text-sm">Total</div>
-                                ${{ cart.get_total_price_after_discount|floatformat:"-3g" }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        {% for form in formset %}
+          <div class="card mb-3">
+            <div class="card-header pb-0">
+              <h5>Passenger {{ forloop.counter }}</h5>
             </div>
+            <div class="card-body">
+              {{ form.non_field_errors }}
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="text-danger">{{ form.document_type.errors }}</div>
+                  <div class="mb-3">{{ form.document_type }}</div>
+                  <div class="form-text ms-2">
+                    <small>{{ form.document_type.help_text|safe }}</small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <div class="text-danger">{{ form.document_number.errors }}</div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-text z-index-0">🔍</span>
+                        {{ form.document_number }}
+                      </div>
+                    </div>
+                    <div class="form-text ms-2">
+                      <small>{{ form.document_number.help_text|safe }}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-danger">{{ form.nationality.errors }}</div>
+                  <div class="mb-3">{{ form.nationality }}</div>
+                  <div class="form-text ms-2">
+                    <small>{{ form.nationality.help_text|safe }}</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="text-danger">{{ form.first_name.errors }}</div>
+                  <div class="mb-3">{{ form.first_name }}</div>
+                  <div class="form-text ms-2">
+                    <small>{{ form.first_name.help_text|safe }}</small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-danger">{{ form.last_name.errors }}</div>
+                  <div class="mb-3">{{ form.last_name }}</div>
+                  <div class="form-text ms-2">
+                    <small>{{ form.last_name.help_text|safe }}</small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-danger">{{ form.gender.errors }}</div>
+                  <div class="mb-3">{{ form.gender }}</div>
+                  <div class="form-text ms-2">
+                    <small>{{ form.gender.help_text|safe }}</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="text-danger">{{ form.birth_date.errors }}</div>
+                  <div class="mb-3">{{ form.birth_date }}</div>
+                  <div class="form-text ms-2">
+                    <small>{{ form.birth_date.help_text|safe }}</small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="text-danger">{{ form.phone_number.errors }}</div>
+                    <div class="input-group">
+                      <span class="input-group-text z-index-0">📞</span>
+                      {{ form.phone_number }}
+                    </div>
+                    <div class="form-text ms-2">
+                      <small>{{ form.phone_number.help_text|safe }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="card mt-3">
+          <div class="card-header pb-0">
+            <h5>Your Contact Information</h5>
+          </div>
+          <div class="card-body">
+            {{ form.non_field_errors }}
+            {% for field in form.visible_fields %}
+              <div class="mb-3">
+                {{ field.errors }}
+                {{ field }}
+                {% if field.help_text %}
+                  <div class="form-text ms-2">
+                    <small>{{ field.help_text|safe }}</small>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <div class="form-check form-check-info text-left ms-2">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required />
+              <label class="form-check-label" for="flexCheckDefault">
+                I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
+              </label>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+              <button class="btn bg-gradient-primary w-100" type="submit">Checkout</button>
+            </div>
+          </div>
         </div>
+      </form>
     </div>
-    {% with trips=cart.to_dict %}
-        {{ trips.0|json_script:"outboundJourney" }}
-        {{ trips.1|json_script:"returnJourney" }}
-    {% endwith %}
+    <div class="col-12 col-lg-4">
+      {% for item in cart %}
+        {% with trip=item.trip %}
+
+          {% include "includes/trip_summary.html" %}
+
+        {% endwith %}
+      {% empty %}
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5>Cart is empty! 📭</h5>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="card-body mb-3">
+        <button class="btn btn-white btn-lg w-100"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#fareSummary"
+                aria-expanded="true"
+                aria-controls="fareSummary">Fare Summary</button>
+        <div class="collapse" id="fareSummary">
+          <div class="card shadow-xl">
+            <div class="card-body p-3">
+              <i class="fas fa-coins p-2" aria-hidden="true"></i>
+              {% for item in cart %}
+                {% with trip=item.trip %}
+                  <div class="mb-3">
+                    <p class="opacity-8 mb-0">{{ trip.origin }} - {{ trip.destination }}</p>
+                    {% with ""|center:item.quantity as range %}
+                      {% for _ in range %}
+                        <div class="d-flex justify-content-between mb-1">
+                          <div class="text-sm">Passenger {{ forloop.counter }}</div>
+                          ${{ trip.price }}
+                        </div>
+                      {% endfor %}
+                    {% endwith %}
+                    <div class="mb-0">
+                      <h6 class="mb-0 d-inline"></h6>
+                      <h6 class="mb-0"></h6>
+                    </div>
+                  </div>
+                {% endwith %}
+              {% endfor %}
+              {% if cart.coupon %}
+                <div class="d-flex justify-content-between mb-1">
+                  <div class="text-sm">Coupon ({{ cart.coupon.discount }}% off)</div>
+                  <div>- $ {{ cart.get_discount|floatformat:"-3g" }}</div>
+                </div>
+              {% endif %}
+              <div class="d-flex justify-content-between mb-1">
+                <div class="text-sm">Total</div>
+                ${{ cart.get_total_price_after_discount|floatformat:"-3g" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% with trips=cart.to_dict %}
+    {{ trips.0|json_script:"outboundJourney" }}
+    {{ trips.1|json_script:"returnJourney" }}
+  {% endwith %}
 {% endblock content %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/seats/seats.js' %}" defer></script>
 {% endblock js %}

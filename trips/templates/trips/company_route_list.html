@@ -1,0 +1,25 @@
+{% extends "layouts/base-company.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ company.name }} | Routes
+{% endblock title %}
+
+{% block breadcrumb %}
+    {{ company.name }}
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    Routes
+{% endblock page_title %}
+
+{% block content %}
+    <div class="list-group">
+        {% for route in routes %}
+            <a href="{{ route.get_admin_url }}" class="list-group-item list-group-item-action">{{ route.origin }} | {{ route.destination }} | {{ route.get_category_display }}</a>
+        {% empty %}
+            <a href="" class="list-group-item list-group-item-action">You do not have any routes yet!</a>
+        {% endfor %}
+    </div>
+{% endblock content %}

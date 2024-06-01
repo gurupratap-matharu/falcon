@@ -3,33 +3,33 @@
 {% load static %}
 
 {% block title %}
-    QR Code
+  QR Code
 {% endblock title %}
 
 {% block content %}
-    <h1>QR Codes</h1>
-    <div class="card w-25 mb-5">
-        <div class="card-header">
-            <h5>QR code</h5>
-        </div>
-        <div class="card-body bg-gradient-primary">
-            <div class="p-5 bg-white rounded-3">
-                <div id="qrcode"></div>
-            </div>
-        </div>
+  <h1>QR Codes</h1>
+  <div class="card w-25 mb-5">
+    <div class="card-header">
+      <h5>QR code</h5>
     </div>
+    <div class="card-body bg-gradient-primary">
+      <div class="p-5 bg-white rounded-3">
+        <div id="qrcode"></div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 {% block js %}
-    <script src="{% static 'assets/js/qrcode/qrcode.min.js' %}" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-         var qrcode = new QRCode(document.getElementById("qrcode"), {
-              text: "http://kpiola.com.ar/",
-              width: 200,
-              height: 200,
-              colorDark: "#a033bf",
-              colorLight: "white",
-              correctLevel: QRCode.CorrectLevel.H
-         });
-    </script>
+  <script src="{% static 'assets/js/qrcode/qrcode.min.js' %}" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+       var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "http://kpiola.com.ar/",
+            width: 200,
+            height: 200,
+            colorDark: "#a033bf",
+            colorLight: "white",
+            correctLevel: QRCode.CorrectLevel.H
+       });
+  </script>
 {% endblock js %}

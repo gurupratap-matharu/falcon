@@ -3,50 +3,50 @@
 {% load static %}
 
 {% block title %}
-    Alpine
+  Alpine
 {% endblock title %}
 
 {% block content %}
-    <h1 x-data="{ message: 'Django ❤️ Alpine' }" x-text="message"></h1>
-    <div class="card mb-5">
-        <div class="card-header">
-            <h5>Counter</h5>
-        </div>
-        <div class="card-body" x-data="{ count: 0}">
-            <button class="btn bg-gradient-primary" x-on:click="count++">Increment</button>
-            <p class="display-1" x-text="count"></p>
-        </div>
+  <h1 x-data="{ message: 'Django ❤️ Alpine' }" x-text="message"></h1>
+  <div class="card mb-5">
+    <div class="card-header">
+      <h5>Counter</h5>
     </div>
-    <div class="card mb-5">
-        <div class="card-header">
-            <h5>Dropdown</h5>
-        </div>
-        <div class="card-body" x-data="{ open: false}">
-            <button class="btn bg-gradient-primary" @click="open = ! open">Toggle</button>
-            <div class="display-1" x-show="open" @click.outside="open = false">Contents...</div>
-        </div>
+    <div class="card-body" x-data="{ count: 0}">
+      <button class="btn bg-gradient-primary" x-on:click="count++">Increment</button>
+      <p class="display-1" x-text="count"></p>
     </div>
-    <div class="card mb-5">
-        <div class="card-header">
-            <h5>Search</h5>
-        </div>
-        <div class="card-body"
-             x-data="{ search: '', items: ['apple', 'apricot', 'orange', 'banana'],  get filteredItems() { return this.items.filter(i => i.startsWith(this.search)) } }">
-            <div class="form-group">
-                <div class="input-group mb-4">
-                    <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                    <input class="form-control" x-model="search" type="search" placeholder="Search...">
-                </div>
-            </div>
-            <ul class="list-group">
-                <template x-for="item in filteredItems" :key="item">
-                    <li class="list-group-item" x-text="item"></li>
-                </template>
-            </ul>
-        </div>
+  </div>
+  <div class="card mb-5">
+    <div class="card-header">
+      <h5>Dropdown</h5>
     </div>
+    <div class="card-body" x-data="{ open: false}">
+      <button class="btn bg-gradient-primary" @click="open = ! open">Toggle</button>
+      <div class="display-1" x-show="open" @click.outside="open = false">Contents...</div>
+    </div>
+  </div>
+  <div class="card mb-5">
+    <div class="card-header">
+      <h5>Search</h5>
+    </div>
+    <div class="card-body"
+         x-data="{ search: '', items: ['apple', 'apricot', 'orange', 'banana'],  get filteredItems() { return this.items.filter(i => i.startsWith(this.search)) } }">
+      <div class="form-group">
+        <div class="input-group mb-4">
+          <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+          <input class="form-control" x-model="search" type="search" placeholder="Search..." />
+        </div>
+      </div>
+      <ul class="list-group">
+        <template x-for="item in filteredItems" :key="item">
+          <li class="list-group-item" x-text="item"></li>
+        </template>
+      </ul>
+    </div>
+  </div>
 {% endblock content %}
 
 {% block js %}
-    <script defer src="{% static 'assets/js/alpine/alpine@3.12.3.min.js' %}" crossorigin="anonymous"></script>
+  <script defer src="{% static 'assets/js/alpine/alpine@3.12.3.min.js' %}" crossorigin="anonymous"></script>
 {% endblock js %}

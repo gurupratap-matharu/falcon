@@ -3,45 +3,45 @@
 {% load static %}
 
 {% block title %}
-    Payment Pending
+  Payment Pending
 {% endblock title %}
 
 {% block breadcrumb %}
-    Payment / Pending
+  Payment / Pending
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    Payment Pending
+  Payment Pending
 {% endblock page_title %}
 
 {% block content %}
-    <section class="min-vh-75">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-md-7 mx-auto">
-                    <div class="card z-index-0 mb-4">
-                        <div class="card-header text-center pt-4 pb-1">
-                            <h4 class="font-weight-bolder mb-1">Payment Pending</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <p class="mx-auto">We haven't yet received a confirmation for your payment and it's showing pending status.</p>
-                                <p>
-                                    <strong>Your tickets are not yet confirmed.</strong>
-                                </p>
-                                <p>
-                                    Incase the payment status is resolved you'll get your tickets via email. Please don't make another payment for this order.
-                                    Incase of trouble you can
-                                    <a href="{% url 'pages:contact' %}" class="text-info text-gradient font-weight-bold">contact us here</a>
-                                </p>
-                            </div>
-                            <div class="text-center">
-                                <a type="button" href="{% url 'pages:home' %}" class="btn bg-gradient-secondary my-4 me-3 mb-2">Go back home</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <section class="min-vh-75">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-md-7 mx-auto">
+          <div class="card z-index-0 mb-4">
+            <div class="card-header text-center pt-4 pb-1">
+              <h4 class="font-weight-bolder mb-1">Payment Pending</h4>
             </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <p class="mx-auto">We haven't yet received a confirmation for your payment and it's showing pending status.</p>
+                <p>
+                  <strong>Your tickets are not yet confirmed.</strong>
+                </p>
+                <p>
+                  Incase the payment status is resolved you'll get your tickets via email. Please don't make another payment for this order.
+                  Incase of trouble you can
+                  <a href="{% url 'pages:contact' %}" class="text-info text-gradient font-weight-bold">contact us here</a>
+                </p>
+              </div>
+              <div class="text-center">
+                <a type="button" href="{% url 'pages:home' %}" class="btn bg-gradient-secondary my-4 me-3 mb-2">Go back home</a>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 {% endblock content %}

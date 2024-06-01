@@ -3,115 +3,115 @@
 {% load static %}
 
 {% block title %}
-    {{ company.name }} | Trips
+  {{ company.name }} | Trips
 {% endblock title %}
 
 {% block breadcrumb %}
-    {{ company.name }}
+  {{ company.name }}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    Trips
+  Trips
 {% endblock page_title %}
 
 {% block content %}
-    <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between pb-0">
-            <h6>
-                <a href="{{ company.get_admin_url }}" class="icon-move-left">
-                    <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
-                    </i>
-                    Dashboard
-                </a>
-            </h6>
-            <a href="{% url 'companies:trip-create' company.slug %}" class="btn btn-outline-dark btn-sm">
-                <i class="fa fa-plus me-2"></i>Create Trip
-            </a>
-        </div>
-        <div class="card-body px-0 pt-0 pb-2 overflow-y-scroll" style="height: 700px;">
-            {% if not trips %}
-                <h6 class="text-center mb-3">You have no upcoming trips!</h6>
-            {% else %}
-                <div class="table-responsive">
-                    <table class="table table-hover table-borderless align-items-center align-middle mb-0">
-                        <thead>
-                            <tr>
-                                {% with klass="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" %}
-                                    <th class="{{ klass }}">Company</th>
-                                    <th class="{{ klass }} ps-2">Origin</th>
-                                    <th class="{{ klass }} ps-2">Destination</th>
-                                    <th class="{{ klass }} ps-2">Departure</th>
-                                    <th class="{{ klass }} ps-2">Arrival</th>
-                                    <th class="{{ klass }} ps-2">Occupancy</th>
-                                    <th class="{{ klass }} ps-2">Status</th>
-                                    <th class="{{ klass }} ps-2">Seats Available</th>
-                                    <th class="{{ klass }} ps-2">Detail</th>
-                                {% endwith %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for trip in trips %}
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="{% static 'assets/img/bus/bus1.jpg' %}" class="avatar avatar-sm me-3">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{ trip.company }}</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm mb-0">{{ trip.origin }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm mb-0">{{ trip.destination }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm mb-0">{{ trip.departure|date:"D j M P" }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm mb-0">{{ trip.arrival|date:"D j M P" }}</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {% with occupancy=trip.occupancy %}
-                                            <div class="progress-wrapper w-75 mx-auto">
-                                                <div class="progress-info">
-                                                    <div class="progress-percentage">
-                                                        <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-primary w-{{ occupancy }}"
-                                                         role="progressbar"
-                                                         aria-valuenow="{{ occupancy }}"
-                                                         aria-valuemin="0"
-                                                         aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        {% endwith %}
-                                    </td>
-                                    <td class="align-middle">
-                                        <span class="badge badge-sm bg-gradient-{{ trip.get_status_context }}">{{ trip.get_status_display }}</span>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm mb-0">{{ trip.availability }}</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="d-flex">
-                                            <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
-                                               class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                                <i class="ni ni-bold-right" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% endif %}
-        </div>
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between pb-0">
+      <h6>
+        <a href="{{ company.get_admin_url }}" class="icon-move-left">
+          <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+          </i>
+          Dashboard
+        </a>
+      </h6>
+      <a href="{% url 'companies:trip-create' company.slug %}" class="btn btn-outline-dark btn-sm">
+        <i class="fa fa-plus me-2"></i>Create Trip
+      </a>
     </div>
+    <div class="card-body px-0 pt-0 pb-2 overflow-y-scroll" style="height: 700px;">
+      {% if not trips %}
+        <h6 class="text-center mb-3">You have no upcoming trips!</h6>
+      {% else %}
+        <div class="table-responsive">
+          <table class="table table-hover table-borderless align-items-center align-middle mb-0">
+            <thead>
+              <tr>
+                {% with klass="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" %}
+                  <th class="{{ klass }}">Company</th>
+                  <th class="{{ klass }} ps-2">Origin</th>
+                  <th class="{{ klass }} ps-2">Destination</th>
+                  <th class="{{ klass }} ps-2">Departure</th>
+                  <th class="{{ klass }} ps-2">Arrival</th>
+                  <th class="{{ klass }} ps-2">Occupancy</th>
+                  <th class="{{ klass }} ps-2">Status</th>
+                  <th class="{{ klass }} ps-2">Seats Available</th>
+                  <th class="{{ klass }} ps-2">Detail</th>
+                {% endwith %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for trip in trips %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{% static 'assets/img/bus/bus1.jpg' %}" class="avatar avatar-sm me-3" />
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{ trip.company }}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ trip.origin }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ trip.destination }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ trip.departure|date:"D j M P" }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ trip.arrival|date:"D j M P" }}</p>
+                  </td>
+                  <td class="align-middle text-center">
+                    {% with occupancy=trip.occupancy %}
+                      <div class="progress-wrapper w-75 mx-auto">
+                        <div class="progress-info">
+                          <div class="progress-percentage">
+                            <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
+                          </div>
+                        </div>
+                        <div class="progress">
+                          <div class="progress-bar bg-gradient-primary w-{{ occupancy }}"
+                               role="progressbar"
+                               aria-valuenow="{{ occupancy }}"
+                               aria-valuemin="0"
+                               aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    {% endwith %}
+                  </td>
+                  <td class="align-middle">
+                    <span class="badge badge-sm bg-gradient-{{ trip.get_status_context }}">{{ trip.get_status_display }}</span>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ trip.availability }}</p>
+                  </td>
+                  <td class="align-middle">
+                    <div class="d-flex">
+                      <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
+                         class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
+                        <i class="ni ni-bold-right" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    </div>
+  </div>
 {% endblock content %}

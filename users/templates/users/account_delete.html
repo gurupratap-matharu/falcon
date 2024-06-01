@@ -3,40 +3,40 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Delete Account" %}
+  {% trans "Delete Account" %}
 {% endblock title %}
 
 {% block content %}
-    <div class="card card-plain mt-8">
-        <div class="card-header pb-0 text-left bg-transparent">
-            <h3 class="font-weight-bolder text-primary text-gradient">{% trans "We're sorry to see you go" %}</h3>
-            <p>
-                If you'd like to reduce your email notifications, you can disable them here or if you just want to change your username, you can do that too.
-            </p>
-            <p>
-                Be advised, <strong>account deletion is final</strong>. There will be no way to restore your account.
-            </p>
-        </div>
-        <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
-                {% for field in form.visible_fields %}
-                    <div class="form-check mb-3">
-                        {{ field }}
-                        <label class="custom-control-label" for="customCheck1">Confirm delete</label>
-                        {{ field.help_text }}
-                    </div>
-                {% endfor %}
-                <a href="{% url 'users:profile' %}" class="btn btn-white">{% trans "Cancel" %}</a>
-                <button type="submit" name="action" class="btn btn-danger mx-3">{% trans "Delete" %}</button>
-            </form>
-        </div>
+  <div class="card card-plain mt-8">
+    <div class="card-header pb-0 text-left bg-transparent">
+      <h3 class="font-weight-bolder text-primary text-gradient">{% trans "We're sorry to see you go" %}</h3>
+      <p>
+        If you'd like to reduce your email notifications, you can disable them here or if you just want to change your username, you can do that too.
+      </p>
+      <p>
+        Be advised, <strong>account deletion is final</strong>. There will be no way to restore your account.
+      </p>
     </div>
-    <script>
-         const add_form_classes = () => {
-              const delete_checkbox = document.querySelector('#id_delete');
-              delete_checkbox.classList.add('form-check-input');
-         }
-         document.addEventListener("DOMContentLoaded", add_form_classes);
-    </script>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+          <div class="form-check mb-3">
+            {{ field }}
+            <label class="custom-control-label" for="customCheck1">Confirm delete</label>
+            {{ field.help_text }}
+          </div>
+        {% endfor %}
+        <a href="{% url 'users:profile' %}" class="btn btn-white">{% trans "Cancel" %}</a>
+        <button type="submit" name="action" class="btn btn-danger mx-3">{% trans "Delete" %}</button>
+      </form>
+    </div>
+  </div>
+  <script>
+       const add_form_classes = () => {
+            const delete_checkbox = document.querySelector('#id_delete');
+            delete_checkbox.classList.add('form-check-input');
+       }
+       document.addEventListener("DOMContentLoaded", add_form_classes);
+  </script>
 {% endblock content %}

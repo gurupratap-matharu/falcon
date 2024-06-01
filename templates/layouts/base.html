@@ -3,16 +3,16 @@
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="ROBOTS" content="ALL" />
-        <meta name="MSSmartTagsPreventParsing" content="true" />
-        <meta name="Copyright" content="Kpiola Team" />
-        <meta name="keywords" content="Bus, Argentina, Tickets, Travel, Pasajes" />
-        <meta name="author" content="Kpiola Team" />
-        {# djlint:off #}
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="ROBOTS" content="ALL" />
+    <meta name="MSSmartTagsPreventParsing" content="true" />
+    <meta name="Copyright" content="Kpiola Team" />
+    <meta name="keywords" content="Bus, Argentina, Tickets, Travel, Pasajes" />
+    <meta name="author" content="Kpiola Team" />
+    {# djlint:off #}
         <meta name="description" content="{% block description %}Kpiola provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
 
         {% block og_tags %}
@@ -33,57 +33,60 @@
 
         {% endblock og_tags %}
 
-        {# djlint:on #}
-        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/icons/favicons/apple-touch-icon.png' %}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/icons/favicons/favicon-32x32.png' %}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/icons/favicons/favicon-16x16.png' %}">
-        <link rel="mask-icon" href="{% static 'assets/icons/favicons/safari-pinned-tab.svg' %}" color="#000000">
-        <meta name="msapplication-TileColor" content="#9f00a7">
-        <meta name="theme-color" content="#ffffff">
-        <link rel="icon" type="image/png" href="{% static 'assets/img/logos/logo.png' %}" />
-        {# djlint:off #}
+    {# djlint:on #}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/icons/favicons/apple-touch-icon.png' %}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/icons/favicons/favicon-32x32.png' %}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/icons/favicons/favicon-16x16.png' %}" />
+    <link rel="mask-icon" href="{% static 'assets/icons/favicons/safari-pinned-tab.svg' %}" color="#000000" />
+    <meta name="msapplication-TileColor" content="#9f00a7" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/png" href="{% static 'assets/img/logos/logo.png' %}" />
+    {# djlint:off #}
         <title>{% block title %}Book Bus Tickets{% endblock title %} | Kpiola</title>
-        {# djlint:on #}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCQZXE3FHQ"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-KCQZXE3FHQ');
-        </script>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-        <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
-        <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <script src="https://kit.fontawesome.com/546230838a.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" id="pagestyle" href="{% static 'assets/css/soft-ui-dashboard.css' %}" />
-        <link rel="stylesheet" href="{% static 'assets/css/seats/seatchart.min.css' %}" />
-        <link rel="stylesheet" href="{% static 'assets/css/autocomplete.css' %}" />
+    {# djlint:on #}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCQZXE3FHQ"></script>
+    <script>
+         window.dataLayer = window.dataLayer || [];
 
-        {% block extra_css %}
-        {% endblock extra_css %}
+         function gtag() {
+              dataLayer.push(arguments);
+         }
+         gtag('js', new Date());
+         gtag('config', 'G-KCQZXE3FHQ');
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <script src="https://kit.fontawesome.com/546230838a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" id="pagestyle" href="{% static 'assets/css/soft-ui-dashboard.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/seats/seatchart.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/autocomplete.css' %}" />
 
-    </head>
-    <body class="g-sidenav-show bg-gray-100">
+    {% block extra_css %}
+    {% endblock extra_css %}
 
-        {% block basecontent %}
-        {% endblock basecontent %}
+  </head>
+  <body class="g-sidenav-show bg-gray-100">
 
-        {{ request.session.q|json_script:"q" }}
-        {% comment %} {% include "includes/right-sidebar.html" %} {% endcomment %}
-        <script type="text/javascript" src="{% static 'assets/js/core/popper.min.js' %}" defer></script>
-        <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.min.js' %}" defer></script>
-        <script type="text/javascript" src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}" defer></script>
-        <script type="text/javascript" src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}" defer></script>
-        <script src="{% static 'assets/js/soft-ui-dashboard.min.js' %}" defer></script>
-        <script src="{% static 'assets/js/topbar/topbar.js' %}" defer></script>
-        <script type="text/javascript" src="{% static 'assets/js/main.js' %}" defer></script>
+    {% block basecontent %}
+    {% endblock basecontent %}
 
-        {% block modal %}
-        {% endblock modal %}
+    {{ request.session.q|json_script:"q" }}
+    {% comment %} {% include "includes/right-sidebar.html" %} {% endcomment %}
+    <script type="text/javascript" src="{% static 'assets/js/core/popper.min.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.min.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}" defer></script>
+    <script src="{% static 'assets/js/soft-ui-dashboard.min.js' %}" defer></script>
+    <script src="{% static 'assets/js/topbar/topbar.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/main.js' %}" defer></script>
 
-        {% block js %}
-        {% endblock js %}
+    {% block modal %}
+    {% endblock modal %}
 
-    </body>
+    {% block js %}
+    {% endblock js %}
+
+  </body>
 </html>

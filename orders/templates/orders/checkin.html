@@ -3,35 +3,35 @@
 {% load static %}
 
 {% block breadcrumb %}
-    {{ item.trip.company }}
+  {{ item.trip.company }}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    Checkin
+  Checkin
 {% endblock page_title %}
 
 {% block title %}
-    {{ item }} | Checkin
+  {{ item }} | Checkin
 {% endblock title %}
 
 {% block content %}
-    <h1>CheckIn</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <td>Company</td>
-                <td>Trip</td>
-                <td>Num Passengers</td>
-                <td>Seats</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ item.trip.company }}</td>
-                <td>{{ item.trip.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.seats }}</td>
-            </tr>
-        </tbody>
-    </table>
+  <h1>CheckIn</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Company</td>
+        <td>Trip</td>
+        <td>Num Passengers</td>
+        <td>Seats</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ item.trip.company }}</td>
+        <td>{{ item.trip.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.seats }}</td>
+      </tr>
+    </tbody>
+  </table>
 {% endblock content %}

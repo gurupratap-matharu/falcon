@@ -1,83 +1,83 @@
 <div class="card mt-3 mt-md-0 mb-3">
-    <div class="card-header pb-0">
-        <h5>{{ trip.name }}</h5>
-    </div>
-    <div class="card-body p-3">
-        <div class="timeline timeline-one-side" data-timeline-axis-style="dotted">
-            <div class="timeline-block mb-3">
-                <span class="timeline-step">
-                    <i class="ni ni-square-pin text-success text-gradient"></i>
-                </span>
-                <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">{{ trip.origin }}</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.departure }}</p>
-                    <p class="text-sm mt-3 mb-2">E Ticket accepted</p>
-                    <span class="badge badge-sm bg-gradient-success">Meals on Board</span>
-                </div>
-            </div>
-            <div class="timeline-block mb-3">
-                <span class="timeline-step">
-                    <i class="ni ni-pin-3 text-danger text-gradient"></i>
-                </span>
-                <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">{{ trip.destination }}</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.arrival }}</p>
-                    <p class="text-sm mt-3 mb-2">Local time</p>
-                    <span class="badge badge-sm bg-gradient-danger">Order</span>
-                    <span class="badge badge-sm bg-gradient-danger">#1832412</span>
-                </div>
-            </div>
-            <div class="timeline-block mb-3">
-                <span class="timeline-step">
-                    <i class="ni ni-time-alarm text-info text-gradient"></i>
-                </span>
-                <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Duration</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.duration }} Hours</p>
-                    <p class="text-sm mt-3 mb-2">Overnight journey</p>
-                    <span class="badge badge-sm bg-gradient-info">Wifi</span>
-                    <span class="badge badge-sm bg-gradient-info">Free Drinks</span>
-                </div>
-            </div>
-            <div class="timeline-block mb-3">
-                <span class="timeline-step">
-                    <i class="ni ni-bus-front-12 text-warning text-gradient"></i>
-                </span>
-                <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.company }}</p>
-                    <p class="text-sm mt-3 mb-2">25 Fleets Active</p>
-                    <span class="badge badge-sm bg-gradient-warning">Card</span>
-                    <span class="badge badge-sm bg-gradient-warning">Full Sleeper</span>
-                    <span class="badge badge-sm bg-gradient-warning">AC</span>
-                </div>
-            </div>
-            <div class="timeline-block mb-3">
-                <span class="timeline-step">
-                    <i class="ni ni-key-25 text-primary text-gradient"></i>
-                </span>
-                <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">You Unlock points for travelling</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Eligible for reward</p>
-                    <p class="text-sm mt-3 mb-2">
-                        People care about how you see the world, how you think, what motivates you, what you’re struggling with or afraid of.
-                    </p>
-                    <span class="badge badge-sm bg-gradient-primary">Bonus Points</span>
-                </div>
-            </div>
-            <div class="timeline-block">
-                <span class="timeline-step">
-                    <i class="ni ni-money-coins text-dark text-gradient"></i>
-                </span>
-                <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Price</h6>
-                    <p class="font-weight-bold mt-1 mb-0">
-                        <strong>$ {{ trip.price }}</strong>
-                    </p>
-                    <p class="text-sm mt-3 mb-2">Accepts all major cards</p>
-                    <span class="badge badge-sm bg-gradient-dark">Cash Accepted</span>
-                </div>
-            </div>
+  <div class="card-header pb-0">
+    <h5>{{ trip.name }}</h5>
+  </div>
+  <div class="card-body p-3">
+    <div class="timeline timeline-one-side" data-timeline-axis-style="dotted">
+      <div class="timeline-block mb-3">
+        <span class="timeline-step">
+          <i class="ni ni-square-pin text-success text-gradient"></i>
+        </span>
+        <div class="timeline-content">
+          <h6 class="text-dark text-sm font-weight-bold mb-0">{{ trip.origin }}</h6>
+          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.departure }}</p>
+          <p class="text-sm mt-3 mb-2">E Ticket accepted</p>
+          <span class="badge badge-sm bg-gradient-success">Meals on Board</span>
         </div>
+      </div>
+      <div class="timeline-block mb-3">
+        <span class="timeline-step">
+          <i class="ni ni-pin-3 text-danger text-gradient"></i>
+        </span>
+        <div class="timeline-content">
+          <h6 class="text-dark text-sm font-weight-bold mb-0">{{ trip.destination }}</h6>
+          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.arrival }}</p>
+          <p class="text-sm mt-3 mb-2">Local time</p>
+          <span class="badge badge-sm bg-gradient-danger">Order</span>
+          <span class="badge badge-sm bg-gradient-danger">#1832412</span>
+        </div>
+      </div>
+      <div class="timeline-block mb-3">
+        <span class="timeline-step">
+          <i class="ni ni-time-alarm text-info text-gradient"></i>
+        </span>
+        <div class="timeline-content">
+          <h6 class="text-dark text-sm font-weight-bold mb-0">Duration</h6>
+          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.duration }} Hours</p>
+          <p class="text-sm mt-3 mb-2">Overnight journey</p>
+          <span class="badge badge-sm bg-gradient-info">Wifi</span>
+          <span class="badge badge-sm bg-gradient-info">Free Drinks</span>
+        </div>
+      </div>
+      <div class="timeline-block mb-3">
+        <span class="timeline-step">
+          <i class="ni ni-bus-front-12 text-warning text-gradient"></i>
+        </span>
+        <div class="timeline-content">
+          <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
+          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.company }}</p>
+          <p class="text-sm mt-3 mb-2">25 Fleets Active</p>
+          <span class="badge badge-sm bg-gradient-warning">Card</span>
+          <span class="badge badge-sm bg-gradient-warning">Full Sleeper</span>
+          <span class="badge badge-sm bg-gradient-warning">AC</span>
+        </div>
+      </div>
+      <div class="timeline-block mb-3">
+        <span class="timeline-step">
+          <i class="ni ni-key-25 text-primary text-gradient"></i>
+        </span>
+        <div class="timeline-content">
+          <h6 class="text-dark text-sm font-weight-bold mb-0">You Unlock points for travelling</h6>
+          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Eligible for reward</p>
+          <p class="text-sm mt-3 mb-2">
+            People care about how you see the world, how you think, what motivates you, what you’re struggling with or afraid of.
+          </p>
+          <span class="badge badge-sm bg-gradient-primary">Bonus Points</span>
+        </div>
+      </div>
+      <div class="timeline-block">
+        <span class="timeline-step">
+          <i class="ni ni-money-coins text-dark text-gradient"></i>
+        </span>
+        <div class="timeline-content">
+          <h6 class="text-dark text-sm font-weight-bold mb-0">Price</h6>
+          <p class="font-weight-bold mt-1 mb-0">
+            <strong>$ {{ trip.price }}</strong>
+          </p>
+          <p class="text-sm mt-3 mb-2">Accepts all major cards</p>
+          <span class="badge badge-sm bg-gradient-dark">Cash Accepted</span>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
