@@ -7,7 +7,6 @@ Running this script should create
 with sensible defaults.
 """
 
-
 from django.core.management.base import BaseCommand
 
 import factory
