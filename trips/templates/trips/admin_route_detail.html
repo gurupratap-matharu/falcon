@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}
+    {{ route }} {{ block.super }}
+{% endblock title %}
+
+{% block branding %}
+    <div id="site-name">
+        <a href="{% url 'admin:index' %}">{{ site_header|default:_("Kpiola 🚌") }}</a>
+    </div>
+{% endblock branding %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url "admin:index" %}">Home</a> &rsaquo;
+        <a href="{% url "admin:trips_route_changelist" %}">Routes</a>
+        &rsaquo;
+        <a href="{% url "admin:trips_route_change" route.id %}">Route {{ order.id }}</a>
+        &rsaquo; Trips
+    </div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <h3>Admin Route Detail View 🚀</h3>
+    <p>Route: {{ route }}</p>
+{% endblock content %}
