@@ -247,7 +247,7 @@ class RecurrenceForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         for field in self.errors:
-            logger.info("field: %s has error" % field)
+            logger.warn("field: %s has error" % field)
             attrs = self[field].field.widget.attrs
             attrs.setdefault("class", "")
             attrs["class"] += " is-invalid"
@@ -289,7 +289,7 @@ class RecurrenceForm(forms.Form):
         initial=1,
         help_text=_(
             "(Optional) Time between consecutive occurrences. "
-            "Ex for daily repeats 1: Every day, 2: Every other day, 3: every third day and so on..."
+            "Ex 1: every day, 2: every other day, 3: every third day and so on..."
         ),
         required=False,
         validators=[MinValueValidator(0), MaxValueValidator(10)],
