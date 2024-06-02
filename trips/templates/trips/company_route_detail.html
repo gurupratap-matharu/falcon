@@ -1,23 +1,23 @@
 {% extends "layouts/base-company.html" %}
 
 {% block title %}
-    {{ route }} | {{ company }}
+  {{ route }} | {{ company }}
 {% endblock title %}
 
 {% block breadcrumb %}
-    {{ company.name }}
+  {{ company.name }}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-    {{ route }}
+  {{ route }}
 {% endblock page_title %}
 
 {% block content %}
-    <div class="list-group">
-        {% for stop in stops %}
-            <a href="" class="list-group-item list-group-item-action">{{ stop.order|add:1 }}. {{ stop.name }} | {{ stop.arrival }} | {{ stop.departure }}</a>
-        {% empty %}
-            <a href="" class="list-group-item list-group-item-action">Route has no stops yet!</a>
-        {% endfor %}
-    </div>
+  <div class="list-group">
+    {% for stop in stops %}
+      <a href="" class="list-group-item list-group-item-action">{{ stop.order|add:1 }}. {{ stop.name }} | {{ stop.arrival }} | {{ stop.departure }}</a>
+    {% empty %}
+      <a href="" class="list-group-item list-group-item-action">Route has no stops yet!</a>
+    {% endfor %}
+  </div>
 {% endblock content %}
