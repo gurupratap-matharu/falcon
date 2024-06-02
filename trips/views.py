@@ -3,10 +3,12 @@ from datetime import datetime, timedelta
 from typing import Any, Dict
 
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -151,6 +153,16 @@ class CompanyRouteDetailView(CRUDMixins, DetailView):
         context = super().get_context_data(**kwargs)
         context["stops"] = self.object.stops.select_related("name")
         return context
+
+
+@method_decorator(staff_member_required, name="dispatch")
+class AdminRouteDetailView(DetailView):
+    """Custom admin view to show all trips for a route"""
+
+    model = Route
+    pk_url_kwarg = "route_id"
+    context_object_name = "route"
+    template_name = "trips/admin_route_detail.html"
 
 
 class CompanyTripListView(CRUDMixins, ListView):

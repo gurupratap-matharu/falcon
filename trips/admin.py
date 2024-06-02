@@ -5,6 +5,8 @@ from typing import Any
 from django.contrib import admin
 from django.db.models import Count, Q, QuerySet
 from django.http import HttpRequest
+from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from trips.models import Seat
@@ -170,9 +172,18 @@ class RouteAdmin(admin.ModelAdmin):
         "category",
         "duration",
         "active",
+        "trips",
     )
     list_filter = ("active",)
     list_select_related = ("company", "origin", "destination")
     raw_id_fields = ("company", "origin", "destination")
     prepopulated_fields = {"slug": ("name",)}
     inlines = (StopInline,)
+
+    def trips(self, obj):
+        """Link to our custom admin view"""
+
+        url = reverse_lazy("trips:admin-route-detail", kwargs={"route_id": obj.id})
+        html = f'<a href="{url}">View</a>' if url else ""
+
+        return mark_safe(html)
