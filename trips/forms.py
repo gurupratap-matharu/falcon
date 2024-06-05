@@ -14,7 +14,7 @@ from dateutil import rrule
 
 from trips.models import Location
 
-from .models import Trip
+from .models import Stop, Trip
 
 logger = logging.getLogger(__name__)
 
@@ -375,11 +375,19 @@ class PriceGridForm(forms.Form):
     Custom form to store trip prices between all possible stop combinations.
     """
 
-    origin = forms.ModelChoiceField(queryset=Location.objects.all())
-    destination = forms.ModelChoiceField(queryset=Location.objects.all())
+    origin = forms.ModelChoiceField(queryset=Stop.objects.all())
+    destination = forms.ModelChoiceField(queryset=Stop.objects.all())
     price = forms.FloatField(
         validators=[MinValueValidator(0), MaxValueValidator(100000)]
     )
+
+    def clean(self):
+        cd = super().clean()
+
+        # Origin cannot be equal to destination
+        if cd["origin"] == cd["destination"]:
+            msg = _("origin and destination cannot be the same.")
+            self.add_error("destination", msg)
 
     def save(self, route):
         logger.info("cleaned_data:%s" % self.cleaned_data)
