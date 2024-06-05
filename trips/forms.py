@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil import rrule
 
-from trips.models import Location, Route
+from trips.models import Location
 
 from .models import Trip
 

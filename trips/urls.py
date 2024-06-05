@@ -17,7 +17,9 @@ urlpatterns = [
     path("<uuid:id>/<slug:slug>/", TripDetailView.as_view(), name="trip_detail"),
     path("search/", TripSearchView.as_view(), name="trip-search"),
     # remove this one
-    path("routes/<uuid:route_id>/price-grid/", PriceGridView.as_view(), name="price-grid"),
+    path(
+        "routes/<uuid:route_id>/price-grid/", PriceGridView.as_view(), name="price-grid"
+    ),
     # Custom admin urls
     path(
         "admin/routes/<uuid:route_id>/",
