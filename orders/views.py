@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 class OrderCreateView(CreateView):
     """
-    View that allows a user to create an order and multiple passengers in one got using formsets.
+    View that allows a user to create an order and multiple passengers in one go using formsets.
     """
 
     form_class = OrderForm
