@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil import rrule
 
-from trips.models import Location
+from trips.models import Location, Route
 
 from .models import Trip
 
@@ -368,3 +368,33 @@ class RecurrenceForm(forms.Form):
         logger.info("building occurrence timestamps...")
 
         return rrule.rrule(**params)
+
+
+class PriceGridForm(forms.Form):
+    """
+    Custom form to store trip prices between all possible stop combinations.
+    """
+
+    origin = forms.ModelChoiceField(queryset=Location.objects.all())
+    destination = forms.ModelChoiceField(queryset=Location.objects.all())
+    price = forms.FloatField(
+        validators=[MinValueValidator(0), MaxValueValidator(100000)]
+    )
+
+    def save(self, route):
+        logger.info("cleaned_data:%s" % self.cleaned_data)
+        cd = self.cleaned_data
+
+        origin = cd["origin"].name.abbr.strip()
+        destination = cd["destination"].name.abbr.strip()
+        price = cd["price"]
+
+        data = dict()
+        key = f"{origin};{destination}"
+        data[key] = price
+
+        logger.info("data:%s" % data)
+        route.price.update(data)
+        route.save(update_fields=["price"])
+
+        return route

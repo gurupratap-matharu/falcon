@@ -23,7 +23,7 @@ from django_weasyprint import WeasyTemplateResponseMixin
 from companies.mixins import OwnerMixin
 from companies.models import SeatChart
 
-from .forms import RecurrenceForm, TripCreateForm, TripSearchForm
+from .forms import PriceGridForm, RecurrenceForm, TripCreateForm, TripSearchForm
 from .models import Location, Route, Trip
 
 logger = logging.getLogger(__name__)
@@ -315,3 +315,36 @@ class RecurrenceView(CRUDMixins, FormView):
 
     def get_success_url(self) -> str:
         return self.company.get_trip_list_url()
+
+
+class PriceGridView(SuccessMessageMixin, FormView):
+    form_class = PriceGridForm
+    template_name = "trips/price_grid.html"
+    success_message = "Price grid updated successfully 💰"
+
+    def get_route(self):
+        self.route = get_object_or_404(Route, id=self.kwargs["route_id"])
+        return self.route
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["route"] = self.get_route()
+        return context
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class=self.form_class)
+
+        route = self.get_route()
+        qs = route.stops.select_related("name")
+
+        form.fields["origin"].queryset = qs
+        form.fields["destination"].queryset = qs
+
+        return form
+
+    def form_valid(self, form):
+        form.save(route=self.route)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("trips:price-grid", kwargs={"route_id": str(self.route.id)})
