@@ -317,6 +317,7 @@ class RecurrenceView(CRUDMixins, FormView):
         return self.company.get_trip_list_url()
 
 
+@method_decorator(staff_member_required, name="dispatch")
 class PriceGridView(SuccessMessageMixin, FormView):
     form_class = PriceGridForm
     template_name = "trips/price_grid.html"
