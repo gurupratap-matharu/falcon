@@ -23,10 +23,6 @@
 {% block content %}
     <h3>Route: {{ route }}</h3>
     <hr />
-    {% if messages %}
-        {% for message in messages %}{{ message }}{% endfor %}
-        <hr />
-    {% endif %}
     <h6>Price Grid</h6>
     <ul>
         {% for key, value in route.price.items %}<li>{{ key }} : ${{ value }}</li>{% endfor %}
