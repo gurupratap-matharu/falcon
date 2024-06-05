@@ -21,7 +21,7 @@ from trips.factories import (
     TripPastFactory,
     TripTomorrowFactory,
 )
-from trips.forms import RecurrenceForm
+from trips.forms import PriceGridForm, RecurrenceForm
 from trips.models import Seat, Trip
 from trips.views import (
     CompanyRouteDetailView,
@@ -30,6 +30,7 @@ from trips.views import (
     CompanyTripListView,
     LocationDetailView,
     LocationListView,
+    PriceGridView,
     RecurrenceView,
     TripCreateView,
     TripDetailView,
@@ -1422,3 +1423,103 @@ class CompanyRouteDetailViewTests(TestCase):
 
         # Assert company itself in context
         self.assertEqual(self.company, response.context["company"])
+
+
+class PriceGridViewTests(TestCase):
+    """Test suite for editing price grid for a route"""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.staff = StaffuserFactory()
+        cls.owner = CompanyOwnerFactory()
+        cls.company = CompanyFactory(owner=cls.owner)
+        cls.route = RouteFactory(company=cls.company)
+        cls.stops = StopFactory.create_batch(size=5, route=cls.route)
+        cls.url = reverse_lazy(
+            "trips:price-grid", kwargs={"route_id": str(cls.route.id)}
+        )
+        cls.login_url = reverse_lazy("admin:login")
+        cls.template_name = PriceGridView.template_name
+
+    def test_price_grid_view_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PriceGridView.as_view().__name__)
+
+    def test_price_grid_view_works_for_staff_users(self):
+        self.client.force_login(self.staff)
+
+        response = self.client.get(self.url)
+
+        self.assertFalse(self.owner.is_superuser)
+        self.assertTrue(response.wsgi_request.user.is_staff)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertEqual(self.owner, self.company.owner)
+
+        # Assert user is given access
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, self.route.name)
+        self.assertNotContains(response, "Hi I should not be on this page!")
+
+        # Assert valid context
+        route = response.context["route"]
+        form = response.context["form"]
+
+        self.assertEqual(route, self.route)
+        self.assertIsInstance(form, PriceGridForm)
+
+    def test_price_grid_view_is_not_accessible_by_unauthorized_user(self):
+        # try to access the view without logging in
+        response = self.client.get(self.url)
+        redirect_url = f"{self.login_url}?next={self.url}"
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertTemplateNotUsed(response, self.template_name)
+
+    def test_price_grid_view_works_on_successful_post(self):
+        """
+        An end-to-end test for price grid creation.
+        """
+
+        # First we'll empty the route price json value for simplicity
+        self.route.price = dict()
+        self.route.save(update_fields=["price"])
+
+        # verify that price is an empty dict
+        self.assertEqual(self.route.price, dict())
+
+        # Build post data of the form
+        origin = self.route.stops.first()
+        destination = self.route.stops.last()
+
+        data = {
+            "origin": str(origin.id),
+            "destination": str(destination.id),
+            "price": 10000,
+        }
+
+        self.client.force_login(self.staff)
+
+        # Creation will redirect to same url so make `follow=True`
+        response = self.client.post(path=self.url, data=data, follow=True)
+
+        # Verify redirected to same url upon successful post
+        expected_url = self.url
+        self.assertRedirects(
+            response=response,
+            expected_url=expected_url,
+            status_code=HTTPStatus.FOUND,
+            target_status_code=HTTPStatus.OK,
+        )
+
+        # Verify price successfully updated
+        self.route.refresh_from_db()
+        key = f"{origin.name.abbr.strip()};{destination.name.abbr.strip()}"
+        expected = {key: 10000.0}
+        self.assertEqual(self.route.price, expected)
+
+        # Verify success message is shown after submission
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), PriceGridView.success_message)
