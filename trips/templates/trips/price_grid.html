@@ -21,17 +21,24 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-  <h3>Route: {{ route }}</h3>
-  <hr />
-  <h6>Price Grid</h6>
-  <ul>
-    {% for key, value in route.price.items %}<li>{{ key }} : ${{ value }}</li>{% endfor %}
-  </ul>
-  <hr />
-  <form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <a href="{% url 'admin:trips_route_changelist' %}">Go back</a>
-    <button type="submit">Save</button>
+  <div class="module">
+    <h1>Route: {{ route }}</h1>
+    <hr />
+  </div>
+  <div class="module">
+    <h2>Price Grid</h2>
+    <ul>
+      {% for key, value in route.price.items %}<li>{{ key }} : ${{ value }}</li>{% endfor %}
+    </ul>
+    <hr />
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <div class="submit-row">
+        <a href="{% url 'admin:trips_route_changelist' %}">Go back</a>
+        <input type="submit" class="default" value="Save" />
+      </input />
+    </div>
   </form>
+</div>
 {% endblock content %}
