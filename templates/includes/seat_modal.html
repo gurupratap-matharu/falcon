@@ -8,12 +8,12 @@
          class="form-control bg-white ps-3"
          name="seats{{ trip.id }}"
          id="seats{{ trip.id }}"
-         placeholder="{{ trip }}"
          value=""
          aria-label="outbound seat"
          aria-describedby="outbound seat"
          onkeypress="return false;"
-         required />
+         required
+         disabled />
 </div>
 <div class="modal fade"
      id="trip{{ trip.id }}"
@@ -21,10 +21,10 @@
      role="dialog"
      aria-labelledby="seatSelectModal"
      aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+  <div class="modal-dialog modal-fullscreen modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="font-weight-bolder text-primary text-gradient ps-2">{{ trip.origin }} - {{ trip.destination }}</h3>
+        <h5 class="modal-title">{{ trip.origin }} - {{ trip.destination }}</h5>
         <button type="button" class="btn-close text-dark bg-dark me-md-2" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true"></span>
         </button>
