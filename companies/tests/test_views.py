@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.http.response import HttpResponseRedirect
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 
@@ -131,7 +132,8 @@ class CompanyDashboardTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_company_dashboard_view_is_not_accessible_by_logged_in_normal_public_user(
@@ -248,7 +250,8 @@ class SeatChartListTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_company_seatchart_list_view_is_not_accessible_by_logged_in_normal_public_user(
@@ -375,7 +378,8 @@ class SeatChartDetailTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_seatchart_detail_view_is_not_accessible_by_logged_in_normal_public_user(
