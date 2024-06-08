@@ -51,23 +51,24 @@ class ProfileEditTests(TestCase):
             "location": "Heavens",
             "personal_website": "https://inderpal.com",
         }
+        self.template = AccountSettingsView.template_name
 
     def test_profile_edit_view_redirects_for_anonymous_user(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_profile_edit_view_works_for_logged_in_user(self):
-        self.client.force_login(self.user)  # type:ignore
+        self.client.force_login(self.user)
 
         response = self.client.get(self.url)
 
-        self.assertTemplateUsed(response, "users/profile_edit.html")
+        self.assertTemplateUsed(response, self.template)
         self.assertContains(response, "Edit Profile")
         self.assertContains(response, "First name")
         self.assertContains(response, "Last name")
         self.assertContains(response, "Bio")
         self.assertContains(response, "Location")
-        self.assertContains(response, "Personal website")
+        self.assertContains(response, "Website")
         self.assertNotContains(response, "Hi I should not be on this page!")
 
     def test_profile_edit_resolves_profileeditview(self):
@@ -75,7 +76,7 @@ class ProfileEditTests(TestCase):
         self.assertEqual(view.func.__name__, AccountSettingsView.as_view().__name__)
 
     def test_profile_edit_view_renders_profile_edit_form(self):
-        self.client.force_login(self.user)  # type: ignore
+        self.client.force_login(self.user)
 
         response = self.client.get(self.url)
         form = response.context["form"]
@@ -83,7 +84,7 @@ class ProfileEditTests(TestCase):
         self.assertIsInstance(form, ProfileEditForm)
 
     def test_profile_edit_view_works_on_successful_post(self):
-        self.client.force_login(self.user)  # type:ignore
+        self.client.force_login(self.user)
 
         response = self.client.post(self.url, data=self.valid_data)
         messages = list(get_messages(response.wsgi_request))
