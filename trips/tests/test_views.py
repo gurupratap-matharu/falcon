@@ -4,6 +4,7 @@ from http import HTTPStatus
 
 from django.contrib.messages import get_messages
 from django.http import QueryDict
+from django.http.response import HttpResponseRedirect
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 from django.utils import timezone
@@ -145,8 +146,41 @@ class TripListViewTests(TestCase):
 
         self.assertEqual(self.response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(self.response, self.template_name)
-        self.assertContains(self.response, "Results")
+        self.assertContains(self.response, "Cheapest")
+        self.assertContains(self.response, "Earliest")
+        self.assertContains(self.response, "Latest")
         self.assertNotContains(self.response, "Hi there. I should not be on this page.")
+
+    def test_trip_list_shows_correct_number_of_results(self):
+        """
+        Based on a particular search query we make sure the exact search number of
+        search results are displayed.
+        """
+        self.skip("TODO: Please implement me 🥹")
+
+    def test_trip_list_search_filter_works(self):
+        """
+        Placeholder to test all the search filters like sorting by time, duration,
+        price or company.
+        This test might be broken further for testing each filter.
+        """
+        self.skip("TODO: Please implement me 🥹")
+
+    def test_trip_list_search_card_details_rendered_correctly(self):
+        """
+        For any single search result card in the UI we want to make sure that all trip
+        details like origin, destination, departure, arrival, duration, etc are correctly
+        shown.
+        """
+
+        self.skip("TODO: Please implement me 🥹")
+
+    def test_trip_list_view_date_sorting_works(self):
+        """
+        Changing the date in the UI should search for trips again with the new date.
+        Here we test that all results belong to trips running for that date.
+        """
+        self.skip("TODO: Please implement me 🥹")
 
     def test_trip_list_redirects_to_home_with_message_for_empty_query(self):
         """
@@ -392,7 +426,8 @@ class TripCreateViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_company_trip_create_view_is_not_accessible_by_logged_in_normal_public_user(
@@ -583,7 +618,8 @@ class TripUpdateViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertIsInstance(response, HttpResponseRedirect)
+        self.assertEqual(response.url, redirect_url)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_trip_upate_view_is_not_accessible_by_logged_in_normal_public_user(
@@ -756,7 +792,8 @@ class CompanyTripListViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertIsInstance(response, HttpResponseRedirect)
+        self.assertEqual(response.url, redirect_url)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_company_trip_list_view_is_not_accessible_by_logged_in_normal_public_user(
@@ -893,7 +930,8 @@ class CompanyTripDetailViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertIsInstance(response, HttpResponseRedirect)
+        self.assertEqual(response.url, redirect_url)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_company_trip_detail_view_is_not_accessible_by_logged_in_normal_public_user(
@@ -1039,7 +1077,8 @@ class TripPassengerPdfViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_trip_passengers_pdf_view_is_not_accessible_by_logged_in_normal_public_user(
@@ -1216,7 +1255,8 @@ class RecurrenceViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_recurrence_view_is_not_accessible_by_normal_public_user(self):
