@@ -35,9 +35,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         destination = self.browser.find_element(By.NAME, "destination")
 
         self.assertEqual(origin.get_attribute("placeholder"), "Search origin...")
-        self.assertEqual(
-            destination.get_attribute("placeholder"), "Search destination..."
-        )
+        self.assertEqual(destination.get_attribute("placeholder"), "Search destination")
 
         origin_ac = self.browser.find_element(By.ID, "autoComplete_list_1")
 
