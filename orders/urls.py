@@ -14,9 +14,9 @@ urlpatterns = [
         name="invoice_pdf",
     ),
     path(
-        "admin/order/<uuid:order_id>/pdf/",
+        "admin/invoice/<uuid:order_id>/pdf/",
         views.InvoicePDFView.as_view(),
-        name="admin_order_pdf",
+        name="admin_invoice_pdf",
     ),
     path("<uuid:order_id>/ticket/", views.TicketView.as_view(), name="ticket"),
     path(
