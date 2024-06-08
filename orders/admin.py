@@ -7,7 +7,7 @@ from django.contrib import admin
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 
 from trips.admin import TripOrderInline
 
@@ -84,7 +84,7 @@ class OrderAdmin(admin.ModelAdmin):
         "residence",
         "paid",
         "order_payment",
-        "order_pdf",
+        "invoice_pdf",
         "order_coupon",
         "created_on",
     )
@@ -103,21 +103,19 @@ class OrderAdmin(admin.ModelAdmin):
 
     def order_payment(self, obj):
         url = obj.get_stripe_url()
-        html = f'<a href="{url}" target="_blank">View</a>' if url else ""
-        return mark_safe(html)  # nosec
+        return format_html('<a href="{}" target="_blank">View</a>', url)
 
-    def order_pdf(self, obj):
-        url = reverse("orders:admin_order_pdf", kwargs={"order_id": str(obj.id)})
-        html = f'<a href="{url}" target="_blank" download="{obj.name}">PDF</a>'
-        return mark_safe(html)  # nosec
+    def invoice_pdf(self, obj):
+        url = reverse("orders:admin_invoice_pdf", kwargs={"order_id": str(obj.id)})
+        return format_html('<a href="{}" target="_blank">PDF</a>', url)
 
     def order_coupon(self, obj):
         return bool(obj.coupon)
 
-    order_payment.short_description = "Transaction"
-    order_pdf.short_description = "Invoice"
+    invoice_pdf.short_description = "Invoice"
     order_coupon.short_description = "Coupon"
     order_coupon.boolean = True
+    order_payment.short_description = "Transaction"
 
 
 @admin.register(Passenger)

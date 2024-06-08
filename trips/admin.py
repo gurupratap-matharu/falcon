@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.db.models import Count, Q, QuerySet
 from django.http import HttpRequest
 from django.urls import reverse_lazy
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from trips.models import Seat
@@ -185,15 +185,15 @@ class RouteAdmin(admin.ModelAdmin):
         """Link to our custom admin view"""
 
         url = reverse_lazy("trips:admin-route-detail", kwargs={"route_id": obj.id})
-        html = f'<a href="{url}">View</a>' if url else ""
+        html = format_html('<a href="{}">View</a>', url)
 
-        return mark_safe(html)
+        return html
 
     @admin.display(description="Price Grid")
     def price_grid(self, obj):
         """Custom view to edit the price grid for a route"""
 
         url = reverse_lazy("trips:price-grid", kwargs={"route_id": obj.id})
-        html = f'<a href="{url}">View</a>' if url else ""
+        html = format_html('<a href="{}">View</a>', url)
 
-        return mark_safe(html)
+        return html
