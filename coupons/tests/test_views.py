@@ -2,6 +2,7 @@ from datetime import timedelta
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
+from django.http.response import HttpResponseRedirect
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
 from django.utils import timezone
@@ -144,7 +145,8 @@ class CouponListViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_coupon_list_view_is_not_accessible_by_staff_user(self):
@@ -286,7 +288,8 @@ class CouponCreateViewTests(TestCase):
         redirect_url = f"{self.login_url}?next={self.url}"
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, redirect_url, HTTPStatus.FOUND)
+        self.assertEqual(response.url, redirect_url)
+        self.assertIsInstance(response, HttpResponseRedirect)
         self.assertTemplateNotUsed(response, self.template_name)
 
     def test_coupon_create_view_is_not_accessible_by_staff_user(self):

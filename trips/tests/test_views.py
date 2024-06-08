@@ -156,7 +156,7 @@ class TripListViewTests(TestCase):
         Based on a particular search query we make sure the exact search number of
         search results are displayed.
         """
-        self.skip("TODO: Please implement me 🥹")
+        self.skipTest("TODO: Please implement me 🥹")
 
     def test_trip_list_search_filter_works(self):
         """
@@ -164,7 +164,7 @@ class TripListViewTests(TestCase):
         price or company.
         This test might be broken further for testing each filter.
         """
-        self.skip("TODO: Please implement me 🥹")
+        self.skipTest("TODO: Please implement me 🥹")
 
     def test_trip_list_search_card_details_rendered_correctly(self):
         """
@@ -173,14 +173,14 @@ class TripListViewTests(TestCase):
         shown.
         """
 
-        self.skip("TODO: Please implement me 🥹")
+        self.skipTest("TODO: Please implement me 🥹")
 
     def test_trip_list_view_date_sorting_works(self):
         """
         Changing the date in the UI should search for trips again with the new date.
         Here we test that all results belong to trips running for that date.
         """
-        self.skip("TODO: Please implement me 🥹")
+        self.skipTest("TODO: Please implement me 🥹")
 
     def test_trip_list_redirects_to_home_with_message_for_empty_query(self):
         """

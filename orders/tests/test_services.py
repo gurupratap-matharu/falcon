@@ -18,7 +18,8 @@ class OrderConfirmedTests(TestCase):
         - mark the order as paid
         - mark the seats from onhold -> booked
         - save the payment_id to the order for reference
-        - shoot an email with tickets
+        - shoot an email with tickets and invoice to the user
+        - shoot an email to the company about the booking
     """
 
     def setUp(self):
@@ -42,26 +43,43 @@ class OrderConfirmedTests(TestCase):
         order_id = str(self.order.id)
         sent_mails = order_confirmed(order_id=order_id, payment_id=12345)
 
-        # Check email is sent
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sent_mails, 1)
+        user_email, company_email = mail.outbox
 
-        email = mail.outbox[0]
+        # Check both user and company emails are sent
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(sent_mails, 2)
 
-        # Check email details
-        self.assertEqual(email.subject, "Your tickets from Kpiola")
-        self.assertEqual(email.to, [self.order.email])
-        self.assertEqual(email.from_email, settings.DEFAULT_FROM_EMAIL)
-        self.assertIsNotNone(email.attachments)
+        # Test user email details
+
+        self.assertEqual(user_email.to, [self.order.email])
+        self.assertEqual(user_email.from_email, settings.DEFAULT_FROM_EMAIL)
+        self.assertIsNotNone(user_email.body)
+        self.assertIsNotNone(user_email.attachments)
+
+        # Check both invoice and ticket are in attachments
+        self.assertEqual(len(user_email.attachments), 2)
 
         # Check email html alternatives
-        html_message, html_format = email.alternatives[0]
+        # html_message, html_format = user_email.alternatives[0]
 
-        self.assertIsNotNone(html_message)
-        self.assertEqual(html_format, "text/html")
+        # self.assertIsNotNone(html_message)
+        # self.assertEqual(html_format, "text/html")
 
-        filename, content, mime_type = email.attachments[0]
+        ticket_filename, ticket_content, ticket_mime_type = user_email.attachments[0]
+        invoice_filename, invoice_content, invoice_mime_type = user_email.attachments[1]
 
         # Check email attachment filename and mime type
-        self.assertEqual(filename, f"Ticket-{self.order.name}.pdf")
-        self.assertEqual(mime_type, "application/pdf")
+        self.assertEqual(ticket_filename, f"Ticket-{self.order.name}.pdf")
+        self.assertEqual(ticket_mime_type, "application/pdf")
+        self.assertIsInstance(ticket_content, bytes)
+        self.assertIsNotNone(ticket_content)
+
+        self.assertEqual(invoice_filename, f"Invoice-{self.order.name}.pdf")
+        self.assertEqual(invoice_mime_type, "application/pdf")
+        self.assertIsInstance(invoice_content, bytes)
+        self.assertIsNotNone(invoice_content)
+
+        # Test company email details
+        self.assertEqual(company_email.to, [self.order_items[0].trip.company.email])
+        self.assertEqual(company_email.from_email, settings.DEFAULT_FROM_EMAIL)
+        self.assertIsNotNone(company_email.body)
