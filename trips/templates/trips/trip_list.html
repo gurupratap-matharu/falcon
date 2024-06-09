@@ -65,8 +65,10 @@
                 <h5>{{ trip.company }}</h5>
                 <div class="d-flex flex-row">
                   <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Accepts all major cards">
-                    <i class="fa fa-thin fa-credit-card"></i>
-                    <i class="fa fa-wallet"></i>
+                    <i class="bi bi-credit-card-2-front"></i>
+                  </div>
+                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Cash accepted">
+                    <i class="bi bi-cash-stack"></i>
                   </div>
                   <span class="badge bg-light text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Seats available">{{ trip.availability }}</span>
                   <span class="me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Seat Type">{% cycle 'Cama' 'Semicama' 'Executive' %}</span>

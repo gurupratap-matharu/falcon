@@ -16,19 +16,19 @@
 
 {% block content %}
   <div class="card mb-4">
-    <div class="card-header d-flex justify-content-between pb-0">
+    <div class="card-header d-flex justify-content-between">
       <h6>
         <a href="{{ company.get_admin_url }}" class="icon-move-left">
-          <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+          <i class="bi bi-chevron-left me-2" aria-hidden="true">
           </i>
           Dashboard
         </a>
       </h6>
-      <a href="{% url 'companies:trip-create' company.slug %}" class="btn btn-outline-dark btn-sm">
-        <i class="fa fa-plus me-2"></i>Create Trip
+      <a href="{% url 'companies:trip-create' company.slug %}">
+        <i class="bi bi-plus-lg me-2"></i>Create
       </a>
     </div>
-    <div class="card-body px-0 pt-0 pb-2 overflow-y-scroll" style="height: 700px;">
+    <div class="card-body px-0 pt-0 pb-2 overflow-y-scroll" style="height: 700px;
       {% if not trips %}
         <h6 class="text-center mb-3">You have no upcoming trips!</h6>
       {% else %}
@@ -44,7 +44,7 @@
                   <th class="{{ klass }} ps-2">Arrival</th>
                   <th class="{{ klass }} ps-2">Occupancy</th>
                   <th class="{{ klass }} ps-2">Status</th>
-                  <th class="{{ klass }} ps-2">Seats Available</th>
+                  <th class="{{ klass }} ps-2">Available</th>
                   <th class="{{ klass }} ps-2">Detail</th>
                 {% endwith %}
               </tr>
@@ -102,7 +102,7 @@
                     <div class="d-flex">
                       <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
                          class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                        <i class="ni ni-bold-right" aria-hidden="true"></i>
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
                       </a>
                     </div>
                   </td>

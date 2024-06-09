@@ -12,8 +12,7 @@
          aria-label="outbound seat"
          aria-describedby="outbound seat"
          onkeypress="return false;"
-         required
-         disabled />
+         required />
 </div>
 <div class="modal fade"
      id="trip{{ trip.id }}"
@@ -21,7 +20,7 @@
      role="dialog"
      aria-labelledby="seatSelectModal"
      aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen modal-dialog-scrollable modal-xl" role="document">
+  <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{{ trip.origin }} - {{ trip.destination }}</h5>

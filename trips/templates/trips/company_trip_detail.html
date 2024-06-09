@@ -19,7 +19,7 @@
     <div class="card-header d-flex justify-content-between pb-0">
       <h6>
         <a href="{{ company.get_trip_list_url }}" class="icon-move-left">
-          <i class="fas fa-angle-left fa-lg me-2" aria-hidden="true">
+          <i class="bi bi-chevron-left me-2" aria-hidden="true">
           </i>
           All Trips
         </a>
@@ -28,13 +28,13 @@
         <a class="btn btn-icon btn-outline-dark ms-2 export"
            href="{% url 'companies:trip-update' company.slug trip.id %}"
            type="button">
-          <span class="btn-inner--icon"><i class="ni ni-ui-04"></i></span>
+          <span class="btn-inner--icon"><i class="bi bi-toggles me-1" aria-hidden="true"></i></span>
           <span class="btn-inner--text">Update Trip</span>
         </a>
         <a class="btn btn-icon btn-outline-dark ms-2 export"
            href="{% url 'companies:trip-recurrence' company.slug trip.id %}"
            type="button">
-          <span class="btn-inner--icon"><i class="ni ni-time-alarm"></i></span>
+          <span class="btn-inner--icon"><i class="bi bi-alarm me-1" aria-hidden="true"></i></span>
           <span class="btn-inner--text">Create Recurrence</span>
         </a>
       </div>
@@ -117,7 +117,7 @@
          class="btn btn-icon btn-outline-dark ms-2 export"
          data-type="pdf"
          type="button">
-        <span class="btn-inner--icon"><i class="fas fa-file-pdf text-lg me-1" aria-hidden="true"></i></span>
+        <span class="btn-inner--icon"><i class="bi bi-filetype-pdf text-lg me-1" aria-hidden="true"></i></span>
         <span class="btn-inner--text">Download</span>
       </a>
     </div>
