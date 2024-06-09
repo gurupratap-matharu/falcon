@@ -56,7 +56,7 @@
     </script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-    <link rel="stylesheet" id="pagestyle" href="{% static 'assets/css/soft-ui-dashboard.css' %}" />
+    <link rel="stylesheet" href="{%    static 'assets/css/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/css/seats/seatchart.min.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/css/autocomplete.css' %}" />
 
@@ -70,13 +70,8 @@
     {% endblock basecontent %}
 
     {{ request.session.q|json_script:"q" }}
-    {% comment %} {% include "includes/right-sidebar.html" %} {% endcomment %}
-    <script type="text/javascript" src="{% static 'assets/js/core/popper.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}" defer></script>
-    <script type="text/javascript" src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}" defer></script>
-    <script src="{% static 'assets/js/soft-ui-dashboard.min.js' %}" defer></script>
-    <script src="{% static 'assets/js/topbar/topbar.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.bundle.min.js' %}" defer></script>
+    <script src="{% static 'assets/js/soft-ui-dashboard.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/main.js' %}" defer></script>
 
     {% block modal %}
