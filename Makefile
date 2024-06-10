@@ -31,7 +31,7 @@ check-deploy:
 	python manage.py check --deploy
 
 css:
-	sass static/assets/scss/soft-ui-dashboard.scss static/assets/css/styles.css
+	sass static/assets/scss/soft-ui-dashboard.scss -s compressed static/assets/css/styles.min.css
 
 install:
 	poetry install
