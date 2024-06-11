@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.contrib.messages import constants as messages
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
@@ -75,6 +76,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "pages.middleware.show_alerts_middleware",
 ]
 
 INTERNAL_IPS = [
@@ -320,6 +322,8 @@ LOGGING = {
         },
     },
 }
+
+MESSAGE_TAGS = {messages.ERROR: "danger"}
 
 # django extensions
 SHELL_PLUS_IMPORTS = [
