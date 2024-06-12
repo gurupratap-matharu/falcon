@@ -76,7 +76,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    "pages.middleware.show_alerts_middleware",
 ]
 
 INTERNAL_IPS = [
