@@ -100,7 +100,14 @@ def favicon(request: HttpRequest) -> FileResponse:
     This endpoint acts as a fall back to supply the necessary icon at /favicon.ico
     """
 
-    file = (settings.BASE_DIR / "static" / "assets" / "img" / "favicon.png").open("rb")
+    file = (
+        settings.BASE_DIR
+        / "static"
+        / "assets"
+        / "icons"
+        / "favicons"
+        / "apple-touch-icon.png"
+    ).open("rb")
     return FileResponse(file, headers={"Content-Type": "image/x-icon"})
 
 
