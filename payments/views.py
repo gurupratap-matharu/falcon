@@ -64,7 +64,7 @@ class PaymentView(TemplateView):
         order = self.order
         unit_price = float(order.get_total_cost() / 1000)  # <-- Minimizing this for MP
 
-        picture_url = uri(static("assets/img/bus/bus4.jpg"))
+        picture_url = uri(static("assets/img/bus/bus4.avif"))
         success = uri(reverse_lazy("payments:mercadopago_success"))
         failure = uri(reverse_lazy("payments:fail"))
         pending = uri(reverse_lazy("payments:pending"))
