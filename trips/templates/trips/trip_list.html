@@ -58,7 +58,7 @@
               <div class="col-md-3 mb-lg-0 mb-4">
                 <p class="d-none">{% cycle '1' '2' '3' '4' '5' '6' '7' as filename %}</p>
                 <a href="{{ trip.get_absolute_url }}">
-                  <img src="{% static "assets/img/bus/bus"|add:filename|add:'.jpg' %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo" />
+                  <img src="{% static "assets/img/bus/bus"|add:filename|add:'.avif' %}" class="img-fluid border-radius-xl shadow-xl" alt="company-logo" />
                 </a>
               </div>
               <div class="col-md-6 border-md-end">
@@ -112,13 +112,13 @@
       {% empty %}
         <h5 class="text-center mt-5">No results!</h5>
       {% endfor %}
-      <div class="d-flex justify-content-center">
-        <a href="#top">
-          <h2>
-            <i class="bi bi-arrow-up-circle"></i>
-          </h2>
-        </a>
-      </div>
+      {% if trips %}
+        <div class="d-flex justify-content-center">
+          <a href="#top">
+            <i class="bi bi-chevron-up fs-3"></i>
+          </a>
+        </div>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}
