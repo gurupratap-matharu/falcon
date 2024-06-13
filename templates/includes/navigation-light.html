@@ -9,7 +9,6 @@
       {% endblock brand %}
 
     </a>
-    <a href="{% url 'account_login' %}" class="btn btn-sm bg-gradient-primary btn-round mb-0 ms-auto d-lg-none d-block">Sign in</a>
     <button class="navbar-toggler shadow-none ms-2"
             type="button"
             data-bs-toggle="collapse"
@@ -50,10 +49,16 @@
           </a>
         </li>
       </ul>
-      <ul class="navbar-nav d-lg-block d-none">
-        <li class="nav-item">
-          <a href="{% url 'account_login' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Sign in</a>
-        </li>
+      <ul class="navbar-nav">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item mx-2">
+            <a href="{% url 'account_logout' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item mx-2">
+            <a href="{% url 'account_login' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Sign in</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>
