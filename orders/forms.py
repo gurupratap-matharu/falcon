@@ -56,6 +56,7 @@ class OrderForm(forms.ModelForm):
 
 
 class PassengerForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -80,7 +81,7 @@ class PassengerForm(forms.ModelForm):
             ),
             "last_name": forms.TextInput(attrs={"placeholder": "Last Name", **control}),
             "birth_date": forms.DateInput(
-                attrs={"input_type": "date", "placeholder": "Date of Birth", **control}
+                attrs={"type": "date", **control},
             ),
             "phone_number": forms.TextInput(
                 attrs={"placeholder": "Phone", "type": "tel", **control}
