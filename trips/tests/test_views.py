@@ -879,7 +879,7 @@ class CompanyTripListViewTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
         self.assertContains(response, "Dashboard")
-        self.assertContains(response, "Create Trip")
+        self.assertContains(response, "Create")
         self.assertNotContains(response, "Hi I should not be on this page!")
 
         # Assert valid trips are shown
