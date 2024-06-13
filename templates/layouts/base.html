@@ -69,7 +69,6 @@
 
     {{ request.session.q|json_script:"q" }}
     <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.bundle.min.js' %}" defer></script>
-    <script src="{% static 'assets/js/soft-ui-dashboard.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/main.js' %}" defer></script>
 
     {% block modal %}

@@ -1,0 +1,31 @@
+{% if request.user.is_superuser %}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sessionModal">
+        Launch session modal
+    </button>
+    <div class="card card-plain mx-3 mt-3">
+        <div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="sessionModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary text-gradient">Session has...</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card card-plain">
+                            <div class="card-header pb-0 text-left"></div>
+                            <div class="card-body pb-3">
+                                {% for k, v in request.session.items %}<pre>{{ k }} : {{ v }}</pre>{% endfor %}
+                                <pre>Session Cookie Age:{{ request.session.get_session_cookie_age }} seconds</pre>
+                                <pre>Expiry Age:{{ request.session.get_expiry_age }} seconds</pre>
+                                <pre>Expiry Date:{{ request.session.get_expiry_date }} seconds</pre>
+                                <pre>Expires at browser close? :{{ request.session.get_expire_at_browser_close }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
