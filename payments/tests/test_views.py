@@ -134,30 +134,55 @@ class MercadoPagoSuccessView(TestCase):
         self.assertFalse(order.paid)  # <-- order should not be paid
 
 
-class PaymentSuccessViewTests(SimpleTestCase):
+class PaymentSuccessViewTests(TestCase):
     """Test suite for payment success view"""
 
     def setUp(self):
         self.url = reverse("payments:success")
-        self.response = self.client.get(self.url)
-        self.template_name = "payments/payment_success.html"
+        self.template_name = PaymentSuccessView.template_name
 
-    def test_payment_success_page_status_code(self):
-        self.assertEqual(self.response.status_code, HTTPStatus.OK)
-
-    def test_payment_success_page_template(self):
-        self.assertTemplateUsed(self.response, self.template_name)
-
-    def test_payment_success_page_contains_correct_html(self):
-        self.assertContains(self.response, "success")
-        self.assertContains(self.response, "Kpiola")
-
-    def test_payment_success_page_does_not_contain_incorrect_html(self):
-        self.assertNotContains(self.response, "Hi there! I should not be on this page.")
+        # create a paid order and set it in the session as payment success view expects it
+        self.order = OrderFactory(paid=True)
+        session = self.client.session
+        session["order"] = str(self.order.id)
+        session.save()
 
     def test_payment_success_page_url_resolves_payment_success_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PaymentSuccessView.as_view().__name__)
+
+    def test_payment_success_view_works_correctly(self):
+        response = self.client.get(self.url)
+        success_msg = f"We have sent a confirmation email to {self.order.email}."
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+
+        self.assertContains(response, success_msg)
+        self.assertContains(response, "Payment Successful!")
+        self.assertContains(response, "Tickets Booked!")
+        self.assertContains(response, "Book Return Ticket")
+        self.assertContains(response, "Add to calendar")
+        self.assertContains(response, "Download")
+        self.assertContains(response, self.order.email)
+
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+        self.assertIn("order", response.context)
+        self.assertEqual(response.context["order"], self.order)
+
+    def test_order_is_removed_from_session_in_payment_success_view(self):
+        # Initially order should be in session as we put it in setup()
+
+        self.assertIn("order", self.client.session)
+        self.assertEqual(self.client.session["order"], str(self.order.id))
+
+        # We now access the view and it should remove order from the session
+        _ = self.client.get(self.url)
+
+        self.assertNotIn("order", self.client.session)
+        with self.assertRaises(KeyError):
+            self.client.session["order"]
 
 
 class PaymentPendingViewTests(SimpleTestCase):

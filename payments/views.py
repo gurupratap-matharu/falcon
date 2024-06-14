@@ -191,16 +191,45 @@ class PaymentSuccessView(TemplateView):
         context = super().get_context_data(**kwargs)
         # We store the order id in session to generate the ticket pdf if requested
         # before clearing the session as user might wish to book another ticket
-        context["order_id"] = self.request.session.get("order")
+        order_id = self.request.session.get("order")
+        order = get_object_or_404(Order.objects.select_related(), id=order_id)
+
+        context["order"] = order
+        context["calendar_link"] = self.get_calendar_link(order)
 
         # next since order is confirmed we remove it from the session
-        try:
-            del self.request.session["order"]
-        except KeyError:
-            # TODO: technically here veer you should redirect as its not a valid case!
-            pass
+        # try:
+        #     del self.request.session["order"]
+        # except KeyError:
+        #     # TODO: technically here veer you should redirect as its not a valid case!
+        #     pass
 
         return context
+
+    def get_calendar_link(self, order):
+        """
+        This method generates the google calendar link for a trip.
+        TODO:
+            - Add timezone to the url
+            - Currently link takes trip origin (departure time) -> destination (arrival time)
+            - Modify this if user books intermediate stops.
+        """
+
+        item = order.items.first()
+
+        try:
+            trip = item.trip
+        except AttributeError as e:
+            logger.warn(e)
+            return ""
+
+        else:
+            origin, destination = trip.origin, trip.destination
+            departure = trip.departure.strftime("%Y%m%dT%H%M%S")
+            arrival = trip.arrival.strftime("%Y%m%dT%H%M%S")
+            base_url = "https://calendar.google.com/calendar/r/eventedit"
+
+            return f"{base_url}?text=BusTrip+{origin}+-+{destination}&dates={departure}/{arrival}"
 
 
 class PaymentFailView(TemplateView):
