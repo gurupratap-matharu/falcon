@@ -216,6 +216,7 @@ LANGUAGE_CODE = "en-GB"
 LANGUAGES = [
     ("en", _("English")),
     ("es", _("Spanish")),
+    ("pt", _("Portuguese")),
 ]
 
 LOCALE_PATHS = [
@@ -227,7 +228,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
