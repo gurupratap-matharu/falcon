@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-23 15:48-0300\n"
+"POT-Creation-Date: 2024-06-15 14:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: trips/admin.py:21
+#: trips/admin.py:26
 msgid "Time"
 msgstr "Tiempo"
 
-#: trips/admin.py:35
+#: trips/admin.py:40
 msgid "Future 7 days"
 msgstr "Futuro 7 días"
 
-#: trips/admin.py:36
+#: trips/admin.py:41
 msgid "Future 30 days"
 msgstr "Futuro 30 días"
 
@@ -115,9 +115,13 @@ msgid "Interval"
 msgstr "Intervalo"
 
 #: trips/forms.py:291
+#, fuzzy
+#| msgid ""
+#| "(Optional) Time between consecutive occurrences. Ex for daily repeats 1: "
+#| "Every day, 2: Every other day, 3: every third day and so on..."
 msgid ""
-"(Optional) Time between consecutive occurrences. Ex for daily repeats 1: "
-"Every day, 2: Every other day, 3: every third day and so on..."
+"(Optional) Time between consecutive occurrences. Ex 1: every day, 2: every "
+"other day, 3: every third day and so on..."
 msgstr ""
 "(Opcional) Tiempo entre ocurrencias consecutivas. Por ejemplo, para "
 "repeticiones diarias 1: todos los días, 2: cada dos días, 3: cada tercer día "
@@ -132,94 +136,169 @@ msgstr "datetime (%(dt)s) no puede ser en el pasado!"
 msgid "End time cannot be less than Start time."
 msgstr "La hora de finalización no puede ser inferior a la hora de inicio."
 
-#: trips/models.py:30 trips/models.py:105
+#: trips/forms.py:389
+#, fuzzy
+#| msgid "origin and destination cannot be same"
+msgid "origin and destination cannot be the same."
+msgstr "el orígen y el destino no puede ser el mismo"
+
+#: trips/models.py:31 trips/models.py:98 trips/models.py:241
 msgid "name"
 msgstr "nombre"
 
-#: trips/models.py:31 trips/models.py:106
+#: trips/models.py:32 trips/models.py:99 trips/models.py:242
 msgid "slug"
 msgstr "slug"
 
-#: trips/models.py:33
+#: trips/models.py:34
 msgid "abbreviation"
 msgstr "abreviación"
 
-#: trips/models.py:36
+#: trips/models.py:37
 msgid "Used internally as a reference"
 msgstr "Usado internamente como una referencia"
 
-#: trips/models.py:38
+#: trips/models.py:39
 msgid "Address line 1"
 msgstr ""
 
-#: trips/models.py:39
+#: trips/models.py:40
 msgid "Address line 2"
 msgstr ""
 
-#: trips/models.py:40
+#: trips/models.py:41
 msgid "City"
 msgstr ""
 
-#: trips/models.py:41
+#: trips/models.py:42
 msgid "State/Province"
 msgstr ""
 
-#: trips/models.py:42
+#: trips/models.py:43
 msgid "Postal Code"
 msgstr ""
 
-#: trips/models.py:43
+#: trips/models.py:44
 msgid "(select country)"
 msgstr ""
 
-#: trips/models.py:45
+#: trips/models.py:46
 msgid "Latitude"
 msgstr ""
 
-#: trips/models.py:48
+#: trips/models.py:49
 msgid "Longitude"
 msgstr ""
 
-#: trips/models.py:113
-msgid "Departure Date & Time"
-msgstr "Fecha y hora de salida"
+#: trips/models.py:54
+msgid "location"
+msgstr ""
 
-#: trips/models.py:114
-msgid "Arrival Date & Time"
-msgstr "Fecha y hora de llegada"
+#: trips/models.py:55
+msgid "locations"
+msgstr ""
 
-#: trips/models.py:116
-msgid "price"
-msgstr "precio"
-
-#: trips/models.py:119
-msgid "status"
-msgstr "estado"
-
-#: trips/models.py:125
-msgid "mode"
-msgstr "modo"
-
-#: trips/models.py:130
-msgid "image"
-msgstr "imagen"
-
-#: trips/models.py:131
+#: trips/models.py:100 trips/models.py:267
 msgid "description"
 msgstr "descripción"
 
-#: trips/models.py:153
+#: trips/models.py:101 trips/models.py:266
+msgid "image"
+msgstr "imagen"
+
+#: trips/models.py:103
+msgid "category"
+msgstr ""
+
+#: trips/models.py:118
+msgid "Duration in Hours"
+msgstr ""
+
+#: trips/models.py:122 trips/models.py:252
+msgid "price"
+msgstr "precio"
+
+#: trips/models.py:124
+msgid "active"
+msgstr ""
+
+#: trips/models.py:129
+msgid "route"
+msgstr ""
+
+#: trips/models.py:130
+msgid "routes"
+msgstr ""
+
+#: trips/models.py:190
+msgid "arrival"
+msgstr ""
+
+#: trips/models.py:191
+msgid "departure"
+msgstr ""
+
+#: trips/models.py:199
+msgid "stop"
+msgstr ""
+
+#: trips/models.py:200
+msgid "stops"
+msgstr ""
+
+#: trips/models.py:249
+msgid "Departure Date & Time"
+msgstr "Fecha y hora de salida"
+
+#: trips/models.py:250
+msgid "Arrival Date & Time"
+msgstr "Fecha y hora de llegada"
+
+#: trips/models.py:255
+msgid "status"
+msgstr "estado"
+
+#: trips/models.py:261
+msgid "mode"
+msgstr "modo"
+
+#: trips/models.py:277
+msgid "trip"
+msgstr ""
+
+#: trips/models.py:278
+msgid "trips"
+msgstr ""
+
+#: trips/models.py:291
 msgid "Arrival date cannot be less than departure date"
 msgstr "La fecha de llegada no puede ser antes que la fecha de salida"
 
-#: trips/models.py:395
+#: trips/models.py:533
 msgid "seat number"
 msgstr "número de butaca"
 
-#: trips/models.py:398
+#: trips/models.py:536
 msgid "seat type"
 msgstr "tipo de butaca"
 
-#: trips/models.py:401
+#: trips/models.py:539
 msgid "seat status"
 msgstr "estado de butaca"
+
+#: trips/models.py:544
+#, fuzzy
+#| msgid "seat type"
+msgid "seat"
+msgstr "tipo de butaca"
+
+#: trips/models.py:545
+#, fuzzy
+#| msgid "Repeats"
+msgid "seats"
+msgstr "Repite"
+
+#: trips/templates/trips/admin_route_detail.html:9
+#: trips/templates/trips/price_grid.html:9
+msgid "Kpiola 🚌"
+msgstr ""

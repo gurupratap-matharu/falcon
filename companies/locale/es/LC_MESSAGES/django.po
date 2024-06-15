@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-23 15:48-0300\n"
+"POT-Creation-Date: 2024-06-15 14:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,10 +54,26 @@ msgstr "Cover photo"
 msgid "Thumbnail photo"
 msgstr "Thumbnail photo"
 
-#: companies/models.py:95
+#: companies/models.py:50
+msgid "company"
+msgstr ""
+
+#: companies/models.py:51
+msgid "companies"
+msgstr ""
+
+#: companies/models.py:98
 msgid "title"
 msgstr "título"
 
-#: companies/models.py:96
+#: companies/models.py:99
 msgid "json"
 msgstr "json"
+
+#: companies/models.py:108
+msgid "seat chart"
+msgstr ""
+
+#: companies/models.py:109
+msgid "seat charts"
+msgstr ""

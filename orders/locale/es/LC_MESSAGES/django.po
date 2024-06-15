@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-01 10:55-0300\n"
+"POT-Creation-Date: 2024-06-15 14:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: orders/forms.py:130
+
+#: orders/forms.py:131
 #, python-format
 msgid "Your birth date (%(birth_date)s) is invalid!"
 msgstr "¡Tu fecha de nacimiento (%(birth_date)s) no es válida!"
@@ -42,43 +43,110 @@ msgstr "país de residencia"
 msgid "This helps us to show you the best payment options."
 msgstr "Esto nos ayuda a mostrarle las mejores opciones de pago."
 
-#: orders/models.py:189
+#: orders/models.py:51
+msgid "order"
+msgstr ""
+
+#: orders/models.py:52
+msgid "orders"
+msgstr ""
+
+#: orders/models.py:145
+msgid "order item"
+msgstr ""
+
+#: orders/models.py:146
+msgid "order items"
+msgstr ""
+
+#: orders/models.py:195
 msgid "document type"
 msgstr "tipo de documento"
 
-#: orders/models.py:192
+#: orders/models.py:198
 msgid "document number"
 msgstr "número de documento"
 
-#: orders/models.py:194
+#: orders/models.py:200
 msgid "nationality"
 msgstr "nacionalidad"
 
-#: orders/models.py:195
+#: orders/models.py:201
 msgid "first name"
 msgstr "nombre"
 
-#: orders/models.py:196
+#: orders/models.py:202
 msgid "last name"
 msgstr "apellidos"
 
-#: orders/models.py:197
+#: orders/models.py:203
 msgid "gender"
 msgstr "género"
 
-#: orders/models.py:198
+#: orders/models.py:204
 msgid "birth date"
 msgstr "fecha de nacimiento"
 
-#: orders/models.py:203
+#: orders/models.py:209
 msgid ""
 "Phone number must be entered in the format: '+999999999'. Up to 15 digits "
 "allowed."
-msgstr "El número de teléfono debe ingresarse en el formato: '+999999999'. Se permiten hasta 15 dígitos."
+msgstr ""
+"El número de teléfono debe ingresarse en el formato: '+999999999'. Se "
+"permiten hasta 15 dígitos."
 
-#: orders/models.py:207
+#: orders/models.py:213
 msgid "phone number"
 msgstr "teléfono"
+
+#: orders/models.py:221
+msgid "passenger"
+msgstr ""
+
+#: orders/models.py:222
+msgid "passengers"
+msgstr ""
+
+#: orders/templates/orders/emails/booking_confirmed_company_message.txt:3
+#, python-format
+msgid ""
+"\n"
+"Hey,\n"
+"\n"
+"You have received a new booking from %(name)s.\n"
+"\n"
+"Booking Id: %(booking_id)s\n"
+"Created on: %(created)s\n"
+"\n"
+"Email: %(email)s\n"
+"Whatsapp: %(whatsapp)s\n"
+"Country: %(country)s"
+msgstr ""
+
+#: orders/templates/orders/emails/booking_confirmed_company_subject.txt:3
+#, python-format
+msgid ""
+"\n"
+"New booking from %(name)s | Order id %(order_id)s\n"
+msgstr ""
+
+#: orders/templates/orders/emails/booking_confirmed_message.txt:3
+#, python-format
+msgid ""
+"\n"
+"\n"
+"Dear %(name)s,\n"
+"\n"
+"Pack you bags! Your booking is confirmed.\n"
+"Booking ID: %(booking_id)s"
+msgstr ""
+
+#: orders/templates/orders/emails/booking_confirmed_subject.txt:3
+#, python-format
+msgid ""
+"\n"
+"Your booking is confirmed | %(order_id)s\n"
+msgstr ""
 
 #: orders/validators.py:21
 #, python-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-01 12:50-0300\n"
+"POT-Creation-Date: 2024-06-15 14:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: coupons/forms.py:11
+
+#: coupons/forms.py:11 coupons/models.py:40
 msgid "coupon"
 msgstr "coupon"
 
@@ -49,10 +50,16 @@ msgstr "Valor en porcentaje (0 a 100%)"
 msgid "active"
 msgstr "activo"
 
-#: coupons/models.py:48
+#: coupons/models.py:41
+#, fuzzy
+#| msgid "coupon"
+msgid "coupons"
+msgstr "coupon"
+
+#: coupons/models.py:50
 msgid "Valid from date cannot be in the past."
 msgstr "La fecha de válido desde no puede ser en el pasado"
 
-#: coupons/models.py:55
+#: coupons/models.py:57
 msgid "Valid to date cannot be less than Valid from date"
 msgstr "La fecha no puede ser antes de la fecha de válido desde"
