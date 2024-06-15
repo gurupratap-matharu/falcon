@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-25 16:48-0300\n"
+"POT-Creation-Date: 2024-06-15 14:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: main/settings.py:226
+#: main/settings.py:217
 msgid "English"
 msgstr ""
 
-#: main/settings.py:227
+#: main/settings.py:218
 msgid "Spanish"
+msgstr ""
+
+#: main/settings.py:219
+msgid "Portuguese"
 msgstr ""
 
 #: templates/account/account_inactive.html:6
@@ -133,7 +137,7 @@ msgstr ""
 #: templates/account/password_reset_done.html:23
 msgid ""
 "\n"
-"            We have sent you an e-mail!<br><br>\n"
+"            We have sent you an e-mail!<br /><br />\n"
 "\n"
 "            If you have not received it please check your spam folder.\n"
 "            Otherwise contact us if you do not receive it in a few minutes.\n"
@@ -181,90 +185,102 @@ msgstr ""
 msgid ""
 "We have sent an e-mail to you for verification. Follow the link provided to "
 "finalize the\n"
-"            signup process.<br><br>\n"
+"            signup process.<br /><br />\n"
 "\n"
 "            If you do not see the verification e-mail in your main inbox, "
 "check your spam folder.\n"
 "            "
 msgstr ""
 
-#: templates/includes/footer-grand.html:60
+#: templates/includes/footer-grand.html:59
 msgid "Company"
 msgstr ""
 
-#: templates/includes/footer-grand.html:63
+#: templates/includes/footer-grand.html:62
 msgid "About Us"
 msgstr ""
 
-#: templates/includes/footer-grand.html:66
+#: templates/includes/footer-grand.html:65
 msgid "Work with us"
 msgstr ""
 
-#: templates/includes/footer-grand.html:69
+#: templates/includes/footer-grand.html:68
 msgid "Partners"
 msgstr ""
 
-#: templates/includes/footer-grand.html:72
+#: templates/includes/footer-grand.html:71
 msgid "Blog"
 msgstr ""
 
-#: templates/includes/footer-grand.html:79
+#: templates/includes/footer-grand.html:78
 msgid "Resources"
 msgstr ""
 
-#: templates/includes/footer-grand.html:82
+#: templates/includes/footer-grand.html:81
+msgid "Terminals"
+msgstr ""
+
+#: templates/includes/footer-grand.html:84
+msgid "Companies"
+msgstr ""
+
+#: templates/includes/footer-grand.html:87
+msgid "Routes"
+msgstr ""
+
+#: templates/includes/footer-grand.html:90
 msgid "Press"
 msgstr ""
 
-#: templates/includes/footer-grand.html:85
+#: templates/includes/footer-grand.html:93
 msgid "Affiliate Program"
 msgstr ""
 
-#: templates/includes/footer-grand.html:92
+#: templates/includes/footer-grand.html:100
 msgid "Help & Support"
 msgstr ""
 
-#: templates/includes/footer-grand.html:95
+#: templates/includes/footer-grand.html:103
 msgid "Contact Us"
 msgstr ""
 
-#: templates/includes/footer-grand.html:98
+#: templates/includes/footer-grand.html:106
 msgid "Help Center"
 msgstr ""
 
-#: templates/includes/footer-grand.html:101
+#: templates/includes/footer-grand.html:109
 msgid "Feedback"
 msgstr ""
 
-#: templates/includes/footer-grand.html:108
+#: templates/includes/footer-grand.html:116
 msgid "Useful Links"
 msgstr ""
 
-#: templates/includes/footer-grand.html:111
+#: templates/includes/footer-grand.html:119
 msgid "Terms & Conditions"
 msgstr ""
 
-#: templates/includes/footer-grand.html:114
+#: templates/includes/footer-grand.html:122
 msgid "Privacy Policy"
 msgstr ""
 
-#: templates/includes/footer-grand.html:117
+#: templates/includes/footer-grand.html:125
 msgid "FAQ"
 msgstr ""
 
-#: templates/includes/footer-grand.html:120
+#: templates/includes/footer-grand.html:128
 msgid "Agencies"
 msgstr ""
 
-#: templates/includes/footer-grand.html:123
+#: templates/includes/footer-grand.html:131
 msgid "Sitemap"
 msgstr ""
 
-#: templates/includes/footer-grand.html:131
+#: templates/includes/footer-grand.html:139
 msgid "All rights reserved. Copyright ©"
 msgstr ""
 
-#: templates/includes/footer-grand.html:135
+#: templates/includes/footer-grand.html:143
 msgid "Made with ❤️ in Argentina 🇦🇷"
 msgstr ""
 

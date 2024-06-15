@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:17-0300\n"
+"POT-Creation-Date: 2024-06-15 14:28-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 #: main/settings.py:217
 msgid "English"
-msgstr "Inglés"
+msgstr ""
 
 #: main/settings.py:218
 msgid "Spanish"
-msgstr "Español"
+msgstr ""
 
 #: main/settings.py:219
 msgid "Portuguese"
@@ -32,15 +31,15 @@ msgstr ""
 
 #: templates/account/account_inactive.html:6
 msgid "Account Inactive"
-msgstr "Cuenta Desactivada"
+msgstr ""
 
 #: templates/account/account_inactive.html:10
 msgid "Account Inactive!"
-msgstr "Cuenta Desactivada!"
+msgstr ""
 
 #: templates/account/account_inactive.html:12
 msgid "This account is inactive."
-msgstr "Esta cuenta esta desactivada."
+msgstr ""
 
 #: templates/account/email/email_confirmation_message.txt:7
 #, python-format
@@ -194,102 +193,100 @@ msgstr ""
 
 #: templates/includes/footer-grand.html:59
 msgid "Company"
-msgstr "Empresa"
+msgstr ""
 
 #: templates/includes/footer-grand.html:62
 msgid "About Us"
-msgstr "Sobre nosotros"
+msgstr ""
 
 #: templates/includes/footer-grand.html:65
 msgid "Work with us"
-msgstr "Trabaja con nosotros"
+msgstr ""
 
 #: templates/includes/footer-grand.html:68
 msgid "Partners"
-msgstr "Partners"
+msgstr ""
 
 #: templates/includes/footer-grand.html:71
 msgid "Blog"
-msgstr "Blog"
+msgstr ""
 
 #: templates/includes/footer-grand.html:78
 msgid "Resources"
-msgstr "Recursos"
+msgstr ""
 
 #: templates/includes/footer-grand.html:81
 msgid "Terminals"
-msgstr "Terminales"
+msgstr ""
 
 #: templates/includes/footer-grand.html:84
-#, fuzzy
-#| msgid "Company"
 msgid "Companies"
-msgstr "Empresas"
+msgstr ""
 
 #: templates/includes/footer-grand.html:87
 msgid "Routes"
-msgstr "Rutas"
+msgstr ""
 
 #: templates/includes/footer-grand.html:90
 msgid "Press"
-msgstr "Prensa"
+msgstr ""
 
 #: templates/includes/footer-grand.html:93
 msgid "Affiliate Program"
-msgstr "Programa de Afiliación"
+msgstr ""
 
 #: templates/includes/footer-grand.html:100
 msgid "Help & Support"
-msgstr "Soporte y Ayuda"
+msgstr ""
 
 #: templates/includes/footer-grand.html:103
 msgid "Contact Us"
-msgstr "Contacto"
+msgstr ""
 
 #: templates/includes/footer-grand.html:106
 msgid "Help Center"
-msgstr "Ayuda"
+msgstr ""
 
 #: templates/includes/footer-grand.html:109
 msgid "Feedback"
-msgstr "Comentarios"
+msgstr ""
 
 #: templates/includes/footer-grand.html:116
 msgid "Useful Links"
-msgstr "Enlaces útiles"
+msgstr ""
 
 #: templates/includes/footer-grand.html:119
 msgid "Terms & Conditions"
-msgstr "Términos y condiciones"
+msgstr ""
 
 #: templates/includes/footer-grand.html:122
 msgid "Privacy Policy"
-msgstr "Política de privacidad"
+msgstr ""
 
 #: templates/includes/footer-grand.html:125
 msgid "FAQ"
-msgstr "Preguntas Frecuentes"
+msgstr ""
 
 #: templates/includes/footer-grand.html:128
 msgid "Agencies"
-msgstr "Agencias"
+msgstr ""
 
 #: templates/includes/footer-grand.html:131
 msgid "Sitemap"
-msgstr "Mapa del sitio"
+msgstr ""
 
 #: templates/includes/footer-grand.html:139
 msgid "All rights reserved. Copyright ©"
-msgstr "Todos los derechos reservados. Copyright ©"
+msgstr ""
 
 #: templates/includes/footer-grand.html:143
 msgid "Made with ❤️ in Argentina 🇦🇷"
-msgstr "Hecho con ❤️ en Argentina 🇦🇷"
+msgstr ""
 
 #: templates/socialaccount/connections.html:6
 #: templates/socialaccount/connections.html:12
 msgid "Account Connections"
-msgstr "Conexiones de cuentas"
+msgstr ""
 
 #: templates/socialaccount/connections.html:15
 msgid ""
