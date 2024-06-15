@@ -235,20 +235,18 @@ class PaymentFailViewTests(SimpleTestCase):
 
     def setUp(self):
         self.url = reverse("payments:fail")
-        self.response = self.client.get(self.url)
-        self.template_name = "payments/payment_fail.html"
+        self.template_name = PaymentFailView.template_name
 
-    def test_payment_fail_page_status_code(self):
-        self.assertEqual(self.response.status_code, HTTPStatus.OK)
+    def test_payment_fail_page_works_correctly(self):
+        response = self.client.get(self.url)
 
-    def test_payment_fail_page_renders_correct_template(self):
-        self.assertTemplateUsed(self.response, self.template_name)
-
-    def test_payment_fail_page_contains_correct_html(self):
-        self.assertContains(self.response, "Unsuccessful")
-
-    def test_payment_fail_page_does_not_contain_incorrect_html(self):
-        self.assertNotContains(self.response, "Hi there! I should not be on this page.")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Payment Unsuccessful")
+        self.assertContains(response, "Go back home")
+        self.assertContains(response, "Try again")
+        self.assertContains(response, "contact us here")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
 
     def test_payment_fail_page_url_resolves_payment_fail_view(self):
         view = resolve(self.url)
