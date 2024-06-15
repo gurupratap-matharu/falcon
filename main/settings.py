@@ -88,7 +88,7 @@ ROOT_URLCONF = "main.urls"
 
 # Sessions
 CART_SESSION_ID = "cart"
-SESSION_COOKIE_AGE = 5 * 60
+SESSION_COOKIE_AGE = 10 * 60  # 10 mins
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
