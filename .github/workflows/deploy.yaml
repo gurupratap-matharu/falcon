@@ -44,6 +44,9 @@ jobs:
 
             echo "Veer: applying migrations..."
             /home/veer/.pyenv/versions/falcon/bin/python manage.py migrate
+            
+            echo "Veer: compiling translations..."
+            /home/veer/.pyenv/versions/falcon/bin/django-admin compilemessages
 
             echo "Veer: reloading daemon..."
             sudo systemctl daemon-reload
