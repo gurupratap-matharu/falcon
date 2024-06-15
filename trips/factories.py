@@ -25,11 +25,7 @@ logger = logging.getLogger(__name__)
 
 class CustomImageField(factory.django.ImageField):
     def _make_data(self, params):
-        color = params.pop("color", "blue")
-        if callable(color):
-            color = color()
-        params["color"] = color
-        return super(CustomImageField, self)._make_data(params)
+        return fake.image()
 
 
 class LocationFactory(factory.django.DjangoModelFactory):
@@ -63,7 +59,7 @@ class RouteFactory(factory.django.DjangoModelFactory):
     description = factory.LazyAttribute(
         lambda o: f"Trip from {o.origin} - {o.destination}.\n{fake.paragraph()}"
     )
-    image = CustomImageField(color=fake.color)
+    image = CustomImageField(filename="route.jpg")
     origin = factory.SubFactory(LocationFactory)
     destination = factory.SubFactory(LocationFactory)
     category = fuzzy.FuzzyChoice(Route.CATEGORY_CHOICES, getter=lambda c: c[0])
@@ -109,7 +105,7 @@ class TripFactory(factory.django.DjangoModelFactory):
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")
-    image = CustomImageField(color=fake.color)
+    image = CustomImageField(filename="trip.jpg")
 
 
 class TripPastFactory(TripFactory):
