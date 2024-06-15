@@ -47,8 +47,8 @@ class Company(models.Model):
 
     class Meta:
         ordering = ["name"]
-        verbose_name = "company"
-        verbose_name_plural = "companies"
+        verbose_name = _("company")
+        verbose_name_plural = _("companies")
 
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
@@ -105,6 +105,8 @@ class SeatChart(models.Model):
 
     class Meta:
         ordering = ("title",)
+        verbose_name = _("seat chart")
+        verbose_name_plural = _("seat charts")
 
     def __str__(self):
         return f"{self.title}"

@@ -37,6 +37,8 @@ class Coupon(models.Model):
 
     class Meta:
         ordering = ("valid_to",)
+        verbose_name = _("coupon")
+        verbose_name_plural = _("coupons")
 
     objects = models.Manager()
     valid = ValidManager()

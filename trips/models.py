@@ -51,8 +51,8 @@ class Location(models.Model):
 
     class Meta:
         ordering = ["name"]
-        verbose_name = "Location"
-        verbose_name_plural = "Locations"
+        verbose_name = _("location")
+        verbose_name_plural = _("locations")
 
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
@@ -126,8 +126,8 @@ class Route(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _("Route")
-        verbose_name_plural = _("Routes")
+        verbose_name = _("route")
+        verbose_name_plural = _("routes")
 
     def __str__(self):
         return f"{self.name}"
@@ -274,6 +274,8 @@ class Trip(models.Model):
 
     class Meta:
         ordering = ["departure"]
+        verbose_name = _("trip")
+        verbose_name_plural = _("trips")
 
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
@@ -539,6 +541,8 @@ class Seat(models.Model):
 
     class Meta:
         unique_together = ("trip", "seat_number")
+        verbose_name = _("seat")
+        verbose_name_plural = _("seats")
 
     def __str__(self):
         return f"{str(self.seat_number)}"

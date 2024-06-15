@@ -48,6 +48,8 @@ class Order(models.Model):
 
     class Meta:
         ordering = ["-created_on"]
+        verbose_name = _("order")
+        verbose_name_plural = _("orders")
         indexes = [
             models.Index(fields=["-created_on"]),
         ]
@@ -139,6 +141,10 @@ class OrderItem(models.Model):
         default=1, validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
 
+    class Meta:
+        verbose_name = _("order item")
+        verbose_name_plural = _("order items")
+
     def __str__(self):
         # We can make this better
         return f"OrderItem {self.id}"
@@ -212,6 +218,8 @@ class Passenger(models.Model):
 
     class Meta:
         ordering = ["-created_on"]
+        verbose_name = _("passenger")
+        verbose_name_plural = _("passengers")
         indexes = [
             models.Index(fields=["-created_on"]),
         ]
