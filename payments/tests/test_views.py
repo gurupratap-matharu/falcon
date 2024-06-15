@@ -210,20 +210,17 @@ class PaymentPendingViewTests(SimpleTestCase):
 
     def setUp(self):
         self.url = reverse("payments:pending")
-        self.response = self.client.get(self.url)
-        self.template_name = "payments/payment_pending.html"
+        self.template_name = PaymentPendingView.template_name
 
-    def test_payment_pending_page_status_code(self):
-        self.assertEqual(self.response.status_code, HTTPStatus.OK)
+    def test_payment_pending_view_works_correctly(self):
+        response = self.client.get(self.url)
 
-    def test_payment_pending_page_renders_correct_template(self):
-        self.assertTemplateUsed(self.response, self.template_name)
-
-    def test_payment_pending_page_contains_correct_html(self):
-        self.assertContains(self.response, "Pending")
-
-    def test_payment_pending_page_does_not_contain_incorrect_html(self):
-        self.assertNotContains(self.response, "Hi there! I should not be on this page.")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Payment Pending")
+        self.assertContains(response, "contact us here")
+        self.assertContains(response, "Go back home")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
 
     def test_payment_pending_page_url_resolves_payment_pending_view(self):
         view = resolve(self.url)
