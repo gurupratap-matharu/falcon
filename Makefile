@@ -60,6 +60,8 @@ makemessages:
 compilemessages:
 	django-admin compilemessages
 
+translations: makemessages compilemessages
+
 migrate:
 	python manage.py migrate
 
