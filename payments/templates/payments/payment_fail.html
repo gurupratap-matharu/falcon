@@ -17,22 +17,19 @@
 {% block content %}
   <div class="row">
     <div class="col-lg-5 col-md-7 mx-auto">
-      <div class="card z-index-0">
-        <div class="card-header text-center pt-4 pb-1">
-          <h4 class="font-weight-bolder mb-1">Payment Unsuccessful</h4>
-        </div>
-        <div class="card-body">
-          <div class="mb-3">
-            <p class="mx-auto">
-              We were unable to receive a confirmation for your payment.
-              Incase of trouble you can
-              <a href="{% url 'pages:contact' %}" class="text-primary text-gradient font-weight-bold">contact us here</a>
-            </p>
-          </div>
-          <div class="text-center">
-            <a type="button" href="{% url 'pages:home' %}" class="btn btn-outline-primary my-4 me-3 mb-2">Go back home</a>
-            <a type="button" href="{% url 'payments:home' %}" class="btn bg-gradient-primary my-4 mb-2">Try again</a>
-          </div>
+      <div class="alert alert-danger mt-3" role="alert">
+        <h4 class="alert-heading mb-3">
+          <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" role="img" aria-label="Danger:">
+          </i>Payment Unsuccessful
+        </h4>
+        <p>
+          We were unable to receive a confirmation for your payment.
+          Incase of trouble you can
+          <a href="{% url 'pages:contact' %}" class="alert-link text-decoration-underline"><strong>contact us here</strong></a>
+        </p>
+        <div class="d-flex justify-content-between pt-3">
+          <a href="{% url 'pages:home' %}" class="alert-link text-decoration-underline">Go back home</a>
+          <a href="{% url 'payments:home' %}" class="alert-link text-decoration-underline">Try again</a>
         </div>
       </div>
     </div>
