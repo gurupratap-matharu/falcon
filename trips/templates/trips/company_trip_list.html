@@ -17,18 +17,16 @@
 {% block content %}
   <div class="card mb-4">
     <div class="card-header d-flex justify-content-between">
-      <h6>
-        <a href="{{ company.get_admin_url }}" class="icon-move-left">
-          <i class="bi bi-chevron-left me-2" aria-hidden="true">
-          </i>
-          Dashboard
-        </a>
-      </h6>
+      <a href="{{ company.get_admin_url }}">
+        <i class="bi bi-chevron-left me-2" aria-hidden="true">
+        </i>
+        Dashboard
+      </a>
       <a href="{% url 'companies:trip-create' company.slug %}">
-        <i class="bi bi-plus-lg me-2"></i>Create
+        <i class="bi bi-plus-lg me-2" aria-hidden="true"></i>Create
       </a>
     </div>
-    <div class="card-body px-0 pt-0 pb-2 overflow-y-scroll" style="height: 700px;
+    <div class="card-body px-0 pt-0 pb-2 overflow-y-scroll min-vh-85">
       {% if not trips %}
         <h6 class="text-center mb-3">You have no upcoming trips!</h6>
       {% else %}

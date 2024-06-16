@@ -114,21 +114,10 @@
   <div class="row my-4">
     <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
       <div class="card min-height-400">
-        <div class="card-header pb-0">
-          <div class="row">
-            <div class="col-lg-6 col-7">
-              <a href="{{ company.get_trip_list_url }}">
-                <h6>Trips</h6>
-              </a>
-              <p class="text-sm mb-0">
-                <i class="bi bi-check-circle text-success" aria-hidden="true"></i>
-                <span class="font-weight-bold ms-1">30 done</span> this month
-              </p>
-            </div>
-            <div class="col-lg-6 col-5 my-auto text-end">
-              <a href="{{ company.get_trip_list_url }}" class="btn btn-outline-dark btn-sm">All Trips</a>
-            </div>
-          </div>
+        <div class="card-header pb-0 d-flex justify-content-between">
+          <a href="{{ company.get_trip_list_url }}">
+            <h6>Trips</h6>
+          </a>
         </div>
         <div class="card-body px-1 pb-2">
           {% if not trips %}
