@@ -1,125 +1,127 @@
 {% extends "layouts/base-app.html" %}
 
+{% load i18n %}
+
 {% block title %}
-  Your Cart
+  {% translate "Your Cart" %}
 {% endblock title %}
 
 {% block breadcrumb %}
-  Cart
+  {% translate "Cart" %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-  Cart
+  {% translate "Cart" %}
 {% endblock page_title %}
 
 {% block content %}
-  <div class="card">
-    <div class="table-responsive">
-      <table class="table align-items-center mb-0">
-        <thead>
-          <tr>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Origin</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Destination</th>
-            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
-            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Price</th>
-            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
-            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in cart %}
-            {% with trip=item.trip %}
-              <tr>
-                <td>
-                  <p class="text-xs font-weight-bold mb-0">{{ trip.company.name }}</p>
-                </td>
-                <td>
-                  <p class="text-xs font-weight-bold mb-0">{{ trip.origin }}</p>
-                  <p class="text-xs text-secondary mb-0">{{ trip.departure }}</p>
-                </td>
-                <td>
-                  <p class="text-xs font-weight-bold mb-0">{{ trip.destination }}</p>
-                  <p class="text-xs text-secondary mb-0">{{ trip.arrival }}</p>
-                </td>
-                <td class="align-middle text-center text-sm">
-                  <p class="text-xs font-weight-bold mb-0">{{ item.quantity }}</p>
-                </td>
-                <td class="align-middle text-center text-sm">
-                  <p class="text-xs font-weight-bold mb-0">${{ item.price|floatformat:"-3g" }}</p>
-                </td>
-                <td class="align-middle text-center text-sm">
-                  <p class="text-xs font-weight-bold mb-0">${{ item.total_price|floatformat:"-3g" }}</p>
-                </td>
-                <td class="align-middle text-center text-sm">
-                  <form action="{% url "cart:cart_remove" trip.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-outline-secondary mb-0 shadow-none">X</button>
-                  </form>
-                </td>
-              </tr>
-            {% endwith %}
-          {% empty %}
+  <div class="table-responsive">
+    <table class="table table-borderless align-items-center align-middle mb-0">
+      <thead>
+        <tr>
+          {% with klass="text-secondary text-sm font-weight-bolder opacity-7" %}
+            <th class="{{ klass }}">{% translate "Company" %}</th>
+            <th class="{{ klass }}">{% translate "Origin" %}</th>
+            <th class="{{ klass }}">{% translate "Destination" %}</th>
+            <th class="{{ klass }}">{% translate "Quantity" %}</th>
+            <th class="{{ klass }}">{% translate "Unit Price" %}</th>
+            <th class="{{ klass }}">{% translate "Price" %}</th>
+            <th class="{{ klass }}">{% translate "Remove" %}</th>
+          {% endwith %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
+          {% with trip=item.trip %}
             <tr>
-              <td class="p-5 text-center" colspan="8">
-                <h5>Cart is Empty 🛒</h5>
+              <td>
+                <p class="text-sm mb-0">{{ trip.company.name }}</p>
+              </td>
+              <td>
+                <p class="text-sm mb-0">{{ trip.origin }}</p>
+                <p class="text-sm mb-0">{{ trip.departure }}</p>
+              </td>
+              <td>
+                <p class="text-sm mb-0">{{ trip.destination }}</p>
+                <p class="text-sm mb-0">{{ trip.arrival }}</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <p class="text-sm mb-0">{{ item.quantity }}</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <p class="text-sm mb-0">${{ item.price|floatformat:"-3g" }}</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <p class="text-sm mb-0">${{ item.total_price|floatformat:"-3g" }}</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <form action="{% url "cart:cart_remove" trip.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-secondary mb-0 shadow-none">X</button>
+                </form>
               </td>
             </tr>
-          {% endfor %}
+          {% endwith %}
+        {% empty %}
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="align-middle text-center text-sm">
-              <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Subtotal</p>
-            </td>
-            <td class="align-middle text-center text-sm">
-              <p class="text-xs font-weight-bold mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="align-middle text-center text-sm">
-              <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">
-                "{{ cart.coupon.code }}" Coupon ({{ cart.coupon.discount }}% off)
-              </p>
-            </td>
-            <td class="align-middle text-center text-sm">
-              <span class="text-xs font-weight-bold mb-0">- $ {{ cart.get_discount|floatformat:"-3g" }}</span>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="align-middle text-center">
-              <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">Total</p>
-            </td>
-            <td class="align-middle text-center">
-              <p class="font-weight-bold mb-0">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
+            <td class="p-5 text-center" colspan="8">
+              <h5>{% translate "Cart is Empty 🛒" %}</h5>
             </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="d-flex justify-content-end mt-4 me-3">
-      <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl">Checkout</a>
-    </div>
+        {% endfor %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="align-middle text-center">
+            <p class="text-uppercase text-secondary opacity-7 mb-0">{% translate "Subtotal" %}</p>
+          </td>
+          <td class="align-middle text-center">
+            <p class="mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="align-middle text-center">
+            <p class="text-uppercase text-secondary opacity-7 mb-0">
+              "{{ cart.coupon.code }}" {% translate "Coupon" %} ({{ cart.coupon.discount }}% off)
+            </p>
+          </td>
+          <td class="align-middle text-center">
+            <span class="text-sm mb-0">- $ {{ cart.get_discount|floatformat:"-3g" }}</span>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="align-middle text-center">
+            <p class="text-xs text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 mb-0">{% translate "Total" %}</p>
+          </td>
+          <td class="align-middle text-center">
+            <p class="font-weight-bold mb-0">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-end mt-4 me-3">
+    <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl">{% translate "Checkout" %}</a>
   </div>
   <div class="row">
     <div class="col-lg-4 col-12">
       {% if not request.session.coupon_id %}
         <div class="border-dashed border-1 border-secondary border-radius-md p-3 mx-3 mx-md-0 mt-3">
-          <h6 class="mb-0">Coupon Code</h6>
+          <h6 class="mb-0">{% translate "Coupon Code" %}</h6>
           <p class="text-xs mb-3">
-            <span class="font-weight-bolder">(Used one time)</span>
+            <span class="font-weight-bolder">{% translate "(Used one time)" %}</span>
           </p>
           <div class="d-flex align-items-center">
             <div class="form-group w-70">
@@ -138,7 +140,10 @@
             </div>
           </div>
           <p class="text-xs mb-0">
-            <a href="javascript:;">Contact us</a> to generate more referrals link.
+            {% url 'pages:contact' as contact_url %}
+            {% blocktranslate %}
+            <a href="{{ contact_url }}">Contact us</a> to generate more referrals link.
+            {% endblocktranslate %}
           </p>
         </div>
       {% endif %}

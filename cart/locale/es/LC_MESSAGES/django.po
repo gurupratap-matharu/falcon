@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-16 16:02-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+#: cart/templates/cart/cart_detail.html:6
+msgid "Your Cart"
+msgstr "Tu Carrito"
+
+#: cart/templates/cart/cart_detail.html:10
+#: cart/templates/cart/cart_detail.html:14
+msgid "Cart"
+msgstr "Carrito"
+
+#: cart/templates/cart/cart_detail.html:23
+msgid "Company"
+msgstr "Empresa"
+
+#: cart/templates/cart/cart_detail.html:24
+msgid "Origin"
+msgstr "Origen"
+
+#: cart/templates/cart/cart_detail.html:25
+msgid "Destination"
+msgstr "Destinación"
+
+#: cart/templates/cart/cart_detail.html:26
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: cart/templates/cart/cart_detail.html:27
+msgid "Unit Price"
+msgstr "Precio Unidad"
+
+#: cart/templates/cart/cart_detail.html:28
+msgid "Price"
+msgstr "Precio"
+
+#: cart/templates/cart/cart_detail.html:29
+msgid "Remove"
+msgstr "Eliminar"
+
+#: cart/templates/cart/cart_detail.html:68
+msgid "Cart is Empty 🛒"
+msgstr "El carrito está vacío 🛒"
+
+#: cart/templates/cart/cart_detail.html:78
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#: cart/templates/cart/cart_detail.html:92
+msgid "Coupon"
+msgstr "Cupón"
+
+#: cart/templates/cart/cart_detail.html:106
+msgid "Total"
+msgstr "Total"
+
+#: cart/templates/cart/cart_detail.html:116
+msgid "Checkout"
+msgstr "Checkout"
+
+#: cart/templates/cart/cart_detail.html:122
+msgid "Coupon Code"
+msgstr "Código de Cupón"
+
+#: cart/templates/cart/cart_detail.html:124
+msgid "(Used one time)"
+msgstr "(Se usa una vez)"
+
+#: cart/templates/cart/cart_detail.html:144
+#, python-format
+msgid ""
+"\n"
+"            <a href=\"%(contact_url)s\">Contact us</a> to generate more "
+"referrals link.\n"
+"            "
+msgstr ""
+"\n"
+"            <a href=\"%(contact_url)s\">Contactanos</a> para generar mas "
+"enlaces de referencia.\n"
+"            "
