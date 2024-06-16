@@ -1,18 +1,10 @@
 {% extends "layouts/base-app.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  Payment Unsuccessful
+  {% translate "Payment Unsuccessful" %}
 {% endblock title %}
-
-{% block breadcrumb %}
-  Payment / Unsuccessful
-{% endblock breadcrumb %}
-
-{% block page_title %}
-  Payment Unsuccessful
-{% endblock page_title %}
 
 {% block content %}
   <div class="row">
@@ -20,16 +12,19 @@
       <div class="alert alert-danger mt-3" role="alert">
         <h4 class="alert-heading mb-3">
           <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" role="img" aria-label="Danger:">
-          </i>Payment Unsuccessful
+          </i>{% translate "Payment Unsuccessful" %}
         </h4>
         <p>
+          {% url 'pages:contact' as contact_url %}
+          {% blocktrans %}
           We were unable to receive a confirmation for your payment.
           Incase of trouble you can
-          <a href="{% url 'pages:contact' %}" class="alert-link text-decoration-underline"><strong>contact us here</strong></a>
+          <a href="{{ contact_url }}" class="alert-link text-decoration-underline"><strong>contact us here</strong></a>
+          {% endblocktrans %}
         </p>
         <div class="d-flex justify-content-between pt-3">
-          <a href="{% url 'pages:home' %}" class="alert-link text-decoration-underline">Go back home</a>
-          <a href="{% url 'payments:home' %}" class="alert-link text-decoration-underline">Try again</a>
+          <a href="{% url 'pages:home' %}" class="alert-link text-decoration-underline">{% translate "Go back home" %}</a>
+          <a href="{% url 'payments:home' %}" class="alert-link text-decoration-underline">{% translate "Try again" %}</a>
         </div>
       </div>
     </div>
