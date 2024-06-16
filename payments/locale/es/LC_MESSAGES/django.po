@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 23:05-0300\n"
+"POT-Creation-Date: 2024-06-16 11:56-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,12 +42,41 @@ msgstr ""
 "          "
 
 #: payments/templates/payments/payment_fail.html:26
+#: payments/templates/payments/payment_pending.html:27
 msgid "Go back home"
 msgstr "Volver a home"
 
 #: payments/templates/payments/payment_fail.html:27
 msgid "Try again"
 msgstr "Probar de nuevo"
+
+#: payments/templates/payments/payment_pending.html:6
+#: payments/templates/payments/payment_pending.html:15
+msgid "Payment Pending"
+msgstr "Pago pendiente"
+
+#: payments/templates/payments/payment_pending.html:18
+msgid ""
+"We have not yet received a confirmation for your payment and it is showing "
+"pending status. Incase the payment status is resolved you will get your "
+"tickets via email."
+msgstr ""
+"Aún no hemos recibido la confirmación del pago. En caso si se resuelve en "
+"unos minutos vas a recibir los pasajes automáticamente por email."
+
+#: payments/templates/payments/payment_pending.html:22
+#, python-format
+msgid ""
+"Please don't make another payment for this order.\n"
+"          Incase of trouble you can\n"
+"          <a href=\"%(contact_url)s\" class=\"alert-link text-decoration-"
+"underline\"><strong>contact us here</strong></a>"
+msgstr ""
+"Por favor no realices otro pago de vuelta.\n"
+"          En caso si tiene consultas usted puede\n"
+"          <a href=\"%(contact_url)s\" class=\"alert-link text-decoration-"
+"underline\"><strong>escribirnos aquí</strong></a>\n"
+"          "
 
 #: payments/templates/payments/payment_success.html:6
 msgid "Payment Successful"
@@ -70,14 +99,14 @@ msgstr ""
 "Hemos enviado la confirmación por correo a %(email)s\n"
 "          "
 
-#: payments/templates/payments/payment_success.html:38
+#: payments/templates/payments/payment_success.html:37
 msgid "Download PDF"
 msgstr "Descargar PDF"
 
-#: payments/templates/payments/payment_success.html:50
+#: payments/templates/payments/payment_success.html:49
 msgid "Add to calendar"
 msgstr "Añadir al calendario"
 
-#: payments/templates/payments/payment_success.html:58
+#: payments/templates/payments/payment_success.html:57
 msgid "Book Return Ticket"
 msgstr "Reservar otro pasaje"

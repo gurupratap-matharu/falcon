@@ -16,11 +16,11 @@
         </h4>
         <p>
           {% url 'pages:contact' as contact_url %}
-          {% blocktrans %}
+          {% blocktranslate %}
           We were unable to receive a confirmation for your payment.
           Incase of trouble you can
           <a href="{{ contact_url }}" class="alert-link text-decoration-underline"><strong>contact us here</strong></a>
-          {% endblocktrans %}
+          {% endblocktranslate %}
         </p>
         <div class="d-flex justify-content-between pt-3">
           <a href="{% url 'pages:home' %}" class="alert-link text-decoration-underline">{% translate "Go back home" %}</a>

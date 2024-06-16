@@ -1,18 +1,10 @@
 {% extends "layouts/base-app.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  Payment Pending
+  {% translate "Payment Pending" %}
 {% endblock title %}
-
-{% block breadcrumb %}
-  Payment / Pending
-{% endblock breadcrumb %}
-
-{% block page_title %}
-  Payment Pending
-{% endblock page_title %}
 
 {% block content %}
   <div class="row">
@@ -20,18 +12,19 @@
       <div class="alert alert-warning mt-3" role="alert">
         <h4 class="alert-heading mb-3">
           <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" role="img" aria-label="Warning:">
-          </i>Payment Pending
+          </i>{% translate "Payment Pending" %}
         </h4>
         <p>
-          We haven't yet received a confirmation for your payment and it's showing pending status. Incase the payment status is resolved you'll get your tickets via email.
+          {% translate "We have not yet received a confirmation for your payment and it is showing pending status. Incase the payment status is resolved you will get your tickets via email." %}
         </p>
         <p>
-          Please don't make another payment for this order.
+          {% url 'pages:contact' as contact_url %}
+          {% blocktranslate %}Please don't make another payment for this order.
           Incase of trouble you can
-          <a href="{% url 'pages:contact' %}" class="alert-link text-decoration-underline"><strong>contact us here</strong></a>
+          <a href="{{ contact_url }}" class="alert-link text-decoration-underline"><strong>contact us here</strong></a>{% endblocktranslate %}
         </p>
         <div class="d-flex justify-content-between pt-3">
-          <a href="{% url 'pages:home' %}" class="alert-link text-decoration-underline">Go back home</a>
+          <a href="{% url 'pages:home' %}" class="alert-link text-decoration-underline">{% translate "Go back home" %}</a>
         </div>
       </div>
     </div>
