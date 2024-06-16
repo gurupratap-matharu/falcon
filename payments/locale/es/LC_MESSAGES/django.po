@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 22:29-0300\n"
+"POT-Creation-Date: 2024-06-15 23:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,3 +48,40 @@ msgstr "Volver a home"
 #: payments/templates/payments/payment_fail.html:27
 msgid "Try again"
 msgstr "Probar de nuevo"
+
+#: payments/templates/payments/payment_success.html:6
+#, fuzzy
+#| msgid "Payment Unsuccessful"
+msgid "Payment Successful"
+msgstr "Pago exitoso"
+
+#: payments/templates/payments/payment_success.html:17
+#, fuzzy
+#| msgid "Payment Unsuccessful"
+msgid "Payment Successful!"
+msgstr "Pago exitoso!"
+
+#: payments/templates/payments/payment_success.html:21
+msgid "Tickets Booked!"
+msgstr "Pasajes reservados!"
+
+#: payments/templates/payments/payment_success.html:23
+#, python-format
+msgid ""
+"We have sent a confirmation email to %(email)s\n"
+"          "
+msgstr ""
+"Hemos enviado la confirmación por correo a %(email)s\n"
+"          "
+
+#: payments/templates/payments/payment_success.html:38
+msgid "Download PDF"
+msgstr "Descargar PDF"
+
+#: payments/templates/payments/payment_success.html:50
+msgid "Add to calendar"
+msgstr "Añadir al calendario"
+
+#: payments/templates/payments/payment_success.html:58
+msgid "Book Return Ticket"
+msgstr "Reservar otro pasaje"
