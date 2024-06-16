@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:28-0300\n"
+"POT-Creation-Date: 2024-06-16 17:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: pages/templates/pages/about.html:14
 msgid "About Kpiola"
 msgstr ""
@@ -33,4 +34,40 @@ msgstr ""
 
 #: pages/templates/pages/contact.html:25 pages/templates/pages/feedback.html:25
 msgid "Send"
+msgstr ""
+
+#: pages/templates/pages/home.html:16
+msgid "Round trip"
+msgstr ""
+
+#: pages/templates/pages/home.html:19
+msgid "One way"
+msgstr ""
+
+#: pages/templates/pages/home.html:38
+msgid "Origin"
+msgstr ""
+
+#: pages/templates/pages/home.html:50
+msgid "Leaving from"
+msgstr ""
+
+#: pages/templates/pages/home.html:56
+msgid "Destination"
+msgstr ""
+
+#: pages/templates/pages/home.html:68
+msgid "Going to"
+msgstr ""
+
+#: pages/templates/pages/home.html:74 pages/templates/pages/home.html:126
+msgid "Departure"
+msgstr ""
+
+#: pages/templates/pages/home.html:90
+msgid "Return (Optional)"
+msgstr ""
+
+#: pages/templates/pages/home.html:147
+msgid "Return"
 msgstr ""

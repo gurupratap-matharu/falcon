@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-23 15:48-0300\n"
+"POT-Creation-Date: 2024-06-16 17:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: pages/templates/pages/about.html:14
 msgid "About Kpiola"
-msgstr ""
+msgstr "Sobre Kpiola"
 
 #: pages/templates/pages/about.html:15
 msgid "Our mission is to give everyone a voice and show them the world."
@@ -39,5 +39,38 @@ msgstr ""
 msgid "Send"
 msgstr "Enviar"
 
-#~ msgid "About Falcon"
-#~ msgstr "Sobre Falcon"
+#: pages/templates/pages/home.html:16
+msgid "Round trip"
+msgstr "Ida y Vuelta"
+
+#: pages/templates/pages/home.html:19
+msgid "One way"
+msgstr "Solo Ida"
+
+#: pages/templates/pages/home.html:38
+msgid "Origin"
+msgstr "Origen"
+
+#: pages/templates/pages/home.html:50
+msgid "Leaving from"
+msgstr "Desde"
+
+#: pages/templates/pages/home.html:56
+msgid "Destination"
+msgstr "Destinación"
+
+#: pages/templates/pages/home.html:68
+msgid "Going to"
+msgstr "Hasta"
+
+#: pages/templates/pages/home.html:74 pages/templates/pages/home.html:126
+msgid "Departure"
+msgstr "Ida"
+
+#: pages/templates/pages/home.html:90
+msgid "Return (Optional)"
+msgstr "Vuelta (Opcional)"
+
+#: pages/templates/pages/home.html:147
+msgid "Return"
+msgstr "Vuelta"
