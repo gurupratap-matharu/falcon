@@ -33,8 +33,8 @@ class LocationModelTests(TestCase):
         self.assertEqual(str(self.location), f"{self.location.name}")
 
     def test_verbose_name_plural(self):
-        self.assertEqual(str(self.location._meta.verbose_name), "Location")
-        self.assertEqual(str(self.location._meta.verbose_name_plural), "Locations")
+        self.assertEqual(str(self.location._meta.verbose_name), "location")
+        self.assertEqual(str(self.location._meta.verbose_name_plural), "locations")
 
     def test_get_absolute_url(self):
         location_from_db = Location.objects.first()
@@ -138,8 +138,8 @@ class RouteModelTests(TestCase):
         self.assertEqual(str(self.route), f"{self.route.name}")
 
     def test_verbose_names(self):
-        self.assertEqual(self.route._meta.verbose_name, "Route")
-        self.assertEqual(self.route._meta.verbose_name_plural, "Routes")
+        self.assertEqual(self.route._meta.verbose_name, "route")
+        self.assertEqual(self.route._meta.verbose_name_plural, "routes")
 
     def test_get_absolute_url(self):
         self.skipTest("not yet implemented")

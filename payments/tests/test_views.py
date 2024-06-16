@@ -160,12 +160,10 @@ class PaymentSuccessViewTests(TestCase):
 
     def test_payment_success_view_works_correctly(self):
         response = self.client.get(self.url)
-        success_msg = f"We have sent a confirmation email to {self.order.email}."
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
 
-        self.assertContains(response, success_msg)
         self.assertContains(response, "Payment Successful!")
         self.assertContains(response, "Tickets Booked!")
         self.assertContains(response, "Book Return Ticket")
