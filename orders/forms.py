@@ -26,10 +26,10 @@ class OrderForm(forms.ModelForm):
 
         widgets = {
             "name": forms.TextInput(
-                attrs={"placeholder": "Name", "class": "form-control"}
+                attrs={"placeholder": _("Name"), "class": "form-control"}
             ),
             "email": forms.EmailInput(
-                attrs={"placeholder": "Email", "class": "form-control"}
+                attrs={"placeholder": _("Email"), "class": "form-control"}
             ),
             "residence": forms.Select(attrs={"class": "form-select"}),
         }
@@ -74,17 +74,19 @@ class PassengerForm(forms.ModelForm):
         widgets = {
             "document_type": forms.Select(attrs=select),
             "document_number": forms.TextInput(
-                attrs={"placeholder": "Document Number", **control}
+                attrs={"placeholder": _("Document Number"), **control}
             ),
             "first_name": forms.TextInput(
-                attrs={"placeholder": "First Name", **control}
+                attrs={"placeholder": _("First Name"), **control}
             ),
-            "last_name": forms.TextInput(attrs={"placeholder": "Last Name", **control}),
+            "last_name": forms.TextInput(
+                attrs={"placeholder": _("Last Name"), **control}
+            ),
             "birth_date": forms.DateInput(
                 attrs={"type": "date", **control},
             ),
             "phone_number": forms.TextInput(
-                attrs={"placeholder": "Phone", "type": "tel", **control}
+                attrs={"placeholder": _("Whatsapp"), "type": "tel", **control}
             ),
             "nationality": forms.Select(attrs=select),
             "gender": forms.Select(attrs=select),

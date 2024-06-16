@@ -1,6 +1,8 @@
+{% load i18n %}
+
 <div class="card mt-3 mt-md-0 mb-3">
   <div class="card-header pb-0">
-    <h5 class="card-title">Trip Summary</h5>
+    <h5 class="card-title">{% translate "Trip Summary" %}</h5>
   </div>
   <div class="card-body p-3">
     <div class="timeline timeline-one-side" data-timeline-axis-style="dotted">
@@ -27,8 +29,8 @@
           <i class="bi bi-stopwatch text-dark text-gradient"></i>
         </span>
         <div class="timeline-content">
-          <h6 class="text-dark text-sm font-weight-bold mb-0">Duration</h6>
-          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.duration }} Hours</p>
+          <h6 class="text-dark text-sm font-weight-bold mb-0">{% translate "Duration" %}</h6>
+          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.duration }} {% translate "Hours" %}</p>
         </div>
       </div>
       <div class="timeline-block mb-3">
@@ -36,7 +38,7 @@
           <i class="bi bi-bus-front text-dark text-gradient"></i>
         </span>
         <div class="timeline-content">
-          <h6 class="text-dark text-sm font-weight-bold mb-0">Company</h6>
+          <h6 class="text-dark text-sm font-weight-bold mb-0">{% translate "Company" %}</h6>
           <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ trip.company }}</p>
         </div>
       </div>
@@ -45,7 +47,7 @@
           <i class="bi bi-coin text-dark text-gradient"></i>
         </span>
         <div class="timeline-content">
-          <h6 class="text-dark text-sm font-weight-bold mb-0">Price</h6>
+          <h6 class="text-dark text-sm font-weight-bold mb-0">{% translate "Price" %}</h6>
           <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">${{ trip.price }}</p>
         </div>
       </div>

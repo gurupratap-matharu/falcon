@@ -58,7 +58,7 @@ class Order(models.Model):
         return f"{self.name}"
 
     def get_total_cost_before_discount(self):
-        return sum(item.get_cost() for item in self.items.all())  # type:ignore
+        return sum(item.get_cost() for item in self.items.all())
 
     def get_discount(self):
         if self.discount:
@@ -101,7 +101,7 @@ class Order(models.Model):
 
         passengers = self.passengers.all()
 
-        for order_item in self.items.all():  # type:ignore
+        for order_item in self.items.all():
             order_item.trip.book_seats_with_passengers(
                 seat_numbers=order_item.seats, passengers=passengers
             )
@@ -169,7 +169,7 @@ class OrderItem(models.Model):
 
 class Passenger(models.Model):
     DOCUMENT_TYPE_CHOICES = [
-        (None, "Identification"),
+        (None, _("Identification")),
         ("DNI", "DNI"),
         ("PASSPORT", "PASSPORT"),
         ("CE", "CEDULA"),
@@ -186,9 +186,9 @@ class Passenger(models.Model):
     ]
 
     GENDER_CHOICES = [
-        (None, "Gender"),
-        ("F", "Female"),
-        ("M", "Male"),
+        (None, _("Gender")),
+        ("F", _("Female")),
+        ("M", _("Male")),
     ]
 
     document_type = models.CharField(
