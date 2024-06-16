@@ -1,13 +1,13 @@
 {% extends "layouts/base-company.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  {{ company.name }} | Coupons
+  {{ company.name }} | {% translate "Coupons" %}
 {% endblock title %}
 
 {% block breadcrumb %}
-  Coupons
+  {% translate "Coupons" %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
@@ -17,58 +17,50 @@
 {% block content %}
   <div class="card mb-4">
     <div class="card-header d-flex justify-content-between pb-0">
-      <h6>
-        <a href="{{ company.get_admin_url }}" class="icon-move-left">
-          <i class="bi bi-chevron-left me-2" aria-hidden="true">
-          </i>
-          Dashboard
-        </a>
-      </h6>
-      <a href="{{ company.get_coupon_create_url }}" type="button" class="btn btn-outline-dark">
-        <span>Create</span>
+      <a href="{{ company.get_admin_url }}" class="icon-move-left">
+        <i class="bi bi-chevron-left me-2" aria-hidden="true">
+        </i>
+        Dashboard
       </a>
+      <a href="{{ company.get_coupon_create_url }}">{% translate "Create" %}</a>
     </div>
-    <div class="card-body px-0 pt-0 pb-2">
+    <div class="card-body">
       {% if not coupons %}
-        <h6 class="text-center mb-3">You have no active coupons!</h6>
+        <h6 class="text-center mb-3">{% translate "You have no active coupons!" %}</h6>
       {% else %}
         <div class="table-responsive">
-          <table class="table align-items-center align-middle mb-0">
+          <table class="table table-borderless table-hover align-items-center align-middle mb-0">
             <thead>
               <tr>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Valid From</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Vatil Until</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Discount %</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Is Valid?</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Is Redeemed?</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Edit</th>
+                <th class="text-secondary text-sm">Code</th>
+                <th class="text-secondary text-sm ps-2">Valid From</th>
+                <th class="text-secondary text-sm ps-2">Vatil Until</th>
+                <th class="text-secondary text-sm ps-2">Discount %</th>
+                <th class="text-secondary text-sm ps-2">Is Valid?</th>
+                <th class="text-secondary text-sm ps-2">Is Redeemed?</th>
+                <th class="text-secondary text-sm ps-2">Edit</th>
               </tr>
             </thead>
             <tbody>
               {% for coupon in coupons %}
                 <tr>
                   <td>
-                    <div class="d-flex px-2 py-1">
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">{{ coupon.code }}</h6>
-                      </div>
-                    </div>
+                    <p class="text-sm">{{ coupon.code }}</p>
                   </td>
                   <td>
-                    <p class="text-xs mb-0">{{ coupon.valid_from|date:"D j M P" }}</p>
+                    <p class="text-sm">{{ coupon.valid_from|date:"D j M P" }}</p>
                   </td>
                   <td>
-                    <p class="text-xs mb-0">{{ coupon.valid_to|date:"D j M P" }}</p>
+                    <p class="text-sm">{{ coupon.valid_to|date:"D j M P" }}</p>
                   </td>
                   <td>
-                    <p class="text-xs mb-0">{{ coupon.discount }}</p>
+                    <p class="text-sm">{{ coupon.discount }}</p>
                   </td>
                   <td>
-                    <p class="text-xs mb-0">{{ coupon.is_valid|yesno:"Yes,No,Maybe" }}</p>
+                    <p class="text-sm">{{ coupon.is_valid|yesno:"Yes,No,Maybe" }}</p>
                   </td>
                   <td>
-                    <p class="text-xs mb-0">{{ coupon.active|yesno:"No,Yes,Maybe" }}</p>
+                    <p class="text-sm">{{ coupon.active|yesno:"No,Yes,Maybe" }}</p>
                   </td>
                   <td class="align-middle">
                     <div class="d-flex">

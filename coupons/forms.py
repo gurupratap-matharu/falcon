@@ -9,7 +9,9 @@ class CouponApplyForm(forms.Form):
 
     code = forms.CharField(
         label=_("coupon"),
-        widget=forms.TextInput(attrs={"placeholder": "Code", "class": "form-control"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": _("Code"), "class": "form-control"}
+        ),
     )
 
 
