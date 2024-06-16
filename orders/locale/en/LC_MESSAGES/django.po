@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:14-0300\n"
+"POT-Creation-Date: 2024-06-16 14:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: orders/forms.py:131
+#: orders/forms.py:29
+msgid "Name"
+msgstr ""
+
+#: orders/forms.py:32
+msgid "Email"
+msgstr ""
+
+#: orders/forms.py:77
+msgid "Document Number"
+msgstr ""
+
+#: orders/forms.py:80
+msgid "First Name"
+msgstr ""
+
+#: orders/forms.py:83
+msgid "Last Name"
+msgstr ""
+
+#: orders/forms.py:89
+msgid "Whatsapp"
+msgstr ""
+
+#: orders/forms.py:133
 #, python-format
 msgid "Your birth date (%(birth_date)s) is invalid!"
 msgstr ""
@@ -57,6 +81,22 @@ msgstr ""
 
 #: orders/models.py:146
 msgid "order items"
+msgstr ""
+
+#: orders/models.py:172
+msgid "Identification"
+msgstr ""
+
+#: orders/models.py:189
+msgid "Gender"
+msgstr ""
+
+#: orders/models.py:190
+msgid "Female"
+msgstr ""
+
+#: orders/models.py:191
+msgid "Male"
 msgstr ""
 
 #: orders/models.py:195
@@ -144,6 +184,52 @@ msgstr ""
 msgid ""
 "\n"
 "Your booking is confirmed | %(order_id)s\n"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:6
+#: orders/templates/orders/order_form.html:10
+msgid "Order"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:14
+msgid "Passenger Details"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:36
+#: orders/templates/orders/order_form.html:172
+msgid "Passenger"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:119
+msgid "Your Contact Information"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:137
+msgid "I agree the"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:137
+msgid "Terms and Conditions"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:141
+msgid "Checkout"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:157
+msgid "Cart is empty! 📭"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:163
+msgid "Fare Summary"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:182
+msgid "Coupon"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:187
+msgid "Total"
 msgstr ""
 
 #: orders/validators.py:21

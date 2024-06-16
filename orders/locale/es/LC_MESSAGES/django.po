@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:14-0300\n"
+"POT-Creation-Date: 2024-06-16 14:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: orders/forms.py:131
+#: orders/forms.py:29
+msgid "Name"
+msgstr "Nombre"
+
+#: orders/forms.py:32
+msgid "Email"
+msgstr "Email"
+
+#: orders/forms.py:77
+msgid "Document Number"
+msgstr "Número del documento"
+
+#: orders/forms.py:80
+msgid "First Name"
+msgstr "Nombre"
+
+#: orders/forms.py:83
+msgid "Last Name"
+msgstr "Apellidos"
+
+#: orders/forms.py:89
+msgid "Whatsapp"
+msgstr ""
+
+#: orders/forms.py:133
 #, python-format
 msgid "Your birth date (%(birth_date)s) is invalid!"
 msgstr "¡Tu fecha de nacimiento (%(birth_date)s) no es válida!"
@@ -33,7 +57,7 @@ msgstr "email"
 
 #: orders/models.py:26
 msgid "We'll email the ticket to this email id."
-msgstr "Enviaremos los pasajes a este email"
+msgstr "Enviaremos los pasajes a este email."
 
 #: orders/models.py:29
 msgid "residence"
@@ -45,19 +69,35 @@ msgstr "Esto nos ayuda a mostrarle las mejores opciones de pago."
 
 #: orders/models.py:51
 msgid "order"
-msgstr ""
+msgstr "order"
 
 #: orders/models.py:52
 msgid "orders"
-msgstr ""
+msgstr "orders"
 
 #: orders/models.py:145
 msgid "order item"
-msgstr ""
+msgstr "order item"
 
 #: orders/models.py:146
 msgid "order items"
-msgstr ""
+msgstr "order items"
+
+#: orders/models.py:172
+msgid "Identification"
+msgstr "Identificación"
+
+#: orders/models.py:189
+msgid "Gender"
+msgstr "Género"
+
+#: orders/models.py:190
+msgid "Female"
+msgstr "Feminino"
+
+#: orders/models.py:191
+msgid "Male"
+msgstr "Masculino"
 
 #: orders/models.py:195
 msgid "document type"
@@ -65,7 +105,7 @@ msgstr "tipo de documento"
 
 #: orders/models.py:198
 msgid "document number"
-msgstr "número de documento"
+msgstr "número del documento"
 
 #: orders/models.py:200
 msgid "nationality"
@@ -101,11 +141,11 @@ msgstr "teléfono"
 
 #: orders/models.py:221
 msgid "passenger"
-msgstr ""
+msgstr "pasajero"
 
 #: orders/models.py:222
 msgid "passengers"
-msgstr ""
+msgstr "pasajeros"
 
 #: orders/templates/orders/emails/booking_confirmed_company_message.txt:3
 #, python-format
@@ -122,6 +162,17 @@ msgid ""
 "Whatsapp: %(whatsapp)s\n"
 "Country: %(country)s"
 msgstr ""
+"\n"
+"Hola,\n"
+"\n"
+"Has recibido un nuevo booking de %(name)s.\n"
+"\n"
+"Booking Id: %(booking_id)s\n"
+"Creado n: %(created)s\n"
+"\n"
+"Email: %(email)s\n"
+"Whatsapp: %(whatsapp)s\n"
+"País: %(country)s"
 
 #: orders/templates/orders/emails/booking_confirmed_company_subject.txt:3
 #, python-format
@@ -129,6 +180,8 @@ msgid ""
 "\n"
 "New booking from %(name)s | Order id %(order_id)s\n"
 msgstr ""
+"\n"
+"Nuevo booking de %(name)s | Order id %(order_id)s\n"
 
 #: orders/templates/orders/emails/booking_confirmed_message.txt:3
 #, python-format
@@ -140,6 +193,12 @@ msgid ""
 "Pack you bags! Your booking is confirmed.\n"
 "Booking ID: %(booking_id)s"
 msgstr ""
+"\n"
+"\n"
+"Hola %(name)s,\n"
+"\n"
+"Felicitaciones! Su reserva está confirmada.\n"
+"Booking ID: %(booking_id)s"
 
 #: orders/templates/orders/emails/booking_confirmed_subject.txt:3
 #, python-format
@@ -147,6 +206,54 @@ msgid ""
 "\n"
 "Your booking is confirmed | %(order_id)s\n"
 msgstr ""
+"\n"
+"Su booking está confirmada | %(order_id)s\n"
+
+#: orders/templates/orders/order_form.html:6
+#: orders/templates/orders/order_form.html:10
+msgid "Order"
+msgstr "Order"
+
+#: orders/templates/orders/order_form.html:14
+msgid "Passenger Details"
+msgstr "Detalles del pasajero"
+
+#: orders/templates/orders/order_form.html:36
+#: orders/templates/orders/order_form.html:172
+msgid "Passenger"
+msgstr "Pasajero"
+
+#: orders/templates/orders/order_form.html:119
+msgid "Your Contact Information"
+msgstr "Información de Contacto"
+
+#: orders/templates/orders/order_form.html:137
+msgid "I agree the"
+msgstr "Estoy de acuerdo con"
+
+#: orders/templates/orders/order_form.html:137
+msgid "Terms and Conditions"
+msgstr "los termínos y condiciones"
+
+#: orders/templates/orders/order_form.html:141
+msgid "Checkout"
+msgstr "Checkout"
+
+#: orders/templates/orders/order_form.html:157
+msgid "Cart is empty! 📭"
+msgstr "El carrito está vacío"
+
+#: orders/templates/orders/order_form.html:163
+msgid "Fare Summary"
+msgstr "Resumen de tarifas"
+
+#: orders/templates/orders/order_form.html:182
+msgid "Coupon"
+msgstr "Cupón"
+
+#: orders/templates/orders/order_form.html:187
+msgid "Total"
+msgstr "Total"
 
 #: orders/validators.py:21
 #, python-format
