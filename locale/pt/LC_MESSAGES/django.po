@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:28-0300\n"
+"POT-Creation-Date: 2024-06-15 22:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: main/settings.py:217
 msgid "English"
 msgstr ""
@@ -207,7 +208,7 @@ msgstr ""
 msgid "Partners"
 msgstr ""
 
-#: templates/includes/footer-grand.html:71
+#: templates/includes/footer-grand.html:71 templates/includes/footer.html:26
 msgid "Blog"
 msgstr ""
 
@@ -281,6 +282,30 @@ msgstr ""
 
 #: templates/includes/footer-grand.html:143
 msgid "Made with ❤️ in Argentina 🇦🇷"
+msgstr ""
+
+#: templates/includes/footer.html:8
+msgid "© 2023 Kpiola. Made with ❤️ in Argentina 🇦🇷"
+msgstr ""
+
+#: templates/includes/footer.html:14
+msgid "About"
+msgstr ""
+
+#: templates/includes/footer.html:17
+msgid "Support"
+msgstr ""
+
+#: templates/includes/footer.html:20
+msgid "Terms"
+msgstr ""
+
+#: templates/includes/footer.html:23
+msgid "Privacy"
+msgstr ""
+
+#: templates/includes/footer.html:29
+msgid "Contact"
 msgstr ""
 
 #: templates/socialaccount/connections.html:6
