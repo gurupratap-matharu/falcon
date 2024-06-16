@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 14:26-0300\n"
+"POT-Creation-Date: 2024-06-16 15:10-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,6 +173,20 @@ msgstr ""
 "Email: %(email)s\n"
 "Whatsapp: %(whatsapp)s\n"
 "País: %(country)s"
+
+#: orders/templates/orders/emails/booking_confirmed_company_message.txt:17
+msgid "Passengers:"
+msgstr "Pasajeros:"
+
+#: orders/templates/orders/emails/booking_confirmed_company_message.txt:20
+msgid "Total Cost:"
+msgstr "Total:"
+
+#: orders/templates/orders/emails/booking_confirmed_company_message.txt:22
+msgid ""
+"If you have any questions regarding this booking, please reply to this email."
+msgstr ""
+"Si tiene consulta sobre esta reserva, por favor responder a este email."
 
 #: orders/templates/orders/emails/booking_confirmed_company_subject.txt:3
 #, python-format

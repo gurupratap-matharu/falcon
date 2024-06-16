@@ -14,12 +14,12 @@ Country: {{ country }}{% endblocktranslate %}
 
 Trip: {{ item.trip }} {{ trip.departure }}
 
-Passengers:{% for passenger in passengers %}
+{% translate "Passengers:" %}{% for passenger in passengers %}
 {{ forloop.counter }}. {{ passenger.get_full_name }}{% endfor %}
 
-Total Cost: ${{ order.get_total_cost }}
+{% translate "Total Cost:" %} ${{ order.get_total_cost }}
 
-If you have any questions regarding this booking, please reply to this email.
+{% translate "If you have any questions regarding this booking, please reply to this email." %}
 
 
 Regards,

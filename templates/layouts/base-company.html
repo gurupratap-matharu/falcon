@@ -1,6 +1,6 @@
 {% extends "layouts/base-sidebar.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block sidebar %}
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
@@ -42,7 +42,7 @@
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
+            <span class="nav-link-text ms-1">{% translate "Dashboard" %}</span>
           </a>
         </li>
         <li class="nav-item">
@@ -58,7 +58,7 @@
                 <path d="M7 7V1.414a1 1 0 0 1 2 0V2h5a1 1 0 0 1 .8.4l.975 1.3a.5.5 0 0 1 0 .6L14.8 5.6a1 1 0 0 1-.8.4H9v10H7v-5H2a1 1 0 0 1-.8-.4L.225 9.3a.5.5 0 0 1 0-.6L1.2 7.4A1 1 0 0 1 2 7zm1 3V8H2l-.75 1L2 10zm0-5h6l.75-1L14 3H8z" />
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Routes</span>
+            <span class="nav-link-text ms-1">{% translate "Routes" %}</span>
           </a>
         </li>
         <li class="nav-item">
@@ -86,7 +86,7 @@
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Trips</span>
+            <span class="nav-link-text ms-1">{% translate "Trips" %}</span>
           </a>
         </li>
         <li class="nav-item">
@@ -116,7 +116,7 @@
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Orders</span>
+            <span class="nav-link-text ms-1">{% translate "Orders" %}</span>
           </a>
         </li>
         <li class="nav-item">
@@ -144,7 +144,7 @@
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Billing</span>
+            <span class="nav-link-text ms-1">{% translate "Billing" %}</span>
           </a>
         </li>
       </ul>
@@ -157,13 +157,13 @@
             <i class="bi bi-gem text-dark text-gradient text-lg top-0" aria-hidden="true" id="sidenavCardIcon"></i>
           </div>
           <div class="docs-info">
-            <h6 class="text-white up mb-0">Need help?</h6>
-            <p class="text-xs font-weight-bold">Please contact us</p>
+            <h6 class="text-white up mb-0">{% translate "Need help?" %}</h6>
+            <p class="text-xs font-weight-bold">{% translate "Please contact us" %}</p>
             <a href="{% url 'pages:contact' %}" class="btn btn-white btn-sm w-100 mb-0">Contact Us</a>
           </div>
         </div>
       </div>
-      <a class="btn bg-gradient-primary mt-3 w-100" href="{% url "pages:feedback" %}">Feedback</a>
+      <a class="btn bg-gradient-primary mt-3 w-100" href="{% url "pages:feedback" %}">{% translate "Feedback" %}</a>
     </div>
   </aside>
 {% endblock sidebar %}

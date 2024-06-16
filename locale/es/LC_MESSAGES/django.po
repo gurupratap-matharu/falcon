@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 14:09-0300\n"
+"POT-Creation-Date: 2024-06-16 15:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,6 +265,7 @@ msgid "Companies"
 msgstr "Empresas"
 
 #: templates/includes/footer-grand.html:87
+#: templates/layouts/base-company.html:61
 msgid "Routes"
 msgstr "Rutas"
 
@@ -289,6 +290,8 @@ msgid "Help Center"
 msgstr "Ayuda"
 
 #: templates/includes/footer-grand.html:109
+#: templates/layouts/base-company.html:166
+#: templates/layouts/base-sidebar.html:67
 msgid "Feedback"
 msgstr "Comentarios"
 
@@ -372,6 +375,50 @@ msgstr "Horas"
 msgid "Price"
 msgstr "Precio"
 
+#: templates/layouts/base-company.html:45
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: templates/layouts/base-company.html:89
+msgid "Trips"
+msgstr "Trips"
+
+#: templates/layouts/base-company.html:119
+msgid "Orders"
+msgstr "Orders"
+
+#: templates/layouts/base-company.html:147
+msgid "Billing"
+msgstr "Billing"
+
+#: templates/layouts/base-company.html:160
+msgid "Need help?"
+msgstr "Soporte"
+
+#: templates/layouts/base-company.html:161
+msgid "Please contact us"
+msgstr "Contactanos"
+
+#: templates/layouts/base-sidebar.html:51
+msgid "Help"
+msgstr "Ayuda"
+
+#: templates/layouts/base-sidebar.html:66
+msgid "Profile"
+msgstr "Perfíl"
+
+#: templates/layouts/base-sidebar.html:69
+msgid "Settings"
+msgstr "Ajustes"
+
+#: templates/layouts/base-sidebar.html:70
+msgid "Sign out"
+msgstr "Sign out"
+
+#: templates/layouts/base-sidebar.html:76 templates/socialaccount/login.html:8
+msgid "Sign In"
+msgstr "Sign In"
+
 #: templates/socialaccount/connections.html:6
 #: templates/socialaccount/connections.html:12
 msgid "Account Connections"
@@ -401,10 +448,6 @@ msgstr "No tenés ninguna cuenta social conectada a tu cuenta principal."
 #: templates/socialaccount/connections.html:41
 msgid "Add a 3rd Party Account"
 msgstr "Agregar una cuenta social"
-
-#: templates/socialaccount/login.html:8
-msgid "Sign In"
-msgstr "Sign In"
 
 #: templates/socialaccount/login.html:16
 #, python-format

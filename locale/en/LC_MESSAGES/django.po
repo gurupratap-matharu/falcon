@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 14:09-0300\n"
+"POT-Creation-Date: 2024-06-16 15:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,6 +227,7 @@ msgid "Companies"
 msgstr ""
 
 #: templates/includes/footer-grand.html:87
+#: templates/layouts/base-company.html:61
 msgid "Routes"
 msgstr ""
 
@@ -251,6 +252,8 @@ msgid "Help Center"
 msgstr ""
 
 #: templates/includes/footer-grand.html:109
+#: templates/layouts/base-company.html:166
+#: templates/layouts/base-sidebar.html:67
 msgid "Feedback"
 msgstr ""
 
@@ -334,6 +337,50 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
+#: templates/layouts/base-company.html:45
+msgid "Dashboard"
+msgstr ""
+
+#: templates/layouts/base-company.html:89
+msgid "Trips"
+msgstr ""
+
+#: templates/layouts/base-company.html:119
+msgid "Orders"
+msgstr ""
+
+#: templates/layouts/base-company.html:147
+msgid "Billing"
+msgstr ""
+
+#: templates/layouts/base-company.html:160
+msgid "Need help?"
+msgstr ""
+
+#: templates/layouts/base-company.html:161
+msgid "Please contact us"
+msgstr ""
+
+#: templates/layouts/base-sidebar.html:51
+msgid "Help"
+msgstr ""
+
+#: templates/layouts/base-sidebar.html:66
+msgid "Profile"
+msgstr ""
+
+#: templates/layouts/base-sidebar.html:69
+msgid "Settings"
+msgstr ""
+
+#: templates/layouts/base-sidebar.html:70
+msgid "Sign out"
+msgstr ""
+
+#: templates/layouts/base-sidebar.html:76 templates/socialaccount/login.html:8
+msgid "Sign In"
+msgstr ""
+
 #: templates/socialaccount/connections.html:6
 #: templates/socialaccount/connections.html:12
 msgid "Account Connections"
@@ -358,10 +405,6 @@ msgstr ""
 
 #: templates/socialaccount/connections.html:41
 msgid "Add a 3rd Party Account"
-msgstr ""
-
-#: templates/socialaccount/login.html:8
-msgid "Sign In"
 msgstr ""
 
 #: templates/socialaccount/login.html:16

@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block basecontent %}
 
@@ -48,7 +48,7 @@
           </div>
           <ul class="navbar-nav justify-content-end">
             <li class="nav-item d-flex align-items-center">
-              <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{% url 'pages:help' %}">Help</a>
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{% url 'pages:help' %}">{% translate "Help" %}</a>
             </li>
             <li class="nav-item d-flex align-items-center">
               {% if request.user.is_authenticated %}
@@ -63,17 +63,17 @@
                     {% endwith %}
                   </a>
                   <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="{% url 'pages:profile' request.user.username %}">Profile</a>
-                    <a class="dropdown-item" href="{% url 'pages:feedback' %}">Feedback</a>
+                    <a class="dropdown-item" href="{% url 'pages:profile' request.user.username %}">{% translate "Profile" %}</a>
+                    <a class="dropdown-item" href="{% url 'pages:feedback' %}">{% translate "Feedback" %}</a>
                     <hr class="dropdown-divider" />
-                    <a class="dropdown-item" href="{% url 'users:settings' %}">Settings</a>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
+                    <a class="dropdown-item" href="{% url 'users:settings' %}">{% translate "Settings" %}</a>
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
                   </div>
                 </div>
               {% else %}
                 <a href="{% url 'account_login' %}" class="nav-link text-body font-weight-bold px-0">
                   <i class="bi bi-person-circle me-sm-1"></i>
-                  <span class="d-sm-inline d-none">Sign In</span>
+                  <span class="d-sm-inline d-none">{% translate "Sign In" %}</span>
                 </a>
               {% endif %}
             </li>
@@ -99,37 +99,6 @@
       {% endblock content %}
 
     </div>
-    {% if request.user.is_superuser %}
-      <div class="card card-plain mx-3 mt-3">
-        {% comment %} Session data {% endcomment %}
-        <!-- Modal -->
-        <div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="sessionModal" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="font-weight-bolder text-primary text-gradient">Session has...</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="card card-plain">
-                  <div class="card-header pb-0 text-left"></div>
-                  <div class="card-body pb-3">
-                    {% for k, v in request.session.items %}<pre>{{ k }} : {{ v }}</pre>{% endfor %}
-                    <pre>Session Cookie Age:{{ request.session.get_session_cookie_age }} seconds</pre>
-                    <pre>Expiry Age:{{ request.session.get_expiry_age }} seconds</pre>
-                    <pre>Expiry Date:{{ request.session.get_expiry_date }} seconds</pre>
-                    <pre>Expires at browser close? :{{ request.session.get_expire_at_browser_close }}</pre>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endif %}
 
     {% include "includes/footer.html" %}
 
