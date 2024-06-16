@@ -62,8 +62,8 @@ exclude = '''
 '''
 
 [tool.djlint]
-blank_line_before_tag = "load,extends,include,block,blocktranslate"
-blank_line_after_tag = "load,extends,include,endblock,endblocktranslate"
+blank_line_before_tag = "load,extends,include,block"
+blank_line_after_tag = "load,extends,include,endblock"
 close_void_tags = true
 custom_block = "toc,example"
 custom_html = "mjml"
