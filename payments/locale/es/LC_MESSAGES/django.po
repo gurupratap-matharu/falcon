@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:17-0300\n"
+"POT-Creation-Date: 2024-06-15 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
-#: payments/templates/payments/payment_fail.html:23
+
+#: payments/templates/payments/payment_fail.html:6
+#: payments/templates/payments/payment_fail.html:15
 msgid "Payment Unsuccessful"
 msgstr "Pago no fue procesado"
+
+#: payments/templates/payments/payment_fail.html:19
+#, python-format
+msgid ""
+"\n"
+"          We were unable to receive a confirmation for your payment.\n"
+"          Incase of trouble you can\n"
+"          <a href=\"%(contact_url)s\" class=\"alert-link text-decoration-"
+"underline\"><strong>contact us here</strong></a>\n"
+"          "
+msgstr ""
+"\n"
+"          No pudimos recibir una confirmación de su pago.\n"
+"          En caso si tiene consultas usted puede\n"
+"          <a href=\"%(contact_url)s\" class=\"alert-link text-decoration-"
+"underline\"><strong>escribirnos aquí</strong></a>\n"
+"          "
+
+#: payments/templates/payments/payment_fail.html:26
+msgid "Go back home"
+msgstr "Volver a home"
+
+#: payments/templates/payments/payment_fail.html:27
+msgid "Try again"
+msgstr "Probar de nuevo"
