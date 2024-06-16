@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:14-0300\n"
+"POT-Creation-Date: 2024-06-16 15:33-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,11 @@ msgstr ""
 
 #: coupons/forms.py:11 coupons/models.py:40
 msgid "coupon"
-msgstr "coupon"
+msgstr "cupón"
+
+#: coupons/forms.py:13
+msgid "Code"
+msgstr "Código"
 
 #: coupons/models.py:18
 msgid "code"
@@ -51,10 +55,8 @@ msgid "active"
 msgstr "activo"
 
 #: coupons/models.py:41
-#, fuzzy
-#| msgid "coupon"
 msgid "coupons"
-msgstr "coupon"
+msgstr "cupóns"
 
 #: coupons/models.py:50
 msgid "Valid from date cannot be in the past."
@@ -62,4 +64,22 @@ msgstr "La fecha de válido desde no puede ser en el pasado"
 
 #: coupons/models.py:57
 msgid "Valid to date cannot be less than Valid from date"
-msgstr "La fecha no puede ser antes de la fecha de válido desde"
+msgstr "La fecha no puede ser antes de la fecha de 'válido desde'"
+
+#: coupons/templates/coupons/coupon_form.html:6
+msgid "Coupon Create"
+msgstr "Crear cupón"
+
+#: coupons/templates/coupons/coupon_form.html:10
+#: coupons/templates/coupons/coupon_list.html:6
+#: coupons/templates/coupons/coupon_list.html:10
+msgid "Coupons"
+msgstr "cupóns"
+
+#: coupons/templates/coupons/coupon_list.html:25
+msgid "Create"
+msgstr "Crear"
+
+#: coupons/templates/coupons/coupon_list.html:29
+msgid "You have no active coupons!"
+msgstr "No tienes cupones activos!"
