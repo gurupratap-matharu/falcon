@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 22:40-0300\n"
+"POT-Creation-Date: 2024-06-16 14:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,8 +56,8 @@ msgstr ""
 "\n"
 "Hola desde %(site_name)s!\n"
 "\n"
-"Estas recibiendo este e-mail porque el usuario %(user_display)s has dado "
-"tu correo electronico para conectar a su cuenta.\n"
+"Estas recibiendo este e-mail porque el usuario %(user_display)s has dado tu "
+"correo electronico para conectar a su cuenta.\n"
 "\n"
 "Para confirmar si esto es corecto, vayas a %(activate_url)s\n"
 
@@ -91,12 +91,13 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"        Por favor confirmar que <a href=\"mailto:%(email)s\">%(email)s</a> es un "
-"correo electrónico para el usuario\n"
+"        Por favor confirmar que <a href=\"mailto:%(email)s\">%(email)s</a> "
+"es un correo electrónico para el usuario\n"
 "        %(user_display)s.\n"
 "        "
 
 #: templates/account/email_confirm.html:25
+#: templates/includes/seat_modal.html:41
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -111,8 +112,8 @@ msgid ""
 msgstr ""
 "\n"
 "        Este enlace de e-mail ya esta vencido o es invalido.\n"
-"        Por favor <a href=\"%(email_url)s\">solicitar un nuevo confirmación de correo "
-"electrónico</a>.\n"
+"        Por favor <a href=\"%(email_url)s\">solicitar un nuevo confirmación "
+"de correo electrónico</a>.\n"
 "        "
 
 #: templates/account/login.html:9
@@ -149,8 +150,7 @@ msgid ""
 "Enter your e-mail address below, and we'll send you an e-mail allowing you "
 "to reset it."
 msgstr ""
-"Ingresá el correo electrónico abajo y te mandamos un correo "
-"para resetear lo."
+"Ingresá el correo electrónico abajo y te mandamos un correo para resetear lo."
 
 #: templates/account/password_reset.html:33
 msgid "Reset My Password"
@@ -187,10 +187,9 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"            El enlace esta Inválido, probablemente porque "
-"ya fue usado. Por favor\n"
-"            solicitar un <a href=\"%(passwd_reset_url)s\">nuevo enlace</"
-"a>.\n"
+"            El enlace esta Inválido, probablemente porque ya fue usado. Por "
+"favor\n"
+"            solicitar un <a href=\"%(passwd_reset_url)s\">nuevo enlace</a>.\n"
 "            "
 
 #: templates/account/password_reset_from_key.html:40
@@ -225,8 +224,7 @@ msgid ""
 "check your spam folder.\n"
 "            "
 msgstr ""
-"Te mandamos un correo para verificación. Seguí el enlace para "
-"finalizar el\n"
+"Te mandamos un correo para verificación. Seguí el enlace para finalizar el\n"
 "            proceso de signup.<br /><br />\n"
 "\n"
 "            Si no ves el correo de verificación en su bandeja de entrada, "
@@ -234,6 +232,7 @@ msgstr ""
 "            "
 
 #: templates/includes/footer-grand.html:59
+#: templates/includes/trip_summary.html:41
 msgid "Company"
 msgstr "Empresa"
 
@@ -349,6 +348,30 @@ msgstr "Política de privacidad"
 msgid "Contact"
 msgstr "Contacto"
 
+#: templates/includes/seat_modal.html:8
+msgid "Choose Seat"
+msgstr ""
+
+#: templates/includes/seat_modal.html:39
+msgid "Cancel"
+msgstr ""
+
+#: templates/includes/trip_summary.html:5
+msgid "Trip Summary"
+msgstr "Resumen del viaje"
+
+#: templates/includes/trip_summary.html:32
+msgid "Duration"
+msgstr "Duración"
+
+#: templates/includes/trip_summary.html:33
+msgid "Hours"
+msgstr "Horas"
+
+#: templates/includes/trip_summary.html:50
+msgid "Price"
+msgstr "Precio"
+
 #: templates/socialaccount/connections.html:6
 #: templates/socialaccount/connections.html:12
 msgid "Account Connections"
@@ -373,8 +396,7 @@ msgstr "Eliminar"
 #: templates/socialaccount/connections.html:38
 msgid ""
 "You currently have no social network accounts connected to this account."
-msgstr ""
-"No tenés ninguna cuenta social conectada a tu cuenta principal."
+msgstr "No tenés ninguna cuenta social conectada a tu cuenta principal."
 
 #: templates/socialaccount/connections.html:41
 msgid "Add a 3rd Party Account"

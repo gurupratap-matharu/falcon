@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 22:40-0300\n"
+"POT-Creation-Date: 2024-06-16 14:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,6 +82,7 @@ msgid ""
 msgstr ""
 
 #: templates/account/email_confirm.html:25
+#: templates/includes/seat_modal.html:41
 msgid "Confirm"
 msgstr ""
 
@@ -193,6 +194,7 @@ msgid ""
 msgstr ""
 
 #: templates/includes/footer-grand.html:59
+#: templates/includes/trip_summary.html:41
 msgid "Company"
 msgstr ""
 
@@ -306,6 +308,30 @@ msgstr ""
 
 #: templates/includes/footer.html:29
 msgid "Contact"
+msgstr ""
+
+#: templates/includes/seat_modal.html:8
+msgid "Choose Seat"
+msgstr ""
+
+#: templates/includes/seat_modal.html:39
+msgid "Cancel"
+msgstr ""
+
+#: templates/includes/trip_summary.html:5
+msgid "Trip Summary"
+msgstr ""
+
+#: templates/includes/trip_summary.html:32
+msgid "Duration"
+msgstr ""
+
+#: templates/includes/trip_summary.html:33
+msgid "Hours"
+msgstr ""
+
+#: templates/includes/trip_summary.html:50
+msgid "Price"
 msgstr ""
 
 #: templates/socialaccount/connections.html:6
