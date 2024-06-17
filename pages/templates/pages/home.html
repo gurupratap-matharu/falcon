@@ -4,12 +4,12 @@
 
 {% block content %}
   {% comment "Search Form" %}{% endcomment %}
-  <section class="py-3 px-2">
+  <section class="px-2">
     <div class="container">
       <div class="row">
-        <div class="col-lg-10 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-xl">
+        <div class="col-lg-10 z-index-2 border-radius-xl mx-auto py-3 blur shadow-xl">
           <form action="{% url 'trips:trip-list' %}" method="get" autocomplete="on">
-            <div class="row gx-md-3 mb-3">
+            <div class="row gx-md-3 mb-1 mb-md-3">
               <div class="col-8 col-sm-3 col-lg-2">
                 <select class="form-select bg-transparent" name="trip_type" id="trip_type" aria-label="Trip type" required>
                   <option value="round_trip" {% if not request.session.q.trip_type == "one_way" %}selected{% endif %}>
@@ -34,17 +34,15 @@
             </div>
             <div class="row gx-1 gx-md-3">
               <div class="col-12 col-md-3">
-                <div class="form-group">
-                  <label for="origin" class="form-control-label">{% translate "Origin" %}</label>
+                <div class="form-group mb-1 mb-md-3">
+                  <label for="origin" class="form-label">{% translate "Origin" %}</label>
                   <input class="form-control"
                          type="search"
-                         dir="ltr"
                          name="origin"
                          autocorrect="off"
                          autocapitalize="off"
                          autocomplete="off"
                          spellcheck="false"
-                         maxlength="2048"
                          id="origin"
                          value="{{ request.session.q.origin }}"
                          placeholder='{% translate "Leaving from" %}'
@@ -52,17 +50,15 @@
                 </div>
               </div>
               <div class="col-12 col-md-3">
-                <div class="form-group">
-                  <label for="destination" class="form-control-label">{% translate "Destination" %}</label>
+                <div class="form-group mb-1 mb-md-3">
+                  <label for="destination" class="form-label">{% translate "Destination" %}</label>
                   <input class="form-control"
                          type="search"
                          name="destination"
-                         dir="ltr"
                          autocorrect="off"
                          autocapitalize="off"
                          autocomplete="off"
                          spellcheck="false"
-                         maxlength="2048"
                          id="destination"
                          value="{{ request.session.q.destination }}"
                          placeholder='{% translate "Going to" %}'
@@ -70,8 +66,8 @@
                 </div>
               </div>
               <div class="col-12 col-md-3">
-                <div class="form-group">
-                  <label for="departure" class="form-control-label">{% translate "Departure" %}</label>
+                <div class="form-group mb-1 mb-md-3">
+                  <label for="departure" class="form-label">{% translate "Departure" %}</label>
                   <input class="form-control form-control-lg departure-date bg-white"
                          type="text"
                          name="departure"
@@ -86,8 +82,8 @@
                 </div>
               </div>
               <div class="col-12 col-md-3">
-                <div class="form-group">
-                  <label for="return" class="form-control-label">{% translate "Return (Optional)" %}</label>
+                <div class="form-group mb-3">
+                  <label for="return" class="form-label">{% translate "Return (Optional)" %}</label>
                   <input class="form-control form-control-lg return-date bg-white"
                          type="text"
                          name="return"
@@ -112,7 +108,7 @@
             </div>
             <div class="d-flex justify-content-center mb-n5">
               <button class="btn bg-gradient-primary btn-round" type="submit">
-                <i class="bi bi-search me-3"></i>Search
+                <i class="bi bi-search me-3"></i>{% translate "Explore" %}
               </button>
             </div>
           </form>
@@ -136,7 +132,6 @@
              autocomplete="off"
              spellcheck="false"
              maxlength="2048"
-             tabindex="1"
              value="{{ request.session.q.departure }}"
              required />
     </div>
@@ -157,7 +152,6 @@
              autocomplete="off"
              spellcheck="false"
              maxlength="2048"
-             tabindex="1"
              value="{{ request.session.q.return }}"
              required />
     </div>
