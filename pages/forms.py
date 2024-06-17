@@ -3,6 +3,7 @@ import logging
 from django import forms
 from django.conf import settings
 from django.core.mail import send_mail
+from django.utils.translation import gettext_lazy as _
 
 from captcha.fields import CaptchaField, CaptchaTextInput
 
@@ -10,12 +11,16 @@ logger = logging.getLogger(__name__)
 
 
 class FeedbackForm(forms.Form):
-    placeholder = "Send us your feedback or report an issue. Please provide as much info as possible. Thank you."
-    subject = "Feedback Message"
+    placeholder = _(
+        "Send us your feedback or report an issue. Please provide as much info as possible. Thank you."
+    )
+    subject = _("Feedback Message")
     email = forms.EmailField(
         required=True,
         min_length=10,
-        widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": _("Email"), "class": "form-control"}
+        ),
     )
     message = forms.CharField(
         min_length=20,
@@ -32,7 +37,7 @@ class FeedbackForm(forms.Form):
     )
     captcha = CaptchaField(
         widget=CaptchaTextInput(
-            attrs={"class": "form-control mt-3", "placeholder": "captcha"}
+            attrs={"class": "form-control mt-3", "placeholder": _("captcha")}
         )
     )
 
@@ -55,18 +60,22 @@ class ContactForm(forms.Form):
         max_length=100,
         min_length=3,
         required=True,
-        widget=forms.TextInput(attrs={"placeholder": "Name", "class": "form-control"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": _("Name"), "class": "form-control"}
+        ),
     )
     email = forms.EmailField(
         required=True,
         min_length=10,
-        widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": _("Email"), "class": "form-control"}
+        ),
     )
     subject = forms.CharField(
         max_length=100,
         min_length=3,
         widget=forms.TextInput(
-            attrs={"placeholder": "Subject", "class": "form-control"}
+            attrs={"placeholder": _("Subject"), "class": "form-control"}
         ),
     )
     message = forms.CharField(
@@ -77,14 +86,14 @@ class ContactForm(forms.Form):
             attrs={
                 "cols": 80,
                 "rows": 5,
-                "placeholder": "Message",
+                "placeholder": _("Message"),
                 "class": "form-control",
             }
         ),
     )
     captcha = CaptchaField(
         widget=CaptchaTextInput(
-            attrs={"class": "form-control mt-3", "placeholder": "captcha"}
+            attrs={"class": "form-control mt-3", "placeholder": _("captcha")}
         )
     )
 
