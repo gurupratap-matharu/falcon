@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 17:29-0300\n"
+"POT-Creation-Date: 2024-06-17 12:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: pages/forms.py:15
+msgid ""
+"Send us your feedback or report an issue. Please provide as much info as "
+"possible. Thank you."
+msgstr ""
+
+#: pages/forms.py:17
+msgid "Feedback Message"
+msgstr ""
+
+#: pages/forms.py:22 pages/forms.py:71
+msgid "Email"
+msgstr ""
+
+#: pages/forms.py:40 pages/forms.py:96
+msgid "captcha"
+msgstr ""
+
+#: pages/forms.py:64
+msgid "Name"
+msgstr ""
+
+#: pages/forms.py:78
+msgid "Subject"
+msgstr ""
+
+#: pages/forms.py:89
+msgid "Message"
+msgstr ""
 
 #: pages/templates/pages/about.html:14
 msgid "About Kpiola"
@@ -32,8 +62,24 @@ msgid ""
 "better place when we listen, share and build community through our stories."
 msgstr ""
 
+#: pages/templates/pages/contact.html:6
+msgid "Contact"
+msgstr ""
+
+#: pages/templates/pages/contact.html:12
+msgid "Contact Us"
+msgstr ""
+
 #: pages/templates/pages/contact.html:25 pages/templates/pages/feedback.html:25
 msgid "Send"
+msgstr ""
+
+#: pages/templates/pages/contact.html:31 pages/templates/pages/feedback.html:31
+msgid "Go back Home"
+msgstr ""
+
+#: pages/templates/pages/feedback.html:6 pages/templates/pages/feedback.html:12
+msgid "Feedback"
 msgstr ""
 
 #: pages/templates/pages/home.html:16

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 17:29-0300\n"
+"POT-Creation-Date: 2024-06-17 12:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,56 +18,106 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: pages/forms.py:15
+msgid ""
+"Send us your feedback or report an issue. Please provide as much info as "
+"possible. Thank you."
+msgstr ""
+"Envie-nos seus comentários ou relate um problema. Por favor, forneça tantas informações quanto "
+"possível. Obrigado."
+
+#: pages/forms.py:17
+msgid "Feedback Message"
+msgstr "Mensagem de comentários"
+
+#: pages/forms.py:22 pages/forms.py:71
+msgid "Email"
+msgstr "Email"
+
+#: pages/forms.py:40 pages/forms.py:96
+msgid "captcha"
+msgstr "captcha"
+
+#: pages/forms.py:64
+msgid "Name"
+msgstr "Nome"
+
+#: pages/forms.py:78
+msgid "Subject"
+msgstr "Assunto"
+
+#: pages/forms.py:89
+msgid "Message"
+msgstr "Mensagem"
+
 #: pages/templates/pages/about.html:14
 msgid "About Kpiola"
-msgstr ""
+msgstr "Sobre Kpiola"
 
 #: pages/templates/pages/about.html:15
 msgid "Our mission is to give everyone a voice and show them the world."
-msgstr ""
+msgstr "Nossa missão é dar voz a todos e mostrar-lhes o mundo."
 
 #: pages/templates/pages/about.html:17
 msgid ""
 "We believe that everyone deserves to have a voice, and that the world is a "
 "better place when we listen, share and build community through our stories."
 msgstr ""
+"Acreditamos que todos merecem ter voz e que o mundo é um "
+"um lugar melhor quando ouvimos, compartilhamos e construímos uma comunidade através de nossas histórias."
+
+#: pages/templates/pages/contact.html:6
+msgid "Contact"
+msgstr "Contato"
+
+#: pages/templates/pages/contact.html:12
+msgid "Contact Us"
+msgstr "Contatenos"
 
 #: pages/templates/pages/contact.html:25 pages/templates/pages/feedback.html:25
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
+
+#: pages/templates/pages/contact.html:31 pages/templates/pages/feedback.html:31
+msgid "Go back Home"
+msgstr "Volto para Home"
+
+#: pages/templates/pages/feedback.html:6 pages/templates/pages/feedback.html:12
+msgid "Feedback"
+msgstr "Opinião"
 
 #: pages/templates/pages/home.html:16
 msgid "Round trip"
-msgstr ""
+msgstr "Ida e Volta"
 
 #: pages/templates/pages/home.html:19
 msgid "One way"
-msgstr ""
+msgstr "Solo Ida"
 
 #: pages/templates/pages/home.html:38
 msgid "Origin"
-msgstr ""
+msgstr "Origem"
 
 #: pages/templates/pages/home.html:50
 msgid "Leaving from"
-msgstr ""
+msgstr "Partindo de"
 
 #: pages/templates/pages/home.html:56
 msgid "Destination"
-msgstr ""
+msgstr "Destino"
 
 #: pages/templates/pages/home.html:68
 msgid "Going to"
-msgstr ""
+msgstr "Llegando a"
 
 #: pages/templates/pages/home.html:74 pages/templates/pages/home.html:126
 msgid "Departure"
-msgstr ""
+msgstr "Partida"
 
 #: pages/templates/pages/home.html:90
 msgid "Return (Optional)"
-msgstr ""
+msgstr "Volta (Opcional)"
 
 #: pages/templates/pages/home.html:147
 msgid "Return"
-msgstr ""
+msgstr "Volta"
