@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 11:56-0300\n"
+"POT-Creation-Date: 2024-06-17 12:23-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: payments/templates/payments/payment_cancel.html:6
+#: payments/templates/payments/payment_cancel.html:15
+msgid "Payment Cancel"
+msgstr ""
+
+#: payments/templates/payments/payment_cancel.html:17
+msgid ""
+"We have not yet received a confirmation for your payment and it is showing "
+"cancel status."
+msgstr ""
+
+#: payments/templates/payments/payment_cancel.html:20
+#: payments/templates/payments/payment_pending.html:22
+#, python-format
+msgid ""
+"Please don't make another payment for this order.\n"
+"          Incase of trouble you can\n"
+"          <a href=\"%(contact_url)s\" class=\"alert-link text-decoration-"
+"underline\"><strong>contact us here</strong></a>"
+msgstr ""
+
+#: payments/templates/payments/payment_cancel.html:25
+#: payments/templates/payments/payment_fail.html:26
+#: payments/templates/payments/payment_pending.html:27
+msgid "Go back home"
+msgstr ""
 
 #: payments/templates/payments/payment_fail.html:6
 #: payments/templates/payments/payment_fail.html:15
@@ -34,11 +61,6 @@ msgid ""
 "          "
 msgstr ""
 
-#: payments/templates/payments/payment_fail.html:26
-#: payments/templates/payments/payment_pending.html:27
-msgid "Go back home"
-msgstr ""
-
 #: payments/templates/payments/payment_fail.html:27
 msgid "Try again"
 msgstr ""
@@ -53,15 +75,6 @@ msgid ""
 "We have not yet received a confirmation for your payment and it is showing "
 "pending status. Incase the payment status is resolved you will get your "
 "tickets via email."
-msgstr ""
-
-#: payments/templates/payments/payment_pending.html:22
-#, python-format
-msgid ""
-"Please don't make another payment for this order.\n"
-"          Incase of trouble you can\n"
-"          <a href=\"%(contact_url)s\" class=\"alert-link text-decoration-"
-"underline\"><strong>contact us here</strong></a>"
 msgstr ""
 
 #: payments/templates/payments/payment_success.html:6
