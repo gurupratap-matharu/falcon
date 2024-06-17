@@ -1,6 +1,6 @@
 {% extends "layouts/base-app.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
   {% if company %}
@@ -19,7 +19,7 @@
 {% endblock breadcrumb %}
 
 {% block page_title %}
-  Results
+  {% translate "Results" %}
 {% endblock page_title %}
 
 {% block content %}
@@ -46,9 +46,9 @@
       </ul>
       {% with path=request.get_full_path klass="list-group-item list-group-item-action" ordering=request.GET.ordering %}
         <div class="list-group list-group-horizontal">
-          <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price#ordering">Cheapest</a>
-          <a class="{{ klass }} {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure#ordering">Earliest</a>
-          <a class="{{ klass }} {% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure#ordering">Latest</a>
+          <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price#ordering">{% translate "Cheapest" %}</a>
+          <a class="{{ klass }} {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure#ordering">{% translate "Earliest" %}</a>
+          <a class="{{ klass }} {% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure#ordering">{% translate "Latest" %}</a>
         </div>
       {% endwith %}
       {% for trip in trips %}
@@ -64,14 +64,17 @@
               <div class="col-md-6 border-md-end">
                 <h5>{{ trip.company }}</h5>
                 <div class="d-flex flex-row">
-                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Accepts all major cards">
+                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Accepts all major cards' %}">
                     <i class="bi bi-credit-card-2-front"></i>
                   </div>
-                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Cash accepted">
+                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Cash accepted' %}">
                     <i class="bi bi-cash-stack"></i>
                   </div>
-                  <span class="badge bg-light text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Seats available">{{ trip.availability }}</span>
-                  <span class="me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Seat Type">{% cycle 'Cama' 'Semicama' 'Executive' %}</span>
+                  <span class="badge bg-light text-dark mx-2"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{% translate 'Seats available' %}">{{ trip.availability }}</span>
+                  <span class="me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Seat Type' %}">{% cycle 'Cama' 'Semicama' 'Executive' %}</span>
                 </div>
                 <div class="row text-center mt-3">
                   <div class="col">
@@ -110,7 +113,7 @@
           </div>
         </div>
       {% empty %}
-        <h5 class="text-center mt-5">No results!</h5>
+        <h5 class="text-center mt-5">{% translate "No results!" %}</h5>
       {% endfor %}
       {% if trips %}
         <div class="d-flex justify-content-center">
