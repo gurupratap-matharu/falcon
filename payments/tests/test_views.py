@@ -6,6 +6,7 @@ from django.urls import resolve, reverse
 
 from orders.factories import OrderFactory, OrderItemFactory
 from payments.views import (
+    PaymentCancelView,
     PaymentFailView,
     PaymentPendingView,
     PaymentSuccessView,
@@ -201,6 +202,29 @@ class PaymentSuccessViewTests(TestCase):
         self.assertNotIn("order", self.client.session)
         with self.assertRaises(KeyError):
             self.client.session["order"]
+
+
+class PaymentCancelViewTests(SimpleTestCase):
+    """Test suite for payment cancel view"""
+
+    def setUp(self):
+        self.url = reverse("payments:cancel")
+        self.template_name = PaymentCancelView.template_name
+
+    def test_payment_cancel_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PaymentCancelView.as_view().__name__)
+
+    def test_payment_cancel_view_works_correctly(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Payment Cancel")
+        self.assertContains(response, "contact us here")
+        self.assertContains(response, "Go back home")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
 
 
 class PaymentPendingViewTests(SimpleTestCase):
