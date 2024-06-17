@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:14-0300\n"
+"POT-Creation-Date: 2024-06-17 13:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -286,4 +286,40 @@ msgstr ""
 #: trips/templates/trips/admin_route_detail.html:9
 #: trips/templates/trips/price_grid.html:9
 msgid "Kpiola 🚌"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:22
+msgid "Results"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:49
+msgid "Cheapest"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:50
+msgid "Earliest"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:51
+msgid "Latest"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:67
+msgid "Accepts all major cards"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:70
+msgid "Cash accepted"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:76
+msgid "Seats available"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:77
+msgid "Seat Type"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:116
+msgid "No results!"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:14-0300\n"
+"POT-Creation-Date: 2024-06-17 13:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,10 +115,6 @@ msgid "Interval"
 msgstr "Intervalo"
 
 #: trips/forms.py:291
-#, fuzzy
-#| msgid ""
-#| "(Optional) Time between consecutive occurrences. Ex for daily repeats 1: "
-#| "Every day, 2: Every other day, 3: every third day and so on..."
 msgid ""
 "(Optional) Time between consecutive occurrences. Ex 1: every day, 2: every "
 "other day, 3: every third day and so on..."
@@ -130,17 +126,15 @@ msgstr ""
 #: trips/forms.py:304
 #, python-format
 msgid "datetime (%(dt)s) cannot be in the past!"
-msgstr "datetime (%(dt)s) no puede ser en el pasado!"
+msgstr "fecha (%(dt)s) no puede ser en el pasado!"
 
 #: trips/forms.py:339
 msgid "End time cannot be less than Start time."
 msgstr "La hora de finalización no puede ser inferior a la hora de inicio."
 
 #: trips/forms.py:389
-#, fuzzy
-#| msgid "origin and destination cannot be same"
 msgid "origin and destination cannot be the same."
-msgstr "el orígen y el destino no puede ser el mismo"
+msgstr "el orígen y el destino no puede ser el mismo."
 
 #: trips/models.py:31 trips/models.py:98 trips/models.py:241
 msgid "name"
@@ -152,7 +146,7 @@ msgstr "slug"
 
 #: trips/models.py:34
 msgid "abbreviation"
-msgstr "abreviación"
+msgstr "abreviatura"
 
 #: trips/models.py:37
 msgid "Used internally as a reference"
@@ -160,43 +154,43 @@ msgstr "Usado internamente como una referencia"
 
 #: trips/models.py:39
 msgid "Address line 1"
-msgstr ""
+msgstr "Dirección linea 1"
 
 #: trips/models.py:40
 msgid "Address line 2"
-msgstr ""
+msgstr "Dirección linea 2"
 
 #: trips/models.py:41
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
 #: trips/models.py:42
 msgid "State/Province"
-msgstr ""
+msgstr "Provincia"
 
 #: trips/models.py:43
 msgid "Postal Code"
-msgstr ""
+msgstr "Código Postal"
 
 #: trips/models.py:44
 msgid "(select country)"
-msgstr ""
+msgstr "(elegir país)"
 
 #: trips/models.py:46
 msgid "Latitude"
-msgstr ""
+msgstr "Latitud"
 
 #: trips/models.py:49
 msgid "Longitude"
-msgstr ""
+msgstr "Longitud"
 
 #: trips/models.py:54
 msgid "location"
-msgstr ""
+msgstr "ubicación"
 
 #: trips/models.py:55
 msgid "locations"
-msgstr ""
+msgstr "ubicaciónes"
 
 #: trips/models.py:100 trips/models.py:267
 msgid "description"
@@ -208,11 +202,11 @@ msgstr "imagen"
 
 #: trips/models.py:103
 msgid "category"
-msgstr ""
+msgstr "categoría"
 
 #: trips/models.py:118
 msgid "Duration in Hours"
-msgstr ""
+msgstr "Duración en Horas"
 
 #: trips/models.py:122 trips/models.py:252
 msgid "price"
@@ -220,31 +214,31 @@ msgstr "precio"
 
 #: trips/models.py:124
 msgid "active"
-msgstr ""
+msgstr "activo"
 
 #: trips/models.py:129
 msgid "route"
-msgstr ""
+msgstr "ruta"
 
 #: trips/models.py:130
 msgid "routes"
-msgstr ""
+msgstr "rutas"
 
 #: trips/models.py:190
 msgid "arrival"
-msgstr ""
+msgstr "llegada"
 
 #: trips/models.py:191
 msgid "departure"
-msgstr ""
+msgstr "salida"
 
 #: trips/models.py:199
 msgid "stop"
-msgstr ""
+msgstr "parada"
 
 #: trips/models.py:200
 msgid "stops"
-msgstr ""
+msgstr "paradas"
 
 #: trips/models.py:249
 msgid "Departure Date & Time"
@@ -264,11 +258,11 @@ msgstr "modo"
 
 #: trips/models.py:277
 msgid "trip"
-msgstr ""
+msgstr "trip"
 
 #: trips/models.py:278
 msgid "trips"
-msgstr ""
+msgstr "trips"
 
 #: trips/models.py:291
 msgid "Arrival date cannot be less than departure date"
@@ -287,18 +281,50 @@ msgid "seat status"
 msgstr "estado de butaca"
 
 #: trips/models.py:544
-#, fuzzy
-#| msgid "seat type"
 msgid "seat"
-msgstr "tipo de butaca"
+msgstr "butaca"
 
 #: trips/models.py:545
-#, fuzzy
-#| msgid "Repeats"
 msgid "seats"
-msgstr "Repite"
+msgstr "butacas"
 
 #: trips/templates/trips/admin_route_detail.html:9
 #: trips/templates/trips/price_grid.html:9
 msgid "Kpiola 🚌"
 msgstr ""
+
+#: trips/templates/trips/trip_list.html:22
+msgid "Results"
+msgstr "Resultados"
+
+#: trips/templates/trips/trip_list.html:49
+msgid "Cheapest"
+msgstr "Precio"
+
+#: trips/templates/trips/trip_list.html:50
+msgid "Earliest"
+msgstr "Más temprano"
+
+#: trips/templates/trips/trip_list.html:51
+msgid "Latest"
+msgstr "Más tarde"
+
+#: trips/templates/trips/trip_list.html:67
+msgid "Accepts all major cards"
+msgstr "Acepta todas las tarjetas principales"
+
+#: trips/templates/trips/trip_list.html:70
+msgid "Cash accepted"
+msgstr "Acepta Efectivo"
+
+#: trips/templates/trips/trip_list.html:76
+msgid "Seats available"
+msgstr "Butacas disponibles"
+
+#: trips/templates/trips/trip_list.html:77
+msgid "Seat Type"
+msgstr "Tipo de butaca"
+
+#: trips/templates/trips/trip_list.html:116
+msgid "No results!"
+msgstr "No hay resultados!"
