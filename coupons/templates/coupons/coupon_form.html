@@ -17,29 +17,29 @@
 {% block content %}
   <div class="d-flex justify-content-center">
     <div class="card w-50">
-      <div class="card-header">
-        <a href="{{ company.get_coupon_list_url }}" class="icon-move-left">
+      <div class="card-header pb-0">
+        <a href="{{ company.get_coupon_list_url }}">
           <i class="bi bi-chevron-left me-2" aria-hidden="true">
           </i>
           Back
         </a>
+        <h5 class="text-center">{% translate "Coupon Create" %}</h5>
       </div>
       <div class="card-body">
-        <form method="post" role="form text-left">
+        <form method="post">
           {% csrf_token %}
           {{ form.non_field_errors }}
           {% for field in form.visible_fields %}
             <div class="mb-3">
-              <label>{{ field.label }}</label>
-              <div class="text-danger">{{ field.errors }}</div>
+              <span class="text-danger">{{ field.errors }}</span>
+              <label class="form-label text-sm" for="{{ field.auto_id }}">{{ field.label }}</label>
               {{ field }}
-              <div class="form-text ms-2">{{ field.help_text|safe }}</div>
+              <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
+                <small>{{ field.help_text|safe }}</small>
+              </div>
             </div>
           {% endfor %}
-          <div class="d-flex justify-content-end">
-            <a href="{{ company.get_coupon_list_url }}" class="btn btn-white me-3">Cancel</a>
-            <input type="submit" value="Save" class="btn btn-primary" />
-          </div>
+          <input type="submit" value="Save" class="btn btn-success" />
         </form>
       </div>
     </div>

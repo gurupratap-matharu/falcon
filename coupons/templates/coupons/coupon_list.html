@@ -15,14 +15,14 @@
 {% endblock page_title %}
 
 {% block content %}
-  <div class="card mb-4">
+  <div class="card">
     <div class="card-header d-flex justify-content-between pb-0">
-      <a href="{{ company.get_admin_url }}" class="icon-move-left">
+      <a href="{{ company.get_admin_url }}">
         <i class="bi bi-chevron-left me-2" aria-hidden="true">
         </i>
         Dashboard
       </a>
-      <a href="{{ company.get_coupon_create_url }}">{% translate "Create" %}</a>
+      <a href="{{ company.get_coupon_create_url }}"><i class="bi bi-plus-lg me-2"></i>{% translate "Create" %}</a>
     </div>
     <div class="card-body">
       {% if not coupons %}
@@ -32,13 +32,12 @@
           <table class="table table-borderless table-hover align-items-center align-middle mb-0">
             <thead>
               <tr>
-                <th class="text-secondary text-sm">Code</th>
-                <th class="text-secondary text-sm ps-2">Valid From</th>
-                <th class="text-secondary text-sm ps-2">Vatil Until</th>
-                <th class="text-secondary text-sm ps-2">Discount %</th>
-                <th class="text-secondary text-sm ps-2">Is Valid?</th>
-                <th class="text-secondary text-sm ps-2">Is Redeemed?</th>
-                <th class="text-secondary text-sm ps-2">Edit</th>
+                <th class="text-sm ps-2">{% translate "Code" %}</th>
+                <th class="text-sm ps-2">{% translate "Valid From" %}</th>
+                <th class="text-sm ps-2">{% translate "Vatil Until" %}</th>
+                <th class="text-sm ps-2">{% translate "Discount %" %}</th>
+                <th class="text-sm ps-2">{% translate "Is Valid?" %}</th>
+                <th class="text-sm ps-2">{% translate "Is Redeemed?" %}</th>
               </tr>
             </thead>
             <tbody>
@@ -61,13 +60,6 @@
                   </td>
                   <td>
                     <p class="text-sm">{{ coupon.active|yesno:"No,Yes,Maybe" }}</p>
-                  </td>
-                  <td class="align-middle">
-                    <div class="d-flex">
-                      <a href="" class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                      </a>
-                    </div>
                   </td>
                 </tr>
               {% endfor %}

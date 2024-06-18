@@ -1,19 +1,13 @@
 {% extends "layouts/base-company.html" %}
 
-{% load static %}
-
-{% load humanize %}
+{% load static i18n humanize %}
 
 {% block title %}
-  {% if company %}
-    {{ company.name }} | Dashboard
-  {% else %}
-    Trips
-  {% endif %}
+  {{ company.name }} | Dashboard
 {% endblock title %}
 
 {% block breadcrumb %}
-  Dashboard
+  {% translate "Dashboard" %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
@@ -114,12 +108,12 @@
   <div class="row my-4">
     <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
       <div class="card min-height-400">
-        <div class="card-header pb-0 d-flex justify-content-between">
+        <div class="card-header pb-0">
           <a href="{{ company.get_trip_list_url }}">
-            <h6>Trips</h6>
+            <h5>Trips</h5>
           </a>
         </div>
-        <div class="card-body px-1 pb-2">
+        <div class="card-body pb-3">
           {% if not trips %}
             <div class="d-flex justify-content-center align-items-center min-vh-25">
               <p class="text-sm mb-0 text-capitalize font-weight-bold">No upcoming trips</p>
@@ -129,10 +123,10 @@
               <table class="table table-borderless align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Routes</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Departure</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Revenue</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Occupancy</th>
+                    <th class="font-weight-bolder opacity-7">Routes</th>
+                    <th class="font-weight-bolder opacity-7 ps-2">Departure</th>
+                    <th class="font-weight-bolder opacity-7">Revenue</th>
+                    <th class="font-weight-bolder opacity-7">Occupancy</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -170,12 +164,10 @@
                         {% endwith %}
                       </td>
                       <td class="align-middle">
-                        <div class="d-flex">
-                          <a href="{% url 'companies:trip-detail' company.slug trip.id %}"
-                             class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                          </a>
-                        </div>
+                        <a href="{% url 'companies:trip-detail' company.slug trip.id %}">
+                          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                          <span class="visually-hidden">{% translate "View" %}</span>
+                        </a>
                       </td>
                     </tr>
                   {% endfor %}
@@ -189,7 +181,7 @@
     <div class="col-lg-4 col-md-6">
       <div class="card h-100">
         <div class="card-header pb-0">
-          <h6 class="mb-0">Categories</h6>
+          <h5>Categories</h5>
         </div>
         <div class="card-body pb-2">
           <ul class="list-group">
@@ -200,14 +192,13 @@
                 </div>
                 <div class="d-flex flex-column">
                   <h6 class="mb-1 text-dark text-sm">Coupons</h6>
-                  <span class="text-xs">250 in stock, <span class="font-weight-bold">346+ sold</span></span>
+                  <span class="text-xs">250 in stock, <strong>346+ sold</strong></span>
                 </div>
               </div>
-              <div class="d-flex">
-                <a href={{ company.get_coupon_list_url }} class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                  <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                </a>
-              </div>
+              <a href={{ company.get_coupon_list_url }}>
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <span class="visually-hidden">{% translate "Coupons" %}</span>
+              </a>
             </li>
             <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
               <div class="d-flex align-items-center">
@@ -219,12 +210,10 @@
                   <span class="text-xs">123 closed, <span class="font-weight-bold">15 open</span></span>
                 </div>
               </div>
-              <div class="d-flex">
-                <a href="{{ company.get_seatchart_url }}"
-                   class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                  <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                </a>
-              </div>
+              <a href="{{ company.get_seatchart_url }}">
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <span class="visually-hidden">{% translate "Seatcharts" %}</span>
+              </a>
             </li>
             <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
               <div class="d-flex align-items-center">
@@ -236,12 +225,10 @@
                   <span class="text-xs">7 running</span>
                 </div>
               </div>
-              <div class="d-flex">
-                <a href="{{ company.get_live_status_url }}"
-                   class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                  <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                </a>
-              </div>
+              <a href="{{ company.get_live_status_url }}">
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <span class="visually-hidden">{% translate "Live status" %}</span>
+              </a>
             </li>
             <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
               <div class="d-flex align-items-center">
@@ -253,11 +240,10 @@
                   <span class="text-xs font-weight-bold">+ 430K</span>
                 </div>
               </div>
-              <div class="d-flex">
-                <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                  <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                </button>
-              </div>
+              <a href="">
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <span class="visually-hidden">{% translate "Passengers" %}</span>
+              </a>
             </li>
           </ul>
         </div>
@@ -339,7 +325,7 @@
     <div class="col-lg-7">
       <div class="card z-index-2">
         <div class="card-header pb-0">
-          <h6>Sales overview</h6>
+          <h5>Sales overview</h5>
           <p class="text-sm">
             <i class="bi bi-arrow-up text-success"></i>
             <span class="font-weight-bold">4% more</span> in 2023

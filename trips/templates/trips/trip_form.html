@@ -1,9 +1,9 @@
 {% extends "layouts/base-company.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  Create|Update Trip
+  {% translate "Create|Update Trip" %}
 {% endblock title %}
 
 {% block breadcrumb %}
@@ -12,50 +12,51 @@
 
 {% block page_title %}
   {% if trip %}
-    Edit trip "{{ trip.name }}"
+    {% translate "Edit trip" %} "{{ trip.name }}"
   {% else %}
-    Create a new trip
+    {% translate "Create a new trip" %}
   {% endif %}
 {% endblock page_title %}
 
 {% block content %}
   <div class="row">
     <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
-      <div class="card z-index-0">
-        <div class="card-header d-flex justify-content-left pb-0">
-          <h6>
-            <a href="{{ company.get_trip_list_url }}" class="icon-move-left">
-              <i class="bi bi-chevron-left me-2" aria-hidden="true">
-              </i>
-              Back
-            </a>
-          </h6>
+      <div class="card">
+        <div class="card-header pb-0">
+          <a href="{{ company.get_trip_list_url }}">
+            <i class="bi bi-chevron-left me-2" aria-hidden="true">
+            </i>
+            Back
+          </a>
+          <h5 class="text-center">{% translate "Create Trip" %}</h5>
         </div>
         <div class="card-body">
-          <form method="post" role="form text-left">
+          <form method="post">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% for field in form.visible_fields %}
               <div class="mb-3">
-                <label>{{ field.label }}</label>
-                <div class="text-danger">{{ field.errors }}</div>
+                <span class="text-danger">{{ field.errors }}</span>
+                <label class="form-label text-sm" for="{{ field.auto_id }}">{{ field.label }}</label>
                 {{ field }}
-                <div class="form-text ms-2">{{ field.help_text|safe }}</div>
+                <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
+                  <small>{{ field.help_text|safe }}</small>
+                </div>
               </div>
             {% endfor %}
             {# --SeatChart Select Box #}
             <div class="form-group">
-              <label for="seatChart">SeatChart</label>
-              <select class="form-select" name="seatchart" aria-label="Seat Chart Type" required>
+              <label for="seatChart" class="form-label text-sm">SeatChart</label>
+              <select class="form-select" name="seatchart" id="seatChart" aria-label="Seat Chart Type" required>
                 <option value="">Please select</option>
                 {% for seatchart in company.seatcharts.all %}
                   <option value="{{ seatchart.title }}">{{ seatchart }}</option>
                 {% endfor %}
               </select>
             </div>
-            <div class="d-flex justify-content-end">
-              <a href="{{ trip.get_passenger_list_url }}" class="btn btn-white me-3">Cancel</a>
-              <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="d-flex justify-content-between">
+              <a href="{{ trip.get_passenger_list_url }}" class="btn btn-outline-danger">Cancel</a>
+              <input type="submit" value="Save" class="btn btn-success" />
             </div>
           </form>
         </div>
