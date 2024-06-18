@@ -115,11 +115,11 @@ class PaymentView(TemplateView):
             "binary_mode": True,
         }
 
-        logger.info("veer mercado pago preference_data: %s", preference_data)
+        logger.debug("veer mercado pago preference_data: %s", preference_data)
 
         preference = mercado_pago.preference().create(preference_data)
 
-        logger.info("veer mercado pago preference response(💰): %s", preference)
+        logger.debug("veer mercado pago preference response(💰): %s", preference)
 
         return preference["response"]
 
