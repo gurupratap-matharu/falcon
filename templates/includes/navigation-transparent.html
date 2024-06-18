@@ -1,68 +1,70 @@
-<nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none navbar-transparent mt-md-3">
-  <div class="container">
-    <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="{% url 'pages:home' %}">Kpiola</a>
-    <button class="navbar-toggler shadow-none ms-2"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navigation"
-            aria-controls="navigation"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon mt-2">
-        <span class="navbar-toggler-bar bar1"></span>
-        <span class="navbar-toggler-bar bar2"></span>
-        <span class="navbar-toggler-bar bar3"></span>
-      </span>
-    </button>
-    <div class="collapse navbar-collapse" id="navigation">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{% url 'pages:home' %}">
-            <i class="bi bi-pie-chart me-1"></i>
-            Dashboard
-          </a>
-        </li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link me-3" href="{% url 'pages:help' %}">
-            <i class="bi bi-question-circle me-1"></i>Help</a>
-        </li>
-        {% if request.user.is_authenticated %}
+<header>
+  <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none navbar-transparent mt-md-3">
+    <div class="container">
+      <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="{% url 'pages:home' %}">Kpiola</a>
+      <button class="navbar-toggler shadow-none ms-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navigation"
+              aria-controls="navigation"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon mt-2">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </span>
+      </button>
+      <div class="collapse navbar-collapse" id="navigation">
+        <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <div class="dropdown nav-link">
-              <div class="avatar avatar-sm rounded-circle position-relative dropdown-toggle"
-                   id="dropdownMenuButton"
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false"
-                   type="button">
-                <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}"
-                     alt="profile_image"
-                     class="w-100 border-radius-lg shadow-sm" />
+            <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{% url 'pages:home' %}">
+              <i class="bi bi-pie-chart me-1"></i>
+              Dashboard
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link me-3" href="{% url 'pages:help' %}">
+              <i class="bi bi-question-circle me-1"></i>Help</a>
+          </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <div class="dropdown nav-link">
+                <div class="avatar avatar-sm rounded-circle position-relative dropdown-toggle"
+                     id="dropdownMenuButton"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"
+                     type="button">
+                  <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}"
+                       alt="profile_image"
+                       class="w-100 border-radius-lg shadow-sm" />
+                </div>
+                <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
+                  <li>
+                    <a class="dropdown-item border-radius-md" href="{% url 'pages:profile' request.user.username %}">Profile</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item border-radius-md" href="{% url 'users:profile' %}">Edit Profile</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Sign out</a>
+                  </li>
+                </ul>
               </div>
-              <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
-                <li>
-                  <a class="dropdown-item border-radius-md" href="{% url 'pages:profile' request.user.username %}">Profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item border-radius-md" href="{% url 'users:profile' %}">Edit Profile</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Sign out</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a href="{% url 'account_login' %}" class="nav-link me-1">
-              <i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
-          </li>
-        {% endif %}
-      </ul>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="{% url 'account_login' %}" class="nav-link me-1">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>

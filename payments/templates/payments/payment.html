@@ -28,7 +28,7 @@
             <h6 class="text-center mb-0">Mercado Pago</h6>
             <span class="text-xs">ARS</span>
             <hr class="horizontal dark my-3" />
-            <h5 class="mb-0">+${{ order.get_total_cost }}</h5>
+            <button class="btn btn-outline-dark fs-6">Pay ${{ order.get_total_cost }}</button>
           </div>
         </div>
       </a>
@@ -36,7 +36,7 @@
     <div class="col-md-4">
       <form action="{% url "payments:checkout" %}" method="post" name="checkout-form">
         {% csrf_token %}
-        <div class="card cursor-pointer mb-3" onClick="document.forms['checkout-form'].submit();">
+        <div class="card cursor-pointer mb-3">
           <div class="card-header mx-auto p-3">
             <div class="icon icon-shape icon-lg bg-gradient-primary text-center">
               <i class="bi bi-coin text-lg opacity-10" aria-hidden="true"></i>
@@ -46,7 +46,7 @@
             <h6 class="text-center mb-0">Non Argentine</h6>
             <span class="text-xs">USD</span>
             <hr class="horizontal dark my-3" />
-            <h5 class="mb-0">${{ order.get_total_cost_usd }}</h5>
+            <button type="submit" class="btn btn-outline-dark fs-6">Pay U$D{{ order.get_total_cost_usd }}</button>
           </div>
         </div>
       </form>
