@@ -14,6 +14,10 @@
   {% translate "Passenger Details" %}
 {% endblock page_title %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'assets/css/seats/seatchart.min.css' %}" />
+{% endblock extra_css %}
+
 {% block content %}
   <div class="row">
     <div class="col-12 col-lg-8">
@@ -39,75 +43,91 @@
               {{ form.non_field_errors }}
               <div class="row">
                 <div class="col-md-4">
-                  <div class="text-danger">{{ form.document_type.errors }}</div>
-                  <div class="mb-3">{{ form.document_type }}</div>
-                  <div class="form-text ms-2">
-                    <small>{{ form.document_type.help_text|safe }}</small>
+                  <div class="mb-3">
+                    <span class="text-danger">{{ form.document_type.errors }}</span>
+                    <label class="form-label" for="{{ form.document_type.auto_id }}">{{ form.document_type.label }}</label>
+                    {{ form.document_type }}
+                    <div class="form-text ms-2" id="{{ form.document_type.auto_id }}_helptext">
+                      <small>{{ form.document_type.help_text|safe }}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="mb-3">
-                    <div class="text-danger">{{ form.document_number.errors }}</div>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <span class="input-group-text z-index-0">🔍</span>
-                        {{ form.document_number }}
-                      </div>
+                    <span class="text-danger">{{ form.document_number.errors }}</span>
+                    <label class="form-label" for="{{ form.document_number.auto_id }}">{{ form.document_number.label }}</label>
+                    <div class="input-group">
+                      <span class="input-group-text z-index-0">🔍</span>
+                      {{ form.document_number }}
                     </div>
-                    <div class="form-text ms-2">
+                    <div class="form-text ms-2" id="{{ form.document_number.auto_id }}_helptext">
                       <small>{{ form.document_number.help_text|safe }}</small>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="text-danger">{{ form.nationality.errors }}</div>
-                  <div class="mb-3">{{ form.nationality }}</div>
-                  <div class="form-text ms-2">
-                    <small>{{ form.nationality.help_text|safe }}</small>
+                  <div class="mb-3">
+                    <span class="text-danger">{{ form.nationality.errors }}</span>
+                    <label class="form-label" for="{{ form.nationality.auto_id }}">{{ form.nationality.label }}</label>
+                    {{ form.nationality }}
+                    <div class="form-text ms-2" id="{{ form.nationality.auto_id }}_helptext">
+                      <small>{{ form.nationality.help_text|safe }}</small>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-4">
-                  <div class="text-danger">{{ form.first_name.errors }}</div>
-                  <div class="mb-3">{{ form.first_name }}</div>
-                  <div class="form-text ms-2">
-                    <small>{{ form.first_name.help_text|safe }}</small>
+                  <div class="mb-3">
+                    <span class="text-danger">{{ form.first_name.errors }}</span>
+                    <label class="form-label" for="{{ form.first_name.auto_id }}">{{ form.first_name.label }}</label>
+                    {{ form.first_name }}
+                    <div class="form-text ms-2" id="{{ form.first_name.auto_id }}_helptext">
+                      <small>{{ form.first_name.help_text|safe }}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="text-danger">{{ form.last_name.errors }}</div>
-                  <div class="mb-3">{{ form.last_name }}</div>
-                  <div class="form-text ms-2">
-                    <small>{{ form.last_name.help_text|safe }}</small>
+                  <div class="mb-3">
+                    <span class="text-danger">{{ form.last_name.errors }}</span>
+                    <label class="form-label" for="{{ form.last_name.auto_id }}">{{ form.last_name.label }}</label>
+                    {{ form.last_name }}
+                    <div class="form-text ms-2" id="{{ form.last_name.auto_id }}_helptext">
+                      <small>{{ form.last_name.help_text|safe }}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="text-danger">{{ form.gender.errors }}</div>
-                  <div class="mb-3">{{ form.gender }}</div>
-                  <div class="form-text ms-2">
-                    <small>{{ form.gender.help_text|safe }}</small>
+                  <div class="mb-3">
+                    <span class="text-danger">{{ form.gender.errors }}</span>
+                    <label class="form-label" for="{{ form.gender.auto_id }}">{{ form.gender.label }}</label>
+                    {{ form.gender }}
+                    <div class="form-text ms-2" id="{{ form.gender.auto_id }}_helptext">
+                      <small>{{ form.gender.help_text|safe }}</small>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-4">
-                  <div class="text-danger">{{ form.birth_date.errors }}</div>
-                  <div class="mb-3">{{ form.birth_date }}</div>
-                  <div class="form-text ms-2">
-                    <small>{{ form.birth_date.help_text|safe }}</small>
+                  <div class="mb-3">
+                    <span class="text-danger">{{ form.birth_date.errors }}</span>
+                    <label class="form-label" for="{{ form.birth_date.auto_id }}">{{ form.birth_date.label }}</label>
+                    {{ form.birth_date }}
+                    <div class="form-text ms-2" id="{{ form.birth_date.auto_id }}_helptext">
+                      <small>{{ form.birth_date.help_text|safe }}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="form-group">
-                    <div class="text-danger">{{ form.phone_number.errors }}</div>
-                    <div class="input-group">
-                      <span class="input-group-text z-index-0">📞</span>
-                      {{ form.phone_number }}
-                    </div>
-                    <div class="form-text ms-2">
-                      <small>{{ form.phone_number.help_text|safe }}</small>
-                    </div>
+                  <span class="text-danger">{{ form.phone_number.errors }}</span>
+                  <label class="form-label" for="{{ form.phone_number.auto_id }}">{{ form.phone_number.label }}</label>
+                  <div class="input-group">
+                    <span class="input-group-text z-index-0">📞</span>
+                    {{ form.phone_number }}
+                  </div>
+                  <div class="form-text ms-2" id="{{ form.phone_number.auto_id }}_helptext">
+                    <small>{{ form.phone_number.help_text|safe }}</small>
                   </div>
                 </div>
               </div>
@@ -123,9 +143,10 @@
             {% for field in form.visible_fields %}
               <div class="mb-3">
                 {{ field.errors }}
+                <label class="form-label visually-hidden" for="{{ field.auto_id }}">{{ field.label }}</label>
                 {{ field }}
                 {% if field.help_text %}
-                  <div class="form-text ms-2">
+                  <div id="{{ field.auto_id }}_helptext" class="form-text ms-2">
                     <small>{{ field.help_text|safe }}</small>
                   </div>
                 {% endif %}
@@ -158,6 +179,7 @@
           </div>
         </div>
       {% endfor %}
+      {% comment "TODO: This price summary block can be hugely simplified" %}{% endcomment %}
       <div class="card">
         <div class="card-header pb-0">
           <h5 class="card-title">{% translate "Fare Summary" %}</h5>
@@ -165,26 +187,24 @@
         <div class="card-body px-4">
           {% for item in cart %}
             {% with trip=item.trip %}
-              <div class="mb-3">
-                {% with ""|center:item.quantity as range %}
-                  {% for _ in range %}
-                    <div class="d-flex justify-content-between mb-1">
-                      <div class="text-sm">{% translate "Passenger" %} {{ forloop.counter }}</div>
-                      ${{ trip.price|floatformat:"0" }}
-                    </div>
-                  {% endfor %}
-                {% endwith %}
-              </div>
+              {% with ""|center:item.quantity as range %}
+                {% for _ in range %}
+                  <div class="d-flex justify-content-between">
+                    <p>{% translate "Passenger" %} {{ forloop.counter }}</p>
+                    ${{ trip.price|floatformat:"0" }}
+                  </div>
+                {% endfor %}
+              {% endwith %}
             {% endwith %}
           {% endfor %}
           {% if cart.coupon %}
             <div class="d-flex justify-content-between mb-1">
-              <div class="text-sm">{% translate "Coupon" %} ({{ cart.coupon.discount }}% off)</div>
+              <p>{% translate "Coupon" %} ({{ cart.coupon.discount }}% off)</p>
               <div>- $ {{ cart.get_discount|floatformat:"0" }}</div>
             </div>
           {% endif %}
           <div class="d-flex justify-content-between mb-1">
-            <h6 class="text-dark text-sm font-weight-bold mb-0">{% translate "Total" %}</h6>
+            <h6 class="text-dark font-weight-bold mb-0">{% translate "Total" %}</h6>
             ${{ cart.get_total_price_after_discount|floatformat:"0" }}
           </div>
         </div>

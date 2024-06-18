@@ -1,7 +1,5 @@
 {% extends "layouts/base.html" %}
 
-{% load static %}
-
 {% block title %}
 {% endblock title %}
 
@@ -16,12 +14,12 @@
   {% include "includes/navigation-light.html" %}
   {% include "includes/alert.html" %}
 
-  <div class="container min-vh-85 mt-3">
+  <main class="container min-vh-85 mt-3">
 
     {% block content %}
     {% endblock content %}
 
-  </div>
+  </main>
   <div class="container">
 
     {% include "includes/footer.html" %}

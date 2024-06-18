@@ -3,7 +3,7 @@
 <div class="input-group mb-3">
   <button class="btn btn-outline-primary mb-0"
           type="button"
-          id="button-addon1"
+          id="select-seat"
           data-bs-toggle="modal"
           data-bs-target="#trip{{ trip.id }}">{% translate "Choose Seat" %}</button>
   <input type="text"
@@ -11,8 +11,8 @@
          name="seats{{ trip.id }}"
          id="seats{{ trip.id }}"
          value=""
-         aria-label="outbound seat"
-         aria-describedby="outbound seat"
+         aria-label="Click the button to open seat chart"
+         aria-describedby="select-seat"
          onkeypress="return false;"
          required />
 </div>
@@ -25,7 +25,7 @@
   <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">{{ trip.origin }} - {{ trip.destination }}</h5>
+        <h5 class="modal-title" id="seatSelectModal">{{ trip.origin }} - {{ trip.destination }}</h5>
         <button type="button" class="btn-close text-dark bg-dark me-md-2" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true"></span>
         </button>

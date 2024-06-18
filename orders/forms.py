@@ -19,6 +19,7 @@ class OrderForm(forms.ModelForm):
             attrs = self[field].field.widget.attrs
             attrs.setdefault("class", "")
             attrs["class"] += " is-invalid"
+            pdb.set_trace()
 
     class Meta:
         model = Order
