@@ -3,17 +3,17 @@
 {% load i18n %}
 
 {% block title %}
-  {% trans "Signup" %}
+  {% translate "Signup" %}
 {% endblock title %}
 
 {% block content %}
   <div class="card card-plain mt-8">
     <div class="card-header pb-0 text-left bg-transparent">
-      <h3 class="font-weight-bolder text-info text-gradient">{% trans "Sign Up" %}</h3>
+      <h3 class="font-weight-bolder text-info text-gradient">{% translate "Sign Up" %}</h3>
       <p>
-        {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your
+        {% blocktranslate with provider_name=account.get_provider.name site_name=site.name %}You are about to use your
       {{provider_name}} account to login to
-      {{site_name}}.{% endblocktrans %}
+      {{site_name}}.{% endblocktranslate %}
       </p>
     </div>
     <div class="card-body">
@@ -31,7 +31,7 @@
         {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
-        <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">{% trans "Sign Up" %}</button>
+        <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">{% translate "Sign Up" %}</button>
       </form>
     </div>
   </div>

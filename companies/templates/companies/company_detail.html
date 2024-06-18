@@ -1,13 +1,13 @@
-{% extends "layouts/base-sidebar.html" %}
+{% extends "layouts/base-app.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
   {{ company.name }}
 {% endblock title %}
 
 {% block breadcrumb %}
-  Companies
+  {% translate "Companies" %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
@@ -15,122 +15,25 @@
 {% endblock page_title %}
 
 {% block content %}
-  <div class="container-fluid py-4">
+  <section>
     <div class="row">
-      <div class="col-12">
-        <div class="card card-plain">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <a href="{% url 'companies:company_list' %}">
+              <i class="bi bi-chevron-left me-2" aria-hidden="true">
+              </i>
+              Back
+            </a>
+          </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-xl-5 col-lg-6 text-center">
-                <a class="d-block blur-shadow-image">
-                  <img class="w-100 border-radius-xl shadow-xl mx-auto" src="{% static 'assets/img/bus/bus4.avif' %}" alt="company logo" />
-                </a>
-                <div class="row mt-4 pt-2 align-items-center">
-                  <div class="col">
-                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus3.avif' %}" alt="Company bus image" />
-                  </div>
-                  <div class="col">
-                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus2.avif' %}" alt="Company bus image" />
-                  </div>
-                  <div class="col">
-                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus5.avif' %}" alt="Company bus image" />
-                  </div>
-                  <div class="col">
-                    <img class="img-fluid border-radius-lg shadow" src="{% static 'assets/img/bus/bus6.avif' %}" alt="Company bus image" />
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-5 mx-auto">
-                <a href="{% url 'companies:company_list' %}">
-                  <i class="bi bi-chevron-left me-2" aria-hidden="true">
-                  </i>
-                  Back
-                </a>
-                <h3 class="mt-lg-0 mt-4">{{ company.name }}</h3>
-                <div class="rating">
-                  <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  <i class="bi bi-star-half" aria-hidden="true"></i>
-                </div>
-                <br />
-                <h6 class="mb-0 mt-3">Phone</h6>
-                <h5>{{ company.phone }}</h5>
-                <span class="badge badge-success">In Stock</span>
-                <p class="card-text">{{ company.description }}</p>
-                <div class="row mt-4">
-                  <div class="col-lg-5">
-                    <a class="btn bg-gradient-primary mb-0 mt-lg-auto w-100" type="button" name="button" href="{{ company.get_booking_url }}">Book</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% comment %}
-                        Veer for now we don't show the trips for a company on its detail page for simplicity
-                        <div class="row mt-5">
-                            <div class="col-12">
-                                <h5 class="card-title">Trips</h5>
-                                <div class="table table-responsive">
-                                    <table class="table align-items-center mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Origin</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Destination</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Price</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Seats Available</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Occupancy</th>
-                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Duration</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for trip in trips %}
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="mb-0 text-sm">{{ trip.origin }}</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="mb-0 text-sm">{{ trip.destination }}</h6>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-sm text-secondary mb-0">${{ trip.price }}</p>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-xs">{{ trip.availability }}</span>
-                                                    </td>
-                                                    <td class="align-middle text-sm">
-                                                        {% with occupancy=trip.occupancy %}
-                                                            <div class="progress-wrapper w-75">
-                                                                <div class="progress-info">
-                                                                    <div class="progress-percentage">
-                                                                        <span class="text-xs font-weight-bold">{{ occupancy }}%</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-gradient-primary w-{{ occupancy }}" role="progressbar" aria-valuenow="{{ occupancy }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                </div>
-                                                            </div>
-                                                        {% endwith %}
-                                                    </td>
-                                                    <td class="align-middle text-center">
-                                                        <span class="text-secondary text-sm">{{ trip.duration }}Hs</span>
-                                                    </td>
-                                                </tr>
-                                            {% empty %}
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="mb-0 text-sm">No trips scheduled</h6>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-            </div> {% endcomment %}
+            <h5>{{ company.name }}</h5>
+            <p>{{ company.phone }}</p>
+            <p>{{ company.description }}</p>
+            <a class="btn bg-gradient-primary" href="{{ company.get_booking_url }}">Book</a>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 {% endblock content %}

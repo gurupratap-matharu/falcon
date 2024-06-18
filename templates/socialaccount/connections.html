@@ -3,19 +3,15 @@
 {% load i18n %}
 
 {% block title %}
-  {% trans "Account Connections" %}
+  {% translate "Account Connections" %}
 {% endblock title %}
 
 {% block content %}
   <div class="card card-plain mt-8">
     <div class="card-body">
-      <h3 class="font-weight-bolder text-primary text-gradient">{% trans "Account Connections" %}</h3>
+      <h3 class="font-weight-bolder text-primary text-gradient">{% translate "Account Connections" %}</h3>
       {% if form.accounts %}
-        <p>
-          {% blocktrans %}
-                    You can sign in to your account using any of the following third party accounts
-                    {% endblocktrans %}
-        </p>
+        <p>{% translate "You can sign in to your account using any of the following third party accounts" %}</p>
         <form method="post" action="{% url 'socialaccount_connections' %}">
           {% csrf_token %}
           <fieldset>
@@ -31,14 +27,14 @@
                 </div>
               {% endwith %}
             {% endfor %}
-            <button type="submit" class="btn bg-gradient-primary mb-0 mt-3">{% trans "Remove" %}</button>
+            <button type="submit" class="btn bg-gradient-primary mb-0 mt-3">{% translate "Remove" %}</button>
           </fieldset>
         </form>
       {% else %}
-        <p>{% trans "You currently have no social network accounts connected to this account." %}</p>
+        <p>{% translate "You currently have no social network accounts connected to this account." %}</p>
       {% endif %}
       <hr />
-      <h5>{% trans "Add a 3rd Party Account" %}</h5>
+      <h5>{% translate "Add a 3rd Party Account" %}</h5>
       <ul class="socialaccount_providers">
 
         {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
