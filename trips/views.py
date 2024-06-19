@@ -301,8 +301,16 @@ class RecurrenceView(CRUDMixins, FormView):
     permission_required = "trips.change_trip"
     success_message = "Recurring trips created successfully!"
 
+    def get_object(self):
+        return get_object_or_404(Trip, id=self.kwargs["id"])
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["trip"] = self.get_object()
+        return context
+
     def form_valid(self, form):
-        trip = get_object_or_404(Trip, id=self.kwargs["id"])
+        trip = self.get_object()
 
         logger.info("RecurrenceForm is valid...")
         logger.info("Trip:%s..." % trip)
