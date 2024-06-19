@@ -1,18 +1,15 @@
 {% extends "layouts/base-account.html" %}
 
-{% load i18n %}
-
-{% load account %}
-{% load socialaccount %}
+{% load i18n account socialaccount %}
 
 {% block title %}
   {% trans "Sign in" %}
 {% endblock title %}
 
 {% block content %}
-  <div class="card card-plain mt-8">
+  <div class="card mt-7">
     <div class="card-header pb-0 text-center bg-transparent">
-      <h3 class="font-weight-bolder text-primary text-gradient">Welcome Back</h3>
+      <h3 class="text-primary text-gradient">{% translate "Welcome Back" %}</h3>
       <a class="btn btn-outline-light" href="{% provider_login_url 'facebook' method="oauth2" %}">
         <svg width="24px"
              height="32px"
@@ -28,6 +25,7 @@
           </g>
           </g>
         </svg>
+        <span class="visually-hidden text-dark">{% translate "Login with Facebook" %}</span>
       </a>
       <a class="btn btn-outline-light" href="{% provider_login_url 'google' %}">
         <svg width="24px"
@@ -49,46 +47,52 @@
           </g>
           </g>
         </svg>
+        <span class="visually-hidden text-dark">{% translate "Login with Google" %}</span>
       </a>
-      <div class="position-relative text-center">
-        <p>OR</p>
-      </div>
     </div>
     <div class="card-body">
       <form action="{% url 'account_login' %}" role="form" method="post">
         {% csrf_token %}
         {% if form.errors %}
-          <div class="alert alert-primary text-white" role="alert">
-            <strong>Alert!</strong> Your username and password didn't match. Please try
-            again.
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span class="me-2"><i class="bi bi-bell"></i></span>
+            <span class="alert-text">Your username and password didn't match. Please try
+            again.</span>
+            <button type="button" class="btn-close pt-3" data-bs-dismiss="alert" aria-label="Close">
+              <i class="bi bi-x-lg text-dark"></i>
+            </button>
           </div>
         {% endif %}
         {% for field in form.visible_fields %}
-          <label>{{ field.label }}</label>
           <div class="mb-3">
-            {{ field.errors }}
+            <span class="text-danger">{{ field.errors }}</span>
+            <label class="form-label text-sm" for="{{ field.auto_id }}">{{ field.label }}</label>
             {{ field }}
-            {{ field.help_text }}
+            <div class="form-text text-end ms-2" id="{{ field.auto_id }}_helptext">
+              <small>{{ field.help_text|safe }}</small>
+            </div>
           </div>
         {% endfor %}
         <input type="hidden" name="next" value="{{ next }}" />
-        {% comment %} Veer our code ends here {% endcomment %}
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="rememberMe" checked="" />
           <label class="form-check-label" for="rememberMe">Remember me</label>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">Sign in</button>
+          <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">{% translate "Sign in" %}</button>
         </div>
       </form>
     </div>
     <div class="card-footer text-center pt-0 px-lg-2 px-1">
       <p class="mb-4 text-sm mx-auto">
-        Don't have an account?
-        <a href="{% url 'account_signup' %}" class="text-primary text-gradient font-weight-bold">Sign up</a>
+        {% translate "Don't have an account?" %}
+        <a href="{% url 'account_signup' %}" class="text-primary text-gradient font-weight-bold">{% translate "Sign up" %}</a>
       </p>
     </div>
   </div>
+{% endblock content %}
+
+{% block js %}
   <script>
        const add_form_classes = () => {
             const login = document.querySelector('#id_login');
@@ -99,4 +103,4 @@
        }
        document.addEventListener("DOMContentLoaded", add_form_classes);
   </script>
-{% endblock content %}
+{% endblock js %}

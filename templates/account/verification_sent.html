@@ -7,17 +7,16 @@
 {% endblock title %}
 
 {% block content %}
-  <div class="card card-plain mt-8">
-    <div class="card-header pb-0 text-left bg-transparent">
-      <h3 class="font-weight-bolder text-info text-gradient">{% trans "Verify Your E-mail Address" %}</h3>
+  <div class="card mt-7">
+    <div class="card-header pb-0">
+      <h3>{% trans "Verify Your E-mail Address" %}</h3>
     </div>
     <div class="card-body">
       <p>
-        {% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the
-            signup process.<br /><br />
-
-            If you do not see the verification e-mail in your main inbox, check your spam folder.
-            {% endblocktrans %}
+        {% blocktranslate %}
+        We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process.<br /><br />
+        If you do not see the verification e-mail in your main inbox, check your spam folder.
+        {% endblocktranslate %}
         <hr />
         In case of trouble please
         <a href="{% url 'pages:contact' %}" class="text-info text-gradient font-weight-bold">contact us here</a>

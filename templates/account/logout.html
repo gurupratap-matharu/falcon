@@ -1,33 +1,27 @@
 {% extends "layouts/base-account.html" %}
 
-{% load i18n %}
-
-{% load account %}
+{% load i18n account %}
 
 {% block title %}
   {% trans "Log out" %}
 {% endblock title %}
 
 {% block content %}
-  <div class="card card-plain mt-8">
-    <div class="card-header pb-0 text-left bg-transparent">
-      <h3 class="font-weight-bolder text-primary text-gradient">Sign Out</h3>
+  <div class="card mt-7">
+    <div class="card-header pb-0">
+      <h3 class="text-primary text-gradient">Sign Out</h3>
       <p>{% trans "Are you sure you wish to sign out?" %}</p>
     </div>
     <div class="card-body">
       <form action="{% url 'account_logout' %}" role="form" method="post">
         {% csrf_token %}
         {{ form }}
-        <div class="text-center">
-          <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">Sign Out</button>
-        </div>
+        <button type="submit" class="btn bg-gradient-primary w-100">Sign Out</button>
       </form>
     </div>
-    <div class="card-footer text-center pt-0 px-lg-2 px-1">
-      <p class="mb-4 text-sm mx-auto">
-        Go back
-        <a href="{% url 'pages:home' %}" class="text-primary text-gradient font-weight-bold">Home</a>
-      </p>
-    </div>
+    <p class="text-sm mx-auto">
+      Go back
+      <a href="{% url 'pages:home' %}" class="text-primary text-gradient font-weight-bold">Home</a>
+    </p>
   </div>
 {% endblock content %}
