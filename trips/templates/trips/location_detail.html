@@ -1,13 +1,13 @@
 {% extends "layouts/base-pages.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
   {{ location }}
 {% endblock title %}
 
 {% block breadcrumb %}
-  Location
+  {% translate "Location" %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
@@ -25,11 +25,11 @@
   <div class="row">
     <div class="col-12">
       <div class="card card-plain mx-3 mx-md-0">
-        <h2 class="mb-3">Where is {{ location }} ?</h2>
+        <h2 class="mb-3">{% translate "Where is" %} {{ location }} ?</h2>
         <div id="map" class="min-vh-50 rounded-3"></div>
         <div class="card-body px-1 pt-3">
-          <h5 class="card-title">Address</h5>
-          <p class="card-text">{{ location.address_line1 }} {{ location.city }} {{ location.state }} {{ location.country }}</p>
+          <h5>{% translate "Address" %}</h5>
+          <p class="text-dark">{{ location.address_line1 }} {{ location.city }} {{ location.state }} {{ location.country }}</p>
         </div>
       </div>
     </div>
