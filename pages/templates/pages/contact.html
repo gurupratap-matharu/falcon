@@ -7,28 +7,29 @@
 {% endblock title %}
 
 {% block content %}
-  <div class="card card-plain mt-7">
-    <div class="card-header pb-0 text-left bg-transparent">
-      <h3 class="font-weight-bolder text-primary text-gradient">{% translate "Contact Us" %}</h3>
+  <div class="card mt-7">
+    <div class="card-header pb-0">
+      <h3 class="text-primary text-gradient text-center">{% translate "Contact Us" %}</h3>
     </div>
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
         {% for field in form.visible_fields %}
           <div class="mb-3">
-            {{ field.errors }}
+            <span class="text-danger">{{ field.errors }}</span>
+            <label class="form-label text-sm visually-hidden" for="{{ field.auto_id }}{% if field.label == 'Captcha' %}_1{% endif %}">
+              {{ field.label }}
+            </label>
             {{ field }}
-            {{ field.help_text }}
+            <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
+              <small>{{ field.help_text|safe }}</small>
+            </div>
           </div>
         {% endfor %}
-        <div class="text-center">
-          <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">{% translate "Send" %}</button>
-        </div>
+        <button type="submit" class="btn bg-gradient-primary w-100">{% translate "Send" %}</button>
       </form>
-    </div>
-    <div class="card-footer text-center pt-0 px-lg-2 px-1">
-      <p class="text-sm mx-auto">
-        <a href="{% url 'pages:home' %}" class="text-primary text-gradient font-weight-bold">{% translate "Go back Home" %}</a>
+      <p class="text-center">
+        <a href="{% url 'pages:home' %}" class="text-primary text-gradient">{% translate "Go back Home" %}</a>
       </p>
     </div>
   </div>
