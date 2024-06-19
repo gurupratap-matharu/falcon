@@ -1,9 +1,9 @@
 {% extends "layouts/base-company.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  Create Recurrences
+  {% translate "Create Recurrences" %} | {{ trip }}
 {% endblock title %}
 
 {% block breadcrumb %}
@@ -11,30 +11,44 @@
 {% endblock breadcrumb %}
 
 {% block page_title %}
-  Recurrence
+  {% translate "Recurrence" %}
 {% endblock page_title %}
 
 {% block content %}
-  <div class="card">
-    <div class="card-header">
-      <h5>Recurrence Form</h5>
-    </div>
-    <div class="card-body">
-      <form method="post" id="recurrence-form">
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
-          <div class="mb-3">
-            <label>{{ field.label }}</label>
-            <div class="text-danger">{{ field.errors }}</div>
-            {{ field }}
-            <div class="form-text ms-2">{{ field.help_text|safe }}</div>
-          </div>
-        {% endfor %}
-        <div class="d-flex justify-content-between">
-          <button type="button" onclick="document.getElementById('recurrence-form').reset()" class="btn btn-dark">Reset</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header pb-0">
+          <a href="{{ company.get_trip_list_url }}">
+            <i class="bi bi-chevron-left me-2" aria-hidden="true">
+            </i>
+            Back
+          </a>
+          <h5 class="text-center">{% translate "Create Recurrence" %}</h5>
+          <p class="text-center">{{ trip }}</p>
         </div>
-      </form>
+        <div class="card-body">
+          <form method="post" id="recurrence-form">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+              <div class="mb-3">
+                <span class="text-danger">{{ field.errors }}</span>
+                <label class="form-label text-sm" for="{{ field.auto_id }}">{{ field.label }}</label>
+                {{ field }}
+                <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
+                  <small>{{ field.help_text|safe }}</small>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="d-flex justify-content-between">
+              <button type="button" onclick="document.getElementById('recurrence-form').reset()" class="btn btn-dark">
+                {% translate "Reset" %}
+              </button>
+              <button type="submit" class="btn btn-success">{% translate "Create Recurrences" %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock content %}
