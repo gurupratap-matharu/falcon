@@ -3,13 +3,8 @@
 {% load static %}
 
 {% block basecontent %}
-  <header>
-    <div class="container position-sticky z-index-sticky top-0">
 
-      {% include "includes/navigation-floating.html" %}
-
-    </div>
-  </header>
+  {% include "includes/navigation-floating.html" %}
 
   {% block main %}
     <main class="main-content mt-0">
@@ -38,7 +33,7 @@
     </main>
   {% endblock main %}
 
-  <div class="container mt-8">
+  <div class="container">
 
     {% include "includes/footer.html" %}
 
