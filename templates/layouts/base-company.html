@@ -172,7 +172,7 @@
     <header>
       <nav class="navbar navbar-expand-md px-0 mx-md-4 mb-3 mb-md-0 shadow-none border-radius-xl" id="navbarBlur">
         <div class="container-fluid py-1 px-3">
-          <a class="navbar-brand m-0 d-md-none" href="{{ company.get_admin_url }}">
+          <a class="navbar-brand" href="{{ company.get_admin_url }}">
             <img src="{{ company.cover.url }}"
                  class="avatar avatar-sm"
                  width="100"
@@ -187,7 +187,7 @@
               <span class="navbar-toggler-bar bar3"></span>
             </span>
           </button>
-          <nav aria-label="breadcrumb" class="d-none d-md-inline">
+          {% comment %} <nav aria-label="breadcrumb" class="d-none d-md-inline">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
               <li class="breadcrumb-item text-sm">
                 <a class="opacity-5 text-dark" href="{{ company.get_admin_url }}">
@@ -210,7 +210,7 @@
               {% endblock page_title %}
 
             </h6>
-          </nav>
+          </nav> {% endcomment %}
           <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto justify-content-end">
               <li class="nav-item d-flex align-items-center">
