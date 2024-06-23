@@ -34,10 +34,10 @@ class OrderCreateView(CreateView):
     redirect_message = "Your session has expired. Please search again 🙏"
 
     def get_initial(self):
-        user = self.request.user
-        initial = {"name": user.first_name, "email": user.email}
-        logger.info("initial:%s" % initial)
-        return initial
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            return {"name": user.first_name, "email": user.email}
+        return {}
 
     def dispatch(
         self, request: http.HttpRequest, *args: Any, **kwargs: Any
