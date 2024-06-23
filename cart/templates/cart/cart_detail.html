@@ -1,6 +1,6 @@
 {% extends "layouts/base-app.html" %}
 
-{% load i18n %}
+{% load static i18n %}
 
 {% block title %}
   {% translate "Your Cart" %}
@@ -63,7 +63,9 @@
                     <form action="{% url "cart:cart_remove" trip.id %}" method="post">
                       {% csrf_token %}
                       <button type="submit" class="btn">
-                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+                          <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
+                        </svg>
                         <span class="visually-hidden">{% translate "Remove from cart" %}</span>
                       </button>
                     </form>
@@ -124,7 +126,11 @@
     <button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
       {% translate "I have coupon" %}
     </button>
-    <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl">{% translate "Checkout" %}<i class="bi bi-arrow-right ms-2" aria-hidden="true"></i></a>
+    <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl">{% translate "Checkout" %}
+      <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+        <use xlink:href="{% static 'assets/icons/icons.svg' %}#arrow-right" />
+      </svg>
+    </a>
   </div>
   {% if not request.session.coupon_id %}
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

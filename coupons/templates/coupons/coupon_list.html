@@ -18,11 +18,16 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between pb-0">
       <a href="{{ company.get_admin_url }}">
-        <i class="bi bi-chevron-left me-2" aria-hidden="true">
-        </i>
+        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+        </svg>
         Dashboard
       </a>
-      <a href="{{ company.get_coupon_create_url }}"><i class="bi bi-plus-lg me-2"></i>{% translate "Create" %}</a>
+      <a href="{{ company.get_coupon_create_url }}">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#plus-lg" />
+        </svg>
+      {% translate "Create" %}</a>
     </div>
     <div class="card-body">
       {% if not coupons %}

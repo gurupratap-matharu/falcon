@@ -19,8 +19,9 @@
     <div class="card w-50">
       <div class="card-header pb-0">
         <a href="{{ company.get_coupon_list_url }}">
-          <i class="bi bi-chevron-left me-2" aria-hidden="true">
-          </i>
+          <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+          </svg>
           Back
         </a>
         <h5 class="text-center">{% translate "Coupon Create" %}</h5>
