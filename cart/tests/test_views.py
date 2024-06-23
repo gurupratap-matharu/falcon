@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
@@ -11,10 +12,12 @@ from trips.models import Trip
 
 
 class CartDetailViewTests(TestCase):
-    """Test suite for cart detail"""
+    """Test suite for cart detail view"""
 
-    url = reverse_lazy("cart:cart_detail")
-    template_name = "cart/cart_detail.html"
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse_lazy("cart:cart_detail")
+        cls.template_name = "cart/cart_detail.html"
 
     def test_cart_detail_view_works(self):
         response = self.client.get(self.url)
@@ -26,7 +29,6 @@ class CartDetailViewTests(TestCase):
 
     def test_cart_detail_url_resolves_cart_detail_view(self):
         view = resolve(self.url)
-
         self.assertEqual(view.func.__name__, cart_detail.__name__)
 
     def test_cart_detail_renders_coupon_apply_form(self):
@@ -41,8 +43,8 @@ class CartAddTests(TestCase):
 
     def setUp(self):
         self.trip = TripFactory()
-        self.url = self.trip.get_add_to_cart_url()  # type:ignore
-        self.failure_msg = "Oops! Perhaps your session expired. Please search again."
+        self.url = self.trip.get_add_to_cart_url()
+        self.session_expired_msg = settings.SESSION_EXPIRED_MESSAGE
 
     def test_add_to_cart_only_accepts_post_request(self):
         response = self.client.get(self.url)  # try GET
@@ -68,7 +70,7 @@ class CartAddTests(TestCase):
             response, reverse_lazy("orders:order_create"), HTTPStatus.FOUND
         )
 
-    def test_adding_more_than_two_trips_to_cart_redirects_with_message(self):
+    def test_adding_more_than_one_trips_to_cart_redirects_with_message(self):
         # First we build a valid search query and add it to the session
         session = self.client.session
         session["q"] = {
@@ -81,23 +83,22 @@ class CartAddTests(TestCase):
         }
         session.save()
 
-        # create two trips and add them to cart
+        # create some trips
         trip_1, trip_2, trip_3 = TripFactory.create_batch(size=3)
 
-        # add the two trips to the cart as well
+        # add one trip to cart
         _ = self.client.post(trip_1.get_add_to_cart_url())
-        _ = self.client.post(trip_2.get_add_to_cart_url())
 
-        # adding the third trip should redirect with message
+        # adding the second trip should redirect with message
+        response = self.client.post(trip_2.get_add_to_cart_url())
 
-        response = self.client.post(trip_3.get_add_to_cart_url())
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertRedirects(
             response, reverse_lazy("cart:cart_detail"), HTTPStatus.FOUND
         )
 
         messages = list(get_messages(response.wsgi_request))
-        trips_exceeded_msg = "You can add a maximum of two trips to your cart 🛒"
+        trips_exceeded_msg = "You can add a maximum of one trip to your cart."
 
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), trips_exceeded_msg)
@@ -115,7 +116,7 @@ class CartAddTests(TestCase):
         messages = list(get_messages(response.wsgi_request))
 
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), self.failure_msg)
+        self.assertEqual(str(messages[0]), self.session_expired_msg)
 
 
 class CartRemoveTests(TestCase):
