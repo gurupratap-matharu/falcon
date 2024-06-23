@@ -33,6 +33,12 @@ class OrderCreateView(CreateView):
     success_url = reverse_lazy("payments:home")
     redirect_message = "Your session has expired. Please search again 🙏"
 
+    def get_initial(self):
+        user = self.request.user
+        initial = {"name": user.first_name, "email": user.email}
+        logger.info("initial:%s" % initial)
+        return initial
+
     def dispatch(
         self, request: http.HttpRequest, *args: Any, **kwargs: Any
     ) -> http.HttpResponse:
