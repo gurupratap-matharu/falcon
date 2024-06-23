@@ -30,8 +30,10 @@
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="bi bi-coin text-lg opacity-10" aria-hidden="true"></i>
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md d-flex justify-content-center align-items-center">
+                <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#coin" />
+                </svg>
               </div>
             </div>
           </div>
@@ -52,8 +54,10 @@
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="bi bi-building-fill-up text-lg opacity-10" aria-hidden="true"></i>
+              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center">
+                <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#building-fill-up" />
+                </svg>
               </div>
             </div>
           </div>
@@ -74,8 +78,10 @@
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="bi bi-ticket-perforated-fill text-lg opacity-10" aria-hidden="true"></i>
+              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center">
+                <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#ticket-perforated-fill" />
+                </svg>
               </div>
             </div>
           </div>
@@ -96,8 +102,10 @@
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="bi bi-bus-front-fill text-lg opacity-10" aria-hidden="true"></i>
+              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center">
+                <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#bus-front" />
+                </svg>
               </div>
             </div>
           </div>
@@ -165,7 +173,9 @@
                       </td>
                       <td class="align-middle">
                         <a href="{% url 'companies:trip-detail' company.slug trip.id %}">
-                          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                          </svg>
                           <span class="visually-hidden">{% translate "View" %}</span>
                         </a>
                       </td>
@@ -187,8 +197,10 @@
           <ul class="list-group">
             <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
               <div class="d-flex align-items-center">
-                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                  <i class="bi bi-ticket-perforated-fill opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow d-flex justify-content-center align-items-center">
+                  <svg class="bi text-white" width="16" height="16" aria-hidden="true" fill="currentColor">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#ticket-perforated-fill" />
+                  </svg>
                 </div>
                 <div class="d-flex flex-column">
                   <h6 class="mb-1 text-dark text-sm">Coupons</h6>
@@ -196,14 +208,18 @@
                 </div>
               </div>
               <a href={{ company.get_coupon_list_url }}>
-                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
                 <span class="visually-hidden">{% translate "Coupons" %}</span>
               </a>
             </li>
             <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
               <div class="d-flex align-items-center">
-                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                  <i class="bi bi-grid-fill opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow d-flex justify-content-center align-items-center">
+                  <svg class="bi text-white" width="16" height="16" aria-hidden="true" fill="currentColor">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#grid-fill" />
+                  </svg>
                 </div>
                 <div class="d-flex flex-column">
                   <h6 class="mb-1 text-dark text-sm">SeatCharts</h6>
@@ -211,14 +227,18 @@
                 </div>
               </div>
               <a href="{{ company.get_seatchart_url }}">
-                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
                 <span class="visually-hidden">{% translate "Seatcharts" %}</span>
               </a>
             </li>
             <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
               <div class="d-flex align-items-center">
-                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                  <i class="bi bi-compass-fill opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow d-flex justify-content-center align-items-center">
+                  <svg class="bi text-white" width="16" height="16" aria-hidden="true" fill="currentColor">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#compass-fill" />
+                  </svg>
                 </div>
                 <div class="d-flex flex-column">
                   <h6 class="mb-1 text-dark text-sm">Live Status</h6>
@@ -226,14 +246,18 @@
                 </div>
               </div>
               <a href="{{ company.get_live_status_url }}">
-                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
                 <span class="visually-hidden">{% translate "Live status" %}</span>
               </a>
             </li>
             <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
               <div class="d-flex align-items-center">
-                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow text-center">
-                  <i class="bi bi-person-vcard-fill opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-primary shadow d-flex justify-content-center align-items-center">
+                  <svg class="bi text-white" width="16" height="16" aria-hidden="true" fill="currentColor">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#person-vcard-fill" />
+                  </svg>
                 </div>
                 <div class="d-flex flex-column">
                   <h6 class="mb-1 text-dark text-sm">Passenger Data</h6>
@@ -241,7 +265,9 @@
                 </div>
               </div>
               <a href="">
-                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
                 <span class="visually-hidden">{% translate "Passengers" %}</span>
               </a>
             </li>
@@ -267,8 +293,10 @@
             <div class="row">
               <div class="col-3 py-3 ps-0">
                 <div class="d-flex mb-2">
-                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-people-fill opacity-10 mt-2" aria-hidden="true"></i>
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary me-2 d-flex align-items-center justify-content-center">
+                    <svg class="bi text-white" width="12" height="12" aria-hidden="true" fill="currentColor">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#person-vcard-fill" />
+                    </svg>
                   </div>
                   <p class="text-xs mt-1 mb-0 font-weight-bold">Users</p>
                 </div>
@@ -280,8 +308,10 @@
               </div>
               <div class="col-3 py-3 ps-0">
                 <div class="d-flex mb-2">
-                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-info text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-mouse2-fill mt-2 opacity-10" aria-hidden="true"></i>
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary me-2 d-flex align-items-center justify-content-center">
+                    <svg class="bi text-white" width="12" height="12" aria-hidden="true" fill="currentColor">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#mouse2-fill" />
+                    </svg>
                   </div>
                   <p class="text-xs mt-1 mb-0 font-weight-bold">Clicks</p>
                 </div>
@@ -293,8 +323,10 @@
               </div>
               <div class="col-3 py-3 ps-0">
                 <div class="d-flex mb-2">
-                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-warning text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-currency-exchange opacity-10 mt-2" aria-hidden="true"></i>
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary me-2 d-flex align-items-center justify-content-center">
+                    <svg class="bi text-white" width="12" height="12" aria-hidden="true" fill="currentColor">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#coin" />
+                    </svg>
                   </div>
                   <p class="text-xs mt-1 mb-0 font-weight-bold">Sales</p>
                 </div>
@@ -306,8 +338,10 @@
               </div>
               <div class="col-3 py-3 ps-0">
                 <div class="d-flex mb-2">
-                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-bus-front-fill opacity-10 mt-2" aria-hidden="true"></i>
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary me-2 d-flex align-items-center justify-content-center">
+                    <svg class="bi text-white" width="12" height="12" aria-hidden="true" fill="currentColor">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#bus-front" />
+                    </svg>
                   </div>
                   <p class="text-xs mt-1 mb-0 font-weight-bold">Trips</p>
                 </div>
@@ -327,7 +361,9 @@
         <div class="card-header pb-0">
           <h5>Sales overview</h5>
           <p class="text-sm">
-            <i class="bi bi-arrow-up text-success"></i>
+            <svg class="bi" width="12" height="12" aria-hidden="true" fill="currentColor">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-up" />
+            </svg>
             <span class="font-weight-bold">4% more</span> in 2023
           </p>
         </div>
