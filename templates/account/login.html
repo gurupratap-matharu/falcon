@@ -1,6 +1,6 @@
 {% extends "layouts/base-account.html" %}
 
-{% load i18n account socialaccount %}
+{% load static i18n account socialaccount %}
 
 {% block title %}
   {% trans "Sign in" %}
@@ -55,11 +55,15 @@
         {% csrf_token %}
         {% if form.errors %}
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <span class="me-2"><i class="bi bi-bell"></i></span>
+            <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#bell" />
+            </svg>
             <span class="alert-text">Your username and password didn't match. Please try
             again.</span>
             <button type="button" class="btn-close pt-3" data-bs-dismiss="alert" aria-label="Close">
-              <i class="bi bi-x-lg text-dark"></i>
+              <svg class="bi text-dark" width="16" height="16" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
+              </svg>
             </button>
           </div>
         {% endif %}

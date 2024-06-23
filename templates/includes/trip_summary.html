@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load static i18n %}
 
 <div class="card mt-3 mt-md-0 mb-3">
   <div class="card-header pb-0">
@@ -8,7 +8,9 @@
     <div class="timeline timeline-one-side" data-timeline-axis-style="dotted">
       <div class="timeline-block mb-3">
         <span class="timeline-step">
-          <i class="bi bi-geo text-dark text-gradient"></i>
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#geo" />
+          </svg>
         </span>
         <div class="timeline-content">
           <h6 class="text-dark font-weight-bold mb-0">{{ trip.origin }}</h6>
@@ -17,7 +19,9 @@
       </div>
       <div class="timeline-block mb-3">
         <span class="timeline-step">
-          <i class="bi bi-geo-fill text-dark text-gradient"></i>
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#geo-fill" />
+          </svg>
         </span>
         <div class="timeline-content">
           <h6 class="text-dark font-weight-bold mb-0">{{ trip.destination }}</h6>
@@ -26,7 +30,9 @@
       </div>
       <div class="timeline-block mb-3">
         <span class="timeline-step">
-          <i class="bi bi-stopwatch text-dark text-gradient"></i>
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#stopwatch" />
+          </svg>
         </span>
         <div class="timeline-content">
           <h6 class="text-dark font-weight-bold mb-0">{% translate "Duration" %}</h6>
@@ -35,7 +41,9 @@
       </div>
       <div class="timeline-block mb-3">
         <span class="timeline-step">
-          <i class="bi bi-bus-front text-dark text-gradient"></i>
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#bus-front" />
+          </svg>
         </span>
         <div class="timeline-content">
           <h6 class="text-dark font-weight-bold mb-0">{% translate "Company" %}</h6>
@@ -44,7 +52,9 @@
       </div>
       <div class="timeline-block">
         <span class="timeline-step">
-          <i class="bi bi-coin text-dark text-gradient"></i>
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#coin" />
+          </svg>
         </span>
         <div class="timeline-content">
           <h6 class="text-dark font-weight-bold mb-0">{% translate "Price" %}</h6>

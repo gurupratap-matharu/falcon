@@ -20,6 +20,7 @@
   <div class="d-flex justify-content-center mb-3">
     <h1>HTMX ❤️ Django</h1>
   </div>
+  
   <div class="card mb-3">
     <div class="card-header">
       <h5>Change Language</h5>
@@ -216,7 +217,7 @@
 {% endblock content %}
 
 {% block js %}
-  <script type="text/javascript" src="{% static 'assets/js/htmx/htmx.min.js' %}"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.min.js"></script>
   <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}"></script>
   <script>
        const element = document.getElementById('seatChart');

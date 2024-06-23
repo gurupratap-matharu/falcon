@@ -28,7 +28,9 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <a class="nav-link me-2" href="{% url 'pages:help' %}">
-              <i class="bi bi-question-circle-fill opacity-6 text-dark me-1"></i>
+              <svg class="bi opacity-8 me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#question-circle-fill" />
+              </svg>
               Help
             </a>
           </li>

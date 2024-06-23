@@ -36,7 +36,9 @@ Happy toasting 🍾
     </div>
     <div class="toast fade hide p-2 mt-2 bg-white" role="alert" aria-live="assertive" id="warningToast" aria-atomic="true">
       <div class="toast-header border-0">
-        <i class="bi bi-exclamation-circle-fill text-warning me-2"></i>
+        <svg class="bi me-2 text-warning" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#exclamation-triangle-fill" />
+        </svg>
         <span class="me-auto font-weight-bold">Soft UI Dashboard</span>
         <small class="text-body">11 mins ago</small>
         <i class="bi bi-x-lg text-md ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close" aria-hidden="true"></i>
