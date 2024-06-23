@@ -20,8 +20,10 @@
       <a href="{{ preference.init_point }}">
         <div class="card cursor-pointer mb-3 mp-container">
           <div class="card-header mx-auto p-3">
-            <div class="icon icon-shape icon-lg bg-gradient-primary text-center">
-              <i class="bi bi-bank text-lg opacity-10"></i>
+            <div class="icon icon-shape icon-lg bg-gradient-primary d-flex justify-content-center align-items-center">
+              <svg class="bi text-white" width="32" height="32" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#bank" />
+              </svg>
             </div>
           </div>
           <div class="card-body pt-0 p-3 text-center">
@@ -38,8 +40,10 @@
         {% csrf_token %}
         <div class="card cursor-pointer mb-3">
           <div class="card-header mx-auto p-3">
-            <div class="icon icon-shape icon-lg bg-gradient-primary text-center">
-              <i class="bi bi-coin text-lg opacity-10" aria-hidden="true"></i>
+            <div class="icon icon-shape icon-lg bg-gradient-primary d-flex justify-content-center align-items-center">
+              <svg class="bi text-white" width="32" height="32" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#coin" />
+              </svg>
             </div>
           </div>
           <div class="card-body pt-0 p-3 text-center">

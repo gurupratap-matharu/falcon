@@ -11,8 +11,16 @@
     <div class="col-lg-5 col-md-7 mx-auto">
       <div class="alert alert-warning mt-3" role="alert">
         <h4 class="alert-heading mb-3">
-          <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" role="img" aria-label="Warning:">
-          </i>{% translate "Payment Cancel" %}
+          <svg class="bi flex-shrink-0 me-2"
+               width="32"
+               height="32"
+               fill="currentColor"
+               aria-hidden="true"
+               aria-label="Warning:"
+               role="img">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#exclamation-triangle-fill" />
+          </svg>
+          {% translate "Payment Cancel" %}
         </h4>
         <p>{% translate "We have not yet received a confirmation for your payment and it is showing cancel status." %}</p>
         <p>

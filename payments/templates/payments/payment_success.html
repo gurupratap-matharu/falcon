@@ -12,7 +12,9 @@
       <div class="col-xl-4 col-lg-6 col-md-7 col-sm-8 mx-auto">
         <div class="card">
           <div class="card-header mx-auto">
-            <i class="bi bi-check-circle-fill fs-1 text-success" role="img" aria-label="Success:"></i>
+            <svg class="bi text-success" fill="currentColor" width="64" height="64" aria-hidden="true" role="img" aria-label="Success:">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#check-circle-fill" />
+            </svg>
           </div>
           <div class="card-body p-3 text-center">
             <h4>{% translate "Payment Successful!" %}</h4>
@@ -32,7 +34,9 @@
                 <a href="{% if order %}{{ order.get_ticket_url }}{% endif %}" target="_blank">
                   <div class="card">
                     <div class="card-header mx-auto">
-                      <i class="bi bi-download fs-3" aria-hidden="true"></i>
+                      <svg class="bi" width="32" height="32" fill="currentColor" aria-hidden="true">
+                        <use xlink:href="{% static 'assets/icons/icons.svg' %}#download" />
+                      </svg>
                     </div>
                     <div class="card-body pt-0 p-3 text-center">
                       <h6 class="text-center mb-0">{% translate "Download PDF" %}</h6>
@@ -44,7 +48,9 @@
                 <a href="{{ calendar_link }}" target="_blank">
                   <div class="card">
                     <div class="card-header mx-auto">
-                      <i class="bi bi-calendar4-week fs-3" aria-hidden="true"></i>
+                      <svg class="bi" width="32" height="32" fill="currentColor" aria-hidden="true">
+                        <use xlink:href="{% static 'assets/icons/icons.svg' %}#calendar4-week" />
+                      </svg>
                     </div>
                     <div class="card-body pt-0 p-3 text-center">
                       <h6 class="text-center mb-0">{% translate "Add to calendar" %}</h6>
