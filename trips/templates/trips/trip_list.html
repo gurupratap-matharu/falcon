@@ -105,7 +105,8 @@
               </div>
               <div class="col-md-3 align-self-center text-center">
                 <form action="{{ trip.get_add_to_cart_url }}" method="post">
-                  <button class="btn btn-outline-light mt-2 position-relative" type="submit">
+                  {% csrf_token %}
+                  <button class="btn btn-outline-light mt-2" type="submit">
                     <h5 class="font-weight-bolder mb-0">${{ trip.price|floatformat:"-2g" }}</h5>
                   </button>
                 </form>
