@@ -65,10 +65,14 @@
                 <h5>{{ trip.company }}</h5>
                 <div class="d-flex flex-row">
                   <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Accepts all major cards' %}">
-                    <i class="bi bi-credit-card-2-front"></i>
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#credit-card-2-front" />
+                    </svg>
                   </div>
                   <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Cash accepted' %}">
-                    <i class="bi bi-cash-stack"></i>
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#cash-stack" />
+                    </svg>
                   </div>
                   <span class="badge bg-light text-dark mx-2"
                         data-bs-toggle="tooltip"
@@ -115,7 +119,9 @@
       {% if trips %}
         <div class="d-flex justify-content-center">
           <a href="#top" title="Back to top">
-            <i class="bi bi-chevron-up fs-3"></i>
+            <svg class="bi" width="32" height="32" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-up" />
+            </svg>
             <span class="visually-hidden">Back to top</span>
           </a>
         </div>

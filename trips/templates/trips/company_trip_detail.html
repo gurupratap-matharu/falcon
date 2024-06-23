@@ -18,17 +18,22 @@
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between pb-0">
       <a href="{{ company.get_trip_list_url }}">
-        <i class="bi bi-chevron-left me-2" aria-hidden="true">
-        </i>
+        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+        </svg>
         {% translate "All Trips" %}
       </a>
       <div>
         <a href="{% url 'companies:trip-update' company.slug trip.id %}">
-          <i class="bi bi-toggles me-1" aria-hidden="true"></i>
+          <svg class="bi me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#toggles" />
+          </svg>
           {% translate "Update Trip" %}
         </a>
         <a href="{% url 'companies:trip-recurrence' company.slug trip.id %}" class="ms-2">
-          <i class="bi bi-alarm me-1" aria-hidden="true"></i>
+          <svg class="bi me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#alarm" />
+          </svg>
           {% translate "Create Recurrence" %}
         </a>
       </div>
@@ -101,7 +106,9 @@
     <div class="card-header d-flex justify-content-between pb-0">
       <p>{% translate "Passengers" %}</p>
       <a href="{% url 'companies:trip-passengers-pdf' company.slug trip.id %}" data-type="pdf">
-        <i class="bi bi-filetype-pdf text-lg me-1" aria-hidden="true"></i>
+        <svg class="bi me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#filetype-pdf" />
+        </svg>
         {% translate "Download" %}
       </a>
     </div>
