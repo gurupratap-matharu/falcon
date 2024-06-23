@@ -55,8 +55,8 @@ class Cart:
         """
 
         # do not allow to add more than two trips
-        if len(self.cart) == 2:
-            raise CartException("Cannot add more than two trips to cart!")
+        if len(self.cart) == 1:
+            raise CartException("Cannot add more than one trip to cart!")
 
         logger.info("adding to cart... trip: %s quantity: %s" % (trip, quantity))
 

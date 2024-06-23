@@ -89,6 +89,7 @@ ROOT_URLCONF = "main.urls"
 # Sessions
 CART_SESSION_ID = "cart"
 SESSION_COOKIE_AGE = 10 * 60  # 10 mins
+SESSION_EXPIRED_MESSAGE = _("Your session has expired. Please search again 🙏")
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
