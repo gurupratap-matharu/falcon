@@ -1,9 +1,9 @@
 {% load i18n %}
 
-<footer class="footer shadow-none border-radius-xl">
-  <div class="container-fluid py-3 px-3">
-    <div class="row align-items-center justify-content-lg-between">
-      <div class="col-lg-6 mb-lg-0 mb-4">
+<footer class="footer">
+  <div class="container-fluid py-3">
+    <div class="row">
+      <div class="col-md-6">
         <p class="nav-link text-center text-sm text-lg-start">
           {% translate "All rights reserved. Copyright ©" %}
           <script>
@@ -12,7 +12,7 @@
           {% translate "Made with ❤️ in Argentina 🇦🇷" %}
         </p>
       </div>
-      <div class="col-lg-6">
+      <div class="col-md-6">
         <ul class="nav nav-footer justify-content-center justify-content-lg-end">
           <li class="nav-item">
             <a href="{% url 'pages:about' %}" class="nav-link">{% translate "About" %}</a>
