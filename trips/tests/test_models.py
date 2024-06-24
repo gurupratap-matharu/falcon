@@ -142,10 +142,7 @@ class RouteModelTests(TestCase):
         self.assertEqual(self.route._meta.verbose_name_plural, "routes")
 
     def test_get_absolute_url(self):
-        self.skipTest("not yet implemented")
-
-    def test_admin_url(self):
-        actual = self.route.get_admin_url()
+        actual = self.route.get_absolute_url()
         expected = reverse_lazy(
             "companies:route-detail",
             kwargs={"slug": self.route.company.slug, "id": str(self.route.id)},

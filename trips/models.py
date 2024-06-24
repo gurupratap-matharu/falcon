@@ -137,7 +137,7 @@ class Route(models.Model):
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
-    def get_admin_url(self):
+    def get_absolute_url(self):
         return reverse_lazy(
             "companies:route-detail",
             kwargs={"id": str(self.id), "slug": self.company.slug},
