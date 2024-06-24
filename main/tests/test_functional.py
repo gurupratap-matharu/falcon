@@ -6,7 +6,10 @@ from django.utils import timezone
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import Select
+
+from trips.factories import LocationFactory, TripTomorrowFactory
+from trips.models import Trip
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -22,6 +25,15 @@ class NewVisitorTest(StaticLiveServerTestCase):
         super().setUpClass()
         cls.browser = webdriver.Firefox()
         # cls.browser.implicitly_wait(2)
+        # setup some location and trips
+        cls.origin = LocationFactory(name="Buenos Aires")
+        cls.destination = LocationFactory(name="Mendoza")
+        cls.trips = TripTomorrowFactory.create_batch(
+            size=3,
+            origin=cls.origin,
+            destination=cls.destination,
+            status=Trip.ACTIVE,
+        )
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -68,8 +80,13 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertTrue(destination_ac.is_displayed)
 
         # She selects Mendoza from the dropdown autocomplete list
-        ActionChains(self.browser).move_to_element(destination_ac).click().perform()
-        # self.assertEqual(destination.get_attribute("value"), "Mendoza") # <-- flaky
+        # ActionChains(self.browser).move_to_element(destination_ac).click().perform()
+        destination_result = self.browser.find_element(
+            by=By.CSS_SELECTOR,
+            value="ul#autoComplete_list_2 > li#autoComplete_result_0",
+        )
+        destination_result.click()
+        self.assertEqual(destination.get_attribute("value"), "Mendoza")  # <-- flaky
 
         # She observes the departure date input is prepopulated with tomorrow's date
         departure = self.browser.find_element(By.ID, "departure")
@@ -100,4 +117,14 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # She clicks on the select and see that there are upto 5 options
         self.assertEqual(len(num_of_pass.options), 5)
 
+        # home page is ready. let's take a screenshot before hitting search
+        self.browser.save_screenshot("home.png")
+
         # Being satisfied that all inputs are corrected she finally clicks the search button
+        search_btn = self.browser.find_element(By.CSS_SELECTOR, value="form button")
+        search_btn.click()
+
+        self.assertTrue(
+            self.browser.current_url.startswith(f"{self.live_server_url}/trips/")
+        )
+        
