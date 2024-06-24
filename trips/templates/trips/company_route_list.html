@@ -1,9 +1,9 @@
 {% extends "layouts/base-company.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  {{ company.name }} | Routes
+  {{ company.name }} | {% translate "Routes" %}
 {% endblock title %}
 
 {% block breadcrumb %}
@@ -11,15 +11,73 @@
 {% endblock breadcrumb %}
 
 {% block page_title %}
-  Routes
+  {% translate "Routes" %}
 {% endblock page_title %}
 
 {% block content %}
-  <div class="list-group">
-    {% for route in routes %}
-      <a href="{{ route.get_admin_url }}" class="list-group-item list-group-item-action">{{ route.origin }} | {{ route.destination }} | {{ route.get_category_display }}</a>
-    {% empty %}
-      <a href="" class="list-group-item list-group-item-action">You do not have any routes yet!</a>
-    {% endfor %}
+  <div class="card">
+    <div class="card-header">
+      <a href="{{ company.get_admin_url }}">
+        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+        </svg>
+        Dashboard
+      </a>
+    </div>
+    <div class="card-body">
+      {% if not routes %}
+        <h6 class="text-center mb-3">{% translate "You have no upcoming trips!" %}</h6>
+      {% else %}
+        <div class="table-responsive">
+          <table class="table table-hover table-borderless align-items-center align-middle">
+            <thead>
+              <tr>
+                {% with klass="text-sm font-weight-bolder opacity-7 ps-2" %}
+                  <th class="{{ klass }}">{% translate "Company" %}</th>
+                  <th class="{{ klass }}">{% translate "Origin" %}</th>
+                  <th class="{{ klass }}">{% translate "Destination" %}</th>
+                  <th class="{{ klass }}">{% translate "Category" %}</th>
+                  <th class="{{ klass }}">{% translate "Duration" %}</th>
+                  <th class="{{ klass }}">{% translate "Active" %}</th>
+                  <th class="{{ klass }}">{% translate "View" %}</th>
+                {% endwith %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for route in routes %}
+                <tr>
+                  <td>
+                    <p class="text-sm mb-0">{{ route.company }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ route.origin }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ route.destination }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ route.get_category_display }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ route.duration }}</p>
+                  </td>
+                  <td>
+                    <p class="text-sm mb-0">{{ route.active }}</p>
+                  </td>
+                  <td>
+                    <a href="{{ route.get_absolute_url }}">
+                      <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                        <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                      </svg>
+                      <span class="visually-hidden">View Route Details</span>
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    </div>
   </div>
 {% endblock content %}
