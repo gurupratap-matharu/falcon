@@ -29,10 +29,10 @@
         <h6 class="text-center mb-3">{% translate "You have no upcoming trips!" %}</h6>
       {% else %}
         <div class="table-responsive">
-          <table class="table table-hover table-borderless align-items-center align-middle">
+          <table class="table">
             <thead>
               <tr>
-                {% with klass="text-sm font-weight-bolder opacity-7 ps-2" %}
+                {% with klass="font-weight-bolder opacity-7 ps-2" %}
                   <th class="{{ klass }}">{% translate "Company" %}</th>
                   <th class="{{ klass }}">{% translate "Origin" %}</th>
                   <th class="{{ klass }}">{% translate "Destination" %}</th>
@@ -46,24 +46,12 @@
             <tbody>
               {% for route in routes %}
                 <tr>
-                  <td>
-                    <p class="text-sm mb-0">{{ route.company }}</p>
-                  </td>
-                  <td>
-                    <p class="text-sm mb-0">{{ route.origin }}</p>
-                  </td>
-                  <td>
-                    <p class="text-sm mb-0">{{ route.destination }}</p>
-                  </td>
-                  <td>
-                    <p class="text-sm mb-0">{{ route.get_category_display }}</p>
-                  </td>
-                  <td>
-                    <p class="text-sm mb-0">{{ route.duration }}</p>
-                  </td>
-                  <td>
-                    <p class="text-sm mb-0">{{ route.active }}</p>
-                  </td>
+                  <td>{{ route.company }}</td>
+                  <td>{{ route.origin }}</td>
+                  <td>{{ route.destination }}</td>
+                  <td>{{ route.get_category_display }}</td>
+                  <td>{{ route.duration }}</td>
+                  <td>{{ route.active }}</td>
                   <td>
                     <a href="{{ route.get_absolute_url }}">
                       <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">

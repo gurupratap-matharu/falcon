@@ -1,7 +1,9 @@
 {% extends "layouts/base-company.html" %}
 
+{% load static i18n %}
+
 {% block title %}
-  {{ route }} | {{ company }}
+  {{ company.name }} | {{ route }}
 {% endblock title %}
 
 {% block breadcrumb %}
@@ -13,11 +15,89 @@
 {% endblock page_title %}
 
 {% block content %}
-  <div class="list-group">
-    {% for stop in stops %}
-      <a href="" class="list-group-item list-group-item-action">{{ stop.order|add:1 }}. {{ stop.name }} | {{ stop.arrival }} | {{ stop.departure }}</a>
-    {% empty %}
-      <a href="" class="list-group-item list-group-item-action">Route has no stops yet!</a>
-    {% endfor %}
+  <div class="card mb-3">
+    <div class="card-header d-flex justify-content-between pb-0">
+      <a href="{{ company.get_route_list_url }}">
+        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+        </svg>
+        {% translate "All Routes" %}
+      </a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#stopModal">
+        <svg class="bi me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#toggles" />
+        </svg>
+      {% translate "Stops" %}</a>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              {% with klass="font-weight-bolder opacity-7 ps-2" %}
+                <th class="{{ klass }}">{% translate "Company" %}</th>
+                <th class="{{ klass }}">{% translate "Origin" %}</th>
+                <th class="{{ klass }}">{% translate "Destination" %}</th>
+                <th class="{{ klass }}">{% translate "Category" %}</th>
+                <th class="{{ klass }}">{% translate "Duration" %}</th>
+                <th class="{{ klass }}">{% translate "Active" %}</th>
+              {% endwith %}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ route.company }}</td>
+              <td>{{ route.origin }}</td>
+              <td>{{ route.destination }}</td>
+              <td>{{ route.get_category_display }}</td>
+              <td>{{ route.duration }}</td>
+              <td>{{ route.active }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 {% endblock content %}
+
+{% block modal %}
+  <div class="modal fade" id="stopModal" tabindex="-1" aria-labelledby="stopModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="stopModalLabel">{{ route }}</h1>
+          <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% if not stops %}
+            <p>{% translate "There are no stops for this route." %}</p>
+          {% else %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>Order</td>
+                  <td>Name</td>
+                  <td>Arrival</td>
+                  <td>Departure</td>
+                </tr>
+              </thead>
+              <tbody>
+                {% for stop in stops %}
+                  <tr>
+                    <td>{{ stop.order|add:1 }}</td>
+                    <td>{{ stop.name }}</td>
+                    <td>{{ stop.arrival }}</td>
+                    <td>{{ stop.departure }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock modal %}
