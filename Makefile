@@ -81,7 +81,7 @@ format:
 lint:
 	poetry run black --check --diff .
 	poetry run isort . --check-only --profile black
-	poetry run ruff check .
+	poetry run ruff check --fix .
 	git ls-files '*.html' | xargs djlint --check
 
 test: check migrations-check

@@ -32,11 +32,11 @@ djlint = "^1.19.7"
 ipython = "^8.23.0"
 selenium = "^4.19.0"
 django-debug-toolbar = "^4.3.0"
-ruff = "^0.3.5"
 black = "^24.4.2"
 isort = "^5.13.2"
 bandit = "^1.7.8"
 safety = "^3.2.0"
+ruff = "^0.4.10"
 
 [build-system]
 requires = ["poetry-core"]
@@ -47,6 +47,14 @@ line-length = 119
 exclude = [
     "*migrations*",
     ]
+
+[tool.ruff.lint]
+select = ["E501", "I"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 72
+
 
 [tool.isort]
 profile = "black"
