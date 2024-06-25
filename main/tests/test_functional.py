@@ -127,4 +127,3 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertTrue(
             self.browser.current_url.startswith(f"{self.live_server_url}/trips/")
         )
-        
