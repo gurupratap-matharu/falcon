@@ -1428,7 +1428,7 @@ class CompanyRouteDetailViewTests(TestCase):
         cls.company = CompanyFactory(owner=cls.owner)
         cls.route = RouteFactory(company=cls.company)
         cls.stops = StopFactory.create_batch(size=5, route=cls.route)
-        cls.url = cls.route.get_admin_url()
+        cls.url = cls.route.get_absolute_url()
         cls.template_name = CompanyRouteDetailView.template_name
 
     def test_company_route_detail_url_resolves_correct_view(self):

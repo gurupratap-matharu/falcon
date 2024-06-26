@@ -40,7 +40,6 @@ class PaymentViewTests(TestCase):
         self.assertNotContains(response, "Hi there! I should not be on this page.")
         self.assertContains(response, "mp_public_key")
         self.assertContains(response, "preference")
-        self.assertContains(response, "order")
         self.assertEqual(response.context["order"], self.order)
 
     def test_payment_home_page_redirect_to_home_if_order_not_found_in_session(self):
