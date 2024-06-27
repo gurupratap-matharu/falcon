@@ -69,30 +69,28 @@
           <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          {% if not stops %}
-            <p>{% translate "There are no stops for this route." %}</p>
-          {% else %}
-            <table class="table">
-              <thead>
+          <table class="table">
+            <thead>
+              <tr>
+                <td>Order</td>
+                <td>Name</td>
+                <td>Arrival</td>
+                <td>Departure</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for stop in stops %}
                 <tr>
-                  <td>Order</td>
-                  <td>Name</td>
-                  <td>Arrival</td>
-                  <td>Departure</td>
+                  <td>{{ stop.order|add:1 }}</td>
+                  <td>{{ stop.name }}</td>
+                  <td>{{ stop.arrival }}</td>
+                  <td>{{ stop.departure }}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {% for stop in stops %}
-                  <tr>
-                    <td>{{ stop.order|add:1 }}</td>
-                    <td>{{ stop.name }}</td>
-                    <td>{{ stop.arrival }}</td>
-                    <td>{{ stop.departure }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% endif %}
+              {% empty %}
+                <p>{% translate "There are no stops for this route." %}</p>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
