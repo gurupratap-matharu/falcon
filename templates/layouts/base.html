@@ -65,17 +65,17 @@
     {% block basecontent %}
     {% endblock basecontent %}
 
+    {% block modal %}
+    {% endblock modal %}
+
+    {% include "includes/sessions.html" %}
+
     {{ request.session.q|json_script:"q" }}
     <script type="text/javascript" src="{% static 'assets/js/core/bootstrap.bundle.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'assets/js/main.js' %}" defer></script>
 
-    {% block modal %}
-    {% endblock modal %}
-
     {% block js %}
     {% endblock js %}
-
-    {% include "includes/sessions.html" %}
 
   </body>
 </html>
