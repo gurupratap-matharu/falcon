@@ -318,6 +318,8 @@ class TripModelTests(TestCase):
         trip_from_db = Trip.objects.first()
 
         self.assertEqual(Trip.objects.count(), 1)
+        self.assertEqual(trip_from_db.route, self.trip.route)
+        self.assertEqual(trip_from_db.route.company, self.trip.company)
         self.assertEqual(trip_from_db.name, self.trip.name)
         self.assertEqual(trip_from_db.slug, self.trip.slug)
         self.assertEqual(trip_from_db.company, self.trip.company)
