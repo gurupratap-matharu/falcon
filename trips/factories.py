@@ -89,7 +89,8 @@ class TripFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Trip
 
-    company = factory.SubFactory(CompanyFactory)
+    route = factory.SubFactory(RouteFactory)
+    company = factory.SelfAttribute("route.company")
     name = factory.LazyAttribute(lambda o: f"{o.origin} - {o.destination}")
     slug = factory.LazyAttribute(lambda o: slugify(o.name))
     origin = factory.SubFactory(LocationFactory)

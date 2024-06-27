@@ -227,6 +227,9 @@ class Trip(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    route = models.ForeignKey(
+        to="trips.Route", on_delete=models.CASCADE, null=True, related_name="trips"
+    )
     company = models.ForeignKey(
         to="companies.Company",
         on_delete=models.CASCADE,
