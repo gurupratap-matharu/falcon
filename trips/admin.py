@@ -120,6 +120,7 @@ class LocationAdmin(admin.ModelAdmin):
 class TripAdmin(admin.ModelAdmin):
     list_display = (
         "company",
+        "route",
         "origin",
         "destination",
         "departure",
