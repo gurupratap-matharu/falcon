@@ -93,8 +93,8 @@ class TripFactory(factory.django.DjangoModelFactory):
     company = factory.SelfAttribute("route.company")
     name = factory.LazyAttribute(lambda o: f"{o.origin} - {o.destination}")
     slug = factory.LazyAttribute(lambda o: slugify(o.name))
-    origin = factory.SubFactory(LocationFactory)
-    destination = factory.SubFactory(LocationFactory)
+    origin = factory.SelfAttribute("route.origin")
+    destination = factory.SelfAttribute("route.destination")
     departure = fuzzy.FuzzyDateTime(
         start_dt=dt.now(tz=ZoneInfo("UTC")) - td(days=90),
         end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=90),
@@ -106,7 +106,6 @@ class TripFactory(factory.django.DjangoModelFactory):
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")
-    image = CustomImageField(filename="trip.jpg")
 
 
 class TripPastFactory(TripFactory):
@@ -229,7 +228,7 @@ def make_trips_for_company(company="Albizzatti"):
     company = CompanyFactory(name=company)
     logger.info("company: %s" % company)
     logger.info("deleting all trips for company: %s" % company)
-    company.trips.all().delete()  # type:ignore
+    company.trips.all().delete()
 
     logger.info("creating trips for company: %s" % company)
 
@@ -320,3 +319,5 @@ def make_route_stops(num_routes=1, stops_per_route=7, company=None):
         route.price = price
         route.save(update_fields=["price"])
         logger.info("created route:%s" % route)
+
+    return routes
