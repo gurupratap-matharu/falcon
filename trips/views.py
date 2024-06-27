@@ -149,6 +149,13 @@ class CompanyRouteDetailView(CRUDMixins, DetailView):
     context_object_name = "route"
     template_name = "trips/company_route_detail.html"
 
+    def get_object(self):
+        route = get_object_or_404(
+            Route.objects.select_related("company", "origin", "destination"),
+            id=self.kwargs["id"],
+        )
+        return route
+
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["stops"] = self.object.stops.select_related("name")
