@@ -287,15 +287,20 @@ def make_trips_for_company(company="Albizzatti"):
     return trips
 
 
-def make_route_stops(num_routes=1, stops_per_route=7):
+def make_route_stops(num_routes=1, stops_per_route=7, company=None):
     """
     Make a route and add a couple of stops to it in one go.
     """
 
     size = stops_per_route - 2
 
-    for _ in range(num_routes):
-        route = RouteFactory()
+    if company:
+        company = CompanyFactory(name=company)
+        routes = RouteFactory.create_batch(size=num_routes, company=company)
+    else:
+        routes = RouteFactory.create_batch(size=num_routes)
+
+    for route in routes:
 
         StopFactory(route=route, name=route.origin)  # Origin stop
         StopFactory.create_batch(size=size, route=route)  # Intermediate stops
