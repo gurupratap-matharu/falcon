@@ -131,7 +131,6 @@ class TripAdmin(admin.ModelAdmin):
         "availability",
     )
     list_filter = (FutureFilter, "departure", "status")
-    list_editable = ("status",)
     prepopulated_fields = {"slug": ("name",)}
     raw_id_fields = ("origin", "destination", "company")
     date_hierarchy = "departure"
@@ -144,7 +143,7 @@ class TripAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
 
         # Fetch related foreign keys in one go
-        qs = qs.select_related("origin", "destination", "company")
+        qs = qs.select_related("route", "origin", "destination", "company")
 
         # Annotate availability for all trips in  one go
         _availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
