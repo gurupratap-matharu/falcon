@@ -5,7 +5,6 @@ from django.test import TestCase
 from django.utils import timezone
 
 from companies.factories import CompanyFactory
-from companies.models import Company
 from trips.factories import (
     LocationFactory,
     SeatFactory,

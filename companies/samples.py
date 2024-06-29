@@ -134,7 +134,7 @@ COMPANIES = [
     "La Serranita",
     "Expreso Transamericano",
     "Rio Uruguay de Flecha de Oro",
-    "Chevallier"
+    "Chevallier",
 ]
 
 SEAT_CHART_TITLES = [
