@@ -111,6 +111,13 @@ class TripDetailView(DetailView):
     template_name = "trips/trip_detail.html"
     pk_url_kwarg = "id"
 
+    def get_object(self):
+        trip = get_object_or_404(
+            Trip.objects.select_related("company", "route", "origin", "destination"),
+            id=self.kwargs["id"],
+        )
+        return trip
+
 
 # Trip CRUD Private Views for company staff
 class CRUDMixins(OwnerMixin, SuccessMessageMixin):
