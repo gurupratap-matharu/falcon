@@ -6,6 +6,7 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 from zoneinfo import ZoneInfo
 
+from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
 
 import factory
@@ -167,42 +168,30 @@ class SeatWithPassengerFactory(SeatFactory):
 
 def make_trips(num_trips=20, num_seats=40):
     """
-    Helper method to create future forward + return trips in between two locations.
+    Helper method to create trips for all routes
     """
 
-    ORIGIN = "Buenos Aires"
-    DESTINATION = "Mendoza"
-
+    # Create locations
     logger.info("creating all locations...")
+
     for name in TERMINALS:
         LocationFactory(name=name)
 
-    # Create our favorite locations
-    origin = LocationFactory(name=ORIGIN)
-    destination = LocationFactory(name=DESTINATION)
+    routes = Route.objects.all()
+    if not routes:
+        raise ValidationError("Please load all routes first")
 
     # Create trips
     logger.info("creating all trips...")
-
-    size = num_trips // 2
-    size_outbound = size_return = num_trips // 4
-
-    trips_random = TripFactory.create_batch(size=size, status=Trip.ACTIVE)
-
-    trips_outbound = TripTomorrowFactory.create_batch(
-        size=size_outbound, origin=origin, destination=destination, status=Trip.ACTIVE
-    )
-
-    trips_return = TripDayAfterTomorrowFactory.create_batch(
-        size=size_return, origin=destination, destination=origin, status=Trip.ACTIVE
-    )
-
-    trips = trips_random + trips_outbound + trips_return
+    for route in routes:
+        logger.info("Route:%s" % route)
+        trip = TripTomorrowFactory(route=route, status=Trip.ACTIVE)
 
     # Create seats in each trip
     logger.info("creating all seats...")
 
     size = num_seats // 2
+    trips = Trip.objects.all()
 
     for trip in trips:
         SeatFactory.reset_sequence(1)
@@ -212,76 +201,6 @@ def make_trips(num_trips=20, num_seats=40):
 
         # Create available empty seats
         SeatFactory.create_batch(size=size, trip=trip, seat_status=Seat.AVAILABLE)
-
-    return trips
-
-
-def make_trips_for_company(company="Albizzatti"):
-    """
-    This is an encompassing method that focusses on building random trips only for
-    one company.
-
-    This can be especially useful in dashboard visualizations.
-    """
-
-    # Get company object
-    company = CompanyFactory(name=company)
-    logger.info("company: %s" % company)
-    logger.info("deleting all trips for company: %s" % company)
-    company.trips.all().delete()
-
-    logger.info("creating trips for company: %s" % company)
-
-    # Create all the terminals
-    logger.info("creating all terminals...")
-
-    for terminal in TERMINALS:
-        LocationFactory(name=terminal)
-
-    # Choose two random locations
-    origin = LocationFactory()
-    destination = LocationFactory()
-
-    logger.info("origin will be: %s" % origin)
-    logger.info("destination will be: %s" % destination)
-
-    # Create trips
-    trips_random = TripFactory.create_batch(size=10, company=company)
-
-    # Create future active outbound trips
-    trips_outbound = TripTomorrowFactory.create_batch(
-        size=5,
-        company=company,
-        status=Trip.ACTIVE,
-        origin=origin,
-        destination=destination,
-    )
-    # Create future active return trips
-    trips_return = TripDayAfterTomorrowFactory.create_batch(
-        size=5,
-        company=company,
-        status=Trip.ACTIVE,
-        origin=destination,
-        destination=origin,
-    )  # <-- Note how we have swapped origin and destination to create return trip
-
-    trips = trips_random + trips_outbound + trips_return
-
-    # Create seats in each trip
-    logger.info("creating seats...")
-
-    for trip in trips:
-        total_seats = 40
-        booked_seats = random.randint(1, total_seats)  # nosec
-        empty_seats = total_seats - booked_seats
-
-        SeatFactory.reset_sequence(1)
-        SeatWithPassengerFactory.create_batch(size=booked_seats, trip=trip)
-
-        # Create available empty seats
-        SeatFactory.create_batch(
-            size=empty_seats, trip=trip, seat_status=Seat.AVAILABLE
-        )
 
     return trips
 
