@@ -56,9 +56,12 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-3 mb-lg-0 mb-4">
-                <p class="d-none">{% cycle '1' '2' '3' '4' '5' '6' '7' as filename %}</p>
                 <a href="{{ trip.get_absolute_url }}" title="View trip details">
-                  <img src="{% static "assets/img/bus/bus"|add:filename|add:'.avif' %}" class="img-fluid border-radius-xl shadow-xl" alt="{{ trip.company.name }} Logo" />
+                  <img src="{{ trip.company.cover.url }}"
+                       width="188"
+                       height="75"
+                       class="img-fluid"
+                       alt="Logo of Company {{ trip.company.name }}" />
                 </a>
               </div>
               <div class="col-md-6 border-md-end">
