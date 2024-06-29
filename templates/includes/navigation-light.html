@@ -10,9 +10,9 @@
         {% endblock brand %}
 
       </a>
-      <button class="navbar-toggler shadow-none ms-2"
+      <button class="navbar-toggler"
               type="button"
-              data-bs-toggle="collapse"
+              data-bs-toggle="offcanvas"
               data-bs-target="#navigation"
               aria-controls="navigation"
               aria-expanded="false"
@@ -23,52 +23,67 @@
           <span class="navbar-toggler-bar bar3"></span>
         </span>
       </button>
-      <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
-        <ul class="navbar-nav navbar-nav-hover mx-auto">
-          <li class="nav-item mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
-              Pages
-              <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
-              </svg>
+      <div class="offcanvas offcanvas-start" id="navigation" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+            <a class="navbar-brand font-weight-bolder d-flex align-items-center"
+               href="{% url 'pages:home' %}"
+               rel="tooltip"
+               title="Kpiola"
+               data-placement="bottom">
+              <img src="{% static 'assets/img/logos/logo.svg' %}" alt="Home" width="25" height="20" class="img-fluid me-2" />
+              Kpiola
             </a>
-          </li>
-          <li class="nav-item mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
-              Account
-              <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
-              </svg>
-            </a>
-          </li>
-          <li class="nav-item mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
-              Blocks
-              <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
-              </svg>
-            </a>
-          </li>
-          <li class="nav-item mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
-              Docs
-              <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
-              </svg>
-            </a>
-          </li>
-        </ul>
-        <ul class="navbar-nav">
-          {% if request.user.is_authenticated %}
+          </h5>
+          <button type="button" class="btn-close bg-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav navbar-nav-hover mx-auto">
             <li class="nav-item mx-2">
-              <a href="{% url 'account_logout' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Logout</a>
+              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+                Pages
+                <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
+                </svg>
+              </a>
             </li>
-          {% else %}
             <li class="nav-item mx-2">
-              <a href="{% url 'account_login' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Sign in</a>
+              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+                Account
+                <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
+                </svg>
+              </a>
             </li>
-          {% endif %}
-        </ul>
+            <li class="nav-item mx-2">
+              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+                Blocks
+                <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
+                </svg>
+              </a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+                Docs
+                <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
+                </svg>
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            {% if request.user.is_authenticated %}
+              <li class="nav-item mx-2">
+                <a href="{% url 'account_logout' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item mx-2">
+                <a href="{% url 'account_login' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Sign in</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
