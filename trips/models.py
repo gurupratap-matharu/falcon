@@ -429,8 +429,13 @@ class Trip(models.Model):
     @property
     def duration(self) -> str:
         """Calculates the trip duration in hours as string"""
-        td = self.arrival - self.departure
-        return ":".join(str(td).split(":")[:2])
+        return self.route.duration
+
+        # td = self.arrival - self.departure
+        # return ":".join(str(td).split(":")[:2])
+
+    def stops(self):
+        return self.route.stops.select_related("name")
 
     @property
     def is_active(self) -> bool:
