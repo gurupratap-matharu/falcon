@@ -17,14 +17,14 @@
 {% block content %}
   <div class="card">
     <div class="card-header d-flex justify-content-between">
-      <a href="{{ company.get_admin_url }}">
-        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+      <a href="{{ company.get_admin_url }}" class="icon-link icon-link-hover">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
         </svg>
         Dashboard
       </a>
-      <a href="{% url 'companies:trip-create' company.slug %}">
-        <svg class="bi me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+      <a href="{% url 'companies:trip-create' company.slug %}" class="icon-link icon-link-hover">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#plus-lg" />
         </svg>
         {% translate "Create" %}
@@ -35,7 +35,7 @@
         <h6 class="text-center mb-3">{% translate "You have no upcoming trips!" %}</h6>
       {% else %}
         <div class="table-responsive">
-          <table class="table table-hover table-borderless align-items-center align-middle">
+          <table class="table align-items-center align-middle">
             <thead>
               <tr>
                 {% with klass="text-sm font-weight-bolder opacity-7 ps-2" %}
@@ -94,7 +94,7 @@
                     <p class="text-sm mb-0">{{ trip.availability }}</p>
                   </td>
                   <td>
-                    <a href="{% url 'companies:trip-detail' company.slug trip.id %}">
+                    <a href="{% url 'companies:trip-detail' company.slug trip.id %}" class="icon-link icon-link-hover">
                       <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                         <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                       </svg>

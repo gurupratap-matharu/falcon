@@ -30,11 +30,19 @@
               <p class="text-gradient text-primary mb-2 text-sm">{% translate "Luxury Suite • 12 Buses • 3 Routes" %}</p>
               <p class="text-dark">{{ company.description|truncatechars:70 }}</p>
             </div>
-            <div class="card-footer">
+            <div class="card-footer d-flex justify-content-between">
               {% if request.user.is_superuser %}
-                <a href="{{ company.get_admin_url }}" class="card-link me-2">{% translate "Admin" %}</a>
+                <a href="{{ company.get_admin_url }}" class="icon-link icon-link-hover">
+                  <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+                  </svg>
+                {% translate "Admin" %}</a>
               {% endif %}
-              <a href="{{ company.get_absolute_url }}" class="card-link">{% translate "Book" %}</a>
+              <a href="{{ company.get_absolute_url }}" class="icon-link icon-link-hover">{% translate "Book" %}
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

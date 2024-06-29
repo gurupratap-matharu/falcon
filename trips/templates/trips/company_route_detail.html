@@ -17,14 +17,14 @@
 {% block content %}
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between pb-0">
-      <a href="{{ company.get_route_list_url }}">
-        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+      <a href="{{ company.get_route_list_url }}" class="icon-link icon-link-hover">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
         </svg>
         {% translate "All Routes" %}
       </a>
-      <a href="#" data-bs-toggle="modal" data-bs-target="#stopModal">
-        <svg class="bi me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+      <a href="#" class="icon-link icon-link-hover" data-bs-toggle="modal" data-bs-target="#stopModal">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#toggles" />
         </svg>
       {% translate "Stops" %}</a>
@@ -62,7 +62,7 @@
 
 {% block modal %}
   <div class="modal fade" id="stopModal" tabindex="-1" aria-labelledby="stopModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="stopModalLabel">{{ route }}</h1>

@@ -62,8 +62,8 @@
                   <td class="align-middle text-sm">
                     <form action="{% url "cart:cart_remove" trip.id %}" method="post">
                       {% csrf_token %}
-                      <button type="submit" class="btn">
-                        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <button type="submit" class="btn btn-white">
+                        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                           <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
                         </svg>
                         <span class="visually-hidden">{% translate "Remove from cart" %}</span>
@@ -126,8 +126,8 @@
     <button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
       {% translate "I have coupon" %}
     </button>
-    <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl">{% translate "Checkout" %}
-      <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+    <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl icon-link icon-link-hover">{% translate "Checkout" %}
+      <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
         <use xlink:href="{% static 'assets/icons/icons.svg' %}#arrow-right" />
       </svg>
     </a>

@@ -117,7 +117,7 @@
     <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
       <div class="card min-height-400">
         <div class="card-header pb-0">
-          <a href="{{ company.get_trip_list_url }}">
+          <a href="{{ company.get_trip_list_url }}" class="icon-link icon-link-hover">
             <h5>Trips</h5>
           </a>
         </div>
@@ -172,7 +172,7 @@
                         {% endwith %}
                       </td>
                       <td class="align-middle">
-                        <a href="{% url 'companies:trip-detail' company.slug trip.id %}">
+                        <a href="{% url 'companies:trip-detail' company.slug trip.id %}" class="icon-link icon-link-hover">
                           <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                             <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                           </svg>
@@ -207,7 +207,7 @@
                   <span class="text-xs">250 in stock, <strong>346+ sold</strong></span>
                 </div>
               </div>
-              <a href={{ company.get_coupon_list_url }}>
+              <a href={{ company.get_coupon_list_url }} class="icon-link icon-link-hover">
                 <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                 </svg>
@@ -226,7 +226,7 @@
                   <span class="text-xs">123 closed, <span class="font-weight-bold">15 open</span></span>
                 </div>
               </div>
-              <a href="{{ company.get_seatchart_url }}">
+              <a href="{{ company.get_seatchart_url }}" class="icon-link icon-link-hover">
                 <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                 </svg>
@@ -245,7 +245,7 @@
                   <span class="text-xs">7 running</span>
                 </div>
               </div>
-              <a href="{{ company.get_live_status_url }}">
+              <a href="{{ company.get_live_status_url }}" class="icon-link icon-link-hover">
                 <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                 </svg>
@@ -264,7 +264,7 @@
                   <span class="text-xs font-weight-bold">+ 430K</span>
                 </div>
               </div>
-              <a href="">
+              <a href="" class="icon-link icon-link-hover">
                 <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                 </svg>

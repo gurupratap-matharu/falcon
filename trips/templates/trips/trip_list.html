@@ -55,7 +55,7 @@
         <div class="card my-3">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-3 mb-lg-0 mb-4">
+              <div class="col-md-3">
                 <a href="{{ trip.get_absolute_url }}" title="View trip details">
                   <img src="{{ trip.company.cover.url }}"
                        width="188"
@@ -64,7 +64,7 @@
                        alt="Logo of Company {{ trip.company.name }}" />
                 </a>
               </div>
-              <div class="col-md-6 border-md-end">
+              <div class="col-md-6">
                 <h5>{{ trip.company }}</h5>
                 <div class="d-flex flex-row">
                   <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Accepts all major cards' %}">
@@ -109,8 +109,11 @@
               <div class="col-md-3 align-self-center text-center">
                 <form action="{{ trip.get_add_to_cart_url }}" method="post">
                   {% csrf_token %}
-                  <button class="btn btn-outline-light mt-2" type="submit">
-                    <h5 class="font-weight-bolder mb-0">${{ trip.price|floatformat:"-2g" }}</h5>
+                  <button class="btn btn-white icon-link icon-link-hover fs-6" type="submit">
+                    ARS {{ trip.price|floatformat:"-2g" }}
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                    </svg>
                   </button>
                 </form>
               </div>
