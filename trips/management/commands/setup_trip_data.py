@@ -71,9 +71,6 @@ class Command(BaseCommand):
             self.success("\nCreating trips...")
             make_trips(num_trips=int(num_trips), num_seats=int(num_seats))
 
-            self.success("\nCreating trips for company...")
-            make_trips_for_company()
-
         self.stdout.write(
             f"""
         Locations : {Location.objects.count()}
