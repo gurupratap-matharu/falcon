@@ -534,8 +534,14 @@ class PastManagerTests(TestCase):
             SeatFactory.create_batch(size=5, trip=trip)
 
     def test_setup_data_is_correctly_created(self):
-        self.assertEqual(Company.objects.count(), 1)
+
         self.assertEqual(Trip.objects.count(), 4)
+
+        self.assertEqual(self.past_trips[0].seats.count(), 5)
+        self.assertEqual(self.past_trips[1].seats.count(), 5)
+
+        self.assertEqual(self.future_trips[0].seats.count(), 5)
+        self.assertEqual(self.future_trips[1].seats.count(), 5)
 
     def test_past_manager_get_model_method(self):
         self.assertEqual(Trip.past.get_model("Location"), Location)
