@@ -133,7 +133,7 @@ class FutureManager(models.Manager):
 
         availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
         qs = qs.annotate(availability=availability)
-        qs = qs.select_related("company", "origin", "destination")
+        qs = qs.select_related("company", "route", "origin", "destination")
         qs = qs.order_by(ordering) if ordering else qs
 
         return qs
