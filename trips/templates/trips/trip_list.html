@@ -52,8 +52,8 @@
         </div>
       {% endwith %}
       {% for trip in trips %}
-        <div class="card my-3">
-          <div class="card-body">
+        <div class="card my-2">
+          <div class="card-body p-3">
             <div class="row">
               <div class="col-md-3">
                 <a href="{{ trip.get_absolute_url }}" title="View trip details">
@@ -65,51 +65,40 @@
                 </a>
               </div>
               <div class="col-md-6">
-                <h5>{{ trip.company }}</h5>
-                <div class="d-flex flex-row">
-                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Accepts all major cards' %}">
+                <div class="d-flex justify-content-center align-items-center">
+                  <div class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Accepts all major cards' %}">
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                       <use xlink:href="{% static 'assets/icons/icons.svg' %}#credit-card-2-front" />
                     </svg>
                   </div>
-                  <div class="mb-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Cash accepted' %}">
+                  <div class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Cash accepted' %}">
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                       <use xlink:href="{% static 'assets/icons/icons.svg' %}#cash-stack" />
                     </svg>
                   </div>
-                  <span class="badge bg-light text-dark mx-2"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="{% translate 'Seats available' %}">{{ trip.availability }}</span>
-                  <span class="me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Seat Type' %}">{% cycle 'Cama' 'Semicama' 'Executive' %}</span>
-                </div>
-                <div class="row text-center mt-3">
-                  <div class="col">
-                    <h6 class="mb-1 text-dark font-weight-bold text-sm">{{ trip.departure|date:"D j M P" }}</h6>
-                  </div>
-                  <div class="col border-bottom">
-                    <h6 class="text-dark text-sm mt-3 font-weight-bold">{{ trip.duration }} Hs</h6>
-                  </div>
-                  <div class="col">
-                    <h6 class="mb-1 text-dark font-weight-bold text-sm">{{ trip.arrival|date:"D j M P" }}</h6>
-                  </div>
+                  <span class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Seats available' %}">{{ trip.availability }}</span>
+                  <span class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Seat Type' %}">{{ trip.route.get_category_display }}</span>
                 </div>
                 <div class="row text-center">
                   <div class="col">
-                    <h6 class="text-dark text-sm">{{ trip.origin }}</h6>
+                    <p class="fs-2">{{ trip.departure|date:"f A" }}</p>
+                    <p>{{ trip.origin }}</p>
+                  </div>
+                  <div class="col-2 mt-2 mt-md-3">
+                    <svg class="bi" width="32" height="32" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#arrow-right" />
+                    </svg>
                   </div>
                   <div class="col">
-                    <h6 class="text-dark text-sm font-weight-bold mt-2">{{ trip.get_mode_display }}</h6>
-                  </div>
-                  <div class="col">
-                    <h6 class="text-dark text-sm">{{ trip.destination }}</h6>
+                    <p class="fs-2">{{ trip.arrival|date:"f A" }}</p>
+                    <p>{{ trip.destination }}</p>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3 align-self-center text-center">
+              <div class="col-md-3 d-flex justify-content-end align-items-end">
                 <form action="{{ trip.get_add_to_cart_url }}" method="post">
                   {% csrf_token %}
-                  <button class="btn btn-white icon-link icon-link-hover fs-6" type="submit">
+                  <button class="btn btn-link bg-light btn-round icon-link icon-link-hover fs-6 mb-0" type="submit">
                     ARS {{ trip.price|floatformat:"-2g" }}
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                       <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
