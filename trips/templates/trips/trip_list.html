@@ -56,28 +56,29 @@
           <div class="card-body p-3">
             <div class="row">
               <div class="col-md-3">
-                <a href="{{ trip.get_absolute_url }}" title="View trip details">
-                  <img src="{{ trip.company.cover.url }}"
-                       width="188"
-                       height="75"
-                       class="img-fluid"
-                       alt="Logo of Company {{ trip.company.name }}" />
-                </a>
+                <img src="{{ trip.company.cover.url }}"
+                     width="188"
+                     height="75"
+                     class="img-fluid"
+                     alt="Logo of Company {{ trip.company.name }}" />
               </div>
               <div class="col-md-6">
-                <div class="d-flex justify-content-center align-items-center">
-                  <div class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Accepts all major cards' %}">
+                <div class="d-flex align-items-center">
+                  <div class="me-2 mb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Accepts all major cards' %}">
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                       <use xlink:href="{% static 'assets/icons/icons.svg' %}#credit-card-2-front" />
                     </svg>
                   </div>
-                  <div class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Cash accepted' %}">
+                  <div class="me-2 mb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Cash accepted' %}">
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                       <use xlink:href="{% static 'assets/icons/icons.svg' %}#cash-stack" />
                     </svg>
                   </div>
                   <span class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Seats available' %}">{{ trip.availability }}</span>
-                  <span class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate 'Seat Type' %}">{{ trip.route.get_category_display }}</span>
+                  <span class="me-2 px-2 border-radius-xl bg-light"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{% translate 'Seat Type' %}">{{ trip.route.get_category_display }}</span>
                 </div>
                 <div class="row text-center">
                   <div class="col">
@@ -95,7 +96,19 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3 d-flex justify-content-end align-items-end">
+              <div class="col-md-3 d-flex justify-content-between align-items-end">
+                <a href="{{ trip.get_absolute_url }}" class="icon-link icon-link-hover mb-2" title="View trip details">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="16"
+                       height="16"
+                       fill="currentColor"
+                       class="bi bi-info-circle"
+                       viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                  </svg>
+                  Info
+                </a>
                 <form action="{{ trip.get_add_to_cart_url }}" method="post">
                   {% csrf_token %}
                   <button class="btn btn-link bg-light btn-round icon-link icon-link-hover fs-6 mb-0" type="submit">
