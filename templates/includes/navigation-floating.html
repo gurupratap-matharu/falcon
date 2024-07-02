@@ -1,7 +1,7 @@
 {% load static %}
 
 <header class="container position-sticky z-index-sticky top-0">
-  <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow my-3 py-2 mx-2 mx-md-4 position-absolute start-0 end-0">
+  <nav class="navbar navbar-expand-lg blur blur-rounded top-0 shadow my-3 py-2 mx-2 mx-md-4 position-absolute start-0 end-0">
     <div class="container-fluid pe-0">
       <a class="navbar-brand font-weight-bolder d-flex align-items-center"
          href="{% url 'pages:home' %}"
@@ -13,69 +13,80 @@
       </a>
       <button class="navbar-toggler shadow-none"
               type="button"
-              data-bs-toggle="collapse"
+              data-bs-toggle="offcanvas"
               data-bs-target="#navigation"
               aria-controls="navigation"
               aria-expanded="false"
               aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon mt-2">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-        </span>
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navigation">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link me-2" href="{% url 'pages:help' %}">
-              <svg class="bi opacity-8 me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <use xlink:href="{% static 'assets/icons/icons.svg' %}#question-circle-fill" />
-              </svg>
-              Help
+      <div class="offcanvas offcanvas-start" id="navigation" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+            <a class="navbar-brand font-weight-bolder d-flex align-items-center"
+               href="{% url 'pages:home' %}"
+               rel="tooltip"
+               title="Kpiola"
+               data-placement="bottom">
+              <img src="{% static 'assets/img/logos/logo.svg' %}" alt="Home" width="25" height="20" class="img-fluid me-2" />
+              Kpiola
             </a>
-          </li>
-          <li class="nav-item d-flex align-items-center mb-2 mb-lg-0">
-            <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" href="">Get Listed</a>
-          </li>
-          {% if request.user.is_authenticated %}
-            <li class="nav-item d-flex align-items-center">
-              <div class="dropdown nav-link p-0">
-                <a href="#"
-                   id="dropdownMenuButton"
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false"
-                   aria-label="Open user menu"
-                   type="button">
-                  {% with avatar_url=request.user.socialaccount_set.all.0.get_avatar_url %}
-                    {% if avatar_url %}
-                      <img src="{{ avatar_url }}" alt="profile_image" class="avatar avatar-sm rounded-circle" />
-                    {% else %}
-                      <span class="avatar avatar-sm rounded-circle border border-primary text-dark">{{ request.user.email|slice:":2"|upper }}</span>
-                    {% endif %}
-                  {% endwith %}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
-                  <li>
-                    <a class="dropdown-item border-radius-md" href="">Profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item border-radius-md" href="">Edit Profile</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Logout</a>
-                  </li>
-                </ul>
-              </div>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link me-2" href="{% url 'pages:help' %}">
+                <svg class="bi opacity-8 me-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#question-circle-fill" />
+                </svg>
+                Help
+              </a>
             </li>
-          {% else %}
             <li class="nav-item d-flex align-items-center mb-2 mb-lg-0">
-              <a class="btn btn-round btn-sm mb-0 bg-gradient-primary me-2" href="{% url 'account_login' %}">Sign in</a>
+              <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" href="">Get Listed</a>
             </li>
-          {% endif %}
-        </ul>
+            {% if request.user.is_authenticated %}
+              <li class="nav-item d-flex align-items-center">
+                <div class="dropdown nav-link p-0">
+                  <a href="#"
+                     id="dropdownMenuButton"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"
+                     aria-label="Open user menu"
+                     type="button">
+                    {% with avatar_url=request.user.socialaccount_set.all.0.get_avatar_url %}
+                      {% if avatar_url %}
+                        <img src="{{ avatar_url }}" alt="profile_image" class="avatar avatar-sm rounded-circle" />
+                      {% else %}
+                        <span class="avatar avatar-sm rounded-circle border border-primary text-dark">{{ request.user.email|slice:":2"|upper }}</span>
+                      {% endif %}
+                    {% endwith %}
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
+                    <li>
+                      <a class="dropdown-item border-radius-md" href="">Profile</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item border-radius-md" href="">Edit Profile</a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                      <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item d-flex align-items-center mb-2 mb-lg-0">
+                <a class="btn btn-round btn-sm mb-0 bg-gradient-primary me-2" href="{% url 'account_login' %}">Sign in</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
