@@ -1,29 +1,25 @@
-{% extends "layouts/base-account.html" %}
+{% extends "layouts/base-app.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  500 Server Error
+  {% translate "500 Server Error" %}
 {% endblock title %}
 
-{% block main %}
-  <main class="main-content  mt-0">
-    <div>
-      <section class="min-vh-100 d-flex align-items-center">
-        <div class="container">
-          <div class="row mt-lg-0 mt-8">
-            <div class="col-lg-5 my-auto">
-              <h1 class="display-1 text-bolder text-gradient text-warning fadeIn1 fadeInBottom mt-5">Error 500</h1>
-              <h2 class="fadeIn3 fadeInBottom opacity-8">Something went wrong</h2>
-              <p class="lead opacity-6 fadeIn2 fadeInBottom">We suggest you to go to the homepage while we solve this issue.</p>
-              <a href="{% url 'pages:home' %}" type="button" class="btn bg-gradient-warning mt-4 fadeIn2 fadeInBottom">Go to Homepage</a>
-            </div>
-            <div class="col-lg-7 my-auto">
-              <img class="w-100 fadeIn1 fadeInBottom" src="{% static 'assets/img/illustrations/error-500.png' %}" alt="500-error" />
-            </div>
-          </div>
-        </div>
-      </section>
+{% block content %}
+  <div class="row">
+    <div class="col-lg-6 mx-auto">
+      <div class="alert alert-danger" role="alert">
+        <h1 class="alert-heading">{% translate "Error 500" %}</h1>
+        <p>{% translate "Something went wrong" %}</p>
+        <p>{% translate "We suggest you to go to the homepage while we solve this issue." %}</p>
+        <hr />
+        <a href="{% url 'pages:home' %}" class="alert-link icon-link icon-link-hover">
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+          </svg>
+        {% translate "Go back home" %}</a>
+      </div>
     </div>
-  </main>
-{% endblock main %}
+  </div>
+{% endblock content %}
