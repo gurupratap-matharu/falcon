@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import FileResponse, HttpRequest, HttpResponse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.cache import cache_control
@@ -18,6 +19,12 @@ logger = logging.getLogger(__name__)
 
 
 CustomUser = get_user_model()
+
+COMMON_TIMEZONES = {
+    "UTC": "Europe/London",
+    "Paris": "Europe/Paris",
+    "New York": "America/New_York",
+}
 
 
 class HomePageView(TemplateView):
@@ -129,6 +136,20 @@ class BaseHeroPageView(TemplateView):
 
 class IndexPageView(TemplateView):
     template_name = "layouts/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["timezones"] = COMMON_TIMEZONES
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+        request.session["django_timezone"] = request.POST["timezone"]
+
+        logger.info("request.POST:%s" % request.POST)
+        logger.info("request.session:%s" % request.session)
+
+        return redirect(reverse_lazy("pages:index"))
 
 
 class AlpinePageView(TemplateView):

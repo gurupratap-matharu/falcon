@@ -1,8 +1,6 @@
 {% extends "layouts/base-sidebar.html" %}
 
-{% load i18n %}
-
-{% load static %}
+{% load i18n static tz %}
 
 {% block extra_css %}
   <link rel="stylesheet"
@@ -19,6 +17,38 @@
 {% block content %}
   <div class="d-flex justify-content-center mb-3">
     <h1>HTMX ❤️ Django</h1>
+  </div>
+  <div class="card mb-3">
+    <div class="card-header pb-0">
+      <h5>Timezones</h5>
+    </div>
+    <div class="card-body">
+      {% get_current_timezone as TIME_ZONE %}
+      <p class="card-text">Your current timezone is {{ TIME_ZONE }}</p>
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#bell" />
+        </svg>
+        <span class="alert-text"><strong>
+          {% if message.tags %}{{ message.tags|title }}:{% endif %}
+        </strong>Veer for this to work you need to add the custom timezone middleware. <a href="https://docs.djangoproject.com/en/5.0/topics/i18n/timezones/#selecting-the-current-time-zone" class="alert-link">See this link</a></span>
+        <button type="button" class="btn-close pt-3" data-bs-dismiss="alert" aria-label="Close">
+          <svg class="bi" width="16" height="16" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
+          </svg>
+        </button>
+      </div>
+      <form action="" method="post">
+        {% csrf_token %}
+        <label for="timezone" class="form-label">Time zone:</label>
+        <select name="timezone" class="form-select mb-3">
+          {% for city, tz in timezones.items %}
+            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ city }}</option>
+          {% endfor %}
+        </select>
+        <input type="submit" value="Set" class="btn btn-success" />
+      </form>
+    </div>
   </div>
   <div class="mb-3 p-3 bg-white border-radius-lg">
     <h5 class="pb-3">Buttons</h5>
@@ -152,7 +182,7 @@
     </div>
     <div class="card-body">
       <form class="row g-3" novalidate>
-        <div class="mb-3">
+        <div class="col mb-3">
           <label for="validationServerUsername" class="form-label">Username</label>
           <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend3">@</span>
@@ -164,22 +194,21 @@
             <div id="validationServerUsernameFeedback" class="invalid-feedback">username already taken</div>
           </div>
         </div>
-        <div class="mb-3">
+        <div class="col mb-3">
           <label for="exampleInputEmail1" class="form-label">Email address</label>
           <input type="email" class="form-control is-valid" id="exampleInputEmail1" aria-describedby="emailHelp" required />
           <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
           <div class="valid-feedback">Looks good!</div>
           <div class="invalid-feedback">Looks bad!</div>
         </div>
-        <div class="mb-3">
+        <div class="col mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input type="password" class="form-control is-invalid" id="exampleInputPassword1" required />
         </div>
-        <div class="mb-3 form-check">
+        <div class="col mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1" required />
           <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>
