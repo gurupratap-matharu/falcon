@@ -20,18 +20,22 @@
       <div class="col-md-6 mx-auto">
         <div class="card">
           <div class="card-header">
-            <a href="{% url 'companies:company_list' %}">
-              <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <a href="{% url 'companies:company_list' %}" class="icon-link icon-link-hover">
+              <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
               </svg>
-              Back
+              {% translate "Back" %}
             </a>
           </div>
           <div class="card-body">
             <h5>{{ company.name }}</h5>
             <p>{{ company.phone }}</p>
             <p>{{ company.description }}</p>
-            <a class="btn bg-gradient-primary" href="{{ company.get_booking_url }}">Book</a>
+            <a class="btn bg-gradient-primary icon-link icon-link-hover" href="{{ company.get_booking_url }}">{% translate "Book" %}
+              <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
