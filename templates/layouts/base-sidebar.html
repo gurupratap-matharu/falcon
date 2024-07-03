@@ -109,7 +109,6 @@
         </div>
         <div class="modal-body">
           <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action" href="{% url 'pages:profile' request.user.username %}">{% translate "Profile" %}</a>
             <a class="list-group-item list-group-item-action" href="{% url 'pages:feedback' %}">{% translate "Feedback" %}</a>
             <a class="list-group-item list-group-item-action" href="{% url 'users:settings' %}">{% translate "Settings" %}</a>
             <a class="list-group-item list-group-item-action" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
