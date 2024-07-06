@@ -1,12 +1,14 @@
 import logging
 import uuid
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.core.exceptions import ValidationError
+from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
@@ -169,6 +171,31 @@ class Route(models.Model):
 
         return self.price.get(code)
 
+    def get_schedule_for_date(self, departure_date) -> dict:
+        """
+        Builds a dict with departure datetimes for any arbitrary date for all the
+        stops on the route.
+
+        We use this as a json field on the trip model for fast querying.
+        """
+
+        stops = self.stops.select_related("name")
+        start = stops.first().departure
+
+        delta = departure_date - start.date()
+        schedule = dict()
+
+        # Build a dict with key as the location code
+        for stop in stops:
+            code = stop.name.abbr
+            schedule[code] = {
+                "order": stop.order,
+                "arrival": stop.arrival + delta,
+                "departure": stop.departure + delta,
+            }
+
+        return schedule
+
 
 class Stop(models.Model):
     """
@@ -187,8 +214,12 @@ class Stop(models.Model):
     route = models.ForeignKey(
         "trips.Route", on_delete=models.CASCADE, related_name="stops"
     )
-    arrival = models.TimeField(_("arrival"))
-    departure = models.TimeField(_("departure"))
+    arrival = models.DateTimeField(
+        _("arrival"), default=parse_datetime("2000-01-01T08:00:00-03:00")
+    )
+    departure = models.DateTimeField(
+        _("departure"), default=parse_datetime("2000-01-01T08:00:00-03:00")
+    )
     order = OrderField(for_fields=["route"], blank=True)
 
     created_on = models.DateTimeField(auto_now_add=True)
@@ -251,6 +282,7 @@ class Trip(models.Model):
     )
     departure = models.DateTimeField(verbose_name=_("Departure Date & Time"))
     arrival = models.DateTimeField(verbose_name=_("Arrival Date & Time"))
+    schedule = models.JSONField(_("schedule"), default=dict, encoder=DjangoJSONEncoder)
     price = models.DecimalField(
         _("price"), max_digits=10, decimal_places=2, validators=[MinValueValidator(1)]
     )
