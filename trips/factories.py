@@ -80,10 +80,8 @@ class StopFactory(factory.django.DjangoModelFactory):
 
     name = factory.SubFactory(LocationFactory)
     route = factory.SubFactory(RouteFactory)
-    arrival = factory.Faker("time_object")
-    departure = factory.LazyAttribute(
-        lambda o: (dt.combine(date(1, 1, 1), o.arrival) + td(minutes=10)).time()
-    )
+    arrival = fuzzy.FuzzyDateTime(start_dt=dt(2008, 1, 1, tzinfo=ZoneInfo("UTC")))
+    departure = factory.LazyAttribute(lambda o: o.arrival + td(minutes=10))
 
 
 class TripFactory(factory.django.DjangoModelFactory):
@@ -219,7 +217,7 @@ def make_route_stops(num_routes=1, stops_per_route=7, company=None):
         routes = RouteFactory.create_batch(size=num_routes)
 
     for route in routes:
-
+        # TODO: Add stop arrivals which should consecutive
         StopFactory(route=route, name=route.origin)  # Origin stop
         StopFactory.create_batch(size=size, route=route)  # Intermediate stops
         StopFactory(route=route, name=route.destination)  # Last stop
