@@ -1,13 +1,13 @@
 import itertools
 import logging
 import random
-from datetime import date
 from datetime import datetime as dt
 from datetime import timedelta as td
 from zoneinfo import ZoneInfo
 
 from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 
 import factory
 from django_countries import countries
@@ -105,6 +105,9 @@ class TripFactory(factory.django.DjangoModelFactory):
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")
+    schedule = factory.lazy_attribute(
+        lambda o: o.route.get_schedule_for_date(o.departure.date())
+    )
 
 
 class TripPastFactory(TripFactory):
@@ -119,19 +122,31 @@ class TripPastFactory(TripFactory):
 class TripTomorrowFactory(TripFactory):
     """Only create trips which are due to run tomorrow"""
 
-    departure = fuzzy.FuzzyDateTime(
-        start_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=1),
-        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=1),
-    )
+    class Meta:
+        exclude = ("build_departure",)
+
+    def build_departure(obj):
+        tomorrow = timezone.now() + td(days=1)
+        depart_time = obj.route.stops.first().departure.time()
+        departure = dt.combine(tomorrow, depart_time)
+        return timezone.make_aware(departure)
+
+    departure = factory.LazyAttribute(build_departure)
 
 
 class TripDayAfterTomorrowFactory(TripFactory):
     """Only create trips which are due to run day after tomorrow 😂"""
 
-    departure = fuzzy.FuzzyDateTime(
-        start_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=2),
-        end_dt=dt.now(tz=ZoneInfo("UTC")) + td(days=2),
-    )
+    class Meta:
+        exclude = ("build_departure",)
+
+    def build_departure(obj):
+        tomorrow = timezone.now() + td(days=2)
+        depart_time = obj.route.stops.first().departure.time()
+        departure = dt.combine(tomorrow, depart_time)
+        return timezone.make_aware(departure)
+
+    departure = factory.LazyAttribute(build_departure)
 
 
 class SeatFactory(factory.django.DjangoModelFactory):
@@ -180,10 +195,11 @@ def make_trips(num_trips=20, num_seats=40):
         raise ValidationError("Please load all routes first")
 
     # Create trips
-    logger.info("creating all trips...")
     for route in routes:
-        logger.info("Route:%s" % route)
-        trip = TripTomorrowFactory(route=route, status=Trip.ACTIVE)
+        logger.info("creating trips for route:%s" % route)
+
+        TripTomorrowFactory(route=route, status=Trip.ACTIVE)
+        TripDayAfterTomorrowFactory(route=route, status=Trip.ACTIVE)
 
     # Create seats in each trip
     logger.info("creating all seats...")
