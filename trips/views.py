@@ -8,6 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import (
     CreateView,
@@ -61,10 +62,10 @@ class TripListView(ListView):
 
     def get_date_ladder(self):
         departure = self.request.GET.get("departure")
-        date = datetime.strptime(departure, "%d-%m-%Y")
-        ladder = (date + timedelta(days=x) for x in range(-1, 2))
+        dep_dt = timezone.make_aware(datetime.strptime(departure, "%d-%m-%Y"))
+        ladder = (dep_dt + timedelta(days=x) for x in range(-1, 2))
 
-        return [x for x in ladder if x >= datetime.now()]
+        return [x for x in ladder if x >= timezone.now()]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
