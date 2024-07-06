@@ -158,19 +158,19 @@
 
   <main class="main-content px-3 px-md-0 mt-1 border-radius-lg">
     <header>
-      <nav class="navbar navbar-expand-md px-0 mx-md-4 mb-3 mb-md-0 shadow-none border-radius-xl" id="navbarBlur">
-        <div class="container-fluid py-1 px-3">
-          <a class="navbar-brand" href="{{ company.get_admin_url }}">
-            <span class="ms-1 font-weight-bold">{{ company.name }}</span>
-          </a>
+      <nav class="navbar navbar-expand-md px-0 mx-md-4 mb-3 shadow-none">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{{ company.get_admin_url }}">{{ company.name }}</a>
           <button class="navbar-toggler" type="button" onClick="toggleSideNav();" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          {% comment %} <nav aria-label="breadcrumb" class="d-none d-md-inline">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
               <li class="breadcrumb-item text-sm">
                 <a class="opacity-5 text-dark" href="{{ company.get_admin_url }}">
-                  <i class="bi bi-shop-window" aria-hidden="true"></i>
+                  <svg class="bi opacity-8" width="16" height="16" aria-hidden="true">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#bank" />
+                  </svg>
                   <span class="visually-hidden">Home</span>
                 </a>
               </li>
@@ -189,8 +189,8 @@
               {% endblock page_title %}
 
             </h6>
-          </nav> {% endcomment %}
-          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbarSupportedContent">
+          </nav>
+          <div class="mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto justify-content-end">
               <li class="nav-item d-flex align-items-center">
                 <a class="mb-0 me-3" href="{% url 'pages:help' %}">{% translate "Help" %}</a>
@@ -208,7 +208,6 @@
                       {% endwith %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
-                      <a class="dropdown-item" href="{% url 'pages:profile' request.user.username %}">{% translate "Profile" %}</a>
                       <a class="dropdown-item" href="{% url 'pages:feedback' %}">{% translate "Feedback" %}</a>
                       <hr class="dropdown-divider" />
                       <a class="dropdown-item" href="{% url 'users:settings' %}">{% translate "Settings" %}</a>
