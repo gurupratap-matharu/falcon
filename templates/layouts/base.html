@@ -42,18 +42,20 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/png" href="{% static 'assets/img/logos/logo.png' %}" />
     {# djlint:off #}
-        <title>{% block title %}Book Bus Tickets{% endblock title %} | Kpiola</title>
+    <title>{% block title %}Book Bus Tickets{% endblock title %} | Kpiola</title>
     {# djlint:on #}
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCQZXE3FHQ"></script>
-    <script>
-         window.dataLayer = window.dataLayer || [];
+    {% if not debug %}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCQZXE3FHQ"></script>
+      <script>
+           window.dataLayer = window.dataLayer || [];
 
-         function gtag() {
-              dataLayer.push(arguments);
-         }
-         gtag('js', new Date());
-         gtag('config', 'G-KCQZXE3FHQ');
-    </script>
+           function gtag() {
+                dataLayer.push(arguments);
+           }
+           gtag('js', new Date());
+           gtag('config', 'G-KCQZXE3FHQ');
+      </script>
+    {% endif %}
     <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}" />
 
     {% block extra_css %}
