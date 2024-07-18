@@ -10,11 +10,7 @@
         <span class="alert-text"><strong>
           {% if message.tags %}{{ message.tags|title }}:{% endif %}
         </strong>{{ message }}</span>
-        <button type="button" class="btn-close pt-3" data-bs-dismiss="alert" aria-label="Close">
-          <svg class="bi" width="16" height="16" aria-hidden="true">
-            <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
-          </svg>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     {% endwith %}
   {% endfor %}
