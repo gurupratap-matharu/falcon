@@ -1,6 +1,6 @@
 import logging
 import uuid
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -36,6 +36,7 @@ class Location(models.Model):
         verbose_name=_("abbreviation"),
         max_length=7,
         blank=True,
+        unique=True,
         help_text=_("Used internally as a reference"),
     )
     address_line1 = models.CharField(_("Address line 1"), max_length=128, blank=True)
@@ -56,17 +57,16 @@ class Location(models.Model):
         verbose_name = _("location")
         verbose_name_plural = _("locations")
 
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
-            logger.info("slugifying %s:%s..." % (self.name, slugify(self.name)))
             self.slug = slugify(self.name)
 
         return super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse_lazy("locations:location-detail", kwargs={"slug": self.slug})
 
 
