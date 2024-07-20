@@ -813,4 +813,5 @@ TERMINALS = [
     "Río de los Sauces",
     "Vicente",
     "Victor",
+    "Vicuña Mackenna",
 ]
