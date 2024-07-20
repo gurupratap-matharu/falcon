@@ -1,17 +1,17 @@
 {% extends "layouts/base-app.html" %}
 
-{% load static %}
+{% load static i18n humanize %}
 
 {% block title %}
-  Payment
+  {% translate "Payment" %}
 {% endblock title %}
 
 {% block breadcrumb %}
-  Payment
+  {% translate "Payment" %}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-  Choose option
+  {% translate "Choose option" %}
 {% endblock page_title %}
 
 {% block content %}
@@ -30,7 +30,12 @@
             <h6 class="text-center mb-0">Mercado Pago</h6>
             <span class="text-xs">ARS</span>
             <hr class="horizontal dark my-3" />
-            <button class="btn btn-outline-dark fs-6">Pay ${{ order.get_total_cost }}</button>
+            <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6">
+              {% translate "Pay" %} ${{ order.get_total_cost|floatformat:"g" }}
+              <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+              </svg>
+            </button>
           </div>
         </div>
       </a>
@@ -50,7 +55,12 @@
             <h6 class="text-center mb-0">Non Argentine</h6>
             <span class="text-xs">USD</span>
             <hr class="horizontal dark my-3" />
-            <button type="submit" class="btn btn-outline-dark fs-6">Pay U$D{{ order.get_total_cost_usd }}</button>
+            <button type="submit" class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6">
+              {% translate "Pay U$D" %}{{ order.get_total_cost_usd|floatformat:"g" }}
+              <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+              </svg>
+            </button>
           </div>
         </div>
       </form>

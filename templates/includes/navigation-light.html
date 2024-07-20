@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 
 <header>
   <nav class="navbar navbar-expand-lg navbar-light shadow-none py-2">
@@ -71,7 +71,11 @@
           <ul class="navbar-nav">
             {% if request.user.is_authenticated %}
               <li class="nav-item mx-2">
-                <a href="{% url 'account_logout' %}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1" role="button">Logout</a>
+                <a href="{% url 'account_logout' %}" class="nav-link icon-link icon-link-hover mb-0" role="button">{% translate "Logout" %}
+                  <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                  </svg>
+                </a>
               </li>
             {% else %}
               <li class="nav-item mx-2">

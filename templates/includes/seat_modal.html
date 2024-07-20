@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load static i18n %}
 
 <div class="input-group mb-3">
   <button class="btn btn-outline-primary mb-0"
@@ -26,7 +26,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="seatSelectModal">{{ trip.origin }} - {{ trip.destination }}</h5>
-        <button type="button" class="btn-close text-dark bg-dark me-md-2" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="btn-close me-md-2" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true"></span>
         </button>
       </div>
@@ -35,10 +35,22 @@
           <div class="card-body pb-3" id="seat-container{{ trip.id }}"></div>
         </div>
       </div>
-      <div class="modal-footer" id="modal-footer">
-        <button type="button" class="btn bg-gradient-default" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-        <button type="button" class="btn" data-bs-toggle="modal" id="seat-submit{{ trip.id }}" disabled>
+      <div class="modal-footer d-flex justify-content-between" id="modal-footer">
+        <button type="button" class="btn bg-gradient-light icon-link icon-link-hover" data-bs-dismiss="modal">
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+          </svg>
+          {% translate "Cancel" %}
+        </button>
+        <button type="button"
+                class="btn bg-gradient-primary icon-link icon-link-hover"
+                data-bs-toggle="modal"
+                id="seat-submit{{ trip.id }}"
+                disabled>
           {% translate "Confirm" %}
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+          </svg>
         </button>
       </div>
     </div>

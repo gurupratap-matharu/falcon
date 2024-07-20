@@ -32,7 +32,11 @@
           <a href="{{ contact_url }}" class="alert-link text-decoration-underline"><strong>contact us here</strong></a>{% endblocktranslate %}
         </p>
         <div class="d-flex justify-content-between pt-3">
-          <a href="{% url 'pages:home' %}" class="alert-link text-decoration-underline">{% translate "Go back home" %}</a>
+          <a href="{% url 'pages:home' %}" class="alert-link icon-link icon-link-hover">
+            <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+            </svg>
+          {% translate "Go back home" %}</a>
         </div>
       </div>
     </div>
