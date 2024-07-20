@@ -7,7 +7,7 @@
   <section class="px-2">
     <div class="container">
       <div class="row">
-        <div class="col-lg-10 z-index-2 border-radius-xl mx-auto py-3 blur shadow-xl">
+        <div class="col-lg-10 border-radius-xl mx-auto py-3 bg-white shadow-xl">
           <form action="{% url 'trips:trip-list' %}" method="get" autocomplete="on">
             <div class="row gx-md-3 mb-1 mb-md-3">
               <div class="col-8 col-sm-3 col-lg-2">
@@ -166,5 +166,5 @@
   <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
   <script type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
   <script type="text/javascript" src="{% static 'assets/js/autocomplete/autocomplete.min.js' %}" defer></script>
-  <script type="text/javascript" src="{% static 'assets/js/autocomplete/config.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/autocomplete/config.min.js' %}" defer></script>
 {% endblock js %}
