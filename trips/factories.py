@@ -1,6 +1,7 @@
 import itertools
 import logging
 import random
+import string
 from datetime import datetime as dt
 from datetime import timedelta as td
 from zoneinfo import ZoneInfo
@@ -8,9 +9,9 @@ from zoneinfo import ZoneInfo
 from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 
 import factory
-from django_countries import countries
 from factory import fuzzy
 from faker import Faker
 
@@ -38,13 +39,16 @@ class LocationFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("random_element", elements=TERMINALS)
     slug = factory.LazyAttribute(lambda o: slugify(o.name))
-    abbr = factory.LazyAttribute(lambda o: o.name.lower()[:5])
+    abbr = factory.LazyAttribute(
+        lambda o: o.name.replace(" ", "").lower()[:4]
+        + get_random_string(length=3, allowed_chars=string.digits)
+    )
 
     address_line1 = factory.Faker("address")
     city = factory.Faker("city")
     state = factory.Faker("state")
     postal_code = factory.Faker("postalcode")
-    country = factory.Faker("random_element", elements=list(dict(countries)))
+    country = "AR"
 
     latitude = factory.LazyAttribute(lambda _: round(fake.latitude(), 6))
     longitude = factory.LazyAttribute(lambda _: round(fake.longitude(), 6))
@@ -74,6 +78,22 @@ class RouteFactory(factory.django.DjangoModelFactory):
     )
 
 
+class RouteWithStopsFactory(RouteFactory):
+    @factory.post_generation
+    def stops(self, create, extracted, **kwargs):
+        logger.info("create:%s, extracted:%s" % (create, extracted))
+        if not create:
+            # Simple build, or nothing to add, do nothing.
+            return
+
+        # Create stops for this route and add them
+        stops_first = StopFactory(route=self, name=self.origin)
+        stops_intermediate = StopFactory.create_batch(size=2, route=self)
+        stops_last = StopFactory(route=self, name=self.destination)
+        stops = [stops_first, *stops_intermediate, stops_last]
+        logger.info("stops:%s" % stops)
+
+
 class StopFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Stop
@@ -88,7 +108,7 @@ class TripFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Trip
 
-    route = factory.SubFactory(RouteFactory)
+    route = factory.SubFactory(RouteWithStopsFactory)
     company = factory.SelfAttribute("route.company")
     name = factory.LazyAttribute(lambda o: f"{o.origin} - {o.destination}")
     slug = factory.LazyAttribute(lambda o: slugify(o.name))
