@@ -121,10 +121,16 @@
     </div>
   </section>
   {% comment "Offcanvas Departure" %}{% endcomment %}
+  {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDeparture" aria-controls="offcanvasDeparture">Departure</button>
+  <button class="btn btn-primary"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasReturn"
+          aria-controls="offcanvasReturn">Return</button> {% endcomment %}
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasDepartureLabel">{% translate "Departure" %}</h5>
-      <button type="button" class="btn-close bg-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <input class="form-control form-control-lg offcanvas-departure-date bg-white"
@@ -144,7 +150,7 @@
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasReturnLabel">{% translate "Return" %}</h5>
-      <button type="button" class="btn-close bg-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <input class="form-control form-control-lg offcanvas-return-date bg-white"
