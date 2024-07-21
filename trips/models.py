@@ -16,7 +16,7 @@ from django_countries.fields import CountryField
 
 from trips.exceptions import SeatException, TripException
 from trips.fields import OrderField
-from trips.managers import FutureManager, PastManager
+from trips.managers import FutureManager, LocationManager, PastManager
 from trips.seat_map import SEAT_MAP
 
 logger = logging.getLogger(__name__)
@@ -52,6 +52,8 @@ class Location(models.Model):
         _("Longitude"), max_digits=9, decimal_places=6, null=True
     )
 
+    objects = LocationManager()
+
     class Meta:
         ordering = ["name"]
         verbose_name = _("location")
@@ -59,6 +61,9 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
+
+    def natural_key(self):
+        return (self.abbr,)
 
     def save(self, *args, **kwargs) -> None:
         if not self.slug:

@@ -12,6 +12,11 @@ from django.utils import timezone
 logger = logging.getLogger(__name__)
 
 
+class LocationManager(models.Manager):
+    def get_by_natural_key(self, abbr):
+        return self.get(abbr=abbr)
+
+
 class PastManager(models.Manager):
     """
     Trip Model manager to work with past trips.

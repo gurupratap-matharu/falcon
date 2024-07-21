@@ -10,6 +10,11 @@ from django.utils.translation import gettext_lazy as _
 logger = logging.getLogger(__name__)
 
 
+class CompanyManager(models.Manager):
+    def get_by_natural_key(self, name):
+        return self.get(name=name)
+
+
 def company_cover_path(instance, filename):
     return f"companies/{instance.slug}/covers/{filename}"
 
@@ -19,7 +24,7 @@ def company_thumbnail_path(instance, filename):
 
 
 class Company(models.Model):
-    name = models.CharField(_("name"), max_length=200)
+    name = models.CharField(_("name"), max_length=200, unique=True)
     slug = models.SlugField(_("slug"), max_length=300, unique=True)
     description = models.CharField(_("description"), max_length=800, blank=True)
     website = models.URLField(_("website"), blank=True)
@@ -45,6 +50,8 @@ class Company(models.Model):
         related_name="companies",
     )
 
+    objects = CompanyManager()
+
     class Meta:
         ordering = ["name"]
         verbose_name = _("company")
@@ -59,6 +66,9 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+    def natural_key(self):
+        return (self.name,)
 
     def get_absolute_url(self):
         return reverse_lazy("companies:company_detail", kwargs={"slug": self.slug})
