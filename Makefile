@@ -33,6 +33,9 @@ check-deploy:
 css:
 	sass static/assets/scss/soft-ui-dashboard.scss -s compressed static/assets/css/styles.min.css
 
+dump-routes:
+	python manage.py dumpdata trips.Route trips.Stop --natural-primary --natural-foreign -o trips/fixtures/routes.json.gz
+	
 install:
 	poetry install
 
