@@ -36,7 +36,7 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav navbar-nav-hover mx-auto">
             <li class="nav-item mx-2">
-              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+              <a class="nav-link ps-2 cursor-pointer">
                 Pages
                 <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
@@ -44,7 +44,7 @@
               </a>
             </li>
             <li class="nav-item mx-2">
-              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+              <a class="nav-link ps-2 cursor-pointer">
                 Account
                 <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
@@ -52,7 +52,7 @@
               </a>
             </li>
             <li class="nav-item mx-2">
-              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+              <a class="nav-link ps-2 cursor-pointer">
                 Blocks
                 <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
@@ -60,7 +60,7 @@
               </a>
             </li>
             <li class="nav-item mx-2">
-              <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" role="button">
+              <a class="nav-link ps-2 cursor-pointer">
                 Docs
                 <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
@@ -71,7 +71,7 @@
           <ul class="navbar-nav">
             {% if request.user.is_authenticated %}
               <li class="nav-item mx-2">
-                <a href="{% url 'account_logout' %}" class="nav-link icon-link icon-link-hover mb-0" role="button">{% translate "Logout" %}
+                <a href="{% url 'account_logout' %}" class="nav-link icon-link icon-link-hover mb-0">{% translate "Logout" %}
                   <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                     <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                   </svg>
