@@ -42,7 +42,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/png" href="{% static 'assets/img/logos/logo.png' %}" />
     {# djlint:off #}
-    <title>{% block title %}Book Bus Tickets{% endblock title %} | Kpiola</title>
+    <title>{% block title %}{% translate "Book Bus Tickets" %}{% endblock title %} | Kpiola</title>
     {# djlint:on #}
     {% if not debug %}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCQZXE3FHQ"></script>
