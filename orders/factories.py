@@ -65,6 +65,7 @@ class PassengerFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Passenger
+        django_get_or_create = ("first_name",)
 
     document_type = fuzzy.FuzzyChoice(
         Passenger.DOCUMENT_TYPE_CHOICES[1:], getter=lambda c: c[0]
