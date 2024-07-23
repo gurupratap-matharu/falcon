@@ -44,8 +44,8 @@
               <tr>
                 <td>{{ stop.order|add:1 }}</td>
                 <td>{{ stop.name }}</td>
-                <td>{{ stop.arrival }}</td>
-                <td>{{ stop.departure }}</td>
+                <td>{{ stop.arrival|date:"H:i" }}</td>
+                <td>{{ stop.departure|date:"H:i" }}</td>
               </tr>
             {% empty %}
               <p>{% translate "There are no stops for this route." %}</p>
