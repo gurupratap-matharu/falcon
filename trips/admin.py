@@ -81,6 +81,7 @@ class PassengerSeatInline(admin.TabularInline):
     model = Trip.passengers.through  # <- This is the Seat model
     extra = 0
     can_delete = False
+    fields = ("seat_number", "passenger", "seat_status", "seat_type")
     readonly_fields = (
         "seat_number",
         # "seat_status",
@@ -135,8 +136,8 @@ class TripAdmin(admin.ModelAdmin):
     raw_id_fields = ("origin", "destination", "company")
     date_hierarchy = "departure"
     inlines = [
-        TripOrderInline,
         PassengerSeatInline,
+        TripOrderInline,
     ]
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
@@ -157,29 +158,37 @@ class TripAdmin(admin.ModelAdmin):
 
 class StopInline(admin.TabularInline):
     model = Stop
+    list_display = ("order", "name", "arrival", "departure")
+    autocomplete_fields = ("name",)
+    extra = 1
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         qs = super().get_queryset(request)
-        return qs.select_related("name")
+        qs = qs.select_related("route", "name")
+        return qs
 
 
 @admin.register(Route)
 class RouteAdmin(admin.ModelAdmin):
     list_display = (
         "company",
+        "category",
         "origin",
         "destination",
-        "category",
-        "duration",
         "active",
         "trips",
         "price_grid",
     )
     list_filter = ("active",)
-    list_select_related = ("company", "origin", "destination")
     raw_id_fields = ("company", "origin", "destination")
+    autocomplete_fields = ("origin", "destination")
     prepopulated_fields = {"slug": ("name",)}
     inlines = (StopInline,)
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        qs = super().get_queryset(request)
+        qs = qs.select_related("company", "origin", "destination")
+        return qs
 
     def trips(self, obj):
         """Link to our custom admin view"""

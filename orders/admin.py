@@ -120,12 +120,16 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Passenger)
 class PassengerAdmin(admin.ModelAdmin):
+    list_per_page = 20
     list_display = (
-        "id",
         "name",
         "document_type",
         "document_number",
+        "nationality",
+        "gender",
+        "phone_number",
     )
+    search_fields = ("first_name", "last_name")
     inlines = [
         OrderPassengerInline,
     ]
