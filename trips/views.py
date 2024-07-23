@@ -68,7 +68,6 @@ class TripListView(ListView):
         return [x for x in ladder if x >= timezone.now()]
 
     def get_context_data(self, **kwargs):
-        logger.info("context called...")
         context = super().get_context_data(**kwargs)
 
         context["origin"] = self.origin
@@ -83,7 +82,6 @@ class TripListView(ListView):
         Overwrite this method of validate if the search query params are valid
         else redirect to home with a valid message.
         """
-        logger.info("get called...")
 
         q = request.GET
 
@@ -101,12 +99,11 @@ class TripListView(ListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self) -> QuerySet[Any]:
-        logger.info("get_queryset called...")
         q = self.request.GET
         qs = Trip.future.search(
-            origin=q.get("origin"),
-            destination=q.get("destination"),
-            departure=q.get("departure"),
+            origin=self.origin,
+            destination=self.destination,
+            departure=self.departure,
             company_slug=q.get("company"),
             ordering=q.get("ordering"),
         )

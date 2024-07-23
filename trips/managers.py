@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.apps import apps
 from django.db import models
@@ -7,7 +7,6 @@ from django.db.models import Case, Count, F, Q, Sum, When
 from django.db.models.fields import FloatField, IntegerField
 from django.db.models.fields.json import KT
 from django.db.models.functions import Cast, Round
-from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
@@ -107,9 +106,9 @@ class FutureManager(models.Manager):
 
     def search(
         self,
-        origin: str = None,
-        destination: str = None,
-        departure: str = None,
+        origin=None,
+        destination=None,
+        departure=None,
         company_slug: str = None,
         ordering=None,
     ):
@@ -120,12 +119,7 @@ class FutureManager(models.Manager):
             - departure date
         """
 
-        Location = self.get_model("Location")
         Seat = self.get_model("Seat")
-
-        origin = get_object_or_404(Location, name=origin)
-        destination = get_object_or_404(Location, name=destination)
-        departure = datetime.strptime(departure, "%d-%m-%Y").date()
 
         origin_lookup = f"schedule__{origin.abbr}__order"
         destination_lookup = f"schedule__{destination.abbr}__order"
