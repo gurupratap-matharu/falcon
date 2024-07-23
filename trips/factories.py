@@ -220,6 +220,7 @@ def make_trips(num_trips=20, num_seats=40):
 
         TripTomorrowFactory(route=route, status=Trip.ACTIVE)
         TripDayAfterTomorrowFactory(route=route, status=Trip.ACTIVE)
+        TripPastFactory.create_batch(route=route, status=Trip.ACTIVE, size=3)
 
     # Create seats in each trip
     logger.info("creating all seats...")
