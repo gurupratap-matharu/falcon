@@ -5,6 +5,7 @@ from django.apps import apps
 from django.db import models
 from django.db.models import Case, Count, F, Q, Sum, When
 from django.db.models.fields import FloatField, IntegerField
+from django.db.models.fields.json import KT
 from django.db.models.functions import Cast, Round
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -106,10 +107,10 @@ class FutureManager(models.Manager):
 
     def search(
         self,
-        origin=None,
-        destination=None,
-        departure=None,
-        company_slug=None,
+        origin: str = None,
+        destination: str = None,
+        departure: str = None,
+        company_slug: str = None,
         ordering=None,
     ):
         """
@@ -126,17 +127,29 @@ class FutureManager(models.Manager):
         destination = get_object_or_404(Location, name=destination)
         departure = datetime.strptime(departure, "%d-%m-%Y").date()
 
+        origin_lookup = f"schedule__{origin.abbr}__order"
+        destination_lookup = f"schedule__{destination.abbr}__order"
+
+        origin_order = Cast(KT(origin_lookup), IntegerField())
+        destination_order = Cast(KT(destination_lookup), IntegerField())
+
         logger.info(
             "searching from:%s to:%s on:%s company:%s"
             % (origin, destination, departure, company_slug)
         )
 
         qs = self.active()
-        qs = qs.filter(origin=origin, destination=destination)
+
         qs = qs.filter(departure__date=departure)
+        qs = qs.filter(schedule__has_keys=[origin.abbr, destination.abbr])
+
+        qs = qs.alias(origin_order=origin_order, destination_order=destination_order)
+        qs = qs.filter(origin_order__lt=F("destination_order"))
+
         qs = qs.filter(company__slug=company_slug) if company_slug else qs
 
         availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
+
         qs = qs.annotate(availability=availability)
         qs = qs.select_related("company", "route", "origin", "destination")
         qs = qs.order_by(ordering) if ordering else qs
