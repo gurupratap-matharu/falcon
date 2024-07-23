@@ -53,8 +53,6 @@ class TripSearchForm:
     def clean_origin(self):
         """Only allow origins present in our database"""
 
-        logger.info("cleaning origin...")
-
         origin = self.data.get("origin")
 
         if isinstance(origin, list):
@@ -64,8 +62,6 @@ class TripSearchForm:
 
     def clean_destination(self):
         """Only allow destinations present in our database"""
-
-        logger.info("cleaning destination...")
 
         destination = self.data.get("destination")
 
@@ -78,8 +74,6 @@ class TripSearchForm:
         """
         Make sure departure is not in the past and is supplied
         """
-
-        logger.info("cleaning departure...")
 
         departure = self.data.get("departure")
 
@@ -101,8 +95,6 @@ class TripSearchForm:
         Don't allow return date to be less than departure date
         Note: Return date is optional in our form.
         """
-
-        logger.info("cleaning return...")
 
         today = datetime.today().date()
         departure_date = self.departure_date
@@ -128,8 +120,6 @@ class TripSearchForm:
         Only allow trip types to be in self.VALID_TRIP_TYPES
         """
 
-        logger.info("cleaning trip type...")
-
         trip_type = self.data.get("trip_type")
 
         if not trip_type:
@@ -145,8 +135,6 @@ class TripSearchForm:
         """
         Only allow num of passengers to be <= self.VALID_NUM_PASSENGERS
         """
-
-        logger.info("cleaning num passengers...")
 
         num_of_passengers = self.data.get("num_of_passengers")
 
