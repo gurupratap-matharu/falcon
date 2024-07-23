@@ -68,8 +68,14 @@ class TripListView(ListView):
         return [x for x in ladder if x >= timezone.now()]
 
     def get_context_data(self, **kwargs):
+        logger.info("context called...")
         context = super().get_context_data(**kwargs)
+
+        context["origin"] = self.origin
+        context["destination"] = self.destination
+        context["departure"] = self.departure
         context["date_ladder"] = self.get_date_ladder()
+
         return context
 
     def get(self, request, *args, **kwargs):
@@ -77,12 +83,13 @@ class TripListView(ListView):
         Overwrite this method of validate if the search query params are valid
         else redirect to home with a valid message.
         """
+        logger.info("get called...")
 
         q = request.GET
 
         try:
             form = self.form_class(q)
-            form.validate()
+            self.origin, self.destination, self.departure = form.validate()
 
         except Exception as e:
             messages.info(request, str(e) + self.invalid_query_msg)
@@ -94,6 +101,7 @@ class TripListView(ListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self) -> QuerySet[Any]:
+        logger.info("get_queryset called...")
         q = self.request.GET
         qs = Trip.future.search(
             origin=q.get("origin"),

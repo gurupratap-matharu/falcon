@@ -41,12 +41,14 @@ class TripSearchForm:
     def validate(self):
         logger.info("validating search form...")
 
-        self.clean_origin()
-        self.clean_destination()
-        self.clean_departure()
+        origin = self.clean_origin()
+        destination = self.clean_destination()
+        departure = self.clean_departure()
         self.clean_return()
         self.clean_num_passengers()
         self.clean_trip_type()
+
+        return origin, destination, departure
 
     def clean_origin(self):
         """Only allow origins present in our database"""
@@ -92,6 +94,8 @@ class TripSearchForm:
         if self.departure_date < datetime.today().date():
             raise ValidationError(_("Departure cannot be in the past!"))
 
+        return self.departure_date
+
     def clean_return(self):
         """
         Don't allow return date to be less than departure date
@@ -116,6 +120,8 @@ class TripSearchForm:
             raise ValidationError(
                 _("Return date is invalid"),
             )
+
+        return return_date
 
     def clean_trip_type(self):
         """
