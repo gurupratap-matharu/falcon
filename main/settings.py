@@ -338,6 +338,8 @@ SHELL_PLUS_IMPORTS = [
     "from orders.services import order_confirmed",
     "from coupons.factories import CouponFactory",
 ]
+SHELL_PLUS_PRINT_SQL = True
+SHELL_PLUS_PRINT_SQL_TRUNCATE = None
 
 # Simple captcha
 CAPTCHA_IMAGE_SIZE = (100, 50)
