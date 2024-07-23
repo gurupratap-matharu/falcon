@@ -753,6 +753,21 @@ class TripModelTests(TestCase):
         seat_numbers_in_db = trip.seats.values_list("seat_number", flat=True)
         self.assertEqual(seat_numbers, list(seat_numbers_in_db))
 
+    def test_trip_goes_from_method_works_correctly(self):
+        raise NotImplementedError("Veer please implement me")
+
+    def test_trip_get_schedule_method_works_correctly(self):
+        raise NotImplementedError("Veer please implement me")
+
+    def test_trip_get_duration_method_works_correctly(self):
+        raise NotImplementedError("Veer please implement me")
+
+    def test_trip_get_departure_time_method(self):
+        raise NotImplementedError("Veer please implement me")
+
+    def test_trip_get_arrival_time_method(self):
+        raise NotImplementedError("Veer please implement me")
+
 
 class SeatModelTests(TestCase):
     """Test suite for the Seat Model"""

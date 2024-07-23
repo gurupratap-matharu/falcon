@@ -1,6 +1,6 @@
 import logging
 import uuid
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -317,6 +317,9 @@ class Trip(models.Model):
         verbose_name = _("trip")
         verbose_name_plural = _("trips")
 
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             logger.info("slugifying %s:%s..." % (self.name, slugify(self.name)))
@@ -331,12 +334,6 @@ class Trip(models.Model):
                 {"arrival": _("Arrival date cannot be less than departure date")},
                 code="invalid",
             )
-
-    def __str__(self):
-        """
-        # TODO: Can be made better
-        """
-        return self.name
 
     def get_absolute_url(self):
         # TODO: Veer can we make this <origin>/<destination>/<company>/<id>?
@@ -468,9 +465,6 @@ class Trip(models.Model):
         """Calculates the trip duration in hours as string"""
         return self.route.duration
 
-        # td = self.arrival - self.departure
-        # return ":".join(str(td).split(":")[:2])
-
     def stops(self):
         return self.route.stops.select_related("name")
 
@@ -545,6 +539,46 @@ class Trip(models.Model):
             objs.append(obj)
 
         return Trip.objects.bulk_create(objs)
+
+    def goes_from(self, origin: str, destination: str) -> bool:
+        try:
+            o = self.schedule[origin]
+            d = self.schedule[destination]
+        except KeyError:
+            return False
+        else:
+            return o["order"] < d["order"]
+
+    def get_schedule(self) -> dict:
+        lst = sorted(self.schedule.items(), key=lambda x: x[1]["order"])
+        return {k: v for k, v in lst}
+
+    def get_duration(self, origin: str, destination: str) -> timedelta:
+        if not self.goes_from(origin, destination):
+            raise TripException(
+                "Trip does not goes from %s to %s" % (origin, destination)
+            )
+
+        departure = parse_datetime(self.schedule[origin]["departure"])
+        arrival = parse_datetime(self.schedule[destination]["arrival"])
+
+        return arrival - departure
+
+    def get_departure(self, location: str) -> datetime:
+        try:
+            ts = self.schedule[location]["departure"]
+        except KeyError:
+            raise TripException("Trip does not reach location:%s" % location)
+        else:
+            return parse_datetime(ts)
+
+    def get_arrival(self, location: str) -> datetime:
+        try:
+            ts = self.schedule[location]["arrival"]
+        except KeyError:
+            raise TripException("Trip does not reach location:%s" % location)
+        else:
+            return parse_datetime(ts)
 
 
 class Seat(models.Model):
