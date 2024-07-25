@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
 
-from trips.exceptions import SeatException, TripException
+from trips.exceptions import RouteException, SeatException, TripException
 from trips.fields import OrderField
 from trips.managers import FutureManager, LocationManager, PastManager
 from trips.seat_map import SEAT_MAP
@@ -168,13 +168,21 @@ class Route(models.Model):
         else:
             return origin_stop.order < destination_stop.order
 
-    def get_price(self, origin, destination):
+    def get_price(self, origin, destination) -> int:
         """Calculate the price between two stops as per price chart stored in json"""
 
         code = f"{origin.abbr.strip()};{destination.abbr.strip()}"
         logger.info("code:%s" % code)
 
-        return self.price.get(code)
+        try:
+            price = self.price[code]
+        except KeyError:
+            raise RouteException(
+                "Route does not go from %s to %s or has no price scheduled for it."
+                % (origin, destination)
+            )
+
+        return price
 
     def get_schedule_for_date(self, departure_date) -> dict:
         """
@@ -540,10 +548,10 @@ class Trip(models.Model):
 
         return Trip.objects.bulk_create(objs)
 
-    def goes_from(self, origin: str, destination: str) -> bool:
+    def goes_from(self, origin, destination) -> bool:
         try:
-            o = self.schedule[origin]
-            d = self.schedule[destination]
+            o = self.schedule[origin.abbr]
+            d = self.schedule[destination.abbr]
         except KeyError:
             return False
         else:
@@ -553,32 +561,33 @@ class Trip(models.Model):
         lst = sorted(self.schedule.items(), key=lambda x: x[1]["order"])
         return {k: v for k, v in lst}
 
-    def get_duration(self, origin: str, destination: str) -> timedelta:
+    def get_duration(self, origin, destination) -> timedelta:
         if not self.goes_from(origin, destination):
             raise TripException(
                 "Trip does not goes from %s to %s" % (origin, destination)
             )
 
-        departure = parse_datetime(self.schedule[origin]["departure"])
-        arrival = parse_datetime(self.schedule[destination]["arrival"])
+        return self.get_arrival(destination) - self.get_departure(origin)
 
-        return arrival - departure
-
-    def get_departure(self, location: str) -> datetime:
+    def get_departure(self, location) -> datetime:
         try:
-            ts = self.schedule[location]["departure"]
+            ts = self.schedule[location.abbr]["departure"]
         except KeyError:
             raise TripException("Trip does not reach location:%s" % location)
         else:
             return parse_datetime(ts)
 
-    def get_arrival(self, location: str) -> datetime:
+    def get_arrival(self, location) -> datetime:
         try:
-            ts = self.schedule[location]["arrival"]
+            ts = self.schedule[location.abbr]["arrival"]
         except KeyError:
             raise TripException("Trip does not reach location:%s" % location)
         else:
             return parse_datetime(ts)
+
+    def get_price(self, origin, destination):
+        # TODO: Change to own price grid and not route's
+        return self.route.get_price(origin, destination)
 
 
 class Seat(models.Model):
