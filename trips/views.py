@@ -24,7 +24,7 @@ from django_weasyprint import WeasyTemplateResponseMixin
 from companies.mixins import OwnerMixin
 from companies.models import SeatChart
 
-from .forms import PriceGridForm, RecurrenceForm, TripCreateForm, TripSearchForm
+from .forms import RecurrenceForm, TripCreateForm, TripSearchForm
 from .models import Location, Route, Trip
 
 logger = logging.getLogger(__name__)
