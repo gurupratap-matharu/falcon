@@ -126,7 +126,6 @@ class Route(models.Model):
         default=3.5,
         validators=[MinValueValidator(0.1), MaxValueValidator(100)],
     )
-    price = models.JSONField(_("price"), default=dict)
 
     active = models.BooleanField(_("active"), default=True)
     created_on = models.DateTimeField(auto_now_add=True)

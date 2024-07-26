@@ -69,13 +69,6 @@ class RouteFactory(factory.django.DjangoModelFactory):
     destination = factory.SubFactory(LocationFactory)
     category = fuzzy.FuzzyChoice(Route.CATEGORY_CHOICES, getter=lambda c: c[0])
     duration = fuzzy.FuzzyFloat(1, 24, precision=2)
-    price = factory.LazyAttribute(
-        lambda o: {
-            f"{o.origin.abbr.strip()};{o.destination.abbr.strip()}": fake.random_number(
-                digits=5
-            )
-        }
-    )
 
 
 class RouteWithStopsFactory(RouteFactory):
