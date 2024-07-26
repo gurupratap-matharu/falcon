@@ -182,7 +182,6 @@ class RouteAdmin(admin.ModelAdmin):
         "destination",
         "active",
         "trips",
-        "price_grid",
     )
     list_filter = ("active",)
     raw_id_fields = ("company", "origin", "destination")
@@ -199,15 +198,6 @@ class RouteAdmin(admin.ModelAdmin):
         """Link to our custom admin view"""
 
         url = reverse_lazy("trips:admin-route-detail", kwargs={"route_id": obj.id})
-        html = format_html('<a href="{}">View</a>', url)
-
-        return html
-
-    @admin.display(description="Price Grid")
-    def price_grid(self, obj):
-        """Custom view to edit the price grid for a route"""
-
-        url = reverse_lazy("trips:price-grid", kwargs={"route_id": obj.id})
         html = format_html('<a href="{}">View</a>', url)
 
         return html
