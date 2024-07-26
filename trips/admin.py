@@ -172,6 +172,10 @@ class PriceInline(admin.TabularInline):
     autocomplete_fields = ("origin", "destination")
     classes = ("collapse",)
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related("route", "origin", "destination")
+
 
 @admin.register(Route)
 class RouteAdmin(admin.ModelAdmin):
@@ -201,8 +205,3 @@ class RouteAdmin(admin.ModelAdmin):
         html = format_html('<a href="{}">View</a>', url)
 
         return html
-
-
-@admin.register(Price)
-class PriceAdmin(admin.ModelAdmin):
-    autocomplete_fields = ("origin", "destination")
