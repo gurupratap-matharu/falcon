@@ -246,6 +246,47 @@ class Stop(models.Model):
         return f"{self.order}. {self.name}"
 
 
+class Price(models.Model):
+    """
+    The price for each stop combination on a route.
+    """
+
+    CAMA = "C"
+    SEMICAMA = "S"
+    EXECUTIVE = "E"
+    OTHER = "O"
+    CATEGORY_CHOICES = [
+        (CAMA, "Cama"),
+        (SEMICAMA, "Semicama"),
+        (EXECUTIVE, "Executive"),
+        (OTHER, "Other"),
+    ]
+
+    route = models.ForeignKey(
+        "trips.Route", on_delete=models.CASCADE, related_name="prices"
+    )
+    origin = models.ForeignKey(
+        "trips.Location", on_delete=models.CASCADE, related_name="+"
+    )
+    destination = models.ForeignKey(
+        "trips.Location", on_delete=models.CASCADE, related_name="+"
+    )
+    amount = models.DecimalField(
+        _("amount"), max_digits=10, decimal_places=2, validators=[MinValueValidator(1)]
+    )
+    category = models.CharField(
+        _("category"), max_length=2, choices=CATEGORY_CHOICES, default=SEMICAMA
+    )
+
+    class Meta:
+        ordering = ("route",)
+        verbose_name = _("price")
+        verbose_name_plural = _("prices")
+
+    def __str__(self):
+        return str(self.amount)
+
+
 class Trip(models.Model):
     ACTIVE = "A"
     CANCELLED = "C"

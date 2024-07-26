@@ -9,9 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
-from trips.models import Seat
-
-from .models import Location, Route, Stop, Trip
+from .models import Location, Price, Route, Seat, Stop, Trip
 
 logger = logging.getLogger(__name__)
 
@@ -168,6 +166,11 @@ class StopInline(admin.TabularInline):
         return qs
 
 
+class PriceInline(admin.TabularInline):
+    model = Price
+    autocomplete_fields = ("origin", "destination")
+
+
 @admin.register(Route)
 class RouteAdmin(admin.ModelAdmin):
     list_display = (
@@ -183,7 +186,7 @@ class RouteAdmin(admin.ModelAdmin):
     raw_id_fields = ("company", "origin", "destination")
     autocomplete_fields = ("origin", "destination")
     prepopulated_fields = {"slug": ("name",)}
-    inlines = (StopInline,)
+    inlines = (StopInline, PriceInline)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         qs = super().get_queryset(request)
@@ -206,3 +209,8 @@ class RouteAdmin(admin.ModelAdmin):
         html = format_html('<a href="{}">View</a>', url)
 
         return html
+
+
+@admin.register(Price)
+class PriceAdmin(admin.ModelAdmin):
+    autocomplete_fields = ("origin", "destination")
