@@ -1,4 +1,5 @@
 import logging
+import random
 import uuid
 from datetime import datetime, timedelta
 
@@ -191,6 +192,18 @@ class Route(models.Model):
             }
 
         return schedule
+
+    def get_price(self, origin, destination, category):
+        try:
+            price = self.prices.get(
+                origin=origin, destination=destination, category=category
+            )
+        except Price.DoesNotExist:
+            raise RouteException(
+                "Price not set from %s to %s for category %s"
+                % (origin, destination, category)
+            )
+        return price
 
 
 class Stop(models.Model):
@@ -619,9 +632,10 @@ class Trip(models.Model):
         else:
             return parse_datetime(ts)
 
-    def get_price(self, origin, destination):
+    def get_price(self, origin, destination, category):
         # TODO: Change to own price grid and not route's
-        return self.route.get_price(origin, destination)
+        return random.randint(5000, 80000)
+        return self.route.get_price(origin, destination, category)
 
 
 class Seat(models.Model):

@@ -120,7 +120,7 @@
                 <form action="{{ trip.get_add_to_cart_url }}" method="post">
                   {% csrf_token %}
                   <button class="btn btn-link bg-light btn-round icon-link icon-link-hover fs-6 mb-0" type="submit">
-                    ARS {{ trip.price|floatformat:"-2g" }}
+                    ARS {% get_price trip origin destination trip.route.category as price %} {{ price|floatformat:"-2g" }}
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                       <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                     </svg>
