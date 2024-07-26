@@ -158,6 +158,7 @@ class StopInline(admin.TabularInline):
     model = Stop
     list_display = ("order", "name", "arrival", "departure")
     autocomplete_fields = ("name",)
+    classes = ("collapse",)
     extra = 1
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
@@ -169,6 +170,7 @@ class StopInline(admin.TabularInline):
 class PriceInline(admin.TabularInline):
     model = Price
     autocomplete_fields = ("origin", "destination")
+    classes = ("collapse",)
 
 
 @admin.register(Route)

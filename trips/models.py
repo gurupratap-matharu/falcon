@@ -167,22 +167,6 @@ class Route(models.Model):
         else:
             return origin_stop.order < destination_stop.order
 
-    def get_price(self, origin, destination) -> int:
-        """Calculate the price between two stops as per price chart stored in json"""
-
-        code = f"{origin.abbr.strip()};{destination.abbr.strip()}"
-        logger.info("code:%s" % code)
-
-        try:
-            price = self.price[code]
-        except KeyError:
-            raise RouteException(
-                "Route does not go from %s to %s or has no price scheduled for it."
-                % (origin, destination)
-            )
-
-        return price
-
     def get_schedule_for_date(self, departure_date) -> dict:
         """
         Builds a dict with departure datetimes for any arbitrary date for all the
@@ -280,11 +264,21 @@ class Price(models.Model):
 
     class Meta:
         ordering = ("route",)
+        unique_together = ("route", "origin", "destination", "category")
         verbose_name = _("price")
         verbose_name_plural = _("prices")
 
     def __str__(self):
         return str(self.amount)
+
+    def clean(self):
+        # Don't allow price to be set for locations a route doesn't go to
+        if not self.route.goes_from(self.origin, self.destination):
+            raise ValidationError(
+                "Route doesn't go from %(origin)s to %(destination)s",
+                code="invalid",
+                params={"origin": self.origin, "destination": self.destination},
+            )
 
 
 class Trip(models.Model):
