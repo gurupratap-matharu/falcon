@@ -14,7 +14,7 @@ from dateutil import rrule
 
 from trips.models import Location
 
-from .models import Stop, Trip
+from .models import Trip
 
 logger = logging.getLogger(__name__)
 

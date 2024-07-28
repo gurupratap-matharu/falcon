@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from django.apps import apps
 from django.db import models
-from django.db.models import Case, Count, F, OuterRef, Q, Subquery, Sum, When
+from django.db.models import Case, Count, F, Q, Sum, When
 from django.db.models.fields import FloatField, IntegerField
 from django.db.models.fields.json import KT
 from django.db.models.functions import Cast, Round
@@ -120,21 +120,12 @@ class FutureManager(models.Manager):
         """
 
         Seat = self.get_model("Seat")
-        Price = self.get_model("Price")
 
         origin_lookup = f"schedule__{origin.abbr}__order"
         destination_lookup = f"schedule__{destination.abbr}__order"
 
         origin_order = Cast(KT(origin_lookup), IntegerField())
         destination_order = Cast(KT(destination_lookup), IntegerField())
-
-        # prices = Price.objects.filter(
-        #     route=OuterRef("route_id"),
-        #     origin=origin,
-        #     destination=destination,
-        #     category=OuterRef("category"),
-        # )
-        # price = Subquery(prices.values("amount"))
 
         logger.info(
             "searching from:%s to:%s on:%s company:%s"
@@ -154,7 +145,6 @@ class FutureManager(models.Manager):
         availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
 
         qs = qs.annotate(availability=availability)
-        # qs = qs.annotate(price=price)
 
         qs = qs.select_related("company", "route", "origin", "destination")
         qs = qs.order_by(ordering) if ordering else qs

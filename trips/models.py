@@ -1,5 +1,4 @@
 import logging
-import random
 import uuid
 from datetime import datetime, timedelta
 
@@ -15,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
 
-from trips.exceptions import RouteException, SeatException, TripException
+from trips.exceptions import SeatException, TripException
 from trips.fields import OrderField
 from trips.managers import FutureManager, LocationManager, PastManager
 from trips.seat_map import SEAT_MAP
