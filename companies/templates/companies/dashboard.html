@@ -378,11 +378,6 @@
 {% endblock content %}
 
 {% block js %}
-  <script type="text/javascript" src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'assets/js/charts/demo.js' %}"></script>
-  {% comment %}
-  Veer we have this new version of chart js available. But it throws a console error
-  So keeping it disabled for the moment
-  <script type="text/javascript" src="{% static 'assets/js/plugins/chart.min.js' %}" defer></script>
-  {% endcomment %}
+  <script type="text/javascript" src="{% static 'assets/js/plugins/chartjs.min.js' %}" defer></script>
+  <script type="text/javascript" src="{% static 'assets/js/charts/demo.js' %}" defer></script>
 {% endblock js %}
