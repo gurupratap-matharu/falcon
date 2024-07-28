@@ -205,12 +205,20 @@ def make_trips(num_trips=20, num_seats=40):
     if not routes:
         raise ValidationError("Please load all routes first")
 
+    cama = Trip.CAMA
+    semicama = Trip.SEMICAMA
+
     # Create trips
     for route in routes:
+
         logger.info("creating trips for route:%s" % route)
 
-        TripTomorrowFactory(route=route, status=Trip.ACTIVE)
-        TripDayAfterTomorrowFactory(route=route, status=Trip.ACTIVE)
+        TripTomorrowFactory(route=route, status=Trip.ACTIVE, category=semicama)
+        TripTomorrowFactory(route=route, status=Trip.ACTIVE, category=cama)
+
+        TripDayAfterTomorrowFactory(route=route, status=Trip.ACTIVE, category=semicama)
+        TripDayAfterTomorrowFactory(route=route, status=Trip.ACTIVE, category=cama)
+
         TripPastFactory.create_batch(route=route, status=Trip.ACTIVE, size=3)
 
     # Create seats in each trip
