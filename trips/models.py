@@ -85,17 +85,6 @@ class Route(models.Model):
     Trips are created based on routes and have a date on which they run.
     """
 
-    CAMA = "C"
-    SEMICAMA = "S"
-    EXECUTIVE = "E"
-    OTHER = "O"
-    CATEGORY_CHOICES = [
-        (CAMA, "Cama"),
-        (SEMICAMA, "Semicama"),
-        (EXECUTIVE, "Executive"),
-        (OTHER, "Other"),
-    ]
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
         to="companies.Company",
@@ -107,9 +96,7 @@ class Route(models.Model):
     slug = models.SlugField(_("slug"), max_length=200)
     description = models.TextField(_("description"), blank=True)
     image = models.ImageField(_("image"), upload_to="routes/%Y/%m/%d", blank=True)
-    category = models.CharField(
-        _("category"), max_length=2, choices=CATEGORY_CHOICES, default=SEMICAMA
-    )
+
     origin = models.ForeignKey(
         "trips.Location",
         on_delete=models.SET_NULL,
@@ -199,10 +186,11 @@ class Route(models.Model):
                 origin=origin, destination=destination, category=category
             )
         except Price.DoesNotExist:
-            raise RouteException(
+            logger.warning(
                 "Price not set from %s to %s for category %s"
                 % (origin, destination, category)
             )
+            price = 0
         return price
 
 
@@ -295,6 +283,18 @@ class Price(models.Model):
 
 
 class Trip(models.Model):
+
+    CAMA = "C"
+    SEMICAMA = "S"
+    EXECUTIVE = "E"
+    OTHER = "O"
+    CATEGORY_CHOICES = [
+        (CAMA, "Cama"),
+        (SEMICAMA, "Semicama"),
+        (EXECUTIVE, "Executive"),
+        (OTHER, "Other"),
+    ]
+
     ACTIVE = "A"
     CANCELLED = "C"
     ONHOLD = "H"
@@ -326,6 +326,9 @@ class Trip(models.Model):
         on_delete=models.CASCADE,
         related_name="trips",
     )
+    category = models.CharField(
+        _("category"), max_length=2, choices=CATEGORY_CHOICES, default=SEMICAMA
+    )
     passengers = models.ManyToManyField(
         to="orders.Passenger", through="Seat", related_name="trips"
     )
@@ -343,9 +346,6 @@ class Trip(models.Model):
     departure = models.DateTimeField(verbose_name=_("Departure Date & Time"))
     arrival = models.DateTimeField(verbose_name=_("Arrival Date & Time"))
     schedule = models.JSONField(_("schedule"), default=dict, encoder=DjangoJSONEncoder)
-    price = models.DecimalField(
-        _("price"), max_digits=10, decimal_places=2, validators=[MinValueValidator(1)]
-    )
     status = models.CharField(
         _("status"),
         max_length=2,
@@ -632,10 +632,9 @@ class Trip(models.Model):
         else:
             return parse_datetime(ts)
 
-    def get_price(self, origin, destination, category):
+    def get_price(self, origin, destination):
         # TODO: Change to own price grid and not route's
-        return random.randint(5000, 80000)
-        return self.route.get_price(origin, destination, category)
+        return self.route.get_price(origin, destination, self.category)
 
 
 class Seat(models.Model):

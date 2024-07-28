@@ -67,7 +67,6 @@ class RouteFactory(factory.django.DjangoModelFactory):
     image = CustomImageField(filename="route.jpg")
     origin = factory.SubFactory(LocationFactory)
     destination = factory.SubFactory(LocationFactory)
-    category = fuzzy.FuzzyChoice(Route.CATEGORY_CHOICES, getter=lambda c: c[0])
     duration = fuzzy.FuzzyFloat(1, 24, precision=2)
 
 
@@ -114,7 +113,6 @@ class TripFactory(factory.django.DjangoModelFactory):
     arrival = factory.LazyAttribute(
         lambda o: o.departure + td(hours=random.randint(5, 48))  # nosec
     )
-    price = fuzzy.FuzzyDecimal(low=5000, high=20000)
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")

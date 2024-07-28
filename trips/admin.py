@@ -118,12 +118,12 @@ class LocationAdmin(admin.ModelAdmin):
 @admin.register(Trip)
 class TripAdmin(admin.ModelAdmin):
     list_display = (
-        "company",
+        "departure",
         "route",
+        "company",
+        "category",
         "origin",
         "destination",
-        "departure",
-        "arrival",
         "duration",
         "status",
         "mode",
@@ -132,19 +132,12 @@ class TripAdmin(admin.ModelAdmin):
     list_filter = (FutureFilter, "departure", "status")
     prepopulated_fields = {"slug": ("name",)}
     raw_id_fields = ("origin", "destination", "company")
-    date_hierarchy = "departure"
-    inlines = [
-        PassengerSeatInline,
-        TripOrderInline,
-    ]
+    autocomplete_fields = ("origin", "destination")
+    inlines = [PassengerSeatInline, TripOrderInline]
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         qs = super().get_queryset(request)
-
-        # Fetch related foreign keys in one go
         qs = qs.select_related("route", "origin", "destination", "company")
-
-        # Annotate availability for all trips in  one go
         _availability = Count("seats", filter=Q(seats__seat_status=Seat.AVAILABLE))
         qs = qs.annotate(_availability=_availability)
 
@@ -181,7 +174,6 @@ class PriceInline(admin.TabularInline):
 class RouteAdmin(admin.ModelAdmin):
     list_display = (
         "company",
-        "category",
         "origin",
         "destination",
         "active",
