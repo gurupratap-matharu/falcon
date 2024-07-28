@@ -24,5 +24,5 @@ def get_arrival(trip, location):
 
 
 @register.simple_tag
-def get_price(trip, origin, destination, category):
-    return trip.get_price(origin, destination, category)
+def get_price(trip, origin, destination):
+    return trip.get_price(origin, destination)
