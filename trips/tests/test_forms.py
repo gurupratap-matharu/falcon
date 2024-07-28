@@ -7,86 +7,9 @@ from django.utils import timezone
 
 from dateutil import rrule
 
-from trips.factories import LocationFactory, RouteFactory, StopFactory
-from trips.forms import PriceGridForm, RecurrenceForm, TripCreateForm, TripSearchForm
+from trips.factories import LocationFactory
+from trips.forms import RecurrenceForm, TripCreateForm, TripSearchForm
 from trips.models import Trip
-
-
-class PriceGridFormTests(TestCase):
-    """
-    Test suite to check the functionality of the price grid form.
-    """
-
-    def setUp(self):
-        self.route = RouteFactory()
-        self.origin = StopFactory(route=self.route)
-        self.destination = StopFactory(route=self.route)
-
-    def test_price_grid_form_with_negative_price(self):
-        data = {
-            "origin": self.origin,
-            "destination": self.destination,
-            "price": -1,  # invalid price
-        }
-
-        form = PriceGridForm(data=data)
-
-        self.assertFalse(form.is_valid())
-        self.assertEqual(
-            form.errors, {"price": ["Ensure this value is greater than or equal to 0."]}
-        )
-
-    def test_price_grid_form_with_very_high_price(self):
-        data = {
-            "origin": self.origin,
-            "destination": self.destination,
-            "price": 500000,  # invalid price
-        }
-
-        form = PriceGridForm(data=data)
-
-        self.assertFalse(form.is_valid())
-        self.assertEqual(
-            form.errors,
-            {"price": ["Ensure this value is less than or equal to 100000."]},
-        )
-
-    def test_price_grid_form_with_same_origin_destination_raises_error(self):
-        data = {
-            "origin": self.origin,
-            "destination": self.origin,  # invalid
-            "price": 100,
-        }
-
-        form = PriceGridForm(data=data)
-
-        self.assertFalse(form.is_valid())
-        self.assertEqual(
-            form.errors,
-            {"destination": ["origin and destination cannot be the same."]},
-        )
-
-    def test_price_grid_form_save_updates_route_price_correctly(self):
-        # create route with empty price dict
-        route = RouteFactory(price=dict())
-        self.assertEqual(route.price, {})
-
-        # create a valid form
-        data = {"origin": self.origin, "destination": self.destination, "price": 100}
-        form = PriceGridForm(data=data)
-
-        self.assertTrue(form.is_valid())
-        self.assertEqual(form.errors, {})
-
-        # build the expected price dict
-        key = f"{self.origin.name.abbr.strip()};{self.destination.name.abbr.strip()}"
-        expected_price = {key: 100}
-
-        # save the form and it should update route price correctly
-        form.save(route=route)
-        route.refresh_from_db()
-
-        self.assertEqual(route.price, expected_price)
 
 
 class TripSearchFormTests(TestCase):
