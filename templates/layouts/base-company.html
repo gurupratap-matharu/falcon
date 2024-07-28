@@ -138,9 +138,8 @@
         <div class="card card-background shadow-none card-background-mask-primary" id="sidenavCard">
           <div class="full-background" style="background-image: url({% static 'assets/img/curved-images/curved1.avif' %})"></div>
           <div class="card-body text-start p-3 w-100">
-            <div class="icon icon-shape icon-sm bg-white shadow text-center mb-3 d-flex align-items-center justify-content-center border-radius-md">
-              <i class="bi bi-gem text-dark text-gradient text-lg top-0" aria-hidden="true" id="sidenavCardIcon"></i>
-              <svg class="bi opacity-8" width="16" height="16" aria-hidden="true">
+            <div class="icon icon-shape icon-sm bg-gradient-primary shadow text-center mb-3 d-flex align-items-center justify-content-center border-radius-md">
+              <svg class="bi text-white" width="16" height="16" aria-hidden="true" fill="currentColor">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#gem" />
               </svg>
             </div>
@@ -160,7 +159,6 @@
     <header>
       <nav class="navbar navbar-expand-md px-0 mx-md-4 mb-3 shadow-none">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{{ company.get_admin_url }}">{{ company.name }}</a>
           <button class="navbar-toggler" type="button" onClick="toggleSideNav();" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -190,39 +188,36 @@
 
             </h6>
           </nav>
-          <div class="mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto justify-content-end">
-              <li class="nav-item d-flex align-items-center">
-                <a class="mb-0 me-3" href="{% url 'pages:help' %}">{% translate "Help" %}</a>
-              </li>
-              <li class="nav-item d-flex align-items-center">
-                {% if request.user.is_authenticated %}
-                  <div class="dropdown nav-link">
-                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                      {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
-                        {% if avatar_url %}
-                          <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" />
-                        {% else %}
-                          <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
-                        {% endif %}
-                      {% endwith %}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a class="dropdown-item" href="{% url 'pages:feedback' %}">{% translate "Feedback" %}</a>
-                      <hr class="dropdown-divider" />
-                      <a class="dropdown-item" href="{% url 'users:settings' %}">{% translate "Settings" %}</a>
-                      <a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
-                    </div>
-                  </div>
-                {% else %}
-                  <a href="{% url 'account_login' %}" class="nav-link text-body font-weight-bold px-0">
-                    <i class="bi bi-person-circle me-sm-1"></i>
-                    <span class="d-sm-inline d-none">{% translate "Sign In" %}</span>
+          <ul class="navbar-nav ms-auto justify-content-end">
+            <li class="nav-item d-flex align-items-center">
+              <a class="mb-0 me-3" href="{% url 'pages:help' %}">{% translate "Help" %}</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              {% if request.user.is_authenticated %}
+                <div class="dropdown nav-link">
+                  <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                    {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
+                      {% if avatar_url %}
+                        <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" />
+                      {% else %}
+                        <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
+                      {% endif %}
+                    {% endwith %}
                   </a>
-                {% endif %}
-              </li>
-            </ul>
-          </div>
+                  <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="{% url 'pages:feedback' %}">{% translate "Feedback" %}</a>
+                    <hr class="dropdown-divider" />
+                    <a class="dropdown-item" href="{% url 'users:settings' %}">{% translate "Settings" %}</a>
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
+                  </div>
+                </div>
+              {% else %}
+                <a href="{% url 'account_login' %}" class="nav-link text-body font-weight-bold px-0">
+                  <span class="d-sm-inline d-none">{% translate "Sign In" %}</span>
+                </a>
+              {% endif %}
+            </li>
+          </ul>
         </div>
       </nav>
     </header>
