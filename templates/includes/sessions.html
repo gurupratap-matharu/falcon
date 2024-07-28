@@ -1,9 +1,4 @@
 {% if request.user.is_superuser %}
-  <div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sessionModal">
-      Launch session modal
-    </button>
-  </div>
   <div class="card card-plain mx-3 mt-3">
     <div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="sessionModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
