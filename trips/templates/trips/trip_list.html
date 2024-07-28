@@ -133,16 +133,6 @@
       {% empty %}
         <h5 class="text-center mt-5">{% translate "No results!" %}</h5>
       {% endfor %}
-      {% if trips %}
-        <div class="d-flex justify-content-center">
-          <a href="#top" title="Back to top">
-            <svg class="bi" width="32" height="32" fill="currentColor" aria-hidden="true">
-              <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-up" />
-            </svg>
-            <span class="visually-hidden">Back to top</span>
-          </a>
-        </div>
-      {% endif %}
     </div>
   </div>
 {% endblock content %}

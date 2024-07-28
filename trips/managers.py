@@ -60,17 +60,17 @@ class PastManager(models.Manager):
         occupancy = Cast(100 * Sum("occupied") / Sum("total"), IntegerField())
 
         # Find revenue = price * bookings
-        revenue = Cast(F("price") * occupied, IntegerField())
+        # revenue = Cast(F("price") * occupied, IntegerField())
 
         qs = self.get_queryset()
         qs = qs.filter(departure__date=date)
         qs = qs.filter(company__slug=company_slug) if company_slug else qs
-        qs = qs.annotate(total=total, occupied=occupied, revenue=revenue)
+        qs = qs.annotate(total=total, occupied=occupied)
 
         kpis = qs.aggregate(
             occupancy=occupancy,  # <- occupancy % on avg
             bookings=Sum("occupied"),  # <-- Num tickets sold
-            sales=Sum("revenue"),  # <-- Sales in $$
+            # sales=Sum("revenue"),  # <-- Sales in $$
             trips=Count("id"),  # <-- Num of trips done
         )
 
@@ -175,14 +175,14 @@ class FutureManager(models.Manager):
         occupancy = 5 * Round(occupancy / 5)
 
         # Find revenue = price * occupied seats
-        revenue = Cast(F("price"), FloatField()) * occupied
-        revenue = Cast(revenue, IntegerField())
+        # revenue = Cast(F("price"), FloatField()) * occupied
+        # revenue = Cast(revenue, IntegerField())
 
         qs = self.active() if active else self.get_queryset()
         qs = qs.filter(company__slug=company_slug)
         qs = qs.annotate(availability=availability, occupied=occupied, total=total)
         qs = qs.annotate(occupancy=occupancy)
-        qs = qs.annotate(revenue=revenue)
+        # qs = qs.annotate(revenue=revenue)
         qs = qs.order_by("departure")
         qs = qs.select_related("company", "origin", "destination")
 
