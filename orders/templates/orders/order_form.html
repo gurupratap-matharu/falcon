@@ -1,6 +1,6 @@
 {% extends "layouts/base-app.html" %}
 
-{% load static i18n %}
+{% load static i18n trips_extras %}
 
 {% block title %}
   {% translate "Order" %}
@@ -168,9 +168,74 @@
     <div class="col-12 col-lg-4">
       {% for item in cart %}
         {% with trip=item.trip %}
-
-          {% include "includes/trip_summary.html" %}
-
+          {% get_departure trip origin as origin_departure %}
+          {% get_arrival trip destination as destination_arrival %}
+          {% get_price trip origin destination as price %}
+          {# Trip Summary Card #}
+          <div class="card mt-3 mt-md-0 mb-3">
+            <div class="card-header pb-0">
+              <h5 class="card-title">{% translate "Trip Summary" %}</h5>
+            </div>
+            <div class="card-body p-3">
+              <div class="timeline timeline-one-side" data-timeline-axis-style="dotted">
+                <div class="timeline-block mb-3">
+                  <span class="timeline-step">
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#geo" />
+                    </svg>
+                  </span>
+                  <div class="timeline-content">
+                    <h6 class="mb-0">{{ origin }}</h6>
+                    <p class="mt-1 mb-0">{{ origin_departure }}</p>
+                  </div>
+                </div>
+                <div class="timeline-block mb-3">
+                  <span class="timeline-step">
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#geo-fill" />
+                    </svg>
+                  </span>
+                  <div class="timeline-content">
+                    <h6 class="mb-0">{{ destination }}</h6>
+                    <p class="mt-1 mb-0">{{ destination_arrival }}</p>
+                  </div>
+                </div>
+                <div class="timeline-block mb-3">
+                  <span class="timeline-step">
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#stopwatch" />
+                    </svg>
+                  </span>
+                  <div class="timeline-content">
+                    <h6 class="mb-0">{% translate "Duration" %}</h6>
+                    <p class="mt-1 mb-0">{% get_duration trip origin destination %}</p>
+                  </div>
+                </div>
+                <div class="timeline-block mb-3">
+                  <span class="timeline-step">
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#bus-front" />
+                    </svg>
+                  </span>
+                  <div class="timeline-content">
+                    <h6 class="mb-0">{% translate "Company" %}</h6>
+                    <p class="mt-1 mb-0">{{ trip.company }}</p>
+                  </div>
+                </div>
+                <div class="timeline-block">
+                  <span class="timeline-step">
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#coin" />
+                    </svg>
+                  </span>
+                  <div class="timeline-content">
+                    <h6 class="mb-0">{% translate "Price" %}</h6>
+                    <p class="mt-1 mb-0">ARS {{ price|floatformat:"-2g" }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         {% endwith %}
       {% empty %}
         <div class="card mt-3">
@@ -187,25 +252,26 @@
         <div class="card-body px-4">
           {% for item in cart %}
             {% with trip=item.trip %}
+              {% get_price trip origin destination as price %}
               {% with ""|center:item.quantity as range %}
                 {% for _ in range %}
                   <div class="d-flex justify-content-between">
                     <p>{% translate "Passenger" %} {{ forloop.counter }}</p>
-                    ${{ trip.price|floatformat:"0" }}
+                    <p>ARS {{ price|floatformat:"-2g" }}</p>
                   </div>
                 {% endfor %}
               {% endwith %}
             {% endwith %}
           {% endfor %}
           {% if cart.coupon %}
-            <div class="d-flex justify-content-between mb-1">
+            <div class="d-flex justify-content-between">
               <p>{% translate "Coupon" %} ({{ cart.coupon.discount }}% off)</p>
-              <div>- $ {{ cart.get_discount|floatformat:"0" }}</div>
+              <p>- ARS {{ cart.get_discount|floatformat:"-2g" }}</p>
             </div>
           {% endif %}
-          <div class="d-flex justify-content-between mb-1">
-            <h6 class="text-dark font-weight-bold mb-0">{% translate "Total" %}</h6>
-            ${{ cart.get_total_price_after_discount|floatformat:"0" }}
+          <div class="d-flex justify-content-between">
+            <h6>{% translate "Total" %}</h6>
+            <h6>ARS {{ cart.get_total_price_after_discount|floatformat:"-2g" }}</h6>
           </div>
         </div>
       </div>

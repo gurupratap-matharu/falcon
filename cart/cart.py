@@ -49,7 +49,7 @@ class Cart:
         """Calculate the final price after applying coupon discount (if any)"""
         return self.get_total_price() - self.get_discount()
 
-    def add(self, trip, quantity=1, override_quantity=False):
+    def add(self, trip, price, quantity=1, override_quantity=False):
         """
         Add a trip to the cart or update its quantity.
         """
@@ -63,7 +63,7 @@ class Cart:
         trip_id = str(trip.id)
 
         if trip_id not in self.cart:
-            self.cart[trip_id] = {"quantity": 0, "price": str(trip.price)}
+            self.cart[trip_id] = {"quantity": 0, "price": str(price)}
 
         if override_quantity:
             self.cart[trip_id]["quantity"] = quantity

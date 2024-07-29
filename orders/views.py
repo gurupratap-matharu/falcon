@@ -16,6 +16,7 @@ from django_weasyprint import WeasyTemplateResponseMixin
 
 from cart.cart import Cart
 from companies.mixins import OwnerMixin
+from trips.models import Location
 
 from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
@@ -78,8 +79,16 @@ class OrderCreateView(CreateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
+        q = self.request.session.get("q")
+
+        origin = get_object_or_404(Location, name__iexact=q["origin"])
+        destination = get_object_or_404(Location, name__iexact=q["destination"])
+
         context["cart"] = Cart(self.request)
         context["formset"] = self.get_formset()
+        context["origin"] = origin
+        context["destination"] = destination
 
         return context
 

@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from coupons.forms import CouponApplyForm
-from trips.models import Trip
+from trips.models import Location, Trip
 
 from .cart import Cart, CartException
 
@@ -27,15 +27,25 @@ def cart_add(request, trip_id=None):
         messages.info(request, settings.SESSION_EXPIRED_MESSAGE)
         return redirect("pages:home")
 
-    trip = get_object_or_404(Trip, id=trip_id)
-    quantity = int(request.session["q"]["num_of_passengers"])
+    q = request.session["q"]
 
-    logger.info("adding to cart(🛒)... trip_id:%s quantity:%s" % (trip_id, quantity))
+    trip = get_object_or_404(Trip, id=trip_id)
+
+    quantity = int(q["num_of_passengers"])
+    origin = get_object_or_404(Location, name__iexact=q["origin"])
+    destination = get_object_or_404(Location, name__iexact=q["destination"])
+
+    price = trip.get_price(origin, destination)
+
+    logger.info(
+        "adding to cart(🛒)... trip_id:%s quantity:%s price:%s"
+        % (trip_id, quantity, price)
+    )
 
     cart = Cart(request)
 
     try:
-        cart.add(trip=trip, quantity=quantity)
+        cart.add(trip=trip, quantity=quantity, price=price)
 
     except CartException:
         messages.info(request, trips_exceeded_msg)
