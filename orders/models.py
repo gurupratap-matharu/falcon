@@ -132,7 +132,7 @@ class OrderItem(models.Model):
 
     order = models.ForeignKey("Order", related_name="items", on_delete=models.CASCADE)
     trip = models.ForeignKey(
-        "trips.Trip", related_name="order_items", on_delete=models.CASCADE
+        "trips.Trip", related_name="order_items", on_delete=models.SET_NULL, null=True
     )
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
