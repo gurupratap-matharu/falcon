@@ -238,13 +238,22 @@ class TicketView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        q = self.request.session.get("q")
+        # Ideally you should pull origin & destination from order item now
+        # since you may request a ticket long after session is expired. Edge case
+        origin = get_object_or_404(Location, name__iexact=q["origin"])
+        destination = get_object_or_404(Location, name__iexact=q["destination"])
+
         order = self.object
-        item = order.items.first()
+        item = order.items.select_related("trip").first()
         trip = item.trip
         company = trip.company
         qr_url = f"{settings.BASE_URL}{item.get_checkin_url()}"
         logger.info("qr_url:%s" % qr_url)
 
+        context["origin"] = origin
+        context["destination"] = destination
         context["company"] = company
         context["order"] = order
         context["item"] = item

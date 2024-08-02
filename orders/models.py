@@ -29,7 +29,7 @@ class Order(models.Model):
         _("residence"),
         blank_label="(Country of residence)",
         help_text=_("This helps us to show you the best payment options."),
-    )  # type: ignore
+    )
     paid = models.BooleanField(default=False)
     payment_id = models.CharField(max_length=250, blank=True)
     coupon = models.ForeignKey(

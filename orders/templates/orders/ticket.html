@@ -1,5 +1,9 @@
-{% load static qr_code %}
+{% load static qr_code trips_extras %}
 
+{% get_departure trip origin as origin_departure %}
+{% get_arrival trip destination as destination_arrival %}
+{% get_duration trip origin destination as duration %}
+{% get_price trip origin destination as price %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,7 +16,7 @@
   </head>
   <body>
     <section>
-      <strong>{{ trip.departure }}</strong> Trip to <strong>{{ trip.origin }} - {{ trip.destination }}</strong>
+      <strong>{{ origin_departure }}</strong> Trip to <strong>{{ origin }} - {{ destination }}</strong>
     </section>
     <hr />
     <section>
@@ -31,7 +35,7 @@
       <div class="departure-container">
         <div>
           <p>
-            DEPARTURE: <strong>{{ trip.departure|date:"l d F Y H:i" }}</strong>
+            DEPARTURE: <strong>{{ origin_departure|date:"l d F Y H:i" }}</strong>
           </p>
         </div>
         <div>
@@ -44,7 +48,7 @@
             <strong>{{ company|upper }}</strong>
           </p>
           <p class="smaller">Trip: {{ trip_code }}</p>
-          <p class="smaller">Duration: {{ trip.duration }}</p>
+          <p class="smaller">Duration: {{ duration }}</p>
           <p class="smaller">Status: Confirmed</p>
         </article>
         <article>
@@ -53,14 +57,14 @@
               <table>
                 <thead>
                   <tr>
-                    <td>{{ trip.origin.abbr|upper }}</td>
-                    <td>{{ trip.destination.abbr|upper }}</td>
+                    <td>{{ origin.abbr|upper }}</td>
+                    <td>{{ destination.abbr|upper }}</td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{{ trip.origin }}</td>
-                    <td>{{ trip.destination }}</td>
+                    <td>{{ origin }}</td>
+                    <td>{{ destination }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -68,13 +72,13 @@
             <div class="container">
               <div class="departure">
                 <p class="smaller">Departing at</p>
-                <strong class="larger">{{ trip.departure|date:"H:i" }}</strong>
-                <p class="smaller">{{ trip.departure|date:"l d F" }}</p>
+                <strong class="larger">{{ origin_departure|date:"H:i" }}</strong>
+                <p class="smaller">{{ origin_departure|date:"l d F" }}</p>
               </div>
               <div class="arrival">
                 <p class="smaller">Arrival at</p>
-                <strong class="larger">{{ trip.arrival|date:"H:i" }}</strong>
-                <p class="smaller">{{ trip.arrival|date:"l d F" }}</p>
+                <strong class="larger">{{ destination_arrival|date:"H:i" }}</strong>
+                <p class="smaller">{{ destination_arrival|date:"l d F" }}</p>
               </div>
             </div>
           </div>
