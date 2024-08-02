@@ -20,8 +20,8 @@
       <a href="{{ preference.init_point }}">
         <div class="card cursor-pointer mb-3 mp-container">
           <div class="card-header mx-auto p-3">
-            <div class="icon icon-shape icon-lg bg-gradient-primary d-flex justify-content-center align-items-center">
-              <svg class="bi text-white" width="32" height="32" fill="currentColor" aria-hidden="true">
+            <div class="icon icon-shape bg-gradient-primary shadow d-flex justify-content-center align-items-center">
+              <svg class="bi text-white" width="24" height="24" fill="currentColor" aria-hidden="true">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#bank" />
               </svg>
             </div>
@@ -31,7 +31,7 @@
             <span class="text-xs">ARS</span>
             <hr class="horizontal dark my-3" />
             <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6">
-              {% translate "Pay" %} ${{ order.get_total_cost|floatformat:"g" }}
+              ARS {{ order.get_total_cost|floatformat:"g" }}
               <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
               </svg>
@@ -45,8 +45,8 @@
         {% csrf_token %}
         <div class="card cursor-pointer mb-3">
           <div class="card-header mx-auto p-3">
-            <div class="icon icon-shape icon-lg bg-gradient-primary d-flex justify-content-center align-items-center">
-              <svg class="bi text-white" width="32" height="32" fill="currentColor" aria-hidden="true">
+            <div class="icon icon-shape bg-gradient-primary shadow d-flex justify-content-center align-items-center">
+              <svg class="bi text-white" width="24" height="24" fill="currentColor" aria-hidden="true">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#coin" />
               </svg>
             </div>
@@ -56,7 +56,7 @@
             <span class="text-xs">USD</span>
             <hr class="horizontal dark my-3" />
             <button type="submit" class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6">
-              {% translate "Pay U$D" %}{{ order.get_total_cost_usd|floatformat:"g" }}
+              {% translate "U$D" %} {{ order.get_total_cost_usd|floatformat:"g" }}
               <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
               </svg>

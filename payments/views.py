@@ -53,8 +53,6 @@ class PaymentView(TemplateView):
         context["preference"] = self.get_mercado_pago_preference()
         context["mp_public_key"] = settings.MP_PUBLIC_KEY
 
-        logger.info("veer retrieved order(👩🏻‍⚖️) from session as: %s", self.order)
-
         return context
 
     def get_mercado_pago_preference(self):
@@ -82,7 +80,7 @@ class PaymentView(TemplateView):
             "items": [
                 {
                     "id": str(order.id),
-                    "title": "My Bus ticket",  # <-- could be customized
+                    "title": f"Bus ticket for {order.name}",
                     "currency_id": "ARS",
                     "picture_url": picture_url,
                     "description": "Bus Ticket",  # <-- could be customized
@@ -115,11 +113,10 @@ class PaymentView(TemplateView):
             "binary_mode": True,
         }
 
-        logger.debug("veer mercado pago preference_data: %s", preference_data)
-
         preference = mercado_pago.preference().create(preference_data)
 
-        logger.debug("veer mercado pago preference response(💰): %s", preference)
+        logger.debug("MP preference_data:%s", preference_data)
+        logger.debug("MP response(💰):%s", preference)
 
         return preference["response"]
 
