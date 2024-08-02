@@ -124,6 +124,19 @@ class TripDetailView(DetailView):
         )
         return trip
 
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        q = self.request.session.get("q")
+
+        origin = get_object_or_404(Location, name__iexact=q["origin"])
+        destination = get_object_or_404(Location, name__iexact=q["destination"])
+
+        context["origin"] = origin
+        context["destination"] = destination
+
+        return context
+
 
 # Trip CRUD Private Views for company staff
 class CRUDMixins(OwnerMixin, SuccessMessageMixin):
