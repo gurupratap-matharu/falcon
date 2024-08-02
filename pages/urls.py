@@ -27,6 +27,7 @@ urlpatterns = [
     path("index/", views.IndexPageView.as_view(), name="index"),
     path("alpine/", views.AlpinePageView.as_view(), name="alpine"),
     path("qrcode/", views.QRCodePageView.as_view(), name="qrcode"),
+    path("styleguide/", views.StyleGuideView.as_view(), name="styleguide"),
     path("dummy/", views.dummy_response, name="dummy"),
     path("time/", views.get_time, name="time"),
 ]

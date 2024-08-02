@@ -160,6 +160,10 @@ class QRCodePageView(TemplateView):
     template_name: str = "pages/qrcode.html"
 
 
+class StyleGuideView(TemplateView):
+    template_name = "pages/styleguide.html"
+
+
 @csrf_exempt
 def dummy_response(request):
     if request.method == "POST":
