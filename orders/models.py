@@ -134,6 +134,12 @@ class OrderItem(models.Model):
     trip = models.ForeignKey(
         "trips.Trip", related_name="order_items", on_delete=models.SET_NULL, null=True
     )
+    origin = models.ForeignKey(
+        "trips.Location", related_name="+", on_delete=models.SET_NULL, null=True
+    )
+    destination = models.ForeignKey(
+        "trips.Location", related_name="+", on_delete=models.SET_NULL, null=True
+    )
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
     seats = models.CharField(max_length=20)
