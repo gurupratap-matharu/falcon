@@ -28,24 +28,28 @@ def cart_add(request, trip_id=None):
         return redirect("pages:home")
 
     q = request.session["q"]
+    quantity = int(q["num_of_passengers"])
 
     trip = get_object_or_404(Trip, id=trip_id)
-
-    quantity = int(q["num_of_passengers"])
     origin = get_object_or_404(Location, name__iexact=q["origin"])
     destination = get_object_or_404(Location, name__iexact=q["destination"])
 
     price = trip.get_price(origin, destination)
 
     logger.info(
-        "adding to cart(🛒)... trip_id:%s quantity:%s price:%s"
-        % (trip_id, quantity, price)
+        "adding to cart(🛒)... trip:%s quantity:%s price:%s" % (trip, quantity, price)
     )
 
     cart = Cart(request)
 
     try:
-        cart.add(trip=trip, quantity=quantity, price=price)
+        cart.add(
+            trip=trip,
+            origin=origin,
+            destination=destination,
+            quantity=quantity,
+            price=price,
+        )
 
     except CartException:
         messages.info(request, trips_exceeded_msg)
@@ -76,6 +80,16 @@ def cart_detail(request):
     """
     cart = Cart(request)
     coupon_apply_form = CouponApplyForm()
-    context = {"cart": cart, "coupon_apply_form": coupon_apply_form}
+
+    q = request.session.get("q")
+    origin = get_object_or_404(Location, name__iexact=q["origin"])
+    destination = get_object_or_404(Location, name__iexact=q["destination"])
+
+    context = {
+        "cart": cart,
+        "coupon_apply_form": coupon_apply_form,
+        "origin": origin,
+        "destination": destination,
+    }
 
     return render(request, "cart/cart_detail.html", context)

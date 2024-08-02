@@ -1,6 +1,6 @@
 {% extends "layouts/base-app.html" %}
 
-{% load static i18n %}
+{% load static i18n trips_extras %}
 
 {% block title %}
   {% translate "Your Cart" %}
@@ -38,17 +38,21 @@
           <tbody>
             {% for item in cart %}
               {% with trip=item.trip %}
+                {% get_departure trip origin as origin_departure %}
+                {% get_arrival trip destination as destination_arrival %}
+                {% get_duration trip origin destination as duration %}
+                {% get_price trip origin destination as price %}
                 <tr>
                   <td>
                     <p class="mb-0">{{ trip.company.name }}</p>
                   </td>
                   <td>
-                    <p class="mb-0">{{ trip.origin }}</p>
-                    <p class="mb-0">{{ trip.departure }}</p>
+                    <p class="mb-0">{{ origin }}</p>
+                    <p class="mb-0">{{ origin_departure }}</p>
                   </td>
                   <td>
-                    <p class="mb-0">{{ trip.destination }}</p>
-                    <p class="mb-0">{{ trip.arrival }}</p>
+                    <p class="mb-0">{{ destination }}</p>
+                    <p class="mb-0">{{ destination_arrival }}</p>
                   </td>
                   <td class="align-middle">
                     <p class="mb-0">{{ item.quantity }}</p>
