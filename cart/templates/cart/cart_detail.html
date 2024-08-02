@@ -17,14 +17,14 @@
 {% block content %}
   <div class="card">
     <div class="card-header">
-      <h5>{% translate "Cart" %}</h5>
+      <h5 class="card-title">{% translate "Cart" %}</h5>
     </div>
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-borderless align-items-center align-middle mb-0">
           <thead>
             <tr>
-              {% with klass="text-sm ps-2 opacity-7" %}
+              {% with klass="ps-2 opacity-7" %}
                 <th class="{{ klass }}">{% translate "Company" %}</th>
                 <th class="{{ klass }}">{% translate "Origin" %}</th>
                 <th class="{{ klass }}">{% translate "Destination" %}</th>
@@ -40,29 +40,29 @@
               {% with trip=item.trip %}
                 <tr>
                   <td>
-                    <p class="text-sm mb-0">{{ trip.company.name }}</p>
+                    <p class="mb-0">{{ trip.company.name }}</p>
                   </td>
                   <td>
-                    <p class="text-sm mb-0">{{ trip.origin }}</p>
-                    <p class="text-sm mb-0">{{ trip.departure }}</p>
+                    <p class="mb-0">{{ trip.origin }}</p>
+                    <p class="mb-0">{{ trip.departure }}</p>
                   </td>
                   <td>
-                    <p class="text-sm mb-0">{{ trip.destination }}</p>
-                    <p class="text-sm mb-0">{{ trip.arrival }}</p>
+                    <p class="mb-0">{{ trip.destination }}</p>
+                    <p class="mb-0">{{ trip.arrival }}</p>
                   </td>
-                  <td class="align-middle text-sm">
-                    <p class="text-sm mb-0">{{ item.quantity }}</p>
+                  <td class="align-middle">
+                    <p class="mb-0">{{ item.quantity }}</p>
                   </td>
-                  <td class="align-middle text-sm">
-                    <p class="text-sm mb-0">${{ item.price|floatformat:"-3g" }}</p>
+                  <td class="align-middle">
+                    <p class="mb-0">${{ item.price|floatformat:"-3g" }}</p>
                   </td>
-                  <td class="align-middle text-sm">
-                    <p class="text-sm mb-0">${{ item.total_price|floatformat:"-3g" }}</p>
+                  <td class="align-middle">
+                    <p class="mb-0">${{ item.total_price|floatformat:"-3g" }}</p>
                   </td>
-                  <td class="align-middle text-sm">
+                  <td class="align-middle">
                     <form action="{% url "cart:cart_remove" trip.id %}" method="post">
                       {% csrf_token %}
-                      <button type="submit" class="btn btn-white">
+                      <button type="submit" class="btn btn-outline-dark">
                         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                           <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
                         </svg>
@@ -85,10 +85,10 @@
               <td></td>
               <td></td>
               <td>
-                <p class="text-sm mb-0">{% translate "Subtotal" %}</p>
+                <p class="mb-0">{% translate "Subtotal" %}</p>
               </td>
               <td>
-                <p class="text-sm mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
+                <p class="mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
               </td>
               <td></td>
             </tr>
@@ -98,10 +98,10 @@
               <td></td>
               <td></td>
               <td>
-                <p class="text-sm mb-0">"{{ cart.coupon.code }}" {% translate "Coupon" %} ({{ cart.coupon.discount }}% off)</p>
+                <p class="mb-0">"{{ cart.coupon.code }}" {% translate "Coupon" %} ({{ cart.coupon.discount }}% off)</p>
               </td>
               <td>
-                <p class="text-sm mb-0">- $ {{ cart.get_discount|floatformat:"-3g" }}</p>
+                <p class="mb-0">- $ {{ cart.get_discount|floatformat:"-3g" }}</p>
               </td>
               <td></td>
             </tr> {% endcomment %}
@@ -111,10 +111,10 @@
               <td></td>
               <td></td>
               <td>
-                <p class="text-sm">{% translate "Total" %}</p>
+                <p>{% translate "Total" %}</p>
               </td>
               <td>
-                <p class="text-sm">${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
+                <p>${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
               </td>
             </tr>
           </tbody>
@@ -123,21 +123,21 @@
     </div>
   </div>
   <div class="d-flex justify-content-end mt-4 me-3">
-    <button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-link me-3" data-bs-toggle="modal" data-bs-target="#couponModal">
       {% translate "I have coupon" %}
     </button>
     <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl icon-link icon-link-hover">{% translate "Checkout" %}
       <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-        <use xlink:href="{% static 'assets/icons/icons.svg' %}#arrow-right" />
+        <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
       </svg>
     </a>
   </div>
   {% if not request.session.coupon_id %}
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">{% translate "Apply Coupon" %}</h1>
+            <h1 class="modal-title fs-5" id="couponModalLabel">{% translate "Apply Coupon" %}</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form action="{% url "coupons:apply" %}" method="post">
@@ -147,7 +147,7 @@
               {% for field in coupon_apply_form.visible_fields %}
                 <div class="mb-3">
                   <span class="text-danger">{{ field.errors }}</span>
-                  <label class="form-label text-sm" for="{{ field.auto_id }}">{{ field.label }}</label>
+                  <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
                   {{ field }}
                   <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
                     <small>{{ field.help_text|safe }}</small>
@@ -156,8 +156,8 @@
               {% endfor %}
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success">{% translate "Apply" %}</button>
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+              <button type="submit" class="btn bg-gradient-primary">{% translate "Apply" %}</button>
             </div>
           </form>
         </div>

@@ -122,7 +122,9 @@ class Cart:
         trip_ids = self.cart.keys()
 
         # Get all the trip objects from DB and add them to the cart
-        trips = Trip.objects.filter(id__in=trip_ids)
+        trips = Trip.objects.filter(id__in=trip_ids).select_related(
+            "route", "origin", "destination", "company"
+        )
         cart = self.cart.copy()
 
         for trip in trips:
