@@ -63,7 +63,7 @@
                      height="75"
                      class="img-fluid"
                      alt="Logo of Company {{ trip.company.name }}" />
-                <div class="d-none d-md-inline" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate "Duration" %}">
+                <div class="d-none d-md-inline">
                   <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                     <use xlink:href="{% static 'assets/icons/icons.svg' %}#stopwatch" />
                   </svg>
@@ -119,7 +119,7 @@
                 </a>
                 <form action="{{ trip.get_add_to_cart_url }}" method="post">
                   {% csrf_token %}
-                  <button class="btn btn-link bg-light btn-round icon-link icon-link-hover fs-6 mb-0" type="submit">
+                  <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6 mb-0" type="submit">
                     ARS {% get_price trip origin destination as price %} {{ price|floatformat:"-2g" }}
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                       <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />

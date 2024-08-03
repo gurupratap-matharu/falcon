@@ -36,14 +36,9 @@
         </div>
       </div>
       <div class="modal-footer d-flex justify-content-between" id="modal-footer">
-        <button type="button" class="btn bg-gradient-light icon-link icon-link-hover" data-bs-dismiss="modal">
-          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
-          </svg>
-          {% translate "Cancel" %}
-        </button>
+        <h6>{% translate "Please select " %}{{ item.quantity }}{% translate " seat(s)" %}</h6>
         <button type="button"
-                class="btn bg-gradient-primary icon-link icon-link-hover"
+                class="btn bg-gradient-primary icon-link icon-link-hover align-middle"
                 data-bs-toggle="modal"
                 id="seat-submit{{ trip.id }}"
                 disabled>
