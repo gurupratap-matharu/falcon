@@ -67,6 +67,7 @@ class OrderPassengerInline(admin.TabularInline):
         "passenger",
     )
     extra = 0
+    classes = ("collapse",)
     can_delete = False
 
 

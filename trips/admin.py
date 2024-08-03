@@ -68,6 +68,8 @@ class TripOrderInline(admin.TabularInline):
     can_delete = False
     readonly_fields = (
         "trip",
+        "origin",
+        "destination",
         "order",
         "quantity",
         "price",
@@ -79,6 +81,7 @@ class PassengerSeatInline(admin.TabularInline):
     model = Trip.passengers.through  # <- This is the Seat model
     extra = 0
     can_delete = False
+    classes = ("collapse",)
     fields = ("seat_number", "passenger", "seat_status", "seat_type")
     readonly_fields = (
         "seat_number",
