@@ -153,13 +153,18 @@
               </div>
             {% endfor %}
             <div class="form-check form-check-info text-left ms-2">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required />
-              <label class="form-check-label text-muted" for="flexCheckDefault">
-                {% translate "I agree the" %} <a href="{% url 'pages:terms' %}">{% translate "Terms and Conditions" %}</a>
+              <input class="form-check-input" type="checkbox" value="" id="termsCheckbox" required />
+              <label class="form-check-label text-muted" for="termsCheckbox">
+                {% translate "I agree to the" %} <a href="{% url 'pages:terms' %}" target="_blank">{% translate "Terms and Conditions" %}</a>
               </label>
             </div>
-            <div class="d-flex justify-content-center mt-4">
-              <button class="btn bg-gradient-primary w-100" type="submit">{% translate "Checkout" %}</button>
+            <div class="d-flex justify-content-end mt-4">
+              <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover" type="submit">
+                {% translate "Checkout" %}
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -277,10 +282,7 @@
       </div>
     </div>
   </div>
-  {% with trips=cart.to_dict %}
-    {{ trips.0|json_script:"outboundJourney" }}
-    {{ trips.1|json_script:"returnJourney" }}
-  {% endwith %}
+  {% with trips=cart.to_dict %}{{ trips.0|json_script:"outboundJourney" }}{% endwith %}
 {% endblock content %}
 
 {% block js %}
