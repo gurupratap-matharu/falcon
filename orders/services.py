@@ -40,10 +40,8 @@ def order_confirmed(order_id, payment_id):
     start = timer()
 
     # Get the order details
-    order = get_object_or_404(Order.objects.prefetch_related("items"), id=order_id)
-    items = OrderItem.objects.filter(order=order).select_related("trip")
-
-    item = items.first()  # <-- fix this
+    order = get_object_or_404(Order, id=order_id)
+    item = order.items.select_related("trip", "origin", "destination").first()
     trip = item.trip
     company = trip.company
     passengers = order.passengers.all()
@@ -53,12 +51,16 @@ def order_confirmed(order_id, payment_id):
         order=order,
         item=item,
         trip=trip,
+        origin=item.origin,
+        destination=item.destination,
         company=company,
         code=str(order.id).split("-")[-1],
         trip_code=str(trip.id).split("-")[-1],
         passengers=passengers,
         qr_url=qr_url,
     )
+
+    logger.info("context:%s" % context)
 
     # Confirm the order
     # TODO

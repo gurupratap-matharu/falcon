@@ -133,7 +133,12 @@ class OrderCreateView(CreateView):
         order.save()
 
         for item in cart:
+            logger.info("cart item:%s" % item)
+
             trip = item["trip"]
+
+            origin = get_object_or_404(Location, name__iexact=item["origin"])
+            destination = get_object_or_404(Location, name__iexact=item["destination"])
 
             # Extract seat numbers from POST data and clean them
             seat_numbers = self.request.POST.get(f"seats{trip.id}", "")
@@ -148,6 +153,8 @@ class OrderCreateView(CreateView):
             order_item = OrderItem.objects.create(
                 order=order,
                 trip=trip,
+                origin=origin,
+                destination=destination,
                 price=item["price"],
                 quantity=item["quantity"],
                 seats=seat_numbers,
