@@ -1,4 +1,4 @@
-{% load static qr_code trips_extras %}
+{% load static i18n qr_code trips_extras %}
 
 {% get_departure trip origin as origin_departure %}
 {% get_arrival trip destination as destination_arrival %}
@@ -11,23 +11,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Bus ticket" />
-    <title>Bus Ticket</title>
+    <title>{% translate "Bus Ticket" %}</title>
     <link rel="stylesheet" href="{% static 'assets/css/ticket.css' %}" />
   </head>
   <body>
     <section>
-      <strong>{{ origin_departure }}</strong> Trip from <strong>{{ origin }} - {{ destination }}</strong>
+      <strong>{{ origin_departure }}</strong> {% translate "Trip from " %}<strong>{{ origin }} - {{ destination }}</strong>
     </section>
     <hr />
     <section>
       <p>
-        Prepared for <strong>{{ order.name }}</strong>
+        {% translate "Prepared for" %} <strong>{{ order.name }}</strong>
       </p>
       <p>
-        Reservation Code <strong>{{ code }}</strong>
+        {% translate "Reservation Code" %} <strong>{{ code }}</strong>
       </p>
       <p>
-        Company <strong>{{ company }}</strong>
+        {% translate "Company" %} <strong>{{ company }}</strong>
       </p>
     </section>
     <hr />
@@ -35,7 +35,7 @@
       <div class="departure-container">
         <div>
           <p>
-            DEPARTURE: <strong>{{ origin_departure|date:"l d F Y H:i" }}</strong>
+            {% translate "DEPARTURE" %}: <strong>{{ origin_departure|date:"l d F Y H:i" }}</strong>
           </p>
         </div>
         <div>
@@ -47,9 +47,9 @@
           <p>
             <strong>{{ company|upper }}</strong>
           </p>
-          <p class="smaller">Trip: {{ trip_code }}</p>
-          <p class="smaller">Duration: {{ duration }}</p>
-          <p class="smaller">Status: Confirmed</p>
+          <p class="smaller">{% translate "Trip:" %} {{ trip_code }}</p>
+          <p class="smaller">{% translate "Duration:" %} {{ duration }}</p>
+          <p class="smaller">{% translate "Status:" %} Confirmed</p>
         </article>
         <article>
           <div>
@@ -71,12 +71,12 @@
             </section>
             <div class="container">
               <div class="departure">
-                <p class="smaller">Departing at</p>
+                <p class="smaller">{% translate "Departing at" %}</p>
                 <strong class="larger">{{ origin_departure|date:"H:i" }}</strong>
                 <p class="smaller">{{ origin_departure|date:"l d F" }}</p>
               </div>
               <div class="arrival">
-                <p class="smaller">Arrival at</p>
+                <p class="smaller">{% translate "Arrival at" %}</p>
                 <strong class="larger">{{ destination_arrival|date:"H:i" }}</strong>
                 <p class="smaller">{{ destination_arrival|date:"l d F" }}</p>
               </div>
@@ -89,10 +89,10 @@
       <table>
         <thead>
           <tr class="table-header">
-            <td>Passenger</td>
-            <td>Seats</td>
-            <td>Class</td>
-            <td>Booking</td>
+            <td>{% translate "Passenger" %}</td>
+            <td>{% translate "Seats" %}</td>
+            <td>{% translate "Class" %}</td>
+            <td>{% translate "Booking" %}</td>
           </tr>
         </thead>
         <tbody>
@@ -101,7 +101,7 @@
               <td>{{ passenger.get_full_name }}</td>
               <td>{{ forloop.counter }}</td>
               <td>{{ trip.get_category_display }}</td>
-              <td>Confirmed</td>
+              <td>{% translate "Confirmed" %}</td>
             </tr>
           {% endfor %}
         </tbody>
