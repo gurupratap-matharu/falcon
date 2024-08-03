@@ -424,7 +424,7 @@ class Trip(models.Model):
         else:
             seat.book()
 
-    def hold_seats(self, seat_numbers: list[str] | list[int]):
+    def hold_seats(self, seat_numbers: list[str | int]):
         """Update seat status to ONHOLD"""
         # TODO: Change the argument seat_number from list to *args or *seat_numbers
         # We should not use lists as function arguments!
@@ -440,7 +440,7 @@ class Trip(models.Model):
             seat_status=Seat.AVAILABLE, seat_number__in=seat_numbers
         ).update(seat_status=Seat.ONHOLD)
 
-    def release_seats(self, seat_numbers: list[str] | list[int]):
+    def release_seats(self, seat_numbers: list[str | int]):
         """Update seat status to AVAILABLE"""
         # TODO: Change the argument seat_number from list to *args or *seat_numbers
         # We should not use lists as function arguments!
@@ -456,16 +456,14 @@ class Trip(models.Model):
             seat_status=Seat.ONHOLD, seat_number__in=seat_numbers
         ).update(seat_status=Seat.AVAILABLE)
 
-    def book_seats_with_passengers(
-        self, seat_numbers: list[str] | list[int], passengers
-    ):
-        """Update seat status to Booked and link a passenger to it"""
+    def book_seats_with_passengers(self, seat_numbers: list[str | int], passengers):
+        """
+        TODO: Please refactor this method to be more precise and optimal.
+        Update seat status to Booked and link a passenger to it
+        """
 
-        if not seat_numbers.strip():
-            raise ValidationError("seat numbers cannot be null 💺💥💺")
-
-        if not passengers:
-            raise ValidationError("passengers cannot be null ���💥💺�👭💺💥💺")
+        if not seat_numbers.strip() or not passengers:
+            raise ValidationError("seat numbers or passengers cannot be null")
 
         seat_numbers = [s.strip() for s in seat_numbers.split(",")]
         seats = self.seats.filter(seat_number__in=seat_numbers)
@@ -661,7 +659,7 @@ class Seat(models.Model):
 
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name="seats")
     passenger = models.ForeignKey(
-        "orders.Passenger", on_delete=models.CASCADE, related_name="seats", null=True
+        "orders.Passenger", on_delete=models.SET_NULL, related_name="+", null=True
     )
     seat_number = models.PositiveIntegerField(
         _("seat number"), validators=[MinValueValidator(1), MaxValueValidator(60)]
