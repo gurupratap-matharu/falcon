@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django_weasyprint.utils import django_url_fetcher
 from weasyprint import HTML
 
-from orders.models import Order, OrderItem
+from orders.models import Order
 
 logger = logging.getLogger(__name__)
 
@@ -29,17 +29,11 @@ def burn_pdf(template_name, context) -> bytes:
     return pdf
 
 
-def order_confirmed(order_id, payment_id):
+def build_context(order_id) -> dict:
     """
-    When an order is successfully confirmed / paid we
-        - book all seats in an order with passengers
-        - send tickets via e-mail to the payer.
-        - send notification email to the bus company
+    Given an order id builds a context that can be use in email body and pdf generation.
     """
 
-    start = timer()
-
-    # Get the order details
     order = get_object_or_404(Order, id=order_id)
     item = order.items.select_related("trip", "origin", "destination").first()
     trip = item.trip
@@ -61,6 +55,22 @@ def order_confirmed(order_id, payment_id):
     )
 
     logger.info("context:%s" % context)
+    return context
+
+
+def order_confirmed(order_id, payment_id):
+    """
+    When an order is successfully confirmed / paid we
+        - book all seats in an order with passengers
+        - send tickets via e-mail to the payer.
+        - send notification email to the bus company
+    """
+
+    start = timer()
+
+    context = build_context(order_id=order_id)
+    order = context["order"]
+    item = context["item"]
 
     # Confirm the order
     # TODO

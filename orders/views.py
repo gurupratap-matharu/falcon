@@ -20,6 +20,7 @@ from trips.models import Location
 
 from .forms import OrderForm, PassengerForm
 from .models import Order, OrderItem, Passenger
+from .services import build_context
 
 logger = logging.getLogger(__name__)
 
@@ -211,26 +212,9 @@ class InvoiceView(DetailView):
     pk_url_kwarg = "order_id"
     template_name = "orders/invoice.html"
 
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        order = self.object
-        items = OrderItem.objects.filter(order=order).select_related("trip")
-        item = items.first()
-        trip = item.trip
-        company = trip.company
-        passengers = order.passengers.all()
-        qr_url = f"{settings.BASE_URL}{item.get_checkin_url()}"
-
-        context["order"] = order
-        context["item"] = item
-        context["trip"] = trip
-        context["company"] = company
-        context["code"] = str(order.id).split("-")[-1]
-        context["trip_code"] = str(trip.id).split("-")[-1]
-        context["passengers"] = passengers
-        context["qr_url"] = qr_url
-
+        context = context | build_context(order_id=self.kwargs["order_id"])
         return context
 
 
@@ -245,31 +229,7 @@ class TicketView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        q = self.request.session.get("q")
-        # Ideally you should pull origin & destination from order item now
-        # since you may request a ticket long after session is expired. Edge case
-        origin = get_object_or_404(Location, name__iexact=q["origin"])
-        destination = get_object_or_404(Location, name__iexact=q["destination"])
-
-        order = self.object
-        item = order.items.select_related("trip").first()
-        trip = item.trip
-        company = trip.company
-        qr_url = f"{settings.BASE_URL}{item.get_checkin_url()}"
-        logger.info("qr_url:%s" % qr_url)
-
-        context["origin"] = origin
-        context["destination"] = destination
-        context["company"] = company
-        context["order"] = order
-        context["item"] = item
-        context["trip"] = trip
-        context["code"] = str(order.id).split("-")[-1]
-        context["trip_code"] = str(trip.id).split("-")[-1]
-        context["passengers"] = order.passengers.all()
-        context["qr_url"] = qr_url
-
+        context = context | build_context(order_id=self.kwargs["order_id"])
         return context
 
 
