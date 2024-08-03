@@ -2,7 +2,6 @@ import logging
 from typing import Any, Dict
 
 from django import http
-from django.conf import settings
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.http import HttpResponse

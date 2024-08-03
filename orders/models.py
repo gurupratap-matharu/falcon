@@ -100,8 +100,9 @@ class Order(models.Model):
             )
 
         passengers = self.passengers.all()
+        order_items = self.items.select_related("origin", "destination", "trip")
 
-        for order_item in self.items.all():
+        for order_item in order_items:
             order_item.trip.book_seats_with_passengers(
                 seat_numbers=order_item.seats, passengers=passengers
             )
