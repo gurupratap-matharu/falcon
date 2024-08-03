@@ -110,7 +110,7 @@ class Order(models.Model):
         logger.info("marking order %s as paid...(💰)" % self)
         self.paid = True
         self.payment_id = payment_id
-        self.save()
+        self.save(update_fields=["paid", "payment_id"])
 
         return self
 

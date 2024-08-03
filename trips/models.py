@@ -694,4 +694,4 @@ class Seat(models.Model):
 
         logger.info("booking seat: %s", self)
         self.seat_status = Seat.BOOKED
-        self.save()
+        self.save(update_fields=["seat_status"])

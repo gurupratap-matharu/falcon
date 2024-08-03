@@ -78,7 +78,7 @@ class Coupon(models.Model):
         logger.info("deactivating coupon(💣):%s..." % self)
 
         self.active = False
-        self.save()
+        self.save(update_fields=["active"])
 
     def __str__(self):
         return f"{self.code}"
