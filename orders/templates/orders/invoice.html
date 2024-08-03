@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,23 +6,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Invoice</title>
+    <title>{% translate "Invoice" %}</title>
     <link rel="stylesheet" href="{% static 'assets/css/invoice.css' %}" />
   </head>
   <body>
     <div class="flex-container">
-      <h1>Invoice</h1>
+      <h1>{% translate "Invoice" %}</h1>
       <div class="brand-logo">
         <h1>Kpiola</h1>
       </div>
     </div>
     <div class="invoice-details">
       <div>
-        Invoice number
+        {% translate "Invoice number" %}
         <br />
-        Date of issue
+        {% translate "Date of issue" %}
         <br />
-        Date due
+        {% translate "Date due" %}
         <br />
       </div>
       <div>
@@ -45,7 +45,7 @@
         <br />
       </div>
       <div>
-        <h3>Bill to</h3>
+        <h3>{% translate "Bill to" %}</h3>
         <p>
           {{ order.name }}
           <br />
@@ -53,19 +53,19 @@
         </p>
       </div>
     </div>
-    <h3>Summary</h3>
+    <h3>{% translate "Summary" %}</h3>
     <table>
       <thead>
         <tr>
-          <th>Description</th>
-          <th>Qty</th>
-          <th>Unit Price</th>
-          <th>Amount</th>
+          <th>{% translate "Description" %}</th>
+          <th>{% translate "Qty" %}</th>
+          <th>{% translate "Unit Price" %}</th>
+          <th>{% translate "Amount" %}</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Bus ticket {{ origin }} - {{ destination }}</td>
+          <td>{% translate "Bus ticket" %} {{ origin }} - {{ destination }}</td>
           <td>{{ passengers.count }}</td>
           <td>ARS {{ item.price|floatformat:"-3g" }}</td>
           <td>ARS {{ item.get_cost|floatformat:"-3g" }}</td>
@@ -73,28 +73,28 @@
         <tr>
           <td></td>
           <td></td>
-          <td class="border-top">Subtotal</td>
+          <td class="border-top">{% translate "Subtotal" %}</td>
           <td class="border-top">ARS {{ order.get_total_cost_before_discount|floatformat:"-3g" }}</td>
         </tr>
         {% if order.coupon %}
           <tr>
             <td></td>
             <td></td>
-            <td class="border-top">Coupon Discount</td>
+            <td class="border-top">{% translate "Coupon Discount" %}</td>
             <td class="border-top">- ARS{{ order.get_discount|floatformat:"-3g" }}</td>
           </tr>
         {% endif %}
         <tr class="total">
           <td></td>
           <td></td>
-          <td class="border-top">Total</td>
+          <td class="border-top">{% translate "Total" %}</td>
           <td class="border-top">ARS {{ order.get_total_cost|floatformat:"-3g" }}</td>
         </tr>
       </tbody>
     </table>
     <footer>
       <hr />
-      {{ order.id }} | ARS {{ order.get_total_cost|floatformat:"-3g" }} due {{ order.created_on|date:"F j, Y" }}
+      {{ order.id }} | ARS {{ order.get_total_cost|floatformat:"-3g" }} {% translate "due" %} {{ order.created_on|date:"F j, Y" }}
     </footer>
   </body>
 </html>
