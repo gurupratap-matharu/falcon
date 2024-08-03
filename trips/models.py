@@ -481,12 +481,11 @@ class Trip(models.Model):
                 params={"seats": seats_count, "passengers": passengers_count},
             )
 
-        # TODO: revisit this to improve the query
         for s, p in zip(seats, passengers):
-            logger.info("allotting 👩‍🦳 %s: 💺 %s..." % (p, s))
             s.seat_status = Seat.BOOKED
             s.passenger = p
-            s.save()
+            s.save(update_fields=["seat_status", "passenger"])
+            logger.info("allotted seat %s: to %s..." % (s, p))
 
         return seats
 

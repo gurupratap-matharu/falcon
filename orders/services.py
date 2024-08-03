@@ -34,12 +34,17 @@ def build_context(order_id) -> dict:
     Given an order id builds a context that can be use in email body and pdf generation.
     """
 
-    order = get_object_or_404(Order, id=order_id)
-    item = order.items.select_related("trip", "origin", "destination").first()
+    qs = Order.objects.prefetch_related("passengers")
+    order = get_object_or_404(qs, id=order_id)
+    passengers = order.passengers.all()
+
+    item = order.items.select_related(
+        "origin", "destination", "trip", "trip__company"
+    ).first()
+
     trip = item.trip
     company = trip.company
-    passengers = order.passengers.all()
-    qr_url = f"https://kpiola.com.ar/{item.get_checkin_url()}"
+    qr_url = f"{settings.BASE_URL}{item.get_checkin_url()}"
 
     context = dict(
         order=order,
@@ -54,7 +59,7 @@ def build_context(order_id) -> dict:
         qr_url=qr_url,
     )
 
-    logger.info("context:%s" % context)
+    logger.debug("context:%s" % context)
     return context
 
 

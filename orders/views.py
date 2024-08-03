@@ -133,8 +133,6 @@ class OrderCreateView(CreateView):
         order.save()
 
         for item in cart:
-            logger.info("cart item:%s" % item)
-
             trip = item["trip"]
 
             origin = get_object_or_404(Location, name__iexact=item["origin"])
