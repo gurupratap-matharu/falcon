@@ -16,7 +16,7 @@
   </head>
   <body>
     <section>
-      <strong>{{ origin_departure }}</strong> Trip to <strong>{{ origin }} - {{ destination }}</strong>
+      <strong>{{ origin_departure }}</strong> Trip from <strong>{{ origin }} - {{ destination }}</strong>
     </section>
     <hr />
     <section>
@@ -100,7 +100,7 @@
             <tr>
               <td>{{ passenger.get_full_name }}</td>
               <td>{{ forloop.counter }}</td>
-              <td>Executive</td>
+              <td>{{ trip.get_category_display }}</td>
               <td>Confirmed</td>
             </tr>
           {% endfor %}

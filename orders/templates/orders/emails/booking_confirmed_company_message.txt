@@ -12,7 +12,9 @@ Email: {{ email }}
 Whatsapp: {{ whatsapp }}
 Country: {{ country }}{% endblocktranslate %}
 
-Trip: {{ item.trip }} {{ trip.departure }}
+Trip: {{ trip }} {{ trip.departure }}
+Origin: {{ origin }}
+Destination: {{ destination }}
 
 {% translate "Passengers:" %}{% for passenger in passengers %}
 {{ forloop.counter }}. {{ passenger.get_full_name }}{% endfor %}

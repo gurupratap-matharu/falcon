@@ -7,7 +7,8 @@ Dear {{ name }},
 Pack you bags! Your booking is confirmed.
 Booking ID: {{ booking_id }}{% endblocktranslate %}
 
-Trip {{ item.trip }}
+Company {{ company }}
+Trip {{ origin }} to {{ destination }}
 Total Cost: ${{ order.get_total_cost }}
 
 
