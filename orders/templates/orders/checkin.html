@@ -1,37 +1,43 @@
-{% extends "layouts/base-sidebar.html" %}
+{% extends "layouts/base-app.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block breadcrumb %}
   {{ item.trip.company }}
 {% endblock breadcrumb %}
 
 {% block page_title %}
-  Checkin
+  {% translate "Checkin" %}
 {% endblock page_title %}
 
 {% block title %}
-  {{ item }} | Checkin
+  {% translate "Checkin" %}
 {% endblock title %}
 
 {% block content %}
-  <h1>CheckIn</h1>
-  <table class="table">
-    <thead>
-      <tr>
-        <td>Company</td>
-        <td>Trip</td>
-        <td>Num Passengers</td>
-        <td>Seats</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ item.trip.company }}</td>
-        <td>{{ item.trip.name }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.seats }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">{% translate "CheckIn" %}</h5>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <td>{% translate "Company" %}</td>
+            <td>{% translate "Trip" %}</td>
+            <td>{% translate "Num Passengers" %}</td>
+            <td>{% translate "Seats" %}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ item.trip.company }}</td>
+            <td>{{ item.trip.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.seats }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock content %}
