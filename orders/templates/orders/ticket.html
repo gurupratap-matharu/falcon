@@ -99,7 +99,7 @@
           {% for passenger in passengers %}
             <tr>
               <td>{{ passenger.get_full_name }}</td>
-              <td>{{ forloop.counter }}</td>
+              <td>{{ item.seats }}</td>
               <td>{{ trip.get_category_display }}</td>
               <td>{% translate "Confirmed" %}</td>
             </tr>
