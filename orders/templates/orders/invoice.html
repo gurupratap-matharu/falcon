@@ -26,7 +26,7 @@
         <br />
       </div>
       <div>
-        {{ order.id }}
+        {{ code }}
         <br />
         {{ order.created_on|date:"F j, Y" }}
         <br />
@@ -94,7 +94,7 @@
     </table>
     <footer>
       <hr />
-      {{ order.id }} | ARS {{ order.get_total_cost|floatformat:"-3g" }} {% translate "due" %} {{ order.created_on|date:"F j, Y" }}
+      {{ code }} | ARS {{ order.get_total_cost|floatformat:"-3g" }} {% translate "due" %} {{ order.created_on|date:"F j, Y" }}
     </footer>
   </body>
 </html>
