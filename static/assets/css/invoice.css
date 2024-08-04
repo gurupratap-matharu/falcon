@@ -1,7 +1,12 @@
 body {
-  font-family: Helvetica, sans-serif;
+  font-family: Georgia, serif;
   color: #222;
   line-height: 1.5;
+}
+
+@page {
+  size: A4;
+  margin: 3.5mm;
 }
 
 table {
@@ -45,7 +50,6 @@ footer {
 }
 
 .brand-logo {
-  border: solid black;
   padding-inline: 1rem;
 }
 
