@@ -5,7 +5,7 @@ from typing import Any, Dict
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import QuerySet
+from django.db.models import F, QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -185,7 +185,15 @@ class CompanyRouteDetailView(CRUDMixins, DetailView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["stops"] = self.object.stops.select_related("name")
+        context["map_context"] = self.get_map_context()
         return context
+
+    def get_map_context(self):
+        qs = self.object.stops.annotate(
+            stop=F("name__name"), lat=F("name__latitude"), lon=F("name__longitude")
+        )
+        qs = qs.values("order", "stop", "lat", "lon", "arrival", "departure")
+        return list(qs)
 
 
 @method_decorator(staff_member_required, name="dispatch")
