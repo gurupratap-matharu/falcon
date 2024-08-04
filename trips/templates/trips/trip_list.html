@@ -23,120 +23,131 @@
 {% endblock page_title %}
 
 {% block content %}
-  <div class="row justify-content-center" id="ordering">
-    <div class="col-12">
-      <ul class="nav nav-tabs justify-content-center my-4">
-        {% for value in date_ladder %}
-          <li class="nav-item">
-            <form action="" method="get">
-              {% with q=request.session.q %}
-                <input type="hidden" name="trip_type" value="{{ q.trip_type }}" />
-                <input type="hidden" name="num_of_passengers" value="{{ q.num_of_passengers }}" />
-                <input type="hidden" name="origin" value="{{ q.origin }}" />
-                <input type="hidden" name="destination" value="{{ q.destination }}" />
-                <input type="hidden" name="departure" value="{{ value|date:"d-m-Y" }}" />
-                <input type="hidden" name="return" value="{{ q.return }}" />
-                <button class="nav-link {% if value|date:"d-m-Y" == q.departure %}active{% endif %}" type="submit">
-                  {{ value|date:"D j" }}
-                </button>
-              {% endwith %}
-            </form>
-          </li>
-        {% endfor %}
-      </ul>
+  {# Date navigator #}
+  <div class="d-flex justify-content-center" id="ordering">
+    <div class="btn-group" role="group" aria-label="date-navigation">
+      {% for value in date_ladder %}
+        <form action="" method="get">
+          {% with q=request.session.q %}
+            <input type="hidden" name="trip_type" value="{{ q.trip_type }}" />
+            <input type="hidden" name="num_of_passengers" value="{{ q.num_of_passengers }}" />
+            <input type="hidden" name="origin" value="{{ q.origin }}" />
+            <input type="hidden" name="destination" value="{{ q.destination }}" />
+            <input type="hidden" name="departure" value="{{ value|date:"d-m-Y" }}" />
+            <input type="hidden" name="return" value="{{ q.return }}" />
+            <button class="btn btn-link icon-link icon-link-hover
+                           {% if value|date:"d-m-Y" == q.departure %}text-dark{% endif %}"
+                    type="submit">
+              {% if forloop.first %}
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+                </svg>
+              {% endif %}
+              {{ value|date:"D j"|title }}
+              {% if forloop.last %}
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
+              {% endif %}
+            </button>
+          {% endwith %}
+        </form>
+      {% endfor %}
     </div>
+  </div>
+  {# Filters #}
+  <div class="d-flex justify-content-center">
     {% with path=request.get_full_path ordering=request.GET.ordering %}
-      <div class="d-flex justify-content-center">
-        {% comment "Not possible at the moment to sort via price" %} <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price#ordering">{% translate "Cheapest" %}</a> {% endcomment %}
-        <a class="me-2 {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure#ordering">{% translate "Earliest" %}</a>
-        <a class="{% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure#ordering">{% translate "Latest" %}</a>
-      </div>
+      {% comment "Not possible at the moment to sort via price" %} <a class="{{ klass }} {% if ordering == 'price' %}active{% endif %}" href="{{ path }}&ordering=price#ordering">{% translate "Cheapest" %}</a> {% endcomment %}
+      <a class="me-2 {% if ordering == 'departure' %}active{% endif %}" href="{{ path }}&ordering=departure#ordering">{% translate "Earliest" %}</a>
+      <a class="{% if ordering == '-departure' %}active{% endif %}" href="{{ path }}&ordering=-departure#ordering">{% translate "Latest" %}</a>
     {% endwith %}
-    <div class="row">
-      <div class="col-12">
-        {% for trip in trips %}
-          {% get_departure trip origin as origin_departure %}
-          {% get_arrival trip destination as destination_arrival %}
-          <div class="card my-2">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-md-3 d-flex flex-row flex-md-column justify-content-between">
-                  <img src="{{ trip.company.cover.url }}"
-                       width="188"
-                       height="75"
-                       class="img-fluid"
-                       alt="Logo of Company {{ trip.company.name }}" />
-                  <div class="d-none d-md-inline">
+  </div>
+  {# Search results #}
+  <div class="row">
+    <div class="col-12">
+      {% for trip in trips %}
+        {% get_departure trip origin as origin_departure %}
+        {% get_arrival trip destination as destination_arrival %}
+        <div class="card my-2">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-md-3 d-flex flex-row flex-md-column justify-content-between">
+                <img src="{{ trip.company.cover.url }}"
+                     width="188"
+                     height="75"
+                     class="img-fluid"
+                     alt="Logo of Company {{ trip.company.name }}" />
+                <div class="d-none d-md-inline">
+                  <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#stopwatch" />
+                  </svg>
+                  <span class="align-middle">{% get_duration trip origin destination %}</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                  <div class="me-2 mb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate "Accepts all major cards" %}">
                     <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#stopwatch" />
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#credit-card-2-front" />
                     </svg>
-                    <span class="align-middle">{% get_duration trip origin destination %}</span>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="d-flex align-items-center">
-                    <div class="me-2 mb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate "Accepts all major cards" %}">
-                      <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-                        <use xlink:href="{% static 'assets/icons/icons.svg' %}#credit-card-2-front" />
-                      </svg>
-                    </div>
-                    <div class="me-2 mb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate "Cash accepted" %}">
-                      <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-                        <use xlink:href="{% static 'assets/icons/icons.svg' %}#cash-stack" />
-                      </svg>
-                    </div>
-                    <span class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate "Seats available" %}">{{ trip.availability }}</span>
-                    <span class="badge bg-gradient-primary px-2"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="{% translate "Seat Type" %}">{{ trip.get_category_display }}</span>
-                  </div>
-                  <div class="row text-center">
-                    <div class="col">
-                      <p class="fs-2">{{ origin_departure|date:"f A" }}</p>
-                      <p>{{ origin }}</p>
-                    </div>
-                    <div class="col-2 mt-2 mt-md-3">
-                      <svg class="bi" width="32" height="32" fill="currentColor" aria-hidden="true">
-                        <use xlink:href="{% static 'assets/icons/icons.svg' %}#arrow-right" />
-                      </svg>
-                    </div>
-                    <div class="col">
-                      <p class="fs-2">{{ destination_arrival|date:"f A" }}</p>
-                      <p>{{ destination }}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 d-flex justify-content-between align-items-end">
-                  <a href="{{ trip.get_absolute_url }}" class="icon-link icon-link-hover mb-2" title="View trip details">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         width="16"
-                         height="16"
-                         fill="currentColor"
-                         class="bi bi-info-circle"
-                         viewBox="0 0 16 16">
-                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                  <div class="me-2 mb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate "Cash accepted" %}">
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#cash-stack" />
                     </svg>
-                    Info
-                  </a>
-                  <form action="{{ trip.get_add_to_cart_url }}" method="post">
-                    {% csrf_token %}
-                    <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6 mb-0" type="submit">
-                      ARS {% get_price trip origin destination as price %} {{ price|floatformat:"-2g" }}
-                      <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-                        <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
-                      </svg>
-                    </button>
-                  </form>
+                  </div>
+                  <span class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{% translate "Seats available" %}">{{ trip.availability }}</span>
+                  <span class="badge bg-gradient-primary px-2"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{% translate "Seat Type" %}">{{ trip.get_category_display }}</span>
                 </div>
+                <div class="row text-center">
+                  <div class="col px-0">
+                    <p class="fs-2">{{ origin_departure|date:"f A" }}</p>
+                    <p>{{ origin }}</p>
+                  </div>
+                  <div class="col-2 px-0 mt-2 mt-md-3">
+                    <svg class="bi" width="32" height="32" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#arrow-right" />
+                    </svg>
+                  </div>
+                  <div class="col px-0">
+                    <p class="fs-2">{{ destination_arrival|date:"f A" }}</p>
+                    <p>{{ destination }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 d-flex justify-content-between align-items-end">
+                <a href="{{ trip.get_absolute_url }}" class="icon-link icon-link-hover mb-2" title="View trip details">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="16"
+                       height="16"
+                       fill="currentColor"
+                       class="bi bi-info-circle"
+                       viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                  </svg>
+                  Info
+                </a>
+                <form action="{{ trip.get_add_to_cart_url }}" method="post">
+                  {% csrf_token %}
+                  <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6 mb-0" type="submit">
+                    ARS {% get_price trip origin destination as price %} {{ price|floatformat:"-2g" }}
+                    <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                      <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                    </svg>
+                  </button>
+                </form>
               </div>
             </div>
           </div>
-        {% empty %}
-          <h5 class="text-center mt-5">{% translate "No results!" %}</h5>
-        {% endfor %}
-      </div>
+        </div>
+      {% empty %}
+        <h5 class="text-center mt-5">{% translate "No results!" %}</h5>
+      {% endfor %}
     </div>
   </div>
 {% endblock content %}

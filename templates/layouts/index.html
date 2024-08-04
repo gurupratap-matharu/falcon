@@ -97,7 +97,7 @@
     <div class="card-header">
       <h5>Map</h5>
     </div>
-    <div class="card-body" id="map"></div>
+    <div class="card-body min-vh-50" id="map"></div>
   </div>
   <div class="card mb-3">
     <div class="card-header">Seat Chart</div>
@@ -331,9 +331,32 @@
           crossorigin=""></script>
   <script>
        var map = L.map('map').setView([51.505, -0.09], 13);
+
        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap'
        }).addTo(map);
+
+       // create a red polyline from an array of LatLng points
+       const latlngs = [
+            [45.51, -122.68],
+            [37.77, -122.43],
+            [34.04, -118.2]
+       ];
+
+       const polyline = L.polyline(latlngs, {
+            color: 'blue',
+            weight: 5
+       }).addTo(map);
+
+       // zoom the map to the polyline
+       map.fitBounds(polyline.getBounds());
+
+       L.marker([45.51, -122.68], {
+                 'title': 'This is stop 1',
+                 'alt': 'Tea stop'
+
+            }).addTo(map)
+            .bindPopup('Here we will stop and have some tea')
   </script>
 {% endblock js %}

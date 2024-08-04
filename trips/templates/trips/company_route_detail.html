@@ -14,6 +14,13 @@
   {{ company.name }}
 {% endblock page_title %}
 
+{% block extra_css %}
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="" />
+{% endblock extra_css %}
+
 {% block content %}
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between pb-0">
@@ -38,9 +45,7 @@
                 <th class="{{ klass }}">{% translate "Company" %}</th>
                 <th class="{{ klass }}">{% translate "Origin" %}</th>
                 <th class="{{ klass }}">{% translate "Destination" %}</th>
-                <th class="{{ klass }}">{% translate "Category" %}</th>
                 <th class="{{ klass }}">{% translate "Duration" %}</th>
-                <th class="{{ klass }}">{% translate "Active" %}</th>
               {% endwith %}
             </tr>
           </thead>
@@ -49,15 +54,14 @@
               <td>{{ route.company }}</td>
               <td>{{ route.origin }}</td>
               <td>{{ route.destination }}</td>
-              <td>{{ route.get_category_display }}</td>
               <td>{{ route.duration }}</td>
-              <td>{{ route.active }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+  <div id="map" class="min-vh-85 rounded-3"></div>
 {% endblock content %}
 
 {% block modal %}
@@ -66,16 +70,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="stopModalLabel">{{ route }}</h1>
-          <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <table class="table">
             <thead>
               <tr>
-                <td>Order</td>
-                <td>Name</td>
-                <td>Arrival</td>
-                <td>Departure</td>
+                <td>{% translate "Order" %}</td>
+                <td>{% translate "Name" %}</td>
+                <td>{% translate "Arrival" %}</td>
+                <td>{% translate "Departure" %}</td>
               </tr>
             </thead>
             <tbody>
@@ -83,8 +87,8 @@
                 <tr>
                   <td>{{ stop.order|add:1 }}</td>
                   <td>{{ stop.name }}</td>
-                  <td>{{ stop.arrival }}</td>
-                  <td>{{ stop.departure }}</td>
+                  <td>{{ stop.arrival|date:"H:i" }}</td>
+                  <td>{{ stop.departure|date:"H:i" }}</td>
                 </tr>
               {% empty %}
                 <p>{% translate "There are no stops for this route." %}</p>
@@ -93,9 +97,17 @@
           </table>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
         </div>
       </div>
     </div>
   </div>
 {% endblock modal %}
+
+{% block js %}
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  {{ map_context|json_script:"stops" }}
+  <script type="text/javascript" src={% static 'assets/js/maps/route_detail.js' %}></script>
+{% endblock js %}
