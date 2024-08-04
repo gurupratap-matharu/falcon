@@ -61,7 +61,36 @@
       </div>
     </div>
   </div>
-  <div id="map" class="min-vh-85 rounded-3"></div>
+  <div id="map" class="min-vh-55 rounded-3 mb-3"></div>
+  <div class="card">
+    <div class="card-header pb-0">
+      <h5 class="card-title">{% translate "Prices" %}</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>{% translate "Origin" %}</td>
+              <td>{% translate "Destination" %}</td>
+              <td>{% translate "Category" %}</td>
+              <td>{% translate "Amount" %}</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for price in prices %}
+              <tr>
+                <td>{{ price.origin }}</td>
+                <td>{{ price.destination }}</td>
+                <td>{{ price.get_category_display }}</td>
+                <td>{{ price.amount }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 {% block modal %}

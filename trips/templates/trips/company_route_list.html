@@ -16,7 +16,7 @@
 
 {% block content %}
   <div class="card">
-    <div class="card-header">
+    <div class="card-header pb-0">
       <a href="{{ company.get_admin_url }}" class="icon-link icon-link-hover">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
@@ -36,9 +36,7 @@
                   <th class="{{ klass }}">{% translate "Company" %}</th>
                   <th class="{{ klass }}">{% translate "Origin" %}</th>
                   <th class="{{ klass }}">{% translate "Destination" %}</th>
-                  <th class="{{ klass }}">{% translate "Category" %}</th>
                   <th class="{{ klass }}">{% translate "Duration" %}</th>
-                  <th class="{{ klass }}">{% translate "Active" %}</th>
                   <th class="{{ klass }}">{% translate "View" %}</th>
                 {% endwith %}
               </tr>
@@ -49,9 +47,7 @@
                   <td>{{ route.company }}</td>
                   <td>{{ route.origin }}</td>
                   <td>{{ route.destination }}</td>
-                  <td>{{ route.get_category_display }}</td>
                   <td>{{ route.duration }}</td>
-                  <td>{{ route.active }}</td>
                   <td>
                     <a href="{{ route.get_absolute_url }}" class="icon-link icon-link-hover">
                       <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">

@@ -185,6 +185,7 @@ class CompanyRouteDetailView(CRUDMixins, DetailView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["stops"] = self.object.stops.select_related("name")
+        context["prices"] = self.object.prices.select_related("origin", "destination")
         context["map_context"] = self.get_map_context()
         return context
 
