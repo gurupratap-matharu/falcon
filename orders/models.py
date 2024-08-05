@@ -196,6 +196,7 @@ class Passenger(models.Model):
         (None, _("Gender")),
         ("F", _("Female")),
         ("M", _("Male")),
+        ("O", _("Other")),
     ]
 
     document_type = models.CharField(
