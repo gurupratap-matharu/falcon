@@ -1,0 +1,71 @@
+{% extends "layouts/base-company.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+    {{ company.name }} | {% translate "Passengers" %}
+{% endblock title %}
+
+{% block breadcrumb %}
+    {% translate "Passengers" %}
+{% endblock breadcrumb %}
+
+{% block page_title %}
+    {{ company.name }}
+{% endblock page_title %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between pb-0">
+            <a href="{{ company.get_admin_url }}" class="icon-link icon-link-hover">
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+                </svg>
+                {% translate "Dashboard" %}
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-borderless table-sm align-items-center align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-sm ps-2">{% translate "Name" %}</th>
+                            <th class="text-sm ps-2">{% translate "Document Type" %}</th>
+                            <th class="text-sm ps-2">{% translate "Document Number" %}</th>
+                            <th class="text-sm ps-2">{% translate "Nationality" %}</th>
+                            <th class="text-sm ps-2">{% translate "Gender" %}</th>
+                            <th class="text-sm ps-2">{% translate "Phone Number" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for passenger in passengers %}
+                            <tr>
+                                <td>
+                                    <p class="text-sm">{{ passenger.get_full_name }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-sm">{{ passenger.document_type }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-sm">{{ passenger.document_number }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-sm">{{ passenger.get_nationality_display }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-sm">{{ passenger.get_gender_display }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-sm">{{ passenger.phone_number }}</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% include "includes/pagination.html" %}
+
+        </div>
+    </div>
+{% endblock content %}

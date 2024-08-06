@@ -54,6 +54,7 @@ company_admin_patterns = [
         name="checkin",
     ),
     path("live/", views.LiveStatusView.as_view(), name="live-status"),
+    path("passengers/", views.PassengerListView.as_view(), name="passengers"),
 ]
 
 
