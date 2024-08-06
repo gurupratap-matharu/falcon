@@ -22,15 +22,15 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">{% translate "Today's Money" %}</p>
                 <h5 class="font-weight-bolder mb-0">
-                  ${{ kpis.sales|default:0|intcomma }}
+                  {# ${{ kpis.sales|default:0|intcomma }} #}3.2M
                   <span class="text-success text-sm font-weight-bolder">+55%</span>
                 </h5>
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md d-flex justify-content-center align-items-center">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md d-flex justify-content-center align-items-center ms-auto">
                 <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#coin" />
                 </svg>
@@ -46,15 +46,16 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Occupancy</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">{% translate "Today's Occupancy" %}</p>
                 <h5 class="font-weight-bolder mb-0">
-                  +{{ kpis.occupancy|default:0 }}%
+                  {# +{{ kpis.occupancy|default:0 }}% #}
+                  74%
                   <span class="text-success text-sm font-weight-bolder">+3%</span>
                 </h5>
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center">
+              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center ms-auto">
                 <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#building-fill-up" />
                 </svg>
@@ -70,15 +71,16 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">New Bookings</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">{% translate "New Bookings" %}</p>
                 <h5 class="font-weight-bolder mb-0">
-                  +{{ kpis.bookings|default:0 }}
+                  {# +{{ kpis.bookings|default:0 }} #}
+                  143
                   <span class="text-danger text-sm font-weight-bolder">-2%</span>
                 </h5>
               </div>
             </div>
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center">
+            <div class="col-4">
+              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center ms-auto">
                 <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#ticket-perforated-fill" />
                 </svg>
@@ -94,15 +96,16 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Trips</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">{% translate "Trips" %}</p>
                 <h5 class="font-weight-bolder mb-0">
-                  #{{ kpis.trips|default:0|intcomma }}
+                  {# {{ kpis.trips|default:0|intcomma }} #}
+                  72
                   <span class="text-success text-sm font-weight-bolder">+5%</span>
                 </h5>
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center">
+              <div class="icon icon-shape bg-gradient-primary shadow border-radius-md d-flex justify-content-center align-items-center ms-auto">
                 <svg class="bi text-white" width="24" height="24" aria-hidden="true" fill="currentColor">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#bus-front" />
                 </svg>
@@ -121,39 +124,35 @@
             <h5>Trips</h5>
           </a>
         </div>
-        <div class="card-body pb-3">
+        <div class="card-body pb-2">
           {% if not trips %}
             <div class="d-flex justify-content-center align-items-center min-vh-25">
-              <p class="text-sm mb-0 text-capitalize font-weight-bold">No upcoming trips</p>
+              <p class="text-sm mb-0 text-capitalize font-weight-bold">{% translate "No upcoming trips" %}</p>
             </div>
           {% else %}
             <div class="table-responsive">
-              <table class="table table-borderless align-items-center mb-0">
+              <table class="table table-borderless align-items-center">
                 <thead>
                   <tr>
-                    <th class="font-weight-bolder opacity-7">Routes</th>
-                    <th class="font-weight-bolder opacity-7 ps-2">Departure</th>
-                    <th class="font-weight-bolder opacity-7">Revenue</th>
-                    <th class="font-weight-bolder opacity-7">Occupancy</th>
+                    <th class="ps-2 opacity-7">{% translate "Route" %}</th>
+                    <th class="ps-2 opacity-7">{% translate "Departure" %}</th>
+                    <th class="ps-2 opacity-7">{% translate "Revenue" %}</th>
+                    <th class="ps-2 opacity-7">{% translate "Occupancy" %}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for trip in trips|slice:":6" %}
                     <tr>
                       <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ trip.origin }} - {{ trip.destination }}</h6>
-                          </div>
-                        </div>
+                        <span class="text-sm">{{ trip.origin }} - {{ trip.destination }}</span>
                       </td>
-                      <td class="align-middle text-sm">
-                        <span class="text-xs font-weight-bold">{{ trip.departure|date:"D j M P" }}</span>
+                      <td>
+                        <span class="text-sm">{{ trip.departure|date:"D j M P" }}</span>
                       </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold">${{ trip.revenue|floatformat:"-3g" }}</span>
+                      <td>
+                        <span class="text-sm">${{ trip.revenue|floatformat:"-3g" }}</span>
                       </td>
-                      <td class="align-middle">
+                      <td>
                         {% with occupancy=trip.occupancy %}
                           <div class="progress-wrapper w-75 mx-auto">
                             <div class="progress-info">

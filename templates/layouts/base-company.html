@@ -157,67 +157,53 @@
   <main class="main-content px-3 px-md-0 mt-1 border-radius-lg">
     <header>
       <nav class="navbar navbar-expand-md px-0 mx-md-4 mb-3 shadow-none">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" onClick="toggleSideNav();" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <nav aria-label="breadcrumb" class="d-none d-md-inline">
-            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-              <li class="breadcrumb-item text-sm">
-                <a class="opacity-5 text-dark" href="{{ company.get_admin_url }}">
-                  <svg class="bi opacity-8" width="16" height="16" aria-hidden="true">
-                    <use xlink:href="{% static 'assets/icons/icons.svg' %}#bank" />
-                  </svg>
-                  <span class="visually-hidden">Home</span>
-                </a>
-              </li>
-              <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
+        <button class="navbar-toggler" type="button" onClick="toggleSideNav();" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav aria-label="breadcrumb" class="d-none d-md-inline">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+              <a class="opacity-5 text-dark" href="{{ company.get_admin_url }}">
+                <svg class="bi opacity-8" width="16" height="16" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#bank" />
+                </svg>
+                <span class="visually-hidden">Home</span>
+              </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
 
-                {% block breadcrumb %}
-                  Dashboard
-                {% endblock breadcrumb %}
-
-              </li>
-            </ol>
-            <h6 class="font-weight-bolder mb-0">
-
-              {% block page_title %}
+              {% block breadcrumb %}
                 Dashboard
-              {% endblock page_title %}
+              {% endblock breadcrumb %}
 
-            </h6>
-          </nav>
-          <ul class="navbar-nav ms-auto justify-content-end">
-            <li class="nav-item d-flex align-items-center">
-              <a class="mb-0 me-3" href="{% url 'pages:help' %}">{% translate "Help" %}</a>
             </li>
-            <li class="nav-item d-flex align-items-center">
-              {% if request.user.is_authenticated %}
-                <div class="dropdown nav-link">
-                  <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
-                      {% if avatar_url %}
-                        <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" />
-                      {% else %}
-                        <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
-                      {% endif %}
-                    {% endwith %}
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="{% url 'pages:feedback' %}">{% translate "Feedback" %}</a>
-                    <hr class="dropdown-divider" />
-                    <a class="dropdown-item" href="{% url 'users:settings' %}">{% translate "Settings" %}</a>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
-                  </div>
-                </div>
-              {% else %}
-                <a href="{% url 'account_login' %}" class="nav-link text-body font-weight-bold px-0">
-                  <span class="d-sm-inline d-none">{% translate "Sign In" %}</span>
-                </a>
-              {% endif %}
-            </li>
-          </ul>
-        </div>
+          </ol>
+          <h6 class="font-weight-bolder mb-0">
+
+            {% block page_title %}
+              Dashboard
+            {% endblock page_title %}
+
+          </h6>
+        </nav>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item my-auto d-none d-md-inline">
+            <a class="nav-link" href="{% url 'pages:help' %}">{% translate "Help" %}</a>
+          </li>
+          <li class="nav-item">
+            {% if request.user.is_authenticated %}
+              <a href="#" class="nav-link">
+                {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
+                  {% if avatar_url %}
+                    <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" />
+                  {% else %}
+                    <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
+                  {% endif %}
+                {% endwith %}
+              </a>
+            {% endif %}
+          </li>
+        </ul>
       </nav>
     </header>
 
