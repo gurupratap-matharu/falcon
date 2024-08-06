@@ -39,7 +39,6 @@
             <thead>
               <tr>
                 {% with klass="text-sm font-weight-bolder opacity-7 ps-2" %}
-                  <th class="{{ klass }}">{% translate "Company" %}</th>
                   <th class="{{ klass }}">{% translate "Origin" %}</th>
                   <th class="{{ klass }}">{% translate "Destination" %}</th>
                   <th class="{{ klass }}">{% translate "Departure" %}</th>
@@ -54,9 +53,6 @@
             <tbody>
               {% for trip in trips %}
                 <tr>
-                  <td>
-                    <p class="text-sm mb-0">{{ trip.company }}</p>
-                  </td>
                   <td>
                     <p class="text-sm mb-0">{{ trip.origin }}</p>
                   </td>

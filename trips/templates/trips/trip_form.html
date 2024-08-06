@@ -20,16 +20,22 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+    <div class="col-md-8 mx-auto">
       <div class="card">
         <div class="card-header pb-0">
-          <a href="{{ company.get_trip_list_url }}">
-            <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <a href="{{ company.get_trip_list_url }}" class="icon-link icon-link-hover">
+            <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
               <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
             </svg>
-            Back
+            {% translate "Back" %}
           </a>
-          <h5 class="text-center">{% translate "Create Trip" %}</h5>
+          <h5 class="text-center">
+            {% if trip %}
+              {% translate "Edit" %}
+            {% else %}
+              {% translate "Create a new trip" %}
+            {% endif %}
+          </h5>
         </div>
         <div class="card-body">
           <form method="post">
@@ -56,8 +62,8 @@
               </select>
             </div>
             <div class="d-flex justify-content-between">
-              <a href="{{ trip.get_passenger_list_url }}" class="btn btn-outline-danger">Cancel</a>
-              <input type="submit" value="Save" class="btn btn-success" />
+              <a href="{{ trip.get_passenger_list_url }}" class="btn btn-outline-secondary">{% translate "Cancel" %}</a>
+              <button type="submit" class="btn bg-gradient-primary">{% translate "Save" %}</button>
             </div>
           </form>
         </div>

@@ -17,13 +17,13 @@
 {% block content %}
   <div class="card">
     <div class="card-header d-flex justify-content-between pb-0">
-      <a href="{{ company.get_admin_url }}">
-        <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+      <a href="{{ company.get_admin_url }}" class="icon-link icon-link-hover">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
         </svg>
-        Dashboard
+        {% translate "Dashboard" %}
       </a>
-      <a href="{{ company.get_coupon_create_url }}">
+      <a href="{{ company.get_coupon_create_url }}" class="icon-link icon-link-hover">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#plus-lg" />
         </svg>
