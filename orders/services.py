@@ -145,7 +145,7 @@ def order_confirmed(order_id, payment_id):
     wa_context = dict()
     wa_context["link"] = f"{settings.BASE_URL}{order.get_ticket_url()}"
     wa_context["caption"] = (
-        f"Your bus tickets from {context['origin']}-{context['destination']} with {context['company']}"
+        f"Hello 👋\n\nHere are your bus tickets from {context['origin']} to {context['destination']} with {context['company']}\n\nNo need to print the ticket. Just scan the QR code while checking in.\n\nCheers"
     )
     wa_context["filename"] = "Bus-Tickets.pdf"
     data = get_document_payload(recipient="54111550254191", context=wa_context)
