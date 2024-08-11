@@ -113,6 +113,7 @@ class TripFactory(factory.django.DjangoModelFactory):
     arrival = factory.LazyAttribute(
         lambda o: o.departure + td(hours=random.randint(5, 48))  # nosec
     )
+    category = fuzzy.FuzzyChoice(Trip.CATEGORY_CHOICES, getter=lambda c: c[0])
     status = fuzzy.FuzzyChoice(Trip.TRIP_STATUS_CHOICES, getter=lambda c: c[0])
     mode = fuzzy.FuzzyChoice(Trip.TRIP_MODE_CHOICES, getter=lambda c: c[0])
     description = factory.Faker("paragraph")
@@ -213,19 +214,22 @@ def make_trips(num_trips=20, num_seats=40):
 
         logger.info("creating trips for route:%s" % route)
 
-        TripTomorrowFactory(route=route, status=Trip.ACTIVE, category=semicama)
-        TripTomorrowFactory(route=route, status=Trip.ACTIVE, category=cama)
+        trip_1 = TripTomorrowFactory(route=route, status=Trip.ACTIVE, category=semicama)
+        trip_2 = TripTomorrowFactory(route=route, status=Trip.ACTIVE, category=cama)
 
-        TripDayAfterTomorrowFactory(route=route, status=Trip.ACTIVE, category=semicama)
-        TripDayAfterTomorrowFactory(route=route, status=Trip.ACTIVE, category=cama)
+        trip_3 = TripDayAfterTomorrowFactory(
+            route=route, status=Trip.ACTIVE, category=semicama
+        )
+        trip_4 = TripDayAfterTomorrowFactory(
+            route=route, status=Trip.ACTIVE, category=cama
+        )
 
-        TripPastFactory.create_batch(route=route, status=Trip.ACTIVE, size=3)
+    trips = [trip_1, trip_2, trip_3, trip_4]
 
     # Create seats in each trip
     logger.info("creating all seats...")
 
     size = num_seats // 2
-    trips = Trip.objects.all()
 
     for trip in trips:
         SeatFactory.reset_sequence(1)

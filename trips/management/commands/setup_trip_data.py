@@ -7,6 +7,7 @@ Running this script should create
 with sensible defaults.
 """
 
+import logging
 from timeit import default_timer as timer
 
 from django.core.management.base import BaseCommand
@@ -15,6 +16,8 @@ import factory
 
 from trips.factories import make_trips
 from trips.models import Location, Seat, Trip
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -57,28 +60,21 @@ class Command(BaseCommand):
         num_trips = kwargs.get("trips") or 20
         num_seats = kwargs.get("seats") or 40
 
-        self.success("Locale: %s" % locale)
-        self.success("Total Trips: %s" % num_trips)
-        self.success("Seats Per Trip: %s" % num_seats)
+        logger.info("Locale: %s" % locale)
+        logger.info("Total Trips: %s" % num_trips)
+        logger.info("Seats Per Trip: %s" % num_seats)
 
-        self.danger("Deleting old data...")
-        # TODO: Revisit this. could be dangerous if run in production.
-        Trip.objects.all().delete()
-
-        self.success("Creating new data...")
+        logger.info("Creating new data...")
 
         with factory.Faker.override_default_locale(locale):
             self.success("\nCreating trips...")
             make_trips(num_trips=int(num_trips), num_seats=int(num_seats))
 
-        self.stdout.write(
-            f"""
-        Locations : {Location.objects.count()}
-        Trips     : {Trip.objects.count()}
-        Seats     : {Seat.objects.count()}
-        """
-        )
+        logger.info("Locations:%s" % Location.objects.count())
+        logger.info("Trips:%s" % Trip.objects.count())
+        logger.info("Seats:%s" % Seat.objects.count())
+
         end = timer()
 
-        self.danger("took:%0.2f seconds..." % (end - start))
+        logger.info("took:%0.2f seconds..." % (end - start))
         self.success("All done!")
