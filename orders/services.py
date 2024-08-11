@@ -1,5 +1,4 @@
 import logging
-import pdb
 from timeit import default_timer as timer
 
 from django.conf import settings
