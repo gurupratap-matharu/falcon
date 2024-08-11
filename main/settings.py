@@ -88,7 +88,7 @@ ROOT_URLCONF = "main.urls"
 
 # Sessions
 CART_SESSION_ID = "cart"
-SESSION_COOKIE_AGE = 10 * 60  # 10 mins
+# SESSION_COOKIE_AGE = 10 * 60  # 10 mins
 SESSION_EXPIRED_MESSAGE = _("Your session has expired. Please search again 🙏")
 
 AUTHENTICATION_BACKENDS = (
@@ -355,6 +355,10 @@ MP_CLIENT_SECRET = os.getenv("MP_CLIENT_SECRET")
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_WEBHOOK_SIGNING_SECRET = os.getenv("STRIPE_WEBHOOK_SIGNING_SECRET")
+
+# Whatsapp
+WA_ACCESS_TOKEN = os.getenv("WA_ACCESS_TOKEN")
+WA_PHONE_ID = os.getenv("WA_PHONE_ID")
 
 if not DEBUG:
     # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

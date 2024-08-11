@@ -1,4 +1,5 @@
 import logging
+import pdb
 from timeit import default_timer as timer
 
 from django.conf import settings
@@ -10,6 +11,7 @@ from django.template.loader import render_to_string
 from django_weasyprint.utils import django_url_fetcher
 from weasyprint import HTML
 
+from main.wa import get_document_payload, send_wa_message
 from orders.models import Order
 
 logger = logging.getLogger(__name__)
@@ -138,6 +140,16 @@ def order_confirmed(order_id, payment_id):
 
     connection = mail.get_connection()
     mails_sent = connection.send_messages([user_email, company_email])
+
+    # Send whatsapp message to user
+    wa_context = dict()
+    wa_context["link"] = f"{settings.BASE_URL}{order.get_ticket_url()}"
+    wa_context["caption"] = (
+        f"Your bus tickets from {context['origin']}-{context['destination']} with {context['company']}"
+    )
+    wa_context["filename"] = "Bus-Tickets.pdf"
+    data = get_document_payload(recipient="54111550254191", context=wa_context)
+    send_wa_message(data=data)
 
     end = timer()
     logger.info("order_confirmed(🔒) took: %0.2f seconds!" % (end - start))
