@@ -1,9 +1,9 @@
 {% extends "layouts/base-company.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}
-  {{ company.name }} | SeatCharts
+  {{ company.name }} | {% translate "SeatCharts" %}
 {% endblock title %}
 
 {% block breadcrumb %}
@@ -11,7 +11,7 @@
 {% endblock breadcrumb %}
 
 {% block page_title %}
-  SeatCharts
+  {% translate "SeatCharts" %}
 {% endblock page_title %}
 
 {% block content %}
@@ -19,7 +19,7 @@
     {% for seatchart in company.seatcharts.all %}
       <a href="{{ seatchart.get_absolute_url }}" class="list-group-item list-group-item-action">{{ seatchart }}</a>
     {% empty %}
-      <a href="" class="list-group-item list-group-item-action">You do not have any seatcharts yet!</a>
+      <p class="list-group-item list-group-item-action">{% translate "You do not have any seatcharts yet!" %}</p>
     {% endfor %}
   </div>
 {% endblock content %}
