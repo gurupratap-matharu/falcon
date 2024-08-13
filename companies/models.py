@@ -2,6 +2,7 @@ import logging
 import uuid
 
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.urls import reverse_lazy
 from django.utils.text import slugify
@@ -106,7 +107,7 @@ class SeatChart(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(_("title"), max_length=200)
-    json = models.JSONField(_("json"))
+    json = models.JSONField(_("json"), default=dict, encoder=DjangoJSONEncoder)
     company = models.ForeignKey(
         "Company", related_name="seatcharts", on_delete=models.CASCADE
     )
