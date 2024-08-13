@@ -1,4 +1,4 @@
-{% extends "layouts/base-sidebar.html" %}
+{% extends "layouts/base-app.html" %}
 
 {% load i18n static tz %}
 
@@ -7,11 +7,7 @@
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin="" />
-  <style>
-       #map {
-            height: 180px;
-       }
-  </style>
+  <link rel="stylesheet" href="{% static 'assets/css/seatchart.css' %}" />
 {% endblock extra_css %}
 
 {% block content %}
@@ -32,11 +28,7 @@
         <span class="alert-text"><strong>
           {% if message.tags %}{{ message.tags|title }}:{% endif %}
         </strong>Veer for this to work you need to add the custom timezone middleware. <a href="https://docs.djangoproject.com/en/5.0/topics/i18n/timezones/#selecting-the-current-time-zone" class="alert-link">See this link</a></span>
-        <button type="button" class="btn-close pt-3" data-bs-dismiss="alert" aria-label="Close">
-          <svg class="bi" width="16" height="16" aria-hidden="true">
-            <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
-          </svg>
-        </button>
+        <button type="button" class="btn-close pt-3" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       <form action="" method="post">
         {% csrf_token %}
@@ -97,11 +89,18 @@
     <div class="card-header">
       <h5>Map</h5>
     </div>
-    <div class="card-body min-vh-50" id="map"></div>
+    <div class="card-body min-vh-50 rounded-3" id="map"></div>
   </div>
   <div class="card mb-3">
-    <div class="card-header">Seat Chart</div>
-    <div class="card-body" id="seatChart">Hello</div>
+    <div class="card-header">
+      <h5>Seat Chart</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col" id="lowerSeatChart"></div>
+        <div class="col" id="upperSeatChart"></div>
+      </div>
+    </div>
   </div>
   <div class="card mb-3">
     <div class="card-header">
@@ -262,70 +261,7 @@
 {% block js %}
   <script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.min.js"></script>
   <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}"></script>
-  <script>
-       const element = document.getElementById('seatChart');
-
-
-       const options = {
-            map: {
-                 rows: 10,
-                 columns: 4,
-                 seatTypes: {
-                      default: {
-                           label: 'Economy',
-                           cssClass: 'economy',
-                           price: 15,
-                      },
-                      first: {
-                           label: 'First Class',
-                           cssClass: 'first-class',
-                           price: 25,
-                           seatRows: [0, 1, 2],
-                      },
-                      reduced: {
-                           label: 'Reduced',
-                           cssClass: 'reduced',
-                           price: 10,
-                           seatRows: [7, 8, 9],
-                      },
-                 },
-                 disabledSeats: [{
-                      row: 2,
-                      col: 2
-                 }, {
-                      row: 2,
-                      col: 3
-                 }, {
-                      row: 3,
-                      col: 2
-                 }, {
-                      row: 3,
-                      col: 3
-                 }],
-                 reservedSeats: [{
-                      row: 0,
-                      col: 0
-                 }, {
-                      row: 0,
-                      col: 1
-                 }, ],
-                 selectedSeats: [{
-                      row: 1,
-                      col: 1
-                 }, {
-                      row: 1,
-                      col: 2
-                 }],
-                 columnSpacers: [2],
-            },
-       };
-
-
-       const sc = new Seatchart(element, options);
-       sc.addEventListener('submit', function handleSubmit(e) {
-            alert('Total: ' + e.total + '€');
-       });
-  </script>
+  <script type="text/javascript" src="{% static 'assets/js/index.js' %}"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
           crossorigin=""></script>
