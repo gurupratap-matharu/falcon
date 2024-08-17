@@ -282,7 +282,7 @@
       </div>
     </div>
   </div>
-  {% with trips=cart.to_dict %}{{ trips.0|json_script:"outboundJourney" }}{% endwith %}
+  {% with trips=cart.to_dict %}{{ trips.0|json_script:"options" }}{% endwith %}
 {% endblock content %}
 
 {% block js %}
