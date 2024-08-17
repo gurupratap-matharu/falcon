@@ -1,4 +1,5 @@
 import logging
+from datetime import timedelta
 from http import HTTPStatus
 from typing import Any, Dict
 
@@ -8,6 +9,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
@@ -17,6 +19,8 @@ import stripe
 
 from orders.models import Order
 from orders.services import order_confirmed
+
+from .models import WebhookMessage
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +70,9 @@ class PaymentView(TemplateView):
         success = uri(reverse_lazy("payments:mercadopago_success"))
         failure = uri(reverse_lazy("payments:fail"))
         pending = uri(reverse_lazy("payments:pending"))
-        notification_url = uri(reverse_lazy("payments:mercadopago_webhook"))
+        notification_url = (
+            uri(reverse_lazy("payments:mercadopago_webhook")) + f"&order_id={order.id}"
+        )
 
         logger.info("success: %s", success)
         logger.info("failure: %s", failure)
@@ -294,10 +300,8 @@ def stripe_webhook(request):
 @require_POST
 def mercadopago_webhook(request):
     """
-    Our internal webhook to receive payment updates from mercado pago.
-
+    Webhook to receive payment updates from mercado pago.
     A confirmation on this hook is a guarantee that the payment is successful.
-    # TODO: May be store the confirmation data in a model or email
     """
 
     logger.info("mercadopago webhook request.GET(🤝):%s", request.GET)
@@ -334,7 +338,19 @@ def mercadopago_success(request):
 
     if (status == "approved") and order_id:
         logger.info("mercadopago(🤝) payment successful!!!")
+
+        # Remove webhook messages more than 1 week old
+        last_week = timezone.now() - timedelta(days=7)
+        WebhookMessage.objects.filter(received_at__lte=last_week).delete()
+
+        WebhookMessage.objects.create(
+            provider=WebhookMessage.MERCADOPAGO,
+            received_at=timezone.now(),
+            payload=mercadopago_response,
+        )
+
         order_confirmed(order_id=order_id, payment_id=payment_id)
 
-    # TODO:if not get params are passed should we still redirect to success??
-    return redirect(reverse_lazy("payments:success"))
+        return redirect(reverse_lazy("payments:success"))
+
+    return redirect(reverse_lazy("payments:fail"))
