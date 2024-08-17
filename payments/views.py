@@ -1,3 +1,6 @@
+import hashlib
+import hmac
+import json
 import logging
 from datetime import timedelta
 from http import HTTPStatus
@@ -71,7 +74,7 @@ class PaymentView(TemplateView):
         failure = uri(reverse_lazy("payments:fail"))
         pending = uri(reverse_lazy("payments:pending"))
         notification_url = (
-            uri(reverse_lazy("payments:mercadopago_webhook")) + f"&order_id={order.id}"
+            uri(reverse_lazy("payments:mercadopago-webhook")) + f"&order_id={order.id}"
         )
 
         logger.info("success: %s", success)
@@ -301,7 +304,9 @@ def stripe_webhook(request):
         payment_id = event.data.object.payment_intent
         order_confirmed(order_id=order_id, payment_id=payment_id)
 
-    return HttpResponse(status=HTTPStatus.OK)
+    return HttpResponse(
+        "Message received okay.", content_type="text/plain", status=HTTPStatus.OK
+    )
 
 
 @csrf_exempt
@@ -313,10 +318,54 @@ def mercadopago_webhook(request):
     """
 
     logger.info("mercadopago webhook request.GET(🤝):%s", request.GET)
-    logger.info("mercadopago webhook request.POST(🤝):%s", request.POST)
     logger.info("mercadopago webhook request.body(🤝):%s", request.body)
 
-    return HttpResponse(status=HTTPStatus.OK)
+    x_signature = request.headers.get("x-signature")
+    x_request_id = request.headers.get("x-request-id")
+    data_id = request.GET.get("data.id", [""])[0]
+
+    ts = x_signature.split(",")[0].lstrip("ts=")
+    token = x_signature.split(",")[1].lstrip("v1=")
+
+    manifest = f"id:{data_id};request-id:{x_request_id};ts:{ts};"
+
+    digest = hmac.new(
+        settings.MP_WEBHOOK_TOKEN.encode(),
+        msg=manifest.encode(),
+        digestmod=hashlib.sha256,
+    ).hexdigest()
+
+    logger.info("x_signature:%s" % x_signature)
+    logger.info("x_request_id:%s" % x_request_id)
+    logger.info("data_id:%s" % data_id)
+    logger.info("ts:%s" % ts)
+    logger.info("token:%s" % token)
+    logger.info("manifest:%s" % manifest)
+    logger.info("digest:%s" % digest)
+
+    if token != digest:
+        return HttpResponseForbidden(
+            "Incorrect token in MP webhook header.", content_type="text/plain"
+        )
+
+    payload = json.loads(request.body)
+
+    # Remove webhook messages more than 1 week old
+    last_week = timezone.now() - timedelta(days=7)
+    WebhookMessage.objects.filter(received_at__lte=last_week).delete()
+
+    # Save webhook message to DB
+    WebhookMessage.objects.create(
+        provider=WebhookMessage.MERCADOPAGO,
+        received_at=timezone.now(),
+        payload=payload,
+    )
+
+    # Todo: Confirm order over here instead of mercadopago_success view in future...
+
+    return HttpResponse(
+        "Messge received okay.", content_type="text/plain", status=HTTPStatus.OK
+    )
 
 
 def mercadopago_success(request):
@@ -336,29 +385,20 @@ def mercadopago_success(request):
     /payments/success/?collection_id=54650347595&collection_status=approved&payment_id=54650347595&status=approved&external_reference=7a231700-d000-47d0-848b-65ff914a9a3e&payment_type=account_money&merchant_order_id=7712864656&preference_id=1272408260-35ff1ef7-3eb8-4410-b219-4a98ef386ac0&site_id=MLA&processing_mode=aggregator&merchant_account_id=null
     """
 
-    mercadopago_response = request.GET
-    msg = "mercado pago says(🤝):%s" % mercadopago_response
-    logger.info(msg) if mercadopago_response else logger.warn(msg)
+    mp_response = request.GET
 
-    order_id = mercadopago_response.get("external_reference")
-    status = mercadopago_response.get("status")
-    payment_id = mercadopago_response.get("payment_id")
+    order_id = mp_response.get("external_reference")
+    status = mp_response.get("status")
+    payment_id = mp_response.get("payment_id")
 
+    logger.info("mercado pago says(🤝):%s" % mp_response)
+
+    # TODO: confirm order in webhook instead of this view for security.
     if (status == "approved") and order_id:
+
         logger.info("mercadopago(🤝) payment successful!!!")
 
-        # Remove webhook messages more than 1 week old
-        last_week = timezone.now() - timedelta(days=7)
-        WebhookMessage.objects.filter(received_at__lte=last_week).delete()
-
-        WebhookMessage.objects.create(
-            provider=WebhookMessage.MERCADOPAGO,
-            received_at=timezone.now(),
-            payload=mercadopago_response,
-        )
-
         order_confirmed(order_id=order_id, payment_id=payment_id)
-
         return redirect(reverse_lazy("payments:success"))
 
     return redirect(reverse_lazy("payments:fail"))

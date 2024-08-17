@@ -21,6 +21,6 @@ urlpatterns = [
     path(
         "webhooks/mercadopago/drSndwy4YXkO15Zx1gABbbspSpxOasfx/",
         views.mercadopago_webhook,
-        name="mercadopago_webhook",
+        name="mercadopago-webhook",
     ),
 ]
