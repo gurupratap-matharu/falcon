@@ -320,22 +320,22 @@ def mercadopago_webhook(request):
     logger.info("mp webhook request.GET(🤝):%s", request.GET)
     logger.info("mp webhook request.body(🤝):%s", request.body)
 
-    x_signature = request.headers.get("x-signature")
-    x_request_id = request.headers.get("x-request-id")
+    x_signature = request.headers.get("x-signature", "ts=,v1=")
+    x_request_id = request.headers.get("x-request-id", "")
     data_id = request.GET.get("data.id", [""])
 
     ts = x_signature.split(",")[0].lstrip("ts=")
-    token = x_signature.split(",")[1].lstrip("v1=")
+    given_token = x_signature.split(",")[1].lstrip("v1=")
 
     manifest = f"id:{data_id};request-id:{x_request_id};ts:{ts};"
 
-    digest = hmac.new(
+    expected_token = hmac.new(
         settings.MP_WEBHOOK_TOKEN.encode(),
         msg=manifest.encode(),
         digestmod=hashlib.sha256,
     ).hexdigest()
 
-    if token != digest:
+    if given_token != expected_token:
         return HttpResponseForbidden(
             "Incorrect token in MP webhook header.", content_type="text/plain"
         )

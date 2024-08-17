@@ -1,10 +1,13 @@
+from datetime import timedelta
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
-from django.test import SimpleTestCase, TestCase
+from django.test import Client, SimpleTestCase, TestCase
 from django.urls import resolve, reverse
+from django.utils import timezone
 
 from orders.factories import OrderFactory, OrderItemFactory
+from payments.models import WebhookMessage
 from payments.views import (
     PaymentCancelView,
     PaymentFailView,
@@ -280,3 +283,28 @@ class CheckoutViewTests(TestCase):
     def test_checkout_page_is_not_accessible_via_get(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+
+class MercadoPagoWebhookTests(TestCase):
+    """
+    Test suite to check the integrity of Mercado Pago webhook endpoint.
+    """
+
+    def setUp(self):
+        self.client = Client(enforce_csrf_checks=True)
+        self.url = reverse("payments:mercadopago-webhook")
+
+    def test_webhook_does_not_accept_get_method(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+    def test_missing_token(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assertEqual(
+            response.content.decode(), "Incorrect token in MP webhook header."
+        )
+
+    
