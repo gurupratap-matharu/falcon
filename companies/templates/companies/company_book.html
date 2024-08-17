@@ -1,20 +1,23 @@
-{% extends "pages/home.html" %}
+{% load static i18n %}
 
-{% load static %}
-
-{% block title %}
-  {{ company }} | Book Bus Tickets
-{% endblock title %}
-
-{% block breadcrumb %}
-  {{ company }}
-{% endblock breadcrumb %}
-
-{% block content %}
-  <div class="page-header min-height-200 border-radius-xl"
-       style="background-image: url({% static 'assets/img/curved-images/curved7.avif' %});
-              background-position-y: 50%">
-    {% comment %} <span class="mask bg-gradient-primary opacity-6"></span> {% endcomment %}
-  </div>
-  <h1>Please implement search form here Veer</h1>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ company }} | {% translate "Book bus tickets" %}</title>
+    <link rel="stylesheet" href="{% static 'assets/css/company.css' %}" />
+  </head>
+  <body>
+    <h1>{{ company }}</h1>
+    <p>Hello Veer</p>
+    <ul>
+      <li>Go to gymn</li>
+      <li>Build startup</li>
+      <li>Be grateful</li>
+    </ul>
+    <p>
+      Veer you are <span>blessed</span> with a lot of potential
+    </p>
+  </body>
+</html>
