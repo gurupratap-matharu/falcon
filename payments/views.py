@@ -322,7 +322,7 @@ def mercadopago_webhook(request):
 
     x_signature = request.headers.get("x-signature")
     x_request_id = request.headers.get("x-request-id")
-    data_id = request.GET.get("data.id", [""])[0]
+    data_id = request.GET.get("data.id", [""])
 
     ts = x_signature.split(",")[0].lstrip("ts=")
     token = x_signature.split(",")[1].lstrip("v1=")
