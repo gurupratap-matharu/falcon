@@ -292,7 +292,7 @@ def stripe_webhook(request):
         WebhookMessage.objects.filter(received_at__lte=last_week).delete()
 
         WebhookMessage.objects.create(
-            provider=WebhookMessage.MERCADOPAGO,
+            provider=WebhookMessage.STRIPE,
             received_at=timezone.now(),
             payload=event,
         )
