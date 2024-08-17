@@ -13,8 +13,14 @@ urlpatterns = [
     path("fail/", views.PaymentFailView.as_view(), name="fail"),
     path("cancel/", views.PaymentCancelView.as_view(), name="cancel"),
     path("mercadopago/success/", views.mercadopago_success, name="mercadopago_success"),
-    path("webhooks/stripe/", views.stripe_webhook, name="stripe-webhook"),
     path(
-        "webhooks/mercadopago/", views.mercadopago_webhook, name="mercadopago_webhook"
+        "webhooks/stripe/zoTcqmbblJYYLdyXn6sVyatEh3a3F2ZF/",
+        views.stripe_webhook,
+        name="stripe-webhook",
+    ),
+    path(
+        "webhooks/mercadopago/drSndwy4YXkO15Zx1gABbbspSpxOasfx/",
+        views.mercadopago_webhook,
+        name="mercadopago_webhook",
     ),
 ]
