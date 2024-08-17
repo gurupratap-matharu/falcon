@@ -5,7 +5,7 @@ from typing import Any, Dict
 
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
@@ -268,26 +268,34 @@ def stripe_webhook(request):
     payload = request.body
     event = None
 
-    # logger.info("stripe webhook:payload:%s, sig_header:%s", payload, sig_header)
+    logger.debug("stripe webhook:payload:%s, sig_header:%s", payload, sig_header)
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
 
     except ValueError as e:
         # Invalid payload
-        logger.warning("Invalid payload received in stripe webhook: %s", e)
+        logger.warning("Invalid payload received in stripe webhook: %s" % e)
         return HttpResponseBadRequest()
 
-    except stripe.error.SignatureVerificationError as e:  # type: ignore
+    except stripe.error.SignatureVerificationError as e:
         # Invalid signature
-        logger.warning("Invalid signature received in stripe webhook: %s", e)
-
-        return HttpResponseBadRequest()
+        logger.warning("Invalid signature received in stripe webhook: %s" % e)
+        return HttpResponseForbidden("Invalid signature", content_type="text/plain")
 
     # Handle the checkout.session.completed event
     if event["type"] == "checkout.session.completed":
-        logger.info("Stripe: Payment confirmed 💰🤑💰")
-        logger.info("stripe webhook event(💶): %s", event)
+        logger.info("Stripe:Payment confirmed!")
+        logger.info("Stripe:Webhook event(💶): %s", event)
+
+        last_week = timezone.now() - timedelta(days=7)
+        WebhookMessage.objects.filter(received_at__lte=last_week).delete()
+
+        WebhookMessage.objects.create(
+            provider=WebhookMessage.MERCADOPAGO,
+            received_at=timezone.now(),
+            payload=event,
+        )
 
         order_id = event.data.object.client_reference_id
         payment_id = event.data.object.payment_intent
