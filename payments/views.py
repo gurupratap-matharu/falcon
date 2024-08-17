@@ -317,8 +317,8 @@ def mercadopago_webhook(request):
     A confirmation on this hook is a guarantee that the payment is successful.
     """
 
-    logger.info("mercadopago webhook request.GET(🤝):%s", request.GET)
-    logger.info("mercadopago webhook request.body(🤝):%s", request.body)
+    logger.info("mp webhook request.GET(🤝):%s", request.GET)
+    logger.info("mp webhook request.body(🤝):%s", request.body)
 
     x_signature = request.headers.get("x-signature")
     x_request_id = request.headers.get("x-request-id")
@@ -334,14 +334,6 @@ def mercadopago_webhook(request):
         msg=manifest.encode(),
         digestmod=hashlib.sha256,
     ).hexdigest()
-
-    logger.info("x_signature:%s" % x_signature)
-    logger.info("x_request_id:%s" % x_request_id)
-    logger.info("data_id:%s" % data_id)
-    logger.info("ts:%s" % ts)
-    logger.info("token:%s" % token)
-    logger.info("manifest:%s" % manifest)
-    logger.info("digest:%s" % digest)
 
     if token != digest:
         return HttpResponseForbidden(
