@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 15:33-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "coupon"
 msgstr ""
 
-#: coupons/forms.py:13
+#: coupons/forms.py:13 coupons/templates/coupons/coupon_list.html:40
 msgid "Code"
 msgstr ""
 
@@ -67,6 +67,7 @@ msgid "Valid to date cannot be less than Valid from date"
 msgstr ""
 
 #: coupons/templates/coupons/coupon_form.html:6
+#: coupons/templates/coupons/coupon_form.html:27
 msgid "Coupon Create"
 msgstr ""
 
@@ -76,10 +77,43 @@ msgstr ""
 msgid "Coupons"
 msgstr ""
 
-#: coupons/templates/coupons/coupon_list.html:25
+#: coupons/templates/coupons/coupon_form.html:25
+msgid "Back"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_form.html:43
+msgid "Save"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_list.html:24
+msgid "Dashboard"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_list.html:30
 msgid "Create"
 msgstr ""
 
-#: coupons/templates/coupons/coupon_list.html:29
+#: coupons/templates/coupons/coupon_list.html:34
 msgid "You have no active coupons!"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_list.html:41
+msgid "Valid From"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_list.html:42
+msgid "Vatil Until"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_list.html:43
+#, python-format
+msgid "Discount %%"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_list.html:44
+msgid "Is Valid?"
+msgstr ""
+
+#: coupons/templates/coupons/coupon_list.html:45
+msgid "Is Redeemed?"
 msgstr ""

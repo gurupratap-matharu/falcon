@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 16:02-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,80 +18,105 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
+
 #: cart/templates/cart/cart_detail.html:6
 msgid "Your Cart"
 msgstr "Tu Carrito"
 
 #: cart/templates/cart/cart_detail.html:10
 #: cart/templates/cart/cart_detail.html:14
+#: cart/templates/cart/cart_detail.html:20
 msgid "Cart"
 msgstr "Carrito"
 
-#: cart/templates/cart/cart_detail.html:23
+#: cart/templates/cart/cart_detail.html:28
 msgid "Company"
 msgstr "Empresa"
 
-#: cart/templates/cart/cart_detail.html:24
+#: cart/templates/cart/cart_detail.html:29
 msgid "Origin"
 msgstr "Origen"
 
-#: cart/templates/cart/cart_detail.html:25
+#: cart/templates/cart/cart_detail.html:30
 msgid "Destination"
 msgstr "Destinación"
 
-#: cart/templates/cart/cart_detail.html:26
+#: cart/templates/cart/cart_detail.html:31
 msgid "Quantity"
 msgstr "Cantidad"
 
-#: cart/templates/cart/cart_detail.html:27
+#: cart/templates/cart/cart_detail.html:32
 msgid "Unit Price"
 msgstr "Precio Unidad"
 
-#: cart/templates/cart/cart_detail.html:28
+#: cart/templates/cart/cart_detail.html:33
 msgid "Price"
 msgstr "Precio"
 
-#: cart/templates/cart/cart_detail.html:29
+#: cart/templates/cart/cart_detail.html:34
 msgid "Remove"
 msgstr "Eliminar"
 
-#: cart/templates/cart/cart_detail.html:68
+#: cart/templates/cart/cart_detail.html:73
+msgid "Remove from cart"
+msgstr ""
+
+#: cart/templates/cart/cart_detail.html:82
 msgid "Cart is Empty 🛒"
 msgstr "El carrito está vacío 🛒"
 
-#: cart/templates/cart/cart_detail.html:78
+#: cart/templates/cart/cart_detail.html:92
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: cart/templates/cart/cart_detail.html:92
+#: cart/templates/cart/cart_detail.html:105
 msgid "Coupon"
 msgstr "Cupón"
 
-#: cart/templates/cart/cart_detail.html:106
+#: cart/templates/cart/cart_detail.html:118
 msgid "Total"
 msgstr "Total"
 
-#: cart/templates/cart/cart_detail.html:116
+#: cart/templates/cart/cart_detail.html:131
+msgid "I have coupon"
+msgstr ""
+
+#: cart/templates/cart/cart_detail.html:133
 msgid "Checkout"
 msgstr "Checkout"
 
-#: cart/templates/cart/cart_detail.html:122
-msgid "Coupon Code"
-msgstr "Código de Cupón"
-
-#: cart/templates/cart/cart_detail.html:124
-msgid "(Used one time)"
-msgstr "(Se usa una vez)"
-
 #: cart/templates/cart/cart_detail.html:144
-#, python-format
-msgid ""
-"\n"
-"            <a href=\"%(contact_url)s\">Contact us</a> to generate more "
-"referrals link.\n"
-"            "
+#, fuzzy
+#| msgid "Coupon"
+msgid "Apply Coupon"
+msgstr "Cupón"
+
+#: cart/templates/cart/cart_detail.html:163
+msgid "Cancel"
 msgstr ""
-"\n"
-"            <a href=\"%(contact_url)s\">Contactanos</a> para generar mas "
-"enlaces de referencia.\n"
-"            "
+
+#: cart/templates/cart/cart_detail.html:164
+msgid "Apply"
+msgstr ""
+
+#: cart/views.py:23
+msgid "You can add a maximum of one trip to your cart."
+msgstr ""
+
+#~ msgid "Coupon Code"
+#~ msgstr "Código de Cupón"
+
+#~ msgid "(Used one time)"
+#~ msgstr "(Se usa una vez)"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "            <a href=\"%(contact_url)s\">Contact us</a> to generate more "
+#~ "referrals link.\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "            <a href=\"%(contact_url)s\">Contactanos</a> para generar mas "
+#~ "enlaces de referencia.\n"
+#~ "            "

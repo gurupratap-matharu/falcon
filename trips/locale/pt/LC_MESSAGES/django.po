@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-17 13:18-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,312 +18,618 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: trips/admin.py:26
+#: trips/admin.py:24
 msgid "Time"
 msgstr "Tempo"
 
-#: trips/admin.py:40
+#: trips/admin.py:38
 msgid "Future 7 days"
 msgstr "Futuro 7 dias"
 
-#: trips/admin.py:41
+#: trips/admin.py:39
 msgid "Future 30 days"
 msgstr "Futuro 30 dias"
 
-#: trips/forms.py:85
+#: trips/forms.py:81
 msgid "Departure date is invalid"
 msgstr "A data de partida é inválida"
 
-#: trips/forms.py:93 trips/forms.py:223
+#: trips/forms.py:89 trips/forms.py:215
 msgid "Departure cannot be in the past!"
 msgstr "A partida não pode estar no passado!"
 
-#: trips/forms.py:117
+#: trips/forms.py:113
 msgid "Return date is invalid"
 msgstr "A data de volta é inválidà"
 
-#: trips/forms.py:130 trips/forms.py:136
+#: trips/forms.py:126 trips/forms.py:132
 msgid "Trip type is not valid"
 msgstr "Trip type é inválida"
 
-#: trips/forms.py:148 trips/forms.py:156
+#: trips/forms.py:142 trips/forms.py:150
 msgid "Number of passengers is not valid"
 msgstr "O número de passageiros é inválido"
 
-#: trips/forms.py:214
+#: trips/forms.py:206
 msgid "origin and destination cannot be same"
 msgstr "Origem e destino não podem ser iguais"
 
-#: trips/forms.py:227
+#: trips/forms.py:219
 msgid "Arrival cannot be earlier than departure!"
 msgstr "A chegada não pode ser anterior à partida!"
 
-#: trips/forms.py:237
+#: trips/forms.py:229
 msgid "Every Hour"
 msgstr "Toda hora"
 
-#: trips/forms.py:238
+#: trips/forms.py:230
 msgid "Every Day"
 msgstr "Diariamente"
 
-#: trips/forms.py:239
+#: trips/forms.py:231
 msgid "Every Week"
 msgstr "Toda semana"
 
-#: trips/forms.py:240
+#: trips/forms.py:232
 msgid "Every Month"
 msgstr "Todo mês"
 
-#: trips/forms.py:256
+#: trips/forms.py:248
 msgid "Starts"
 msgstr "Início"
 
-#: trips/forms.py:258
+#: trips/forms.py:250
 msgid "Please enter start date"
 msgstr "Insira a data de início"
 
-#: trips/forms.py:263
+#: trips/forms.py:255
 msgid "Repeats"
 msgstr "Repete"
 
-#: trips/forms.py:264
+#: trips/forms.py:256
 msgid "Frequency of the event (required)"
 msgstr "Frequência do evento"
 
-#: trips/forms.py:270
+#: trips/forms.py:262
 msgid "End Repeat"
 msgstr "Repetição final"
 
-#: trips/forms.py:271 trips/forms.py:344
+#: trips/forms.py:263 trips/forms.py:336
 msgid "Provide either End repeat or Count."
 msgstr "Forneça repetição final ou contagem"
 
-#: trips/forms.py:277
+#: trips/forms.py:269
 msgid "Count"
 msgstr "Count"
 
-#: trips/forms.py:279
+#: trips/forms.py:271
 msgid ""
 "(Optional) End repeat after these many occurrences (between 0-1000). Provide "
 "either End repeat or Count."
 msgstr ""
-"(Opcional) Finalize a repetição após essas muitas ocorrências (entre 0-1000). Forneça "
-"Encerrar repetição ou Contar."
+"(Opcional) Finalize a repetição após essas muitas ocorrências (entre "
+"0-1000). Forneça Encerrar repetição ou Contar."
 
-#: trips/forms.py:288
+#: trips/forms.py:280
 msgid "Interval"
 msgstr "Intervalo"
 
-#: trips/forms.py:291
+#: trips/forms.py:283
 msgid ""
 "(Optional) Time between consecutive occurrences. Ex 1: every day, 2: every "
 "other day, 3: every third day and so on..."
 msgstr ""
-"(Opcional) Tempo entre ocorrências consecutivas. Ex 1: todos os dias, 2: todos"
-"outro dia, 3: a cada três dias e assim por diante..."
+"(Opcional) Tempo entre ocorrências consecutivas. Ex 1: todos os dias, 2: "
+"todosoutro dia, 3: a cada três dias e assim por diante..."
 
-#: trips/forms.py:304
+#: trips/forms.py:296
 #, python-format
 msgid "datetime (%(dt)s) cannot be in the past!"
 msgstr "date e hora (%(dt)s) não pode estar no passado"
 
-#: trips/forms.py:339
+#: trips/forms.py:331
 msgid "End time cannot be less than Start time."
 msgstr "o horário de término não pode ser menor que o horário de início"
 
-#: trips/forms.py:389
-msgid "origin and destination cannot be the same."
-msgstr "origem e destino não podem ser iguais"
-
-#: trips/models.py:31 trips/models.py:98 trips/models.py:241
+#: trips/models.py:33 trips/models.py:94 trips/models.py:337
 msgid "name"
 msgstr "nome"
 
-#: trips/models.py:32 trips/models.py:99 trips/models.py:242
+#: trips/models.py:34 trips/models.py:95 trips/models.py:338
 msgid "slug"
 msgstr "slug"
 
-#: trips/models.py:34
+#: trips/models.py:36
 msgid "abbreviation"
 msgstr "abreviação"
 
-#: trips/models.py:37
+#: trips/models.py:40
 msgid "Used internally as a reference"
 msgstr "Usado internamente como referêncià"
 
-#: trips/models.py:39
+#: trips/models.py:42
 msgid "Address line 1"
 msgstr "Endereço linea 1"
 
-#: trips/models.py:40
+#: trips/models.py:43
 msgid "Address line 2"
 msgstr "Endereço linea 2"
 
-#: trips/models.py:41
+#: trips/models.py:44
 msgid "City"
 msgstr "Cidade"
 
-#: trips/models.py:42
+#: trips/models.py:45
 msgid "State/Province"
 msgstr "Província"
 
-#: trips/models.py:43
+#: trips/models.py:46
 msgid "Postal Code"
 msgstr "Código postal"
 
-#: trips/models.py:44
+#: trips/models.py:47
 msgid "(select country)"
 msgstr "(selecione o pais)"
 
-#: trips/models.py:46
+#: trips/models.py:49
 msgid "Latitude"
 msgstr "Latitude"
 
-#: trips/models.py:49
+#: trips/models.py:52
 msgid "Longitude"
 msgstr "Longitude"
 
-#: trips/models.py:54
+#: trips/models.py:59
 msgid "location"
 msgstr "localizaçõ"
 
-#: trips/models.py:55
+#: trips/models.py:60
 msgid "locations"
 msgstr "localizações"
 
-#: trips/models.py:100 trips/models.py:267
+#: trips/models.py:96 trips/models.py:361
 msgid "description"
 msgstr "descrição"
 
-#: trips/models.py:101 trips/models.py:266
+#: trips/models.py:97 trips/models.py:360
 msgid "image"
 msgstr "imagem"
 
-#: trips/models.py:103
-msgid "category"
-msgstr "categoria"
-
-#: trips/models.py:118
+#: trips/models.py:112
 msgid "Duration in Hours"
 msgstr "Duração em horas"
 
-#: trips/models.py:122 trips/models.py:252
-msgid "price"
-msgstr "preço"
-
-#: trips/models.py:124
+#: trips/models.py:117
 msgid "active"
 msgstr "ativo"
 
-#: trips/models.py:129
+#: trips/models.py:122
 msgid "route"
 msgstr "rota"
 
-#: trips/models.py:130
+#: trips/models.py:123
 msgid "routes"
 msgstr "rotas"
 
-#: trips/models.py:190
+#: trips/models.py:214
 msgid "arrival"
 msgstr "chegada"
 
-#: trips/models.py:191
+#: trips/models.py:217
 msgid "departure"
 msgstr "partida"
 
-#: trips/models.py:199
+#: trips/models.py:226
 msgid "stop"
 msgstr "parada"
 
-#: trips/models.py:200
+#: trips/models.py:227
 msgid "stops"
 msgstr "paradas"
 
-#: trips/models.py:249
+#: trips/models.py:259
+#, fuzzy
+#| msgid "Count"
+msgid "amount"
+msgstr "Count"
+
+#: trips/models.py:262 trips/models.py:329
+msgid "category"
+msgstr "categoria"
+
+#: trips/models.py:268
+msgid "price"
+msgstr "preço"
+
+#: trips/models.py:269
+#, fuzzy
+#| msgid "price"
+msgid "prices"
+msgstr "preço"
+
+#: trips/models.py:345
 msgid "Departure Date & Time"
 msgstr "Data e hora de partida"
 
-#: trips/models.py:250
+#: trips/models.py:346
 msgid "Arrival Date & Time"
 msgstr "Data e hora de chegada"
 
-#: trips/models.py:255
+#: trips/models.py:347
+msgid "schedule"
+msgstr ""
+
+#: trips/models.py:349
 msgid "status"
 msgstr "estado"
 
-#: trips/models.py:261
+#: trips/models.py:355
 msgid "mode"
 msgstr "modo"
 
-#: trips/models.py:277
+#: trips/models.py:371
 msgid "trip"
 msgstr "trip"
 
-#: trips/models.py:278
+#: trips/models.py:372
 msgid "trips"
 msgstr "trips"
 
-#: trips/models.py:291
+#: trips/models.py:388
 msgid "Arrival date cannot be less than departure date"
 msgstr "A data de chegada não pode ser inferior à data de partida"
 
-#: trips/models.py:533
+#: trips/models.py:664
 msgid "seat number"
 msgstr "Número de assento"
 
-#: trips/models.py:536
+#: trips/models.py:667
 msgid "seat type"
 msgstr "Tipo de assento"
 
-#: trips/models.py:539
+#: trips/models.py:670
 msgid "seat status"
 msgstr "Estado do assento"
 
-#: trips/models.py:544
+#: trips/models.py:675
 msgid "seat"
 msgstr "assento"
 
-#: trips/models.py:545
+#: trips/models.py:676
 msgid "seats"
 msgstr "assentos"
 
 #: trips/templates/trips/admin_route_detail.html:9
-#: trips/templates/trips/price_grid.html:9
-msgid "Kpiola 🚌"
+msgid "Ventanita"
 msgstr ""
+
+#: trips/templates/trips/company_route_detail.html:32
+#, fuzzy
+#| msgid "routes"
+msgid "All Routes"
+msgstr "rotas"
+
+#: trips/templates/trips/company_route_detail.html:38
+#, fuzzy
+#| msgid "stops"
+msgid "Stops"
+msgstr "paradas"
+
+#: trips/templates/trips/company_route_detail.html:46
+#: trips/templates/trips/company_route_list.html:36
+#: trips/templates/trips/company_trip_detail.html:47
+#: trips/templates/trips/trip_passengers_pdf.html:45
+msgid "Company"
+msgstr ""
+
+#: trips/templates/trips/company_route_detail.html:47
+#: trips/templates/trips/company_route_detail.html:75
+#: trips/templates/trips/company_route_list.html:37
+#: trips/templates/trips/company_trip_detail.html:48
+#: trips/templates/trips/company_trip_list.html:42
+#: trips/templates/trips/trip_passengers_pdf.html:46
+msgid "Origin"
+msgstr ""
+
+#: trips/templates/trips/company_route_detail.html:48
+#: trips/templates/trips/company_route_detail.html:76
+#: trips/templates/trips/company_route_list.html:38
+#: trips/templates/trips/company_trip_detail.html:49
+#: trips/templates/trips/company_trip_list.html:43
+#: trips/templates/trips/trip_passengers_pdf.html:47
+#, fuzzy
+#| msgid "description"
+msgid "Destination"
+msgstr "descrição"
+
+#: trips/templates/trips/company_route_detail.html:49
+#: trips/templates/trips/company_route_list.html:39
+#, fuzzy
+#| msgid "Duration in Hours"
+msgid "Duration"
+msgstr "Duração em horas"
+
+#: trips/templates/trips/company_route_detail.html:68
+#, fuzzy
+#| msgid "price"
+msgid "Prices"
+msgstr "preço"
+
+#: trips/templates/trips/company_route_detail.html:77
+#, fuzzy
+#| msgid "category"
+msgid "Category"
+msgstr "categoria"
+
+#: trips/templates/trips/company_route_detail.html:78
+#, fuzzy
+#| msgid "Count"
+msgid "Amount"
+msgstr "Count"
+
+#: trips/templates/trips/company_route_detail.html:109
+#: trips/templates/trips/trip_detail.html:36
+msgid "Order"
+msgstr ""
+
+#: trips/templates/trips/company_route_detail.html:110
+#: trips/templates/trips/company_trip_detail.html:122
+#: trips/templates/trips/trip_passengers_pdf.html:70
+msgid "Name"
+msgstr ""
+
+#: trips/templates/trips/company_route_detail.html:111
+#: trips/templates/trips/company_trip_detail.html:51
+#: trips/templates/trips/company_trip_list.html:45
+#: trips/templates/trips/trip_detail.html:38
+#: trips/templates/trips/trip_passengers_pdf.html:49
+#, fuzzy
+#| msgid "arrival"
+msgid "Arrival"
+msgstr "chegada"
+
+#: trips/templates/trips/company_route_detail.html:112
+#: trips/templates/trips/company_trip_detail.html:50
+#: trips/templates/trips/company_trip_list.html:44
+#: trips/templates/trips/trip_detail.html:39
+#: trips/templates/trips/trip_passengers_pdf.html:48
+#, fuzzy
+#| msgid "departure"
+msgid "Departure"
+msgstr "partida"
+
+#: trips/templates/trips/company_route_detail.html:124
+#: trips/templates/trips/trip_detail.html:51
+msgid "There are no stops for this route."
+msgstr ""
+
+#: trips/templates/trips/company_route_detail.html:130
+msgid "Close"
+msgstr ""
+
+#: trips/templates/trips/company_route_list.html:6
+#: trips/templates/trips/company_route_list.html:10
+#, fuzzy
+#| msgid "routes"
+msgid "Routes"
+msgstr "rotas"
+
+#: trips/templates/trips/company_route_list.html:29
+msgid "You have no routes yet!"
+msgstr ""
+
+#: trips/templates/trips/company_route_list.html:40
+#: trips/templates/trips/company_trip_list.html:49
+msgid "View"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:6
+#: trips/templates/trips/company_trip_detail.html:10
+#: trips/templates/trips/trip_passengers_pdf.html:10
+msgid "Passenger List"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:24
+msgid "All Trips"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:31
+msgid "Update Trip"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:37
+#: trips/templates/trips/recurrence_form.html:28
+msgid "Create Recurrence"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:52
+#: trips/templates/trips/company_trip_list.html:46
+msgid "Occupancy"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:53
+#: trips/templates/trips/company_trip_detail.html:127
+#: trips/templates/trips/company_trip_list.html:47
+#: trips/templates/trips/trip_passengers_pdf.html:50
+#: trips/templates/trips/trip_passengers_pdf.html:75
+#, fuzzy
+#| msgid "status"
+msgid "Status"
+msgstr "estado"
+
+#: trips/templates/trips/company_trip_detail.html:54
+#: trips/templates/trips/trip_passengers_pdf.html:51
+#, fuzzy
+#| msgid "Seats available"
+msgid "Seats Available"
+msgstr "Assentos disponíveis"
+
+#: trips/templates/trips/company_trip_detail.html:107
+msgid "Passengers"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:112
+msgid "Download"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:121
+#, fuzzy
+#| msgid "seat number"
+msgid "Seat Number"
+msgstr "Número de assento"
+
+#: trips/templates/trips/company_trip_detail.html:123
+#: trips/templates/trips/trip_passengers_pdf.html:73
+msgid "Nationality"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:124
+#: trips/templates/trips/trip_passengers_pdf.html:74
+msgid "Gender"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:125
+#: trips/templates/trips/trip_passengers_pdf.html:71
+msgid "Document"
+msgstr ""
+
+#: trips/templates/trips/company_trip_detail.html:126
+#: trips/templates/trips/trip_passengers_pdf.html:72
+msgid "Number"
+msgstr ""
+
+#: trips/templates/trips/company_trip_list.html:10
+#, fuzzy
+#| msgid "trips"
+msgid "Trips"
+msgstr "trips"
+
+#: trips/templates/trips/company_trip_list.html:30
+msgid "Create"
+msgstr ""
+
+#: trips/templates/trips/company_trip_list.html:35
+msgid "You have no upcoming trips!"
+msgstr ""
+
+#: trips/templates/trips/company_trip_list.html:48
+#, fuzzy
+#| msgid "Seats available"
+msgid "Available"
+msgstr "Assentos disponíveis"
+
+#: trips/templates/trips/location_detail.html:10
+#, fuzzy
+#| msgid "location"
+msgid "Location"
+msgstr "localizaçõ"
+
+#: trips/templates/trips/location_detail.html:28
+msgid "Where is"
+msgstr ""
+
+#: trips/templates/trips/location_detail.html:31
+#, fuzzy
+#| msgid "Address line 1"
+msgid "Address"
+msgstr "Endereço linea 1"
+
+#: trips/templates/trips/recurrence_form.html:6
+#: trips/templates/trips/recurrence_form.html:48
+msgid "Create Recurrences"
+msgstr ""
+
+#: trips/templates/trips/recurrence_form.html:14
+msgid "Recurrence"
+msgstr ""
+
+#: trips/templates/trips/recurrence_form.html:46
+msgid "Reset"
+msgstr ""
+
+#: trips/templates/trips/trip_detail.html:24
+#: trips/templates/trips/trip_form.html:30
+msgid "Back"
+msgstr ""
+
+#: trips/templates/trips/trip_detail.html:37
+msgid "Stop"
+msgstr ""
+
+#: trips/templates/trips/trip_form.html:6
+msgid "Create|Update Trip"
+msgstr ""
+
+#: trips/templates/trips/trip_form.html:15
+#, fuzzy
+#| msgid "trip"
+msgid "Edit trip"
+msgstr "trip"
+
+#: trips/templates/trips/trip_form.html:17
+#: trips/templates/trips/trip_form.html:36
+msgid "Create a new trip"
+msgstr ""
+
+#: trips/templates/trips/trip_form.html:34
+msgid "Edit"
+msgstr ""
+
+#: trips/templates/trips/trip_form.html:65
+msgid "Cancel"
+msgstr ""
+
+#: trips/templates/trips/trip_form.html:66
+msgid "Save"
+msgstr ""
+
+#: trips/templates/trips/trip_list.html:9
+#, fuzzy
+#| msgid "No results!"
+msgid "Search results"
+msgstr "Sem resultados!"
 
 #: trips/templates/trips/trip_list.html:22
 msgid "Results"
 msgstr "Resultados"
 
-#: trips/templates/trips/trip_list.html:49
+#: trips/templates/trips/trip_list.html:61
 msgid "Cheapest"
 msgstr "Precio"
 
-#: trips/templates/trips/trip_list.html:50
+#: trips/templates/trips/trip_list.html:62
 msgid "Earliest"
 msgstr "Mais antigo"
 
-#: trips/templates/trips/trip_list.html:51
+#: trips/templates/trips/trip_list.html:63
 msgid "Latest"
 msgstr "Mais recente"
 
-#: trips/templates/trips/trip_list.html:67
+#: trips/templates/trips/trip_list.html:90
 msgid "Accepts all major cards"
 msgstr "Aceita todos os principais cartões"
 
-#: trips/templates/trips/trip_list.html:70
+#: trips/templates/trips/trip_list.html:95
 msgid "Cash accepted"
 msgstr "Dinheiro aceito"
 
-#: trips/templates/trips/trip_list.html:76
+#: trips/templates/trips/trip_list.html:100
 msgid "Seats available"
 msgstr "Assentos disponíveis"
 
-#: trips/templates/trips/trip_list.html:77
+#: trips/templates/trips/trip_list.html:104
 msgid "Seat Type"
 msgstr "Tipo de assento"
 
-#: trips/templates/trips/trip_list.html:116
+#: trips/templates/trips/trip_list.html:149
 msgid "No results!"
 msgstr "Sem resultados!"
+
+#: trips/templates/trips/trip_passengers_pdf.html:69
+#, fuzzy
+#| msgid "Seat Type"
+msgid "Seat"
+msgstr "Tipo de assento"
+
+#~ msgid "origin and destination cannot be the same."
+#~ msgstr "origem e destino não podem ser iguais"

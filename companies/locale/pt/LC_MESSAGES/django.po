@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-15 14:28-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,191 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: companies/models.py:22
+
+#: companies/models.py:28
 msgid "name"
 msgstr ""
 
-#: companies/models.py:23
+#: companies/models.py:29
 msgid "slug"
 msgstr ""
 
-#: companies/models.py:24
+#: companies/models.py:30
 msgid "description"
 msgstr ""
 
-#: companies/models.py:25
+#: companies/models.py:31
 msgid "website"
 msgstr ""
 
-#: companies/models.py:26
+#: companies/models.py:32
 msgid "address"
 msgstr ""
 
-#: companies/models.py:27
+#: companies/models.py:33
 msgid "phone"
 msgstr ""
 
-#: companies/models.py:28
+#: companies/models.py:34
 msgid "email"
 msgstr ""
 
-#: companies/models.py:30
+#: companies/models.py:36
 msgid "Cover photo"
 msgstr ""
 
-#: companies/models.py:35
+#: companies/models.py:41
 msgid "Thumbnail photo"
 msgstr ""
 
-#: companies/models.py:50
+#: companies/models.py:58
 msgid "company"
 msgstr ""
 
-#: companies/models.py:51
+#: companies/models.py:59
 msgid "companies"
 msgstr ""
 
-#: companies/models.py:98
+#: companies/models.py:109
 msgid "title"
 msgstr ""
 
-#: companies/models.py:99
+#: companies/models.py:110
 msgid "json"
 msgstr ""
 
-#: companies/models.py:108
+#: companies/models.py:119
 msgid "seat chart"
 msgstr ""
 
-#: companies/models.py:109
+#: companies/models.py:120
 msgid "seat charts"
+msgstr ""
+
+#: companies/templates/companies/company_book.html:8
+msgid "Book bus tickets"
+msgstr ""
+
+#: companies/templates/companies/company_detail.html:10
+#: companies/templates/companies/company_list.html:6
+#: companies/templates/companies/company_list.html:10
+msgid "Companies"
+msgstr ""
+
+#: companies/templates/companies/company_detail.html:27
+#: companies/templates/companies/seatchart_detail.html:28
+msgid "Back"
+msgstr ""
+
+#: companies/templates/companies/company_detail.html:34
+#: companies/templates/companies/company_list.html:41
+msgid "Book"
+msgstr ""
+
+#: companies/templates/companies/company_list.html:14
+msgid "All"
+msgstr ""
+
+#: companies/templates/companies/company_list.html:30
+msgid "Luxury Suite • 12 Buses • 3 Routes"
+msgstr ""
+
+#: companies/templates/companies/company_list.html:39
+msgid "Admin"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:10
+#: companies/templates/companies/passengers.html:24
+msgid "Dashboard"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:25
+msgid "Today's Money"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:49
+msgid "Today's Occupancy"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:74
+msgid "New Bookings"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:99
+msgid "Trips"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:130
+msgid "No upcoming trips"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:137
+msgid "Route"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:138
+msgid "Departure"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:139
+msgid "Revenue"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:140
+msgid "Occupancy"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:178
+msgid "View"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:213
+msgid "Coupons"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:232
+msgid "Seatcharts"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:251
+msgid "Live status"
+msgstr ""
+
+#: companies/templates/companies/dashboard.html:270
+#: companies/templates/companies/passengers.html:6
+#: companies/templates/companies/passengers.html:10
+msgid "Passengers"
+msgstr ""
+
+#: companies/templates/companies/passengers.html:32
+msgid "Name"
+msgstr ""
+
+#: companies/templates/companies/passengers.html:33
+msgid "Document Type"
+msgstr ""
+
+#: companies/templates/companies/passengers.html:34
+msgid "Document Number"
+msgstr ""
+
+#: companies/templates/companies/passengers.html:35
+msgid "Nationality"
+msgstr ""
+
+#: companies/templates/companies/passengers.html:36
+msgid "Gender"
+msgstr ""
+
+#: companies/templates/companies/passengers.html:37
+msgid "Phone Number"
+msgstr ""
+
+#: companies/templates/companies/seatchart_list.html:6
+#: companies/templates/companies/seatchart_list.html:14
+msgid "SeatCharts"
+msgstr ""
+
+#: companies/templates/companies/seatchart_list.html:22
+msgid "You do not have any seatcharts yet!"
 msgstr ""

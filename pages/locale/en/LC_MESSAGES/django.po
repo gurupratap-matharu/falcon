@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-17 12:58-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgid "Message"
 msgstr ""
 
 #: pages/templates/pages/about.html:14
-msgid "About Kpiola"
+msgid "About Ventanita"
 msgstr ""
 
 #: pages/templates/pages/about.html:15
@@ -70,16 +70,20 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
-#: pages/templates/pages/contact.html:25 pages/templates/pages/feedback.html:25
+#: pages/templates/pages/contact.html:29 pages/templates/pages/feedback.html:29
 msgid "Send"
 msgstr ""
 
-#: pages/templates/pages/contact.html:31 pages/templates/pages/feedback.html:31
+#: pages/templates/pages/contact.html:32 pages/templates/pages/feedback.html:32
 msgid "Go back Home"
 msgstr ""
 
 #: pages/templates/pages/feedback.html:6 pages/templates/pages/feedback.html:12
 msgid "Feedback"
+msgstr ""
+
+#: pages/templates/pages/help.html:6
+msgid "Help"
 msgstr ""
 
 #: pages/templates/pages/home.html:16
@@ -94,26 +98,30 @@ msgstr ""
 msgid "Origin"
 msgstr ""
 
-#: pages/templates/pages/home.html:50
+#: pages/templates/pages/home.html:48
 msgid "Leaving from"
 msgstr ""
 
-#: pages/templates/pages/home.html:56
+#: pages/templates/pages/home.html:55
 msgid "Destination"
 msgstr ""
 
-#: pages/templates/pages/home.html:68
+#: pages/templates/pages/home.html:65
 msgid "Going to"
 msgstr ""
 
-#: pages/templates/pages/home.html:74 pages/templates/pages/home.html:126
+#: pages/templates/pages/home.html:71 pages/templates/pages/home.html:133
 msgid "Departure"
 msgstr ""
 
-#: pages/templates/pages/home.html:90
+#: pages/templates/pages/home.html:87
 msgid "Return (Optional)"
 msgstr ""
 
-#: pages/templates/pages/home.html:147
+#: pages/templates/pages/home.html:115
+msgid "Explore"
+msgstr ""
+
+#: pages/templates/pages/home.html:153
 msgid "Return"
 msgstr ""

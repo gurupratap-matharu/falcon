@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-17 12:23-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: payments/models.py:16
+msgid "provider"
+msgstr ""
+
+#: payments/models.py:19
+msgid "payload"
+msgstr ""
+
+#: payments/models.py:22
+msgid "webhook message"
+msgstr ""
+
+#: payments/models.py:23
+msgid "webhook messages"
+msgstr ""
+
+#: payments/templates/payments/payment.html:6
+#: payments/templates/payments/payment.html:10
+msgid "Payment"
+msgstr ""
+
+#: payments/templates/payments/payment.html:14
+msgid "Choose option"
+msgstr ""
+
+#: payments/templates/payments/payment.html:59
+msgid "U$D"
+msgstr ""
+
 #: payments/templates/payments/payment_cancel.html:6
-#: payments/templates/payments/payment_cancel.html:15
+#: payments/templates/payments/payment_cancel.html:23
 msgid "Payment Cancel"
 msgstr ""
 
-#: payments/templates/payments/payment_cancel.html:17
+#: payments/templates/payments/payment_cancel.html:25
 msgid ""
 "We have not yet received a confirmation for your payment and it is showing "
 "cancel status."
 msgstr ""
 
-#: payments/templates/payments/payment_cancel.html:20
-#: payments/templates/payments/payment_pending.html:22
+#: payments/templates/payments/payment_cancel.html:28
+#: payments/templates/payments/payment_pending.html:30
 #, python-format
 msgid ""
 "Please don't make another payment for this order.\n"
@@ -39,18 +68,18 @@ msgid ""
 "underline\"><strong>contact us here</strong></a>"
 msgstr ""
 
-#: payments/templates/payments/payment_cancel.html:25
-#: payments/templates/payments/payment_fail.html:26
-#: payments/templates/payments/payment_pending.html:27
+#: payments/templates/payments/payment_cancel.html:33
+#: payments/templates/payments/payment_fail.html:38
+#: payments/templates/payments/payment_pending.html:39
 msgid "Go back home"
 msgstr ""
 
 #: payments/templates/payments/payment_fail.html:6
-#: payments/templates/payments/payment_fail.html:15
+#: payments/templates/payments/payment_fail.html:23
 msgid "Payment Unsuccessful"
 msgstr ""
 
-#: payments/templates/payments/payment_fail.html:19
+#: payments/templates/payments/payment_fail.html:27
 #, python-format
 msgid ""
 "\n"
@@ -61,16 +90,16 @@ msgid ""
 "          "
 msgstr ""
 
-#: payments/templates/payments/payment_fail.html:27
+#: payments/templates/payments/payment_fail.html:39
 msgid "Try again"
 msgstr ""
 
 #: payments/templates/payments/payment_pending.html:6
-#: payments/templates/payments/payment_pending.html:15
+#: payments/templates/payments/payment_pending.html:23
 msgid "Payment Pending"
 msgstr ""
 
-#: payments/templates/payments/payment_pending.html:18
+#: payments/templates/payments/payment_pending.html:26
 msgid ""
 "We have not yet received a confirmation for your payment and it is showing "
 "pending status. Incase the payment status is resolved you will get your "
@@ -81,29 +110,29 @@ msgstr ""
 msgid "Payment Successful"
 msgstr ""
 
-#: payments/templates/payments/payment_success.html:17
+#: payments/templates/payments/payment_success.html:20
 msgid "Payment Successful!"
 msgstr ""
 
-#: payments/templates/payments/payment_success.html:21
+#: payments/templates/payments/payment_success.html:24
 msgid "Tickets Booked!"
 msgstr ""
 
-#: payments/templates/payments/payment_success.html:23
+#: payments/templates/payments/payment_success.html:26
 #, python-format
 msgid ""
 "We have sent a confirmation email to %(email)s\n"
-"          "
+"            "
 msgstr ""
 
-#: payments/templates/payments/payment_success.html:37
+#: payments/templates/payments/payment_success.html:42
 msgid "Download PDF"
 msgstr ""
 
-#: payments/templates/payments/payment_success.html:49
+#: payments/templates/payments/payment_success.html:56
 msgid "Add to calendar"
 msgstr ""
 
-#: payments/templates/payments/payment_success.html:57
+#: payments/templates/payments/payment_success.html:66
 msgid "Book Return Ticket"
 msgstr ""

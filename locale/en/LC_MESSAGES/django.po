@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 15:50-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,16 +18,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: main/settings.py:217
-msgid "English"
+#: main/settings.py:92
+msgid "Your session has expired. Please search again 🙏"
 msgstr ""
 
 #: main/settings.py:218
-msgid "Spanish"
+msgid "English"
 msgstr ""
 
 #: main/settings.py:219
+msgid "Spanish"
+msgstr ""
+
+#: main/settings.py:220
 msgid "Portuguese"
+msgstr ""
+
+#: templates/404.html:6
+msgid "404 Not Found"
+msgstr ""
+
+#: templates/404.html:13
+msgid "Error 404"
+msgstr ""
+
+#: templates/404.html:14
+msgid "Uff. Page not found"
+msgstr ""
+
+#: templates/404.html:15 templates/500.html:15
+msgid "We suggest you to go to the homepage while we solve this issue."
+msgstr ""
+
+#: templates/404.html:21 templates/500.html:21
+msgid "Go back home"
+msgstr ""
+
+#: templates/500.html:6
+msgid "500 Server Error"
+msgstr ""
+
+#: templates/500.html:13
+msgid "Error 500"
+msgstr ""
+
+#: templates/500.html:14
+msgid "Something went wrong"
 msgstr ""
 
 #: templates/account/account_inactive.html:6
@@ -82,7 +118,7 @@ msgid ""
 msgstr ""
 
 #: templates/account/email_confirm.html:25
-#: templates/includes/seat_modal.html:41
+#: templates/includes/seat_modal.html:45
 msgid "Confirm"
 msgstr ""
 
@@ -96,43 +132,73 @@ msgid ""
 "        "
 msgstr ""
 
-#: templates/account/login.html:9
+#: templates/account/login.html:6 templates/account/login.html:86
+#: templates/account/signup.html:84
 msgid "Sign in"
 msgstr ""
 
-#: templates/account/logout.html:8
+#: templates/account/login.html:12
+msgid "Welcome Back"
+msgstr ""
+
+#: templates/account/login.html:28
+msgid "Login with Facebook"
+msgstr ""
+
+#: templates/account/login.html:50
+msgid "Login with Google"
+msgstr ""
+
+#: templates/account/login.html:92
+msgid "Don't have an account?"
+msgstr ""
+
+#: templates/account/login.html:93
+msgid "Sign up"
+msgstr ""
+
+#: templates/account/logout.html:6
 msgid "Log out"
 msgstr ""
 
-#: templates/account/logout.html:15
+#: templates/account/logout.html:13
 msgid "Are you sure you wish to sign out?"
 msgstr ""
 
 #: templates/account/password_change.html:6
 #: templates/account/password_change.html:12
-#: templates/account/password_change.html:26
+#: templates/account/password_change.html:25
 #: templates/account/password_reset_from_key.html:6
 #: templates/account/password_reset_from_key.html:16
 msgid "Change Password"
 msgstr ""
 
-#: templates/account/password_change.html:33
+#: templates/account/password_change.html:31
 msgid "Forgot Password?"
 msgstr ""
 
-#: templates/account/password_reset.html:8
+#: templates/account/password_reset.html:6
+#: templates/account/password_reset.html:12
 #: templates/account/password_reset_done.html:8
 msgid "Password Reset"
 msgstr ""
 
-#: templates/account/password_reset.html:15
+#: templates/account/password_reset.html:13
 msgid ""
 "Enter your e-mail address below, and we'll send you an e-mail allowing you "
 "to reset it."
 msgstr ""
 
-#: templates/account/password_reset.html:33
+#: templates/account/password_reset.html:31
 msgid "Reset My Password"
+msgstr ""
+
+#: templates/account/password_reset.html:37
+msgid "Incase of trouble you can"
+msgstr ""
+
+#: templates/account/password_reset.html:38
+msgid "contact us here"
 msgstr ""
 
 #: templates/account/password_reset_done.html:23
@@ -173,8 +239,33 @@ msgid "Your password is now changed. Please login"
 msgstr ""
 
 #: templates/account/password_set.html:6 templates/account/password_set.html:12
-#: templates/account/password_set.html:25
+#: templates/account/password_set.html:24
 msgid "Set Password"
+msgstr ""
+
+#: templates/account/signup.html:6 templates/socialaccount/signup.html:6
+msgid "Signup"
+msgstr ""
+
+#: templates/account/signup.html:14 templates/socialaccount/signup.html:12
+#: templates/socialaccount/signup.html:34
+msgid "Sign Up"
+msgstr ""
+
+#: templates/account/signup.html:33
+msgid "Signup with Facebook"
+msgstr ""
+
+#: templates/account/signup.html:57
+msgid "Signup with Google"
+msgstr ""
+
+#: templates/account/signup.html:81
+msgid "SignUp"
+msgstr ""
+
+#: templates/account/signup.html:84
+msgid "Already have an account?"
 msgstr ""
 
 #: templates/account/verification_sent.html:6
@@ -184,133 +275,131 @@ msgstr ""
 
 #: templates/account/verification_sent.html:16
 msgid ""
-"We have sent an e-mail to you for verification. Follow the link provided to "
-"finalize the\n"
-"            signup process.<br /><br />\n"
 "\n"
-"            If you do not see the verification e-mail in your main inbox, "
-"check your spam folder.\n"
-"            "
+"        We have sent an e-mail to you for verification. Follow the link "
+"provided to finalize the signup process.<br /><br />\n"
+"        If you do not see the verification e-mail in your main inbox, check "
+"your spam folder.\n"
+"        "
 msgstr ""
 
-#: templates/includes/footer-grand.html:59
-#: templates/includes/trip_summary.html:41
+#: templates/includes/footer-grand.html:75
 msgid "Company"
 msgstr ""
 
-#: templates/includes/footer-grand.html:62
+#: templates/includes/footer-grand.html:78
 msgid "About Us"
 msgstr ""
 
-#: templates/includes/footer-grand.html:65
+#: templates/includes/footer-grand.html:81
 msgid "Work with us"
 msgstr ""
 
-#: templates/includes/footer-grand.html:68
+#: templates/includes/footer-grand.html:84
 msgid "Partners"
 msgstr ""
 
-#: templates/includes/footer-grand.html:71 templates/includes/footer.html:26
+#: templates/includes/footer-grand.html:87 templates/includes/footer.html:30
 msgid "Blog"
 msgstr ""
 
-#: templates/includes/footer-grand.html:78
+#: templates/includes/footer-grand.html:94
 msgid "Resources"
 msgstr ""
 
-#: templates/includes/footer-grand.html:81
+#: templates/includes/footer-grand.html:97
 msgid "Terminals"
 msgstr ""
 
-#: templates/includes/footer-grand.html:84
+#: templates/includes/footer-grand.html:100
 msgid "Companies"
 msgstr ""
 
-#: templates/includes/footer-grand.html:87
-#: templates/layouts/base-company.html:61
+#: templates/includes/footer-grand.html:103 templates/includes/sidebar.html:55
+#: templates/layouts/base-company.html:46
 msgid "Routes"
 msgstr ""
 
-#: templates/includes/footer-grand.html:90
+#: templates/includes/footer-grand.html:106
 msgid "Press"
 msgstr ""
 
-#: templates/includes/footer-grand.html:93
+#: templates/includes/footer-grand.html:109
 msgid "Affiliate Program"
 msgstr ""
 
-#: templates/includes/footer-grand.html:100
+#: templates/includes/footer-grand.html:116
 msgid "Help & Support"
 msgstr ""
 
-#: templates/includes/footer-grand.html:103
+#: templates/includes/footer-grand.html:119
 msgid "Contact Us"
 msgstr ""
 
-#: templates/includes/footer-grand.html:106
+#: templates/includes/footer-grand.html:122
 msgid "Help Center"
 msgstr ""
 
-#: templates/includes/footer-grand.html:109
-#: templates/layouts/base-company.html:166
-#: templates/layouts/base-sidebar.html:67
+#: templates/includes/footer-grand.html:125 templates/includes/sidebar.html:159
+#: templates/layouts/base-company.html:152
+#: templates/layouts/base-sidebar.html:108
 msgid "Feedback"
 msgstr ""
 
-#: templates/includes/footer-grand.html:116
+#: templates/includes/footer-grand.html:132
 msgid "Useful Links"
 msgstr ""
 
-#: templates/includes/footer-grand.html:119
+#: templates/includes/footer-grand.html:135
 msgid "Terms & Conditions"
 msgstr ""
 
-#: templates/includes/footer-grand.html:122
+#: templates/includes/footer-grand.html:138
 msgid "Privacy Policy"
 msgstr ""
 
-#: templates/includes/footer-grand.html:125
+#: templates/includes/footer-grand.html:141
 msgid "FAQ"
 msgstr ""
 
-#: templates/includes/footer-grand.html:128
+#: templates/includes/footer-grand.html:144
 msgid "Agencies"
 msgstr ""
 
-#: templates/includes/footer-grand.html:131
+#: templates/includes/footer-grand.html:147
 msgid "Sitemap"
 msgstr ""
 
-#: templates/includes/footer-grand.html:139
+#: templates/includes/footer-grand.html:155 templates/includes/footer.html:8
 msgid "All rights reserved. Copyright ©"
 msgstr ""
 
-#: templates/includes/footer-grand.html:143
+#: templates/includes/footer-grand.html:159 templates/includes/footer.html:12
 msgid "Made with ❤️ in Argentina 🇦🇷"
 msgstr ""
 
-#: templates/includes/footer.html:8
-msgid "© 2023 Kpiola. Made with ❤️ in Argentina 🇦🇷"
-msgstr ""
-
-#: templates/includes/footer.html:14
+#: templates/includes/footer.html:18
 msgid "About"
 msgstr ""
 
-#: templates/includes/footer.html:17
+#: templates/includes/footer.html:21
 msgid "Support"
 msgstr ""
 
-#: templates/includes/footer.html:20
+#: templates/includes/footer.html:24
 msgid "Terms"
 msgstr ""
 
-#: templates/includes/footer.html:23
+#: templates/includes/footer.html:27
 msgid "Privacy"
 msgstr ""
 
-#: templates/includes/footer.html:29
+#: templates/includes/footer.html:33
 msgid "Contact"
+msgstr ""
+
+#: templates/includes/navigation-light.html:76
+msgid "Logout"
 msgstr ""
 
 #: templates/includes/seat_modal.html:8
@@ -318,67 +407,56 @@ msgid "Choose Seat"
 msgstr ""
 
 #: templates/includes/seat_modal.html:39
-msgid "Cancel"
+msgid "Please select "
 msgstr ""
 
-#: templates/includes/trip_summary.html:5
-msgid "Trip Summary"
+#: templates/includes/seat_modal.html:39
+msgid " seat(s)"
 msgstr ""
 
-#: templates/includes/trip_summary.html:32
-msgid "Duration"
-msgstr ""
-
-#: templates/includes/trip_summary.html:33
-msgid "Hours"
-msgstr ""
-
-#: templates/includes/trip_summary.html:50
-msgid "Price"
-msgstr ""
-
-#: templates/layouts/base-company.html:45
+#: templates/includes/sidebar.html:39 templates/layouts/base-company.html:30
 msgid "Dashboard"
 msgstr ""
 
-#: templates/layouts/base-company.html:89
+#: templates/includes/sidebar.html:83 templates/layouts/base-company.html:74
 msgid "Trips"
 msgstr ""
 
-#: templates/layouts/base-company.html:119
+#: templates/includes/sidebar.html:113 templates/layouts/base-company.html:104
 msgid "Orders"
 msgstr ""
 
-#: templates/layouts/base-company.html:147
+#: templates/includes/sidebar.html:141 templates/layouts/base-company.html:132
 msgid "Billing"
 msgstr ""
 
-#: templates/layouts/base-company.html:160
+#: templates/includes/sidebar.html:153 templates/layouts/base-company.html:146
 msgid "Need help?"
 msgstr ""
 
-#: templates/layouts/base-company.html:161
+#: templates/includes/sidebar.html:154 templates/layouts/base-company.html:147
 msgid "Please contact us"
 msgstr ""
 
-#: templates/layouts/base-sidebar.html:51
+#: templates/layouts/base-company.html:191
+#: templates/layouts/base-sidebar.html:73
 msgid "Help"
 msgstr ""
 
-#: templates/layouts/base-sidebar.html:66
-msgid "Profile"
+#: templates/layouts/base-sidebar.html:85 templates/socialaccount/login.html:6
+msgid "Sign In"
 msgstr ""
 
-#: templates/layouts/base-sidebar.html:69
+#: templates/layouts/base-sidebar.html:109
 msgid "Settings"
 msgstr ""
 
-#: templates/layouts/base-sidebar.html:70
+#: templates/layouts/base-sidebar.html:110
 msgid "Sign out"
 msgstr ""
 
-#: templates/layouts/base-sidebar.html:76 templates/socialaccount/login.html:8
-msgid "Sign In"
+#: templates/layouts/base.html:45
+msgid "Book Bus Tickets"
 msgstr ""
 
 #: templates/socialaccount/connections.html:6
@@ -386,62 +464,51 @@ msgstr ""
 msgid "Account Connections"
 msgstr ""
 
-#: templates/socialaccount/connections.html:15
+#: templates/socialaccount/connections.html:14
 msgid ""
-"\n"
-"                    You can sign in to your account using any of the "
-"following third party accounts\n"
-"                    "
+"You can sign in to your account using any of the following third party "
+"accounts"
 msgstr ""
 
-#: templates/socialaccount/connections.html:34
+#: templates/socialaccount/connections.html:30
 msgid "Remove"
 msgstr ""
 
-#: templates/socialaccount/connections.html:38
+#: templates/socialaccount/connections.html:34
 msgid ""
 "You currently have no social network accounts connected to this account."
 msgstr ""
 
-#: templates/socialaccount/connections.html:41
+#: templates/socialaccount/connections.html:37
 msgid "Add a 3rd Party Account"
 msgstr ""
 
-#: templates/socialaccount/login.html:16
+#: templates/socialaccount/login.html:14
 #, python-format
 msgid ""
 "Connect\n"
 "      %(provider)s"
 msgstr ""
 
-#: templates/socialaccount/login.html:20
+#: templates/socialaccount/login.html:18
 #, python-format
 msgid ""
 "You are about to connect a new third party account from\n"
 "      %(provider)s."
 msgstr ""
 
-#: templates/socialaccount/login.html:25
+#: templates/socialaccount/login.html:23
 #, python-format
 msgid ""
 "Sign In Via\n"
 "      %(provider)s"
 msgstr ""
 
-#: templates/socialaccount/login.html:29
+#: templates/socialaccount/login.html:27
 #, python-format
 msgid ""
 "You are about to sign in using a third party account from\n"
 "      %(provider)s."
-msgstr ""
-
-#: templates/socialaccount/signup.html:6
-msgid "Signup"
-msgstr ""
-
-#: templates/socialaccount/signup.html:12
-#: templates/socialaccount/signup.html:34
-msgid "Sign Up"
 msgstr ""
 
 #: templates/socialaccount/signup.html:14

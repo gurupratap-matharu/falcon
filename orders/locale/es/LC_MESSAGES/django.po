@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 15:10-0300\n"
+"POT-Creation-Date: 2024-09-07 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,59 +75,63 @@ msgstr "order"
 msgid "orders"
 msgstr "orders"
 
-#: orders/models.py:145
+#: orders/models.py:152
 msgid "order item"
 msgstr "order item"
 
-#: orders/models.py:146
+#: orders/models.py:153
 msgid "order items"
 msgstr "order items"
 
-#: orders/models.py:172
+#: orders/models.py:179
 msgid "Identification"
 msgstr "Identificación"
 
-#: orders/models.py:189
+#: orders/models.py:196
 msgid "Gender"
 msgstr "Género"
 
-#: orders/models.py:190
+#: orders/models.py:197
 msgid "Female"
 msgstr "Feminino"
 
-#: orders/models.py:191
+#: orders/models.py:198
 msgid "Male"
 msgstr "Masculino"
 
-#: orders/models.py:195
+#: orders/models.py:199
+msgid "Other"
+msgstr ""
+
+#: orders/models.py:203
 msgid "document type"
 msgstr "tipo de documento"
 
-#: orders/models.py:198
+#: orders/models.py:206
 msgid "document number"
 msgstr "número del documento"
 
-#: orders/models.py:200
+#: orders/models.py:208
 msgid "nationality"
 msgstr "nacionalidad"
 
-#: orders/models.py:201
+#: orders/models.py:209
 msgid "first name"
 msgstr "nombre"
 
-#: orders/models.py:202
+#: orders/models.py:210
 msgid "last name"
 msgstr "apellidos"
 
-#: orders/models.py:203
+#: orders/models.py:211
 msgid "gender"
 msgstr "género"
 
-#: orders/models.py:204
+#: orders/models.py:212
 msgid "birth date"
 msgstr "fecha de nacimiento"
 
-#: orders/models.py:209
+#: orders/models.py:217
 msgid ""
 "Phone number must be entered in the format: '+999999999'. Up to 15 digits "
 "allowed."
@@ -135,17 +139,51 @@ msgstr ""
 "El número de teléfono debe ingresarse en el formato: '+999999999'. Se "
 "permiten hasta 15 dígitos."
 
-#: orders/models.py:213
+#: orders/models.py:221
 msgid "phone number"
 msgstr "teléfono"
 
-#: orders/models.py:221
+#: orders/models.py:229
 msgid "passenger"
 msgstr "pasajero"
 
-#: orders/models.py:222
+#: orders/models.py:230
 msgid "passengers"
 msgstr "pasajeros"
+
+#: orders/templates/orders/checkin.html:10
+#: orders/templates/orders/checkin.html:14
+#, fuzzy
+#| msgid "Checkout"
+msgid "Checkin"
+msgstr "Checkout"
+
+#: orders/templates/orders/checkin.html:20
+#, fuzzy
+#| msgid "Checkout"
+msgid "CheckIn"
+msgstr "Checkout"
+
+#: orders/templates/orders/checkin.html:26
+#: orders/templates/orders/order_form.html:226
+#: orders/templates/orders/ticket.html:30
+msgid "Company"
+msgstr ""
+
+#: orders/templates/orders/checkin.html:27
+msgid "Trip"
+msgstr ""
+
+#: orders/templates/orders/checkin.html:28
+#, fuzzy
+#| msgid "Passengers:"
+msgid "Num Passengers"
+msgstr "Pasajeros:"
+
+#: orders/templates/orders/checkin.html:29
+#: orders/templates/orders/ticket.html:93
+msgid "Seats"
+msgstr ""
 
 #: orders/templates/orders/emails/booking_confirmed_company_message.txt:3
 #, python-format
@@ -174,15 +212,15 @@ msgstr ""
 "Whatsapp: %(whatsapp)s\n"
 "País: %(country)s"
 
-#: orders/templates/orders/emails/booking_confirmed_company_message.txt:17
+#: orders/templates/orders/emails/booking_confirmed_company_message.txt:19
 msgid "Passengers:"
 msgstr "Pasajeros:"
 
-#: orders/templates/orders/emails/booking_confirmed_company_message.txt:20
+#: orders/templates/orders/emails/booking_confirmed_company_message.txt:22
 msgid "Total Cost:"
 msgstr "Total:"
 
-#: orders/templates/orders/emails/booking_confirmed_company_message.txt:22
+#: orders/templates/orders/emails/booking_confirmed_company_message.txt:24
 msgid ""
 "If you have any questions regarding this booking, please reply to this email."
 msgstr ""
@@ -223,6 +261,74 @@ msgstr ""
 "\n"
 "Su booking está confirmada | %(order_id)s\n"
 
+#: orders/templates/orders/invoice.html:9
+#: orders/templates/orders/invoice.html:14
+msgid "Invoice"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:21
+#, fuzzy
+#| msgid "phone number"
+msgid "Invoice number"
+msgstr "teléfono"
+
+#: orders/templates/orders/invoice.html:23
+msgid "Date of issue"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:25
+msgid "Date due"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:48
+msgid "Bill to"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:56
+#, fuzzy
+#| msgid "Fare Summary"
+msgid "Summary"
+msgstr "Resumen de tarifas"
+
+#: orders/templates/orders/invoice.html:60
+msgid "Description"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:61
+msgid "Qty"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:62
+msgid "Unit Price"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:63
+msgid "Amount"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:68
+msgid "Bus ticket"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:76
+#, fuzzy
+#| msgid "Total"
+msgid "Subtotal"
+msgstr "Total"
+
+#: orders/templates/orders/invoice.html:83
+msgid "Coupon Discount"
+msgstr ""
+
+#: orders/templates/orders/invoice.html:90
+#: orders/templates/orders/order_form.html:278
+msgid "Total"
+msgstr "Total"
+
+#: orders/templates/orders/invoice.html:97
+msgid "due"
+msgstr ""
+
 #: orders/templates/orders/order_form.html:6
 #: orders/templates/orders/order_form.html:10
 msgid "Order"
@@ -232,42 +338,107 @@ msgstr "Order"
 msgid "Passenger Details"
 msgstr "Detalles del pasajero"
 
-#: orders/templates/orders/order_form.html:36
-#: orders/templates/orders/order_form.html:172
+#: orders/templates/orders/order_form.html:40
+#: orders/templates/orders/order_form.html:264
+#: orders/templates/orders/ticket.html:92
 msgid "Passenger"
 msgstr "Pasajero"
 
-#: orders/templates/orders/order_form.html:119
+#: orders/templates/orders/order_form.html:139
 msgid "Your Contact Information"
 msgstr "Información de Contacto"
 
-#: orders/templates/orders/order_form.html:137
-msgid "I agree the"
+#: orders/templates/orders/order_form.html:158
+#, fuzzy
+#| msgid "I agree the"
+msgid "I agree to the"
 msgstr "Estoy de acuerdo con"
 
-#: orders/templates/orders/order_form.html:137
+#: orders/templates/orders/order_form.html:158
 msgid "Terms and Conditions"
 msgstr "los termínos y condiciones"
 
-#: orders/templates/orders/order_form.html:141
+#: orders/templates/orders/order_form.html:163
 msgid "Checkout"
 msgstr "Checkout"
 
-#: orders/templates/orders/order_form.html:157
+#: orders/templates/orders/order_form.html:182
+#, fuzzy
+#| msgid "Fare Summary"
+msgid "Trip Summary"
+msgstr "Resumen de tarifas"
+
+#: orders/templates/orders/order_form.html:215
+msgid "Duration"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:237
+msgid "Price"
+msgstr ""
+
+#: orders/templates/orders/order_form.html:248
 msgid "Cart is empty! 📭"
 msgstr "El carrito está vacío"
 
-#: orders/templates/orders/order_form.html:163
+#: orders/templates/orders/order_form.html:255
 msgid "Fare Summary"
 msgstr "Resumen de tarifas"
 
-#: orders/templates/orders/order_form.html:182
+#: orders/templates/orders/order_form.html:273
 msgid "Coupon"
 msgstr "Cupón"
 
-#: orders/templates/orders/order_form.html:187
-msgid "Total"
-msgstr "Total"
+#: orders/templates/orders/ticket.html:14
+msgid "Bus Ticket"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:19
+msgid "Trip from "
+msgstr ""
+
+#: orders/templates/orders/ticket.html:24
+msgid "Prepared for"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:27
+msgid "Reservation Code"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:38
+msgid "DEPARTURE"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:50
+msgid "Trip:"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:51
+msgid "Duration:"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:52
+msgid "Status:"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:74
+msgid "Departing at"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:79
+msgid "Arrival at"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:94
+msgid "Class"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:95
+msgid "Booking"
+msgstr ""
+
+#: orders/templates/orders/ticket.html:104
+msgid "Confirmed"
+msgstr ""
 
 #: orders/validators.py:21
 #, python-format
