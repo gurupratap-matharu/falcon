@@ -1,13 +1,10 @@
-from datetime import timedelta
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
 from django.test import Client, SimpleTestCase, TestCase
 from django.urls import resolve, reverse
-from django.utils import timezone
 
 from orders.factories import OrderFactory, OrderItemFactory
-from payments.models import WebhookMessage
 from payments.views import (
     PaymentCancelView,
     PaymentFailView,
@@ -306,5 +303,3 @@ class MercadoPagoWebhookTests(TestCase):
         self.assertEqual(
             response.content.decode(), "Incorrect token in MP webhook header."
         )
-
-    

@@ -293,7 +293,7 @@ class PublicProfilePageTests(TestCase):
         self.assertTemplateUsed(self.response, self.template_name)
 
     def test_profile_page_contains_correct_html(self):
-        self.assertContains(self.response, "Kpiola")
+        self.assertContains(self.response, "Ventanita")
         self.assertContains(self.response, self.user.username)  # type: ignore
 
     def test_profile_page_does_not_contain_incorrect_html(self):

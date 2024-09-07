@@ -25,7 +25,7 @@ Destination: {{ destination }}
 
 
 Regards,
-Kpiola Support Team
-https://www.kpiola.com.ar
-Email: support@kpiola.com.ar
+Ventanita Support Team
+https://www.ventanita.com.ar
+Email: support@ventanita.com.ar
 Tel: +54 9 11 5025 4191

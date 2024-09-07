@@ -253,7 +253,7 @@ EMAIL_HOST = "127.0.0.1"
 EMAIL_PORT = 1025
 
 
-DEFAULT_FROM_EMAIL = "'Kpiola' <noreply@kpiola.com.ar>"
+DEFAULT_FROM_EMAIL = "'Ventanita' <noreply@ventanita.com.ar>"
 DEFAULT_TO_EMAIL = "gurupratap.matharu@gmail.com"
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 RECIPIENT_LIST = ["gurupratap.matharu@gmail.com", "veerplaying@gmail.com"]
@@ -269,7 +269,7 @@ ADMINS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-CSRF_TRUSTED_ORIGINS = ["https://*.kpiola.com.ar", "https://*.127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://*.ventanita.com.ar", "https://*.127.0.0.1"]
 
 LOGGING = {
     "version": 1,
@@ -297,7 +297,7 @@ LOGGING = {
         "file": {
             "level": "WARNING",
             "class": "logging.FileHandler",
-            "filename": "./django-kpiola.log",
+            "filename": "./django-error.log",
             "formatter": "verbose",
         },
         "mail_admins": {

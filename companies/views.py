@@ -73,3 +73,16 @@ class PassengerListView(OwnerMixin, ListView):
     model = Passenger
     context_object_name = "passengers"
     paginate_by = 20
+
+
+class WidgetView(DetailView):
+    model = Company
+    template_name = "companies/widget.js"
+    context_object_name = "company"
+    content_type = "text/javascript"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["num_routes"] = self.object.routes.count()
+
+        return context

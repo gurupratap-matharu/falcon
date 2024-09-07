@@ -45,7 +45,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser.get(f"{self.live_server_url}")
 
         # She notices the page title and header mention bus tickets
-        self.assertIn("Kpiola", self.browser.title)
+        self.assertIn("Ventanita", self.browser.title)
         self.assertIn("Book Bus Tickets", self.browser.title)
 
         # She notices the origin input box and the placeholder

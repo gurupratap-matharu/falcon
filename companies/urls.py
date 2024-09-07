@@ -64,6 +64,7 @@ urlpatterns = [
     path("landing/", views.CompanyLandingView.as_view(), name="company-landing"),
     path("<slug:slug>/", views.CompanyDetailView.as_view(), name="company_detail"),
     path("<slug:slug>/book/", views.CompanyBookView.as_view(), name="company-book"),
+    path("<slug:slug>/widget/", views.WidgetView.as_view(), name="company-widget"),
     #
     # Company Admin Views
     path("<slug:slug>/admin/", include(company_admin_patterns)),

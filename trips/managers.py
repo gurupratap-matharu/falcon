@@ -57,7 +57,10 @@ class PastManager(models.Manager):
         occupied = Count("seats", filter=~Q(seats__seat_status=Seat.AVAILABLE))
 
         # Find occupancy as %
-        occupancy = Cast(100 * Sum("occupied") / Sum("total"), IntegerField())
+        occupancy = Case(
+            When(total=0, then=0),
+            default=Cast(100 * occupied / total, IntegerField()),
+        )
 
         # Find revenue = price * bookings
         # revenue = Cast(F("price") * occupied, IntegerField())

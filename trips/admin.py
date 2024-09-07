@@ -13,9 +13,9 @@ from .models import Location, Price, Route, Seat, Stop, Trip
 
 logger = logging.getLogger(__name__)
 
-admin.site.site_header = "Kpiola 🚌"
-admin.site.site_title = "Kpiola Admin Portal"
-admin.site.index_title = "Welcome to Kpiola Admin Portal"
+admin.site.site_header = "Ventatnia"
+admin.site.site_title = "Ventanita Admin Portal"
+admin.site.index_title = "Welcome to Ventanita Admin Portal"
 
 
 class FutureFilter(admin.SimpleListFilter):
