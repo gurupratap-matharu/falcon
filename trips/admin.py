@@ -13,7 +13,7 @@ from .models import Location, Price, Route, Seat, Stop, Trip
 
 logger = logging.getLogger(__name__)
 
-admin.site.site_header = "Ventatnia"
+admin.site.site_header = "Ventanita"
 admin.site.site_title = "Ventanita Admin Portal"
 admin.site.index_title = "Welcome to Ventanita Admin Portal"
 
