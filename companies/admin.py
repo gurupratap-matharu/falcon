@@ -19,7 +19,7 @@ class CompanyAdmin(admin.ModelAdmin):
     def logo(self, obj):
         if obj.cover:
             return format_html(
-                '<img src="%s" alt="%s" width=50px height=50px />'
+                '<img src="%s" alt="%s" loading="lazy" width=50px height=50px />'
                 % (obj.cover.url, obj.name)
             )
         return "-"
