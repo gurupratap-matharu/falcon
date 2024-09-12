@@ -1,9 +1,136 @@
 {% extends "layouts/base-pages.html" %}
 
+{% load static i18n %}
+
 {% block title %}
-  Privacy
+  {% translate "Privacy" %}
 {% endblock title %}
 
 {% block content %}
-  <h1 class="display-1">Privacy Policy</h1>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <h3>{% translate "Privacy Policy" %}</h3>
+      <button class="btn bg-gradient-primary icon-link icon-link-hover" onclick="window.print()">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#filetype-pdf" />
+        </svg>
+        {% translate "Print" %}
+      </button>
+    </div>
+    <div class="card-body">
+      <h5>Información General</h5>
+      <p>
+        Nuestra Política de Privacidad está destinada a informar a usted, en cuanto visitante y/o usuario de www.ventanita.com.ar (o "Ventanita" o "Sitio" indistintamente), de propiedad de Ventanita S.A.S, acerca de la manera en la que recogemos y tratamos su información personal y sobre las diversas alternativas que usted posee con respecto al uso de sus datos. Este documento es parte integrante de las Condiciones Generales para la Compra de Pasajes vía Web de Ventanita. Mediante la aceptación de dichas Condiciones Generales, el visitante y/o usuario acepta las Políticas de Privacidad aquí contenidas. Nuestra Política de Privacidad garantiza que cualquier información que usted nos provea de la forma en que nosotros se la solicitamos, será mantenida privada y segura. Podremos modificar en forma periódica la presente política a efectos de reflejar cambios en nuestro Sitio, incluir el tratamiento de nuevos temas, informar las tecnologías que empleamos que puedan incidir en el tratamiento de sus datos, y/o sobre nuestro proceder respecto del uso de la información recopilada.
+      </p>
+      <h5>Aplicación de la Política de Privacidad</h5>
+      <p>
+        Esta política se aplica a Ventanita pero no se aplica a sitios a los que usted pudiera acceder por medio de links o cualquier otro tipo de vínculo. En caso de acceder al sitio de un tercero por medio de un link publicado en www.ventanita.com.ar le sugerimos revisar atentamente las políticas de privacidad de esos sitios en cuestión antes de efectuar alguna transacción.
+      </p>
+      <h5>Información Personal. Uso de los datos</h5>
+      <p>
+        Su información personal es recogida y almacenada en los casos en los que usted nos la suministra voluntariamente o bien si ésta se ha obtenido de fuentes de acceso público irrestricto. Ventanita no vende ni renta a nadie información personal de sus usuarios. Estos datos son privados, es decir que no están disponibles al público. Ventanita sólo empleará la información personal para fines propios relacionados con el uso del Sitio, como ser el envío (a su correo electrónico o por SMS a su teléfono móvil) de noticias, ofertas, promociones o paquetes que se publiciten a través del mismo, el envío de nuestros newsletters o bien como vía de comunicación con el usuario para mantenerlo informado y actualizado sobre los productos y servicios que se ofrecen, pero de ningún modo revelará esa información a terceros, salvo el caso en que la transmisión de dicha información sea necesaria a los fines de la prestación de nuestros servicios, tal como se explica más abajo.
+      </p>
+      <p>
+        El Sitio recopila la información que usted ingresa referida a sus datos de contacto como usuario a los fines de contratar nuestros servicios y también recopila otros datos relacionados con la identidad de los pasajeros al momento de efectuar la selección de los asientos de la empresa de transporte para poder emitir el pasaje. En tal sentido, el Sitio corrobora la veracidad y coherencia de los datos brindados por usted relativos a los pasajeros, tales como: nombre completo, número de DNI y fecha de nacimiento de cada pasajero mediante un sistema provisto por la empresa Equifax Veraz S.A. La razón por la que el Sitio requiere estos datos es por resultar necesario a fin de acceder a ciertas funcionalidades y servicios que brinda el Sitio, así como para poder emitir y enviar los boletos y datos de la transacción, poder responder sus comunicaciones y/o notificarle algún cambio en el Sitio.
+      </p>
+      <p>
+        Asimismo podríamos eventualmente utilizar los datos de nuestros usuarios y/o visitantes a los efectos de desarrollar estudios de mercado sobre el comportamiento y los intereses del usuario, como por ejemplo, las páginas más visitadas, los pasajes más requeridos, las búsquedas realizadas y/o la demografía de nuestros consumidores con el objetivo de mejorar y personalizar nuestros servicios, como por ejemplo, poder mostrarle publicidad o banners de interés para el usuario.
+      </p>
+      <p>
+        Estas compañías o sitios de Internet que realizan estudios de mercado, generalmente tienen políticas sobre confidencialidad de la información similar a las nuestras. No obstante, en algunos casos, estos proveedores de servicios serán quienes recojan información directamente del usuario (por ejemplo si les solicitamos que realicen encuestas o estudios). En tales casos, recibirá una notificación acerca de la participación de un proveedor de servicios en tales actividades, y quedará a discreción del usuario toda la información que quiera brindarle y los usos adicionales que los proveedores decidan hacer.
+      </p>
+      <p>
+        En caso de que Ud. facilite, por propia iniciativa información adicional a dichos prestadores de servicios directamente, tales prestadores usarán esa información conforme a sus propias políticas de privacidad. Respecto de sus datos personales usted también
+      </p>
+      <ul>
+        <li>
+          Consiente el tratamiento de sus datos por parte de Ventanita de la manera en la que se explica en nuestras Políticas de Privacidad
+        </li>
+        <li>
+          Consiente en entregar sus datos en forma voluntaria y directa al sitio de plataforma de pagos (www.mercadopago.com) y/u otros sitios de pagos con los que Ventanita determine y/o de cupones prepagos a los fines de efectuar y facilitar el pago de los servicios contratados
+        </li>
+        <li>
+          Consiente también que ciertos datos sean informados a los proveedores de productos y/o servicios que usted pudiera llegar a contactar a través de nuestro sitio a fin de acceder a descuentos o promociones, reconociendo expresamente que Ventanita no se responsabiliza por el uso indebido de los Datos Personales del usuario que hagan estos Proveedores o sitios de Internet.
+        </li>
+      </ul>
+      <h5>Datos de Tarjeta</h5>
+      <p>
+        En relación a sus datos de tarjeta de crédito y en general datos de carácter comercial o financiero, que resulta necesario que usted proporcione en forma directa a la plataforma de pagos de MercadoPago y/u otras plataformas de pagos que Ventanita determine, para completar una transacción de compra de pasajes, informamos que Ventanita no interviene en forma alguna en el proceso de recopilación de los datos de tarjeta de crédito y/u otros medios de pago a ser utilizados a través de la plataforma de pagos de MercadoPago y/o de otras plataformas de pagos, ni tampoco interviene en el proceso de pago ni posee acceso a los datos de su tarjeta de crédito ni a ningún otro dato de carácter comercial o financiero, puesto que para concretar el pago, Ventanita deriva el proceso en su totalidad hacia el sitio web de la plataforma segura de pagos MercadoPago y/o de otras plataformas de pagos que se determinen a futuro con similares características de seguridad, siendo estas plataformas las responsables de la privacidad y seguridad de los datos ingresados para concretar la transacción.
+      </p>
+      <p>
+        En este sentido, Ventanita no almacena los datos de las tarjetas de crédito y/u otros medios de pago con los que se efectúan los pagos en la plataforma de pagos de MercadoPago u otros sitios web donde se efectúe alguna transacción.
+      </p>
+      <p>
+        En ningún momento su información de tarjeta de crédito y/u otros medios de pago es almacenada en nuestros servidores. Esta información, cuando es proveída por usted vía web a la plataforma de pagos, se transmite encriptada y nunca es almacenada por nosotros. Por todo ello, Ventanita no será responsable por las actividades y/o hechos que acontezcan luego de que los usuarios sean derivados a la plataforma de pagos u otros sitios web donde se efectúe alguna transacción.
+      </p>
+      <p>
+        Toda actividad que se realice entre los usuarios y las plataformas de pagos u otros sitios a los que éstas deriven queda fuera de la esfera de control de Ventanita, no cabiéndole ningún tipo de responsabilidad a Ventanita por los perjuicios que pudieran derivarse de las relaciones entre las plataformas de pagos, el titular de la tarjeta de crédito, la tarjeta de crédito, y/o el banco.
+      </p>
+      <h5>Política de Seguridad</h5>
+      <p>
+        Proteger su privacidad es fundamental para nosotros, por ello hemos tomado todas las medidas a nuestro alcance tecnológico y económico a fin de asegurar tanto su privacidad como la nuestra. Con el único límite de los recursos tecnológicos de los que disponemos, nos tomamos mucho esfuerzo en cuidar que la información que viaja desde su computadora y/o cualquier otro dispositivo hacia nuestros servidores y viceversa, sea transmitida de la manera más segura posible dentro de nuestras posibilidades de monitoreo. Recuerde que el cuidado de su privacidad y seguridad online depende también de usted y de cómo utiliza su propia información, así como la forma en que utiliza los dispositivos y/o programas y/o redes al realizar transacciones online. En este sentido, le sugerimos siempre utilizar dispositivos y conexiones a Internet seguros al momento de ingresar sus datos de tarjeta de crédito para realizar pagos en las plataformas de pagos para proteger su seguridad.
+      </p>
+      <h5>Excepciones a la reserva de la Información Personal y otras informaciones</h5>
+      <p>
+        En cumplimiento de nuestras obligaciones legales, su información personal y/o cualquier otro tipo de información específica sobre usted a la que podamos acceder, en forma intencional o casual, podrá ser revelada a terceros a efectos de cumplir con procedimientos legales tal como una orden de allanamiento, una citación judicial, una orden judicial, o bien a requerimiento de autoridades administrativas que puedan ser consideradas válidas bajo las leyes aplicables.
+      </p>
+      <p>
+        Asimismo, para nuestra protección, la suya y las de otros usuarios del Sitio, también podrá ser revelada su información personal en aquellos casos que impliquen la existencia de un intento de ruptura de la seguridad del Sitio, o de peligro físico o amenaza en contra suyo, nuestro o de terceros. Asimismo, a efectos de facilitar la resolución de disputas que pudieran surgir, usted consiente expresamente que ciertos datos sean suministrados a las entidades que intervengan en la resolución de disputas, tales como
+      </p>
+      <ul>
+        <li>Compañías de Seguros</li>
+        <li>Centros de Resolución de Disputas</li>
+        <li>Organismos de Defensa del Consumidor</li>
+        <li>Tribunales competentes para solucionar tales disputas</li>
+      </ul>
+      <p>
+        Finalmente, le rogamos que tome en cuenta que en aquellos casos en que usted suministra o difunde sus datos o cualquier otra información referente a su persona, por ej. en comunicaciones on-line, dicha información eventualmente podrá ser recopilada y utilizada por terceros, con o sin su consentimiento. Aunque pongamos nuestros mayores esfuerzos en proteger su privacidad, no podemos garantizar la seguridad de la información que usted difunda o suministre, y por lo mismo, usted revela esa información bajo su responsabilidad.
+      </p>
+      <h5>Menores de Edad</h5>
+      <p>
+        Los usuarios menores de edad solamente podrán acceder al sitio bajo supervisión de sus padres o tutores y en caso de contratar algún servicio deberán hacerlo a través de éstos.
+      </p>
+      <h5>Cookies</h5>
+      <p>
+        Mediante la tecnología Cookie o el rastreo IP, el Sitio puede acceder a otra información acerca suyo ("Información No Específica"). La Información No Específica que recopilamos consiste en información sobre el navegador que utiliza, el tipo de computadora, sus sistemas operativos, sus proveedores del servicio de Internet, las páginas que usted visita y otra información similar. De esta manera podemos conocer cuáles son las áreas de nuestro sitio preferidas por nuestros usuarios, qué áreas necesitan ser mejoradas y qué tecnología se está utilizando a fin de mejorar permanentemente los servicios brindados.
+      </p>
+      <p>
+        Eventualmente, el Sitio podrá asociar su Información Personal con la Información No Específica, o agregar Información Personal o Información no Específica de distintos usuarios para generar información de tipo estadístico siempre que no se identifique la persona del usuario. La Información No Específica es utilizada a fin de optimizar constantemente el Sitio.
+      </p>
+      <p>
+        Eventualmente, podemos revelar información de tipo estadístico sin identificación del usuario, pero en ningún caso damos a conocer a terceros su información personal. Su navegador, al igual que otros, puede estar programado para aceptar Cookies. En tal caso, si Ud. no desea brindar Información No Específica, puede programar su navegador para rechazar Cookies.
+      </p>
+      <h5>Vínculos con otros sitios</h5>
+      <p>
+        El Sitio cuenta con links a sitios de terceros. Algunos de estos sitios pueden solicitar información sobre los usuarios o utilizar tecnología destinada a recopilarla. Dentro de nuestras posibilidades tecnológicas hacemos lo posible por impedir que se recopile información personal sobre nuestros usuarios, pero no asumimos responsabilidad por las violaciones que esos sitios pudieran cometer. Por ello, aconsejamos que antes de suministrar cualquier tipo de información a un sitio vinculado verifique la política de privacidad que éstos aplican.
+      </p>
+      <h5>Calidad de los datos de los usuarios. Derecho de acceso, rectificación, actualización y supresión</h5>
+      <p>
+        Los usuarios garantizan y responden de la exactitud, vigencia y autenticidad de los datos personales. Ventanita se reserva el derecho a excluir de los servicios a todo usuario que haya facilitado datos falsos, sin perjuicio de las demás acciones que procedan a derecho. En todos los casos usted podrá acceder, actualizar, rectificar o suprimir sus datos. Para ello, le rogamos nos escriba a nuestra dirección de correo electrónico <a href="mailto:info@ventanita.com.ar" class="text-primary" target="_blank">info@ventanita.com.ar</a>
+      </p>
+      <p>
+        Asimismo, usted podrá optar por suscribirse o cancelar la suscripción a nuestros newsletters y comunicaciones destinadas a informarlo y mantenerlo actualizado sobre nuestras actividades y promociones.
+      </p>
+      <h5>Cumplimiento de normativa</h5>
+      <p>
+        El sitio cumple con los requisitos indicados por la normativa relativa a protección de datos personales y de derecho al consumidor. Usted puede acceder al sitio web de los organismos de aplicación en
+      </p>
+      <ul>
+        <li>
+          <a href="https://www.jus.gob.ar/datos-personales.aspx" class="text-primary" target="_blank">www.jus.gob.ar/datos-personales.aspx</a>
+        </li>
+        <li>
+          <a href="https://www.buenosaires.gob.ar/defensaconsumidor" class="text-primary" target="_blank">www.buenosaires.gob.ar/defensaconsumidor</a>
+        </li>
+        <li>
+          <a href="https://www.consumidor.gob.ar" class="text-primary" target="_blank">www.consumidor.gob.ar</a>
+        </li>
+      </ul>
+      <p>en los mismos podrá consultar también la normativa vigente.</p>
+      <h5>Legislación aplicable y jurisdicción</h5>
+      <p>
+        A todos los efectos legales en relación a los servicios brindados en el Sitio, será aplicable la legislación vigente en la República Argentina. En caso de surgir cualquier desacuerdo, controversia o conflicto respecto de la interpretación o cumplimiento de estas Políticas de Privacidad, las Partes deberán recurrir a los Tribunales Ordinarios sitos en la Ciudad Autónoma de Buenos Aires.
+      </p>
+    </div>
+  </div>
 {% endblock content %}
