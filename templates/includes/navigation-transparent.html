@@ -37,7 +37,8 @@
                      type="button">
                   <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}"
                        alt="profile_image"
-                       class="w-100 border-radius-lg shadow-sm" />
+                       class="w-100 border-radius-lg shadow-sm"
+                       loading="lazy" />
                 </div>
                 <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
                   <li>

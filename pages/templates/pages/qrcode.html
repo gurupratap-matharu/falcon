@@ -21,7 +21,7 @@
 {% endblock content %}
 
 {% block js %}
-  <script src="{% static 'assets/js/qrcode/qrcode.min.js' %}" crossorigin="anonymous"></script>
+  <script async src="{% static 'assets/js/qrcode/qrcode.min.js' %}" crossorigin="anonymous"></script>
   <script type="text/javascript">
        var qrcode = new QRCode(document.getElementById("qrcode"), {
             text: "http://ventanita.com.ar/",

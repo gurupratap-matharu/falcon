@@ -36,6 +36,6 @@
 
 {% block js %}
   {{ seatchart.json|json_script:"options" }}
-  <script type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'assets/js/seats/seatchart_detail.js' %}"></script>
+  <script async type="text/javascript" src="{% static 'assets/js/seats/seatchart.min.js' %}"></script>
+  <script async type="text/javascript" src="{% static 'assets/js/seats/seatchart_detail.js' %}"></script>
 {% endblock js %}

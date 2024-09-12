@@ -195,7 +195,7 @@
               <a href="#" class="nav-link">
                 {% with avatar_url=user.socialaccount_set.all.0.get_avatar_url %}
                   {% if avatar_url %}
-                    <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" />
+                    <img src="{{ avatar_url }}" class="avatar avatar-sm rounded-circle" loading="lazy" />
                   {% else %}
                     <span class="avatar avatar-sm rounded-circle border text-dark">{{ request.user.email|slice:":2"|upper }}</span>
                   {% endif %}
