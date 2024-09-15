@@ -1,11 +1,11 @@
 {% load i18n %}
 
-{% blocktranslate with name=order.name booking_id=order.id %}
+{% blocktranslate with name=order.name %}
 
 Dear {{ name }},
 
 Pack you bags! Your booking is confirmed.
-Booking ID: {{ booking_id }}{% endblocktranslate %}
+Booking ID: {{ code }}{% endblocktranslate %}
 
 Company {{ company }}
 Trip {{ origin }} to {{ destination }}

@@ -75,18 +75,21 @@ def order_confirmed(order_id, payment_id):
     start = timer()
 
     context = build_context(order_id=order_id)
+    context["payment_id"] = payment_id
     order = context["order"]
     item = context["item"]
 
     # Confirm the order
-    order.confirm(payment_id=payment_id)
+    # order.confirm(payment_id=payment_id)
 
     # User Email
     subject_path = "orders/emails/booking_confirmed_subject.txt"
     body_path = "orders/emails/booking_confirmed_message.txt"
+    html_path = "orders/emails/booking_confirmed_message.html"
 
     subject = render_to_string(subject_path, context).strip()
     body = render_to_string(body_path, context).strip()
+    html_message = render_to_string(html_path, context)
 
     user_email = EmailMultiAlternatives(
         subject=subject,
@@ -97,10 +100,7 @@ def order_confirmed(order_id, payment_id):
     )
 
     # Attach html version as an alternative
-    # html_message = render_to_string(
-    #     template_name="orders/emails/booking_confirmed_message.html", context=context
-    # )
-    # user_email.attach_alternative(content=html_message, mimetype="text/html")
+    user_email.attach_alternative(content=html_message, mimetype="text/html")
 
     # Create pdfs for ticket and invoice
     ticket = burn_pdf(template_name="orders/ticket.html", context=context)
@@ -141,14 +141,14 @@ def order_confirmed(order_id, payment_id):
     mails_sent = connection.send_messages([user_email, company_email])
 
     # Send whatsapp message to user
-    wa_context = dict()
-    wa_context["link"] = f"{settings.BASE_URL}{order.get_ticket_url()}"
-    wa_context["caption"] = (
-        f"Hello 👋\n\nHere are your bus tickets from {context['origin']} to {context['destination']} with {context['company']}\n\nNo need to print the ticket. Just scan the QR code while checking in.\n\nCheers"
-    )
-    wa_context["filename"] = "Bus-Tickets.pdf"
-    data = get_document_payload(recipient="54111550254191", context=wa_context)
-    send_wa_message(data=data)
+    # wa_context = dict()
+    # wa_context["link"] = f"{settings.BASE_URL}{order.get_ticket_url()}"
+    # wa_context["caption"] = (
+    #     f"Hello 👋\n\nHere are your bus tickets from {context['origin']} to {context['destination']} with {context['company']}\n\nNo need to print the ticket. Just scan the QR code while checking in.\n\nCheers"
+    # )
+    # wa_context["filename"] = "Bus-Tickets.pdf"
+    # data = get_document_payload(recipient="54111550254191", context=wa_context)
+    # send_wa_message(data=data)
 
     end = timer()
     logger.info("order_confirmed(🔒) took: %0.2f seconds!" % (end - start))
