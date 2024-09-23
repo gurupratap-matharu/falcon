@@ -360,6 +360,14 @@ STRIPE_WEBHOOK_SIGNING_SECRET = os.getenv("STRIPE_WEBHOOK_SIGNING_SECRET")
 WA_ACCESS_TOKEN = os.getenv("WA_ACCESS_TOKEN")
 WA_PHONE_ID = os.getenv("WA_PHONE_ID")
 
+# MODO
+MODO_CLIENT_ID = os.getenv("MODO_CLIENT_ID")
+MODO_CLIENT_SECRET = os.getenv("MODO_CLIENT_SECRET")
+MODO_TOKEN_URL = os.getenv("MODO_TOKEN_URL")
+MODO_STORE_ID = os.getenv("MODO_STORE_ID")
+MODO_PAYMENT_INTENT_URL = os.getenv("MODO_PAYMENT_INTENT_URL")
+
+
 if not DEBUG:
     # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     # EMAIL_HOST = "smtp.mailgun.org"
