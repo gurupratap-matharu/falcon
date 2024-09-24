@@ -24,7 +24,10 @@
     <div class="row gx-4">
       <div class="col-auto">
         <div class="avatar avatar-xl position-relative">
-          <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm" loading="lazy" />
+          <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+               alt="profile_image"
+               class="w-100 border-radius-lg shadow-sm"
+               loading="lazy" />
         </div>
       </div>
       <div class="col-auto my-auto">
