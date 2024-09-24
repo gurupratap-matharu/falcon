@@ -49,7 +49,13 @@ class CompanyDashboardView(OwnerMixin, TemplateView):
 
         context = super().get_context_data(**kwargs)
         context["trips"] = Trip.future.for_company(company_slug=slug, active=False)
-        context["kpis"] = Trip.past.kpis(company_slug=slug)
+        # context["kpis"] = Trip.past.kpis(company_slug=slug)
+        context["kpis"] = {
+            "occupancy": 74,
+            "bookings": 234,
+            "sales": 152443,
+            "trips": 23,
+        }
 
         return context
 
