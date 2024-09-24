@@ -24,6 +24,7 @@ from orders.models import Order
 from orders.services import order_confirmed
 
 from .models import WebhookMessage
+from .modo import create_payment_intent
 
 logger = logging.getLogger(__name__)
 
@@ -394,3 +395,28 @@ def mercadopago_success(request):
         return redirect(reverse_lazy("payments:success"))
 
     return redirect(reverse_lazy("payments:fail"))
+
+
+class ModoView(TemplateView):
+    template_name = "payments/modo.html"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        uri = self.request.build_absolute_uri
+        order_id = self.request.session.get("order")
+        order = get_object_or_404(Order, id=order_id)
+        response = create_payment_intent(order=order).json()
+
+        context["order"] = order
+        context["payment_intent"] = {
+            "checkoutId": response["id"],
+            "qrString": response["qr"],
+            "deeplink": response["deeplink"],
+            "successURL": uri(reverse_lazy("payments:success")),
+            "failURL": uri(reverse_lazy("payments:fail")),
+        }
+
+        logger.info("modo_payment_intent:%s" % create_payment_intent)
+
+        return context

@@ -23,4 +23,5 @@ urlpatterns = [
         views.mercadopago_webhook,
         name="mercadopago-webhook",
     ),
+    path("modo/", views.ModoView.as_view(), name="modo"),
 ]
