@@ -10,7 +10,6 @@ from django.template.loader import render_to_string
 from django_weasyprint.utils import django_url_fetcher
 from weasyprint import HTML
 
-from main.wa import get_document_payload, send_wa_message
 from orders.models import Order
 
 logger = logging.getLogger(__name__)

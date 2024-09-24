@@ -4,579 +4,799 @@
 {% get_arrival trip destination as destination_arrival %}
 {% get_duration trip origin destination as duration %}
 {% get_price trip origin destination as price %}
-<!doctype html>
-<html lang="und" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<!DOCTYPE html>
+<html lang="und"
+      dir="auto"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
+    <title>Ventanita: Your bus tickets</title>
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--<![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+         #outlook a {
+              padding: 0;
+         }
 
-<head>
-  <title>Ventanita: Your bus tickets</title>
-  <!--[if !mso]><!-->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!--<![endif]-->
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style type="text/css">
-    #outlook a {
-      padding: 0;
-    }
+         body {
+              margin: 0;
+              padding: 0;
+              -webkit-text-size-adjust: 100%;
+              -ms-text-size-adjust: 100%;
+         }
 
-    body {
-      margin: 0;
-      padding: 0;
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
+         table,
+         td {
+              border-collapse: collapse;
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+         }
 
-    table,
-    td {
-      border-collapse: collapse;
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-    }
+         img {
+              border: 0;
+              height: auto;
+              line-height: 100%;
+              outline: none;
+              text-decoration: none;
+              -ms-interpolation-mode: bicubic;
+         }
 
-    img {
-      border: 0;
-      height: auto;
-      line-height: 100%;
-      outline: none;
-      text-decoration: none;
-      -ms-interpolation-mode: bicubic;
-    }
-
-    p {
-      display: block;
-      margin: 13px 0;
-    }
-
-  </style>
-  <!--[if mso]>
+         p {
+              display: block;
+              margin: 13px 0;
+         }
+    </style>
+    <!--[if mso]>
     <noscript>
     <xml>
     <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
+      <o:AllowPNG />
       <o:PixelsPerInch>96</o:PixelsPerInch>
     </o:OfficeDocumentSettings>
     </xml>
     </noscript>
     <![endif]-->
-  <!--[if lte mso 11]>
+    <!--[if lte mso 11]>
     <style type="text/css">
-      .mj-outlook-group-fix { width:100% !important; }
+         .mj-outlook-group-fix {
+              width: 100% !important;
+         }
     </style>
     <![endif]-->
-  <!--[if !mso]><!-->
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
-  <style type="text/css">
-    @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700);
+    <!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+         @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700);
+    </style>
+    <!--<![endif]-->
+    <style type="text/css">
+         @media only screen and (min-width:480px) {
+              .mj-column-per-100 {
+                   width: 100% !important;
+                   max-width: 100%;
+              }
 
-  </style>
-  <!--<![endif]-->
-  <style type="text/css">
-    @media only screen and (min-width:480px) {
-      .mj-column-per-100 {
-        width: 100% !important;
-        max-width: 100%;
-      }
+              .mj-column-px-600 {
+                   width: 600px !important;
+                   max-width: 600px;
+              }
 
-      .mj-column-px-600 {
-        width: 600px !important;
-        max-width: 600px;
-      }
+              .mj-column-px-400 {
+                   width: 400px !important;
+                   max-width: 400px;
+              }
 
-      .mj-column-px-400 {
-        width: 400px !important;
-        max-width: 400px;
-      }
+              .mj-column-per-20 {
+                   width: 20% !important;
+                   max-width: 20%;
+              }
+         }
+    </style>
+    <style media="screen and (min-width:480px)">
+         .moz-text-html .mj-column-per-100 {
+              width: 100% !important;
+              max-width: 100%;
+         }
 
-      .mj-column-per-20 {
-        width: 20% !important;
-        max-width: 20%;
-      }
-    }
+         .moz-text-html .mj-column-px-600 {
+              width: 600px !important;
+              max-width: 600px;
+         }
 
-  </style>
-  <style media="screen and (min-width:480px)">
-    .moz-text-html .mj-column-per-100 {
-      width: 100% !important;
-      max-width: 100%;
-    }
+         .moz-text-html .mj-column-px-400 {
+              width: 400px !important;
+              max-width: 400px;
+         }
 
-    .moz-text-html .mj-column-px-600 {
-      width: 600px !important;
-      max-width: 600px;
-    }
+         .moz-text-html .mj-column-per-20 {
+              width: 20% !important;
+              max-width: 20%;
+         }
+    </style>
+    <style type="text/css">
+         @media only screen and (max-width:479px) {
+              table.mj-full-width-mobile {
+                   width: 100% !important;
+              }
 
-    .moz-text-html .mj-column-px-400 {
-      width: 400px !important;
-      max-width: 400px;
-    }
-
-    .moz-text-html .mj-column-per-20 {
-      width: 20% !important;
-      max-width: 20%;
-    }
-
-  </style>
-  <style type="text/css">
-    @media only screen and (max-width:479px) {
-      table.mj-full-width-mobile {
-        width: 100% !important;
-      }
-
-      td.mj-full-width-mobile {
-        width: auto !important;
-      }
-    }
-
-  </style>
-</head>
-
-<body style="word-spacing:normal;">
-  <div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">Your tickets are booked!</div>
-  <div style="" lang="und" dir="auto">
-    <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:30px;line-height:1;text-align:left;color:#626262;">Ventanita</div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" bgcolor="#F8D7DA" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="background:#F8D7DA;background-color:#F8D7DA;margin:0px auto;border-radius:10px;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#F8D7DA;background-color:#F8D7DA;width:100%;border-radius:10px;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-px-600 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Helvetica Neue;font-size:40px;line-height:1;text-align:center;color:#58151C;">Disfrutá tu viaje</div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:400px;" ><![endif]-->
-              <div class="mj-column-px-400 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:28px;line-height:2;text-align:center;color:#626262;">Tus pasajes estan aqui!</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:24px;line-height:1;text-align:center;color:#626262;">Tu código de reserva es {{ code }}</div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:left;color:#525252;">
-                          <p>¡Hola {{ order.name }}!</p>
-                          <p>Muchas gracias por elegir Ventanita.</p>
-                          <p>Recordá que es obligatorio presentar DNI o pasaporte antes de abordar. Tambien te recomendamos que revises los requisitos para tu viaje.</p>
-                          <p>A continuación, te mostramos el detalle de tu reserva.</p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <p style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;">
-                        </p>
-                        <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;" role="presentation" width="600px" ><tr><td style="height:0;line-height:0;"> &nbsp;
+              td.mj-full-width-mobile {
+                   width: auto !important;
+              }
+         }
+    </style>
+  </head>
+  <body style="word-spacing:normal;">
+    <div style="display:none;
+                font-size:1px;
+                color:#ffffff;
+                line-height:1px;
+                max-height:0px;
+                max-width:0px;
+                opacity:0;
+                overflow:hidden">Your tickets are booked!</div>
+    <div style="" lang="und" dir="auto">
+      <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+                <div class="mj-column-per-100 mj-outlook-group-fix"
+                     style="font-size:0px;
+                            text-align:left;
+                            direction:ltr;
+                            display:inline-block;
+                            vertical-align:top;
+                            width:100%">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:30px;line-height:1;text-align:left;color:#626262;">
+                            Ventanita
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" bgcolor="#F8D7DA"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="background:#F8D7DA;background-color:#F8D7DA;margin:0px auto;border-radius:10px;max-width:600px;">
+        <table align="center"
+               border="0"
+               cellpadding="0"
+               cellspacing="0"
+               role="presentation"
+               style="background:#F8D7DA;
+                      background-color:#F8D7DA;
+                      width:100%;
+                      border-radius:10px">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+                <div class="mj-column-px-600 mj-outlook-group-fix"
+                     style="font-size:0px;
+                            text-align:left;
+                            direction:ltr;
+                            display:inline-block;
+                            vertical-align:top;
+                            width:100%">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:Helvetica Neue;font-size:40px;line-height:1;text-align:center;color:#58151C;">
+                            Disfrutá tu viaje
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:400px;"><![endif]-->
+                <div class="mj-column-px-400 mj-outlook-group-fix"
+                     style="font-size:0px;
+                            text-align:left;
+                            direction:ltr;
+                            display:inline-block;
+                            vertical-align:top;
+                            width:100%">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:28px;line-height:2;text-align:center;color:#626262;">
+                            Tus pasajes estan aqui!
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:24px;line-height:1;text-align:center;color:#626262;">
+                            Tu código de reserva es {{ code }}
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+                <div class="mj-column-per-100 mj-outlook-group-fix"
+                     style="font-size:0px;
+                            text-align:left;
+                            direction:ltr;
+                            display:inline-block;
+                            vertical-align:top;
+                            width:100%">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:left;color:#525252;">
+                            <p>¡Hola {{ order.name }}!</p>
+                            <p>Muchas gracias por elegir Ventanita.</p>
+                            <p>
+                              Recordá que es obligatorio presentar DNI o pasaporte antes de abordar. Tambien te recomendamos que revises los requisitos para tu viaje.
+                            </p>
+                            <p>A continuación, te mostramos el detalle de tu reserva.</p>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+                <div class="mj-column-per-100 mj-outlook-group-fix"
+                     style="font-size:0px;
+                            text-align:left;
+                            direction:ltr;
+                            display:inline-block;
+                            vertical-align:top;
+                            width:100%">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <p style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;"></p>
+                          <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;" role="presentation" width="600px"><tr><td style="height:0;line-height:0;"> &nbsp;
 </td></tr></table><![endif]-->
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:left;color:#525252;">
-                          <p><strong>RESERVA</strong></p>
-                          <p>{{ code }}</p>
-                          <br></br>
-                          <p><strong>PASAJEROS</strong></p> {% for passenger in passengers %}<p>{{ passenger.get_full_name }}</p>{% endfor %} <br></br>
-                          <p><strong>IDA</strong></p>
-                          <p>{{ origin }} ({{ origin.abbr }}) → {{ destination }} ({{ destination.abbr }})</p>
-                          <p>{{ origin.abbr }} > {{ destination.abbr }}</p>
-                          <p>Bus: {{ trip_code }}</p>
-                          <p>Partida: {{ origin_departure|date:"l d F H:i" }}</p>
-                          <p>Arribo: {{ destination_arrival|date:"l d F H:i" }}</p>
-                          <br></br>
-                          <p><strong>PAGO</strong></p>
-                          <p>Número de transacción: {{ payment_id }}</p>
-                          <p>Forma de pago: Card</p>
-                          <p>Total: AR${{ order.get_total_cost }}</p>
-                          <p>Cuotas: 1</p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <p style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+                <div class="mj-column-per-100 mj-outlook-group-fix"
+                     style="font-size:0px;
+                            text-align:left;
+                            direction:ltr;
+                            display:inline-block;
+                            vertical-align:top;
+                            width:100%">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:left;color:#525252;">
+                            <p>
+                              <strong>RESERVA</strong>
+                            </p>
+                            <p>{{ code }}</p>
+                            <br />
+                          </br />
+                          <p>
+                            <strong>PASAJEROS</strong>
+                          </p>
+                          {% for passenger in passengers %}<p>{{ passenger.get_full_name }}</p>{% endfor %}
+                          <br />
+                        </br />
+                        <p>
+                          <strong>IDA</strong>
                         </p>
-                        <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;" role="presentation" width="600px" ><tr><td style="height:0;line-height:0;"> &nbsp;
+                        <p>{{ origin }} ({{ origin.abbr }}) → {{ destination }} ({{ destination.abbr }})</p>
+                        <p>{{ origin.abbr }} > {{ destination.abbr }}</p>
+                        <p>Bus: {{ trip_code }}</p>
+                        <p>Partida: {{ origin_departure|date:"l d F H:i" }}</p>
+                        <p>Arribo: {{ destination_arrival|date:"l d F H:i" }}</p>
+                        <br />
+                      </br />
+                      <p>
+                        <strong>PAGO</strong>
+                      </p>
+                      <p>Número de transacción: {{ payment_id }}</p>
+                      <p>Forma de pago: Card</p>
+                      <p>Total: AR${{ order.get_total_cost }}</p>
+                      <p>Cuotas: 1</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+<div style="margin:0px auto;max-width:600px;">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+    <tbody>
+      <tr>
+        <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+          <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+          <div class="mj-column-per-100 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <p style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;"></p>
+                    <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #000000;font-size:1px;margin:0px auto;width:600px;" role="presentation" width="600px"><tr><td style="height:0;line-height:0;"> &nbsp;
 </td></tr></table><![endif]-->
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:left;color:#525252;">
-                          <p><strong>ASISTENCIA ESPECIAL</strong></p>
-                          <p>Si tenés alguna condición médica, es necesario presentar tu certificado y/o completar MEDIF que se requiere para autorizar tu viaje.</p>
-                          <p>Consulta acá para más detalles.</p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" bgcolor="whitesmoke" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="background:whitesmoke;background-color:whitesmoke;margin:0px auto;border-radius:10px;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:whitesmoke;background-color:whitesmoke;width:100%;border-radius:10px;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:28px;line-height:2;text-align:center;color:#626262;">INFORMACIÓN IMPORTANTE</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#525252;">
-                          <p style="border-left:2px solid red; padding-left: 1em;">El e-ticket adquirido online tiene la misma validez que un boleto emitido en boletería.</p>
-                          <p style="border-left:2px solid red; padding-left: 1em;">Presentate en el terminal 1 horas antes de la salida del bus si tu viaje es internacional.</p>
-                          <p style="border-left:2px solid red; padding-left: 1em;">Equipaje de Mano: Hasta 5 kg. Debe ser apto para ser llevado abordo debajo de las butacas o en el portaequipajes. Equipaje en Bodega: Hasta 15 kg. sin cargo. En caso de superar el límite permitido, se deberá abonar el importe correspondiente al exceso de equipaje que establezca la empresa de transporte.</p>
-                          <p style="border-left:2px solid red; padding-left: 1em;">Según lo informado en la <a href="https://www.argentina.gob.ar/normativa/nacional/resolución-43-2016-264622/texto" target="_blank">Resolución 43 - E/2016</a> Los menores de DOCE (12) años, inclusive, no podrán viajar solos, podrán viajar acompañados por al menos UN (1) representante legal o acompañados por un tercero autorizado por al menos UN (1) representante legal. Los menores de entre TRECE (13) y DIECISIETE (17) años, podrán viajar solos si contaren con autorización legal.</p>
-                          <p>¿Tenés más dudas? Encontrá las respuestas en <a href="https://ventanita.com.ar/faq/" target="_blank">nuestra web</a> o escribinos a nuestro <a href="https://ventanita.com.ar/contact/" target="_blank">Centro de Atención al Cliente.</a></p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
-                          <tbody>
-                            <tr>
-                              <td style="width:100px;">
-                                <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iMCAwIDY0IDY0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIj48cGF0aCBkPSJNNS45IDYyYy0zLjMgMC00LjgtMi40LTMuMy01LjNMMjkuMyA0LjJjMS41LTIuOSAzLjktMi45IDUuNCAwbDI2LjcgNTIuNWMxLjUgMi45IDAgNS4zLTMuMyA1LjN6IiBmaWxsPSIjZmZjZTMxIi8+PGcgZmlsbD0iIzIzMWYyMCI+PHBhdGggZD0ibTI3LjggMjMuNiAyLjggMTguNWMuMyAxLjggMi42IDEuOCAyLjkgMGwyLjctMTguNWMuNS03LjItOC45LTcuMi04LjQgMCIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iNDkuNiIgcj0iNC4yIi8+PC9nPjwvc3ZnPg==" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="100" height="auto" />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:center;color:#525252;">¡Cuidado con las estafas!</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:16px;line-height:1;text-align:center;color:#525252;">No contamos con atención vía WhatsApp ni app. Tampoco iniciaremos conversación por chat privado. Nunca compartas tu código de reserva en las redes. Jamás te pediremos claves o datos bancarios privados.</div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-              <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:30px;line-height:1;text-align:center;color:#626262;">Ventanita</div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    <div style="margin:0px auto;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-        <tbody>
-          <tr>
-            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:120px;" ><![endif]-->
-              <div class="mj-column-per-20 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
-                          <tbody>
-                            <tr>
-                              <td style="width:30px;">
-                                <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iLTYgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIuNDYyLjE3M3YzLjgwOGgtMi4yNjVhMi4xMSAyLjExIDAgMCAwLTEuNjc1LjUyMWwuMDAyLS4wMDJhMi4zNyAyLjM3IDAgMCAwLS40MzIgMS41NjZ2LS4wMDggMi43MjZoNC4yMjlsLS41NiA0LjI3SDguMDk4VjI0SDMuNjgxVjEzLjA1M0guMDAxVjguNzg0aDMuNjhWNS42MzlhNS41NiA1LjU2IDAgMCAxIDEuNTAyLTQuMTYybC0uMDAzLjAwM0E1LjQyIDUuNDIgMCAwIDEgOS4xODUuMDAyaC0uMDEzYTI0IDI0IDAgMCAxIDMuNDA2LjE4NWwtLjExNy0uMDEyeiIvPjwvc3ZnPg==" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="30" height="auto" />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;" ><![endif]-->
-              <div class="mj-column-per-20 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
-                          <tbody>
-                            <tr>
-                              <td style="width:30px;">
-                                <img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik0xMi42Ljc1aDIuNDU0bC01LjM2IDYuMTQyTDE2IDE1LjI1aC00LjkzN2wtMy44NjctNS4wNy00LjQyNSA1LjA3SC4zMTZsNS43MzMtNi41N0wwIC43NWg1LjA2M2wzLjQ5NSA0LjYzM0wxMi42MDEuNzVabS0uODYgMTMuMDI4aDEuMzZMNC4zMjMgMi4xNDVIMi44NjV6Ii8+PC9zdmc+" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="30" height="auto" />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;" ><![endif]-->
-              <div class="mj-column-per-20 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
-                          <tbody>
-                            <tr>
-                              <td style="width:30px;">
-                                <img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik04IDBDNS44MjkgMCA1LjU1Ni4wMSA0LjcwMy4wNDggMy44NS4wODggMy4yNjkuMjIyIDIuNzYuNDJhMy45IDMuOSAwIDAgMC0xLjQxNy45MjNBMy45IDMuOSAwIDAgMCAuNDIgMi43NkMuMjIyIDMuMjY4LjA4NyAzLjg1LjA0OCA0LjcuMDEgNS41NTUgMCA1LjgyNyAwIDguMDAxYzAgMi4xNzIuMDEgMi40NDQuMDQ4IDMuMjk3LjA0Ljg1Mi4xNzQgMS40MzMuMzcyIDEuOTQyLjIwNS41MjYuNDc4Ljk3Mi45MjMgMS40MTcuNDQ0LjQ0NS44OS43MTkgMS40MTYuOTIzLjUxLjE5OCAxLjA5LjMzMyAxLjk0Mi4zNzJDNS41NTUgMTUuOTkgNS44MjcgMTYgOCAxNnMyLjQ0NC0uMDEgMy4yOTgtLjA0OGMuODUxLS4wNCAxLjQzNC0uMTc0IDEuOTQzLS4zNzJhMy45IDMuOSAwIDAgMCAxLjQxNi0uOTIzYy40NDUtLjQ0NS43MTgtLjg5MS45MjMtMS40MTcuMTk3LS41MDkuMzMyLTEuMDkuMzcyLTEuOTQyQzE1Ljk5IDEwLjQ0NSAxNiAxMC4xNzMgMTYgOHMtLjAxLTIuNDQ1LS4wNDgtMy4yOTljLS4wNC0uODUxLS4xNzUtMS40MzMtLjM3Mi0xLjk0MWEzLjkgMy45IDAgMCAwLS45MjMtMS40MTdBMy45IDMuOSAwIDAgMCAxMy4yNC40MmMtLjUxLS4xOTgtMS4wOTItLjMzMy0xLjk0My0uMzcyQzEwLjQ0My4wMSAxMC4xNzIgMCA3Ljk5OCAwem0tLjcxNyAxLjQ0MmguNzE4YzIuMTM2IDAgMi4zODkuMDA3IDMuMjMyLjA0Ni43OC4wMzUgMS4yMDQuMTY2IDEuNDg2LjI3NS4zNzMuMTQ1LjY0LjMxOS45Mi41OTlzLjQ1My41NDYuNTk4LjkyYy4xMS4yODEuMjQuNzA1LjI3NSAxLjQ4NS4wMzkuODQzLjA0NyAxLjA5Ni4wNDcgMy4yMzFzLS4wMDggMi4zODktLjA0NyAzLjIzMmMtLjAzNS43OC0uMTY2IDEuMjAzLS4yNzUgMS40ODVhMi41IDIuNSAwIDAgMS0uNTk5LjkxOWMtLjI4LjI4LS41NDYuNDUzLS45Mi41OTgtLjI4LjExLS43MDQuMjQtMS40ODUuMjc2LS44NDMuMDM4LTEuMDk2LjA0Ny0zLjIzMi4wNDdzLTIuMzktLjAwOS0zLjIzMy0uMDQ3Yy0uNzgtLjAzNi0xLjIwMy0uMTY2LTEuNDg1LS4yNzZhMi41IDIuNSAwIDAgMS0uOTItLjU5OCAyLjUgMi41IDAgMCAxLS42LS45MmMtLjEwOS0uMjgxLS4yNC0uNzA1LS4yNzUtMS40ODUtLjAzOC0uODQzLS4wNDYtMS4wOTYtLjA0Ni0zLjIzM3MuMDA4LTIuMzg4LjA0Ni0zLjIzMWMuMDM2LS43OC4xNjYtMS4yMDQuMjc2LTEuNDg2LjE0NS0uMzczLjMxOS0uNjQuNTk5LS45MnMuNTQ2LS40NTMuOTItLjU5OGMuMjgyLS4xMS43MDUtLjI0IDEuNDg1LS4yNzYuNzM4LS4wMzQgMS4wMjQtLjA0NCAyLjUxNS0uMDQ1em00Ljk4OCAxLjMyOGEuOTYuOTYgMCAxIDAgMCAxLjkyLjk2Ljk2IDAgMCAwIDAtMS45Mm0tNC4yNyAxLjEyMmE0LjEwOSA0LjEwOSAwIDEgMCAwIDguMjE3IDQuMTA5IDQuMTA5IDAgMCAwIDAtOC4yMTdtMCAxLjQ0MWEyLjY2NyAyLjY2NyAwIDEgMSAwIDUuMzM0IDIuNjY3IDIuNjY3IDAgMCAxIDAtNS4zMzQiLz48L3N2Zz4=" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="30" height="auto" />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;" ><![endif]-->
-              <div class="mj-column-per-20 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
-                          <tbody>
-                            <tr>
-                              <td style="width:30px;">
-                                <img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik04LjA1MSAxLjk5OWguMDg5Yy44MjIuMDAzIDQuOTg3LjAzMyA2LjExLjMzNWEyLjAxIDIuMDEgMCAwIDEgMS40MTUgMS40MmMuMTAxLjM4LjE3Mi44ODMuMjIgMS40MDJsLjAxLjEwNC4wMjIuMjYuMDA4LjEwNGMuMDY1LjkxNC4wNzMgMS43Ny4wNzQgMS45NTd2LjA3NWMtLjAwMS4xOTQtLjAxIDEuMTA4LS4wODIgMi4wNmwtLjAwOC4xMDUtLjAwOS4xMDRjLS4wNS41NzItLjEyNCAxLjE0LS4yMzUgMS41NThhMi4wMSAyLjAxIDAgMCAxLTEuNDE1IDEuNDJjLTEuMTYuMzEyLTUuNTY5LjMzNC02LjE4LjMzNWgtLjE0MmMtLjMwOSAwLTEuNTg3LS4wMDYtMi45MjctLjA1MmwtLjE3LS4wMDYtLjA4Ny0uMDA0LS4xNzEtLjAwNy0uMTcxLS4wMDdjLTEuMTEtLjA0OS0yLjE2Ny0uMTI4LTIuNjU0LS4yNmEyLjAxIDIuMDEgMCAwIDEtMS40MTUtMS40MTljLS4xMTEtLjQxNy0uMTg1LS45ODYtLjIzNS0xLjU1OEwuMDkgOS44MmwtLjAwOC0uMTA0QTMxIDMxIDAgMCAxIDAgNy42OHYtLjEyM2MuMDAyLS4yMTUuMDEtLjk1OC4wNjQtMS43NzhsLjAwNy0uMTAzLjAwMy0uMDUyLjAwOC0uMTA0LjAyMi0uMjYuMDEtLjEwNGMuMDQ4LS41MTkuMTE5LTEuMDIzLjIyLTEuNDAyYTIuMDEgMi4wMSAwIDAgMSAxLjQxNS0xLjQyYy40ODctLjEzIDEuNTQ0LS4yMSAyLjY1NC0uMjZsLjE3LS4wMDcuMTcyLS4wMDYuMDg2LS4wMDMuMTcxLS4wMDdBMTAwIDEwMCAwIDAgMSA3Ljg1OCAyek02LjQgNS4yMDl2NC44MThsNC4xNTctMi40MDh6Ii8+PC9zdmc+" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="30" height="auto" />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;" ><![endif]-->
-              <div class="mj-column-per-20 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
-                          <tbody>
-                            <tr>
-                              <td style="width:30px;">
-                                <img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik0wIDEuMTQ2QzAgLjUxMy41MjYgMCAxLjE3NSAwaDEzLjY1QzE1LjQ3NCAwIDE2IC41MTMgMTYgMS4xNDZ2MTMuNzA4YzAgLjYzMy0uNTI2IDEuMTQ2LTEuMTc1IDEuMTQ2SDEuMTc1Qy41MjYgMTYgMCAxNS40ODcgMCAxNC44NTR6bTQuOTQzIDEyLjI0OFY2LjE2OUgyLjU0MnY3LjIyNXptLTEuMi04LjIxMmMuODM3IDAgMS4zNTgtLjU1NCAxLjM1OC0xLjI0OC0uMDE1LS43MDktLjUyLTEuMjQ4LTEuMzQyLTEuMjQ4UzIuNCAzLjIyNiAyLjQgMy45MzRjMCAuNjk0LjUyMSAxLjI0OCAxLjMyNyAxLjI0OHptNC45MDggOC4yMTJWOS4zNTljMC0uMjE2LjAxNi0uNDMyLjA4LS41ODYuMTczLS40MzEuNTY4LS44NzggMS4yMzItLjg3OC44NjkgMCAxLjIxNi42NjIgMS4yMTYgMS42MzR2My44NjVoMi40MDFWOS4yNWMwLTIuMjItMS4xODQtMy4yNTItMi43NjQtMy4yNTItMS4yNzQgMC0xLjg0NS43LTIuMTY1IDEuMTkzdi4wMjVoLS4wMTZsLjAxNi0uMDI1VjYuMTY5aC0yLjRjLjAzLjY3OCAwIDcuMjI1IDAgNy4yMjV6Ii8+PC9zdmc+" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="30" height="auto" />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--[if mso | IE]></td></tr></table><![endif]-->
-  </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+<div style="margin:0px auto;max-width:600px;">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+    <tbody>
+      <tr>
+        <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+          <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+          <div class="mj-column-per-100 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:left;color:#525252;">
+                      <p>
+                        <strong>ASISTENCIA ESPECIAL</strong>
+                      </p>
+                      <p>
+                        Si tenés alguna condición médica, es necesario presentar tu certificado y/o completar MEDIF que se requiere para autorizar tu viaje.
+                      </p>
+                      <p>Consulta acá para más detalles.</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" bgcolor="whitesmoke"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+<div style="background:whitesmoke;background-color:whitesmoke;margin:0px auto;border-radius:10px;max-width:600px;">
+  <table align="center"
+         border="0"
+         cellpadding="0"
+         cellspacing="0"
+         role="presentation"
+         style="background:whitesmoke;
+                background-color:whitesmoke;
+                width:100%;
+                border-radius:10px">
+    <tbody>
+      <tr>
+        <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+          <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+          <div class="mj-column-per-100 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:28px;line-height:2;text-align:center;color:#626262;">
+                      INFORMACIÓN IMPORTANTE
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#525252;">
+                      <p style="border-left:2px solid red; padding-left: 1em;">
+                        El e-ticket adquirido online tiene la misma validez que un boleto emitido en boletería.
+                      </p>
+                      <p style="border-left:2px solid red; padding-left: 1em;">
+                        Presentate en el terminal 1 horas antes de la salida del bus si tu viaje es internacional.
+                      </p>
+                      <p style="border-left:2px solid red; padding-left: 1em;">
+                        Equipaje de Mano: Hasta 5 kg. Debe ser apto para ser llevado abordo debajo de las butacas o en el portaequipajes. Equipaje en Bodega: Hasta 15 kg. sin cargo. En caso de superar el límite permitido, se deberá abonar el importe correspondiente al exceso de equipaje que establezca la empresa de transporte.
+                      </p>
+                      <p style="border-left:2px solid red; padding-left: 1em;">
+                        Según lo informado en la <a href="https://www.argentina.gob.ar/normativa/nacional/resolución-43-2016-264622/texto" target="_blank">Resolución 43 - E/2016</a> Los menores de DOCE (12) años, inclusive, no podrán viajar solos, podrán viajar acompañados por al menos UN (1) representante legal o acompañados por un tercero autorizado por al menos UN (1) representante legal. Los menores de entre TRECE (13) y DIECISIETE (17) años, podrán viajar solos si contaren con autorización legal.
+                      </p>
+                      <p>
+                        ¿Tenés más dudas? Encontrá las respuestas en <a href="https://ventanita.com.ar/faq/" target="_blank">nuestra web</a> o escribinos a nuestro <a href="https://ventanita.com.ar/contact/" target="_blank">Centro de Atención al Cliente.</a>
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+<div style="margin:0px auto;max-width:600px;">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+    <tbody>
+      <tr>
+        <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+          <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+          <div class="mj-column-per-100 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                      <tbody>
+                        <tr>
+                          <td style="width:100px;">
+                            <img alt=""
+                                 src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iMCAwIDY0IDY0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIj48cGF0aCBkPSJNNS45IDYyYy0zLjMgMC00LjgtMi40LTMuMy01LjNMMjkuMyA0LjJjMS41LTIuOSAzLjktMi45IDUuNCAwbDI2LjcgNTIuNWMxLjUgMi45IDAgNS4zLTMuMyA1LjN6IiBmaWxsPSIjZmZjZTMxIi8+PGcgZmlsbD0iIzIzMWYyMCI+PHBhdGggZD0ibTI3LjggMjMuNiAyLjggMTguNWMuMyAxLjggMi42IDEuOCAyLjkgMGwyLjctMTguNWMuNS03LjItOC45LTcuMi04LjQgMCIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iNDkuNiIgcj0iNC4yIi8+PC9nPjwvc3ZnPg=="
+                                 style="border:0;
+                                        display:block;
+                                        outline:none;
+                                        text-decoration:none;
+                                        height:auto;
+                                        width:100%;
+                                        font-size:13px"
+                                 width="100"
+                                 height="auto" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:center;color:#525252;">
+                      ¡Cuidado con las estafas!
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:16px;line-height:1;text-align:center;color:#525252;">
+                      No contamos con atención vía WhatsApp ni app. Tampoco iniciaremos conversación por chat privado. Nunca compartas tu código de reserva en las redes. Jamás te pediremos claves o datos bancarios privados.
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+<div style="margin:0px auto;max-width:600px;">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+    <tbody>
+      <tr>
+        <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+          <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;"><![endif]-->
+          <div class="mj-column-per-100 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:30px;line-height:1;text-align:center;color:#626262;">
+                      Ventanita
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600"><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+<div style="margin:0px auto;max-width:600px;">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+    <tbody>
+      <tr>
+        <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+          <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:120px;"><![endif]-->
+          <div class="mj-column-per-20 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                      <tbody>
+                        <tr>
+                          <td style="width:30px;">
+                            <img alt=""
+                                 src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iLTYgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIuNDYyLjE3M3YzLjgwOGgtMi4yNjVhMi4xMSAyLjExIDAgMCAwLTEuNjc1LjUyMWwuMDAyLS4wMDJhMi4zNyAyLjM3IDAgMCAwLS40MzIgMS41NjZ2LS4wMDggMi43MjZoNC4yMjlsLS41NiA0LjI3SDguMDk4VjI0SDMuNjgxVjEzLjA1M0guMDAxVjguNzg0aDMuNjhWNS42MzlhNS41NiA1LjU2IDAgMCAxIDEuNTAyLTQuMTYybC0uMDAzLjAwM0E1LjQyIDUuNDIgMCAwIDEgOS4xODUuMDAyaC0uMDEzYTI0IDI0IDAgMCAxIDMuNDA2LjE4NWwtLjExNy0uMDEyeiIvPjwvc3ZnPg=="
+                                 style="border:0;
+                                        display:block;
+                                        outline:none;
+                                        text-decoration:none;
+                                        height:auto;
+                                        width:100%;
+                                        font-size:13px"
+                                 width="30"
+                                 height="auto" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;"><![endif]-->
+          <div class="mj-column-per-20 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                      <tbody>
+                        <tr>
+                          <td style="width:30px;">
+                            <img alt=""
+                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik0xMi42Ljc1aDIuNDU0bC01LjM2IDYuMTQyTDE2IDE1LjI1aC00LjkzN2wtMy44NjctNS4wNy00LjQyNSA1LjA3SC4zMTZsNS43MzMtNi41N0wwIC43NWg1LjA2M2wzLjQ5NSA0LjYzM0wxMi42MDEuNzVabS0uODYgMTMuMDI4aDEuMzZMNC4zMjMgMi4xNDVIMi44NjV6Ii8+PC9zdmc+"
+                                 style="border:0;
+                                        display:block;
+                                        outline:none;
+                                        text-decoration:none;
+                                        height:auto;
+                                        width:100%;
+                                        font-size:13px"
+                                 width="30"
+                                 height="auto" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;"><![endif]-->
+          <div class="mj-column-per-20 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                      <tbody>
+                        <tr>
+                          <td style="width:30px;">
+                            <img alt=""
+                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik04IDBDNS44MjkgMCA1LjU1Ni4wMSA0LjcwMy4wNDggMy44NS4wODggMy4yNjkuMjIyIDIuNzYuNDJhMy45IDMuOSAwIDAgMC0xLjQxNy45MjNBMy45IDMuOSAwIDAgMCAuNDIgMi43NkMuMjIyIDMuMjY4LjA4NyAzLjg1LjA0OCA0LjcuMDEgNS41NTUgMCA1LjgyNyAwIDguMDAxYzAgMi4xNzIuMDEgMi40NDQuMDQ4IDMuMjk3LjA0Ljg1Mi4xNzQgMS40MzMuMzcyIDEuOTQyLjIwNS41MjYuNDc4Ljk3Mi45MjMgMS40MTcuNDQ0LjQ0NS44OS43MTkgMS40MTYuOTIzLjUxLjE5OCAxLjA5LjMzMyAxLjk0Mi4zNzJDNS41NTUgMTUuOTkgNS44MjcgMTYgOCAxNnMyLjQ0NC0uMDEgMy4yOTgtLjA0OGMuODUxLS4wNCAxLjQzNC0uMTc0IDEuOTQzLS4zNzJhMy45IDMuOSAwIDAgMCAxLjQxNi0uOTIzYy40NDUtLjQ0NS43MTgtLjg5MS45MjMtMS40MTcuMTk3LS41MDkuMzMyLTEuMDkuMzcyLTEuOTQyQzE1Ljk5IDEwLjQ0NSAxNiAxMC4xNzMgMTYgOHMtLjAxLTIuNDQ1LS4wNDgtMy4yOTljLS4wNC0uODUxLS4xNzUtMS40MzMtLjM3Mi0xLjk0MWEzLjkgMy45IDAgMCAwLS45MjMtMS40MTdBMy45IDMuOSAwIDAgMCAxMy4yNC40MmMtLjUxLS4xOTgtMS4wOTItLjMzMy0xLjk0My0uMzcyQzEwLjQ0My4wMSAxMC4xNzIgMCA3Ljk5OCAwem0tLjcxNyAxLjQ0MmguNzE4YzIuMTM2IDAgMi4zODkuMDA3IDMuMjMyLjA0Ni43OC4wMzUgMS4yMDQuMTY2IDEuNDg2LjI3NS4zNzMuMTQ1LjY0LjMxOS45Mi41OTlzLjQ1My41NDYuNTk4LjkyYy4xMS4yODEuMjQuNzA1LjI3NSAxLjQ4NS4wMzkuODQzLjA0NyAxLjA5Ni4wNDcgMy4yMzFzLS4wMDggMi4zODktLjA0NyAzLjIzMmMtLjAzNS43OC0uMTY2IDEuMjAzLS4yNzUgMS40ODVhMi41IDIuNSAwIDAgMS0uNTk5LjkxOWMtLjI4LjI4LS41NDYuNDUzLS45Mi41OTgtLjI4LjExLS43MDQuMjQtMS40ODUuMjc2LS44NDMuMDM4LTEuMDk2LjA0Ny0zLjIzMi4wNDdzLTIuMzktLjAwOS0zLjIzMy0uMDQ3Yy0uNzgtLjAzNi0xLjIwMy0uMTY2LTEuNDg1LS4yNzZhMi41IDIuNSAwIDAgMS0uOTItLjU5OCAyLjUgMi41IDAgMCAxLS42LS45MmMtLjEwOS0uMjgxLS4yNC0uNzA1LS4yNzUtMS40ODUtLjAzOC0uODQzLS4wNDYtMS4wOTYtLjA0Ni0zLjIzM3MuMDA4LTIuMzg4LjA0Ni0zLjIzMWMuMDM2LS43OC4xNjYtMS4yMDQuMjc2LTEuNDg2LjE0NS0uMzczLjMxOS0uNjQuNTk5LS45MnMuNTQ2LS40NTMuOTItLjU5OGMuMjgyLS4xMS43MDUtLjI0IDEuNDg1LS4yNzYuNzM4LS4wMzQgMS4wMjQtLjA0NCAyLjUxNS0uMDQ1em00Ljk4OCAxLjMyOGEuOTYuOTYgMCAxIDAgMCAxLjkyLjk2Ljk2IDAgMCAwIDAtMS45Mm0tNC4yNyAxLjEyMmE0LjEwOSA0LjEwOSAwIDEgMCAwIDguMjE3IDQuMTA5IDQuMTA5IDAgMCAwIDAtOC4yMTdtMCAxLjQ0MWEyLjY2NyAyLjY2NyAwIDEgMSAwIDUuMzM0IDIuNjY3IDIuNjY3IDAgMCAxIDAtNS4zMzQiLz48L3N2Zz4="
+                                 style="border:0;
+                                        display:block;
+                                        outline:none;
+                                        text-decoration:none;
+                                        height:auto;
+                                        width:100%;
+                                        font-size:13px"
+                                 width="30"
+                                 height="auto" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;"><![endif]-->
+          <div class="mj-column-per-20 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                      <tbody>
+                        <tr>
+                          <td style="width:30px;">
+                            <img alt=""
+                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik04LjA1MSAxLjk5OWguMDg5Yy44MjIuMDAzIDQuOTg3LjAzMyA2LjExLjMzNWEyLjAxIDIuMDEgMCAwIDEgMS40MTUgMS40MmMuMTAxLjM4LjE3Mi44ODMuMjIgMS40MDJsLjAxLjEwNC4wMjIuMjYuMDA4LjEwNGMuMDY1LjkxNC4wNzMgMS43Ny4wNzQgMS45NTd2LjA3NWMtLjAwMS4xOTQtLjAxIDEuMTA4LS4wODIgMi4wNmwtLjAwOC4xMDUtLjAwOS4xMDRjLS4wNS41NzItLjEyNCAxLjE0LS4yMzUgMS41NThhMi4wMSAyLjAxIDAgMCAxLTEuNDE1IDEuNDJjLTEuMTYuMzEyLTUuNTY5LjMzNC02LjE4LjMzNWgtLjE0MmMtLjMwOSAwLTEuNTg3LS4wMDYtMi45MjctLjA1MmwtLjE3LS4wMDYtLjA4Ny0uMDA0LS4xNzEtLjAwNy0uMTcxLS4wMDdjLTEuMTEtLjA0OS0yLjE2Ny0uMTI4LTIuNjU0LS4yNmEyLjAxIDIuMDEgMCAwIDEtMS40MTUtMS40MTljLS4xMTEtLjQxNy0uMTg1LS45ODYtLjIzNS0xLjU1OEwuMDkgOS44MmwtLjAwOC0uMTA0QTMxIDMxIDAgMCAxIDAgNy42OHYtLjEyM2MuMDAyLS4yMTUuMDEtLjk1OC4wNjQtMS43NzhsLjAwNy0uMTAzLjAwMy0uMDUyLjAwOC0uMTA0LjAyMi0uMjYuMDEtLjEwNGMuMDQ4LS41MTkuMTE5LTEuMDIzLjIyLTEuNDAyYTIuMDEgMi4wMSAwIDAgMSAxLjQxNS0xLjQyYy40ODctLjEzIDEuNTQ0LS4yMSAyLjY1NC0uMjZsLjE3LS4wMDcuMTcyLS4wMDYuMDg2LS4wMDMuMTcxLS4wMDdBMTAwIDEwMCAwIDAgMSA3Ljg1OCAyek02LjQgNS4yMDl2NC44MThsNC4xNTctMi40MDh6Ii8+PC9zdmc+"
+                                 style="border:0;
+                                        display:block;
+                                        outline:none;
+                                        text-decoration:none;
+                                        height:auto;
+                                        width:100%;
+                                        font-size:13px"
+                                 width="30"
+                                 height="auto" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;"><![endif]-->
+          <div class="mj-column-per-20 mj-outlook-group-fix"
+               style="font-size:0px;
+                      text-align:left;
+                      direction:ltr;
+                      display:inline-block;
+                      vertical-align:top;
+                      width:100%">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+              <tbody>
+                <tr>
+                  <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                      <tbody>
+                        <tr>
+                          <td style="width:30px;">
+                            <img alt=""
+                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Ik0wIDEuMTQ2QzAgLjUxMy41MjYgMCAxLjE3NSAwaDEzLjY1QzE1LjQ3NCAwIDE2IC41MTMgMTYgMS4xNDZ2MTMuNzA4YzAgLjYzMy0uNTI2IDEuMTQ2LTEuMTc1IDEuMTQ2SDEuMTc1Qy41MjYgMTYgMCAxNS40ODcgMCAxNC44NTR6bTQuOTQzIDEyLjI0OFY2LjE2OUgyLjU0MnY3LjIyNXptLTEuMi04LjIxMmMuODM3IDAgMS4zNTgtLjU1NCAxLjM1OC0xLjI0OC0uMDE1LS43MDktLjUyLTEuMjQ4LTEuMzQyLTEuMjQ4UzIuNCAzLjIyNiAyLjQgMy45MzRjMCAuNjk0LjUyMSAxLjI0OCAxLjMyNyAxLjI0OHptNC45MDggOC4yMTJWOS4zNTljMC0uMjE2LjAxNi0uNDMyLjA4LS41ODYuMTczLS40MzEuNTY4LS44NzggMS4yMzItLjg3OC44NjkgMCAxLjIxNi42NjIgMS4yMTYgMS42MzR2My44NjVoMi40MDFWOS4yNWMwLTIuMjItMS4xODQtMy4yNTItMi43NjQtMy4yNTItMS4yNzQgMC0xLjg0NS43LTIuMTY1IDEuMTkzdi4wMjVoLS4wMTZsLjAxNi0uMDI1VjYuMTY5aC0yLjRjLjAzLjY3OCAwIDcuMjI1IDAgNy4yMjV6Ii8+PC9zdmc+"
+                                 style="border:0;
+                                        display:block;
+                                        outline:none;
+                                        text-decoration:none;
+                                        height:auto;
+                                        width:100%;
+                                        font-size:13px"
+                                 width="30"
+                                 height="auto" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--[if mso | IE]></td></tr></table><![endif]-->
+</div>
 </body>
-
 </html>

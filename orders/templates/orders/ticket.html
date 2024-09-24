@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="{% static 'assets/css/ticket.css' %}" />
   </head>
   <body>
+    <section class="logos">
+      <img src="{{ company.cover.url }}" width="200" height="100" alt="Logo of bus company {{ company.name }}" />
+      <h1>Ventanita</h1>
+    </section>
     <section>
       <strong>{{ origin_departure }}</strong> {% translate "Trip from " %}<strong>{{ origin }} - {{ destination }}</strong>
     </section>
@@ -109,6 +113,12 @@
     </section>
     <section>
       {% qr_from_text qr_url size="S" dark_color="#2a3239" %}
+    </section>
+    <section class="conditions">
+      <ul>
+        <li></li>
+        <li></li>
+      </ul>
     </section>
   </body>
 </html>
