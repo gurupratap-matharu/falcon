@@ -32,7 +32,6 @@ def send_wa_message(data):
 
     except requests.exceptions.RequestException as err:
         logger.critical("Catastrophic. Could not talk to whatsapp!", err)
-        raise SystemExit(err)
 
     else:
         logger.info(response.text)
