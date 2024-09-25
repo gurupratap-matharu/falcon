@@ -17,6 +17,28 @@
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-md-4">
+      <a href="{% url 'payments:modo' %}">
+        <div class="card cursor-pointer mb-3">
+          <div class="card-header mx-auto p-3">
+            <div class="icon icon-shape bg-gradient-primary shadow d-flex justify-content-center align-items-center">
+              <img src="{% static 'assets/img/vendors/logo_isotype_modo.svg' %}" alt="Logo Modo Payment processor" width="24" height="24" />
+            </div>
+          </div>
+          <div class="card-body pt-0 p-3 text-center">
+            <h6 class="text-center mb-0">MODO</h6>
+            <span class="text-xs">ARS</span>
+            <hr class="horizontal dark my-3" />
+            <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6">
+              ARS {{ order.get_total_cost|floatformat:"g" }}
+              <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
       <a href="{{ preference.init_point }}">
         <div class="card cursor-pointer mb-3 mp-container">
           <div class="card-header mx-auto p-3">
@@ -75,6 +97,6 @@
   <script type="text/javascript" src="https://sdk.mercadopago.com/js/v2" defer></script>
   <script type="text/javascript" src="{% static 'assets/js/payment/mp.js' %}" defer></script>
   {% comment %} Stripe {% endcomment %}
-  <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+  {% comment "this is throws error in console" %} <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script> {% endcomment %}
   <script src="https://js.stripe.com/v3/"></script>
 {% endblock js %}

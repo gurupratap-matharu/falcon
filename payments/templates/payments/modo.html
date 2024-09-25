@@ -3,19 +3,29 @@
 {% load static i18n %}
 
 {% block content %}
-    <img src="{% static 'assets/img/vendors/logo_modo.svg' %}" alt="Logo for MODO payment processor" width="200" height="100" />
-    <div class="card mb-3">
-        <div class="card-body">
-            <button class="btn bg-gradient-primary modoBtn">
-                Pagá con MODO
-                <span class="visually-hidden">{% translate "Pay with Modo" %}</span>
-            </button>
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+      <div class="card cursor-pointer mb-3">
+        <div class="card-header mx-auto p-3">
+          <img src="{% static 'assets/img/vendors/logo_modo.svg' %}" alt="Logo for MODO payment processor" width="200" height="100" />
         </div>
+        <div class="card-body pt-0 p-3 text-center">
+          <h6 class="text-center my-3">{% translate "Pay with MODO" %}</h6>
+          <button class="btn bg-gradient-primary btn-round icon-link icon-link-hover fs-6 modoBtn">
+            ARS {{ order.get_total_cost|floatformat:"g" }}
+            <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+            </svg>
+            <span class="visually-hidden">{% translate "Pay with Modo" %}</span>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 {% endblock content %}
 
 {% block js %}
-    {{ payment_intent|json_script:"payment_intent" }}
-    <script src="https://ecommerce-modal.preprod.modo.com.ar/bundle.js"></script>
-    <script src="{% static 'assets/js/payment/modo.js' %}"></script>
+  {{ payment_intent|json_script:"payment_intent" }}
+  <script src="https://ecommerce-modal.preprod.modo.com.ar/bundle.js"></script>
+  <script src="{% static 'assets/js/payment/modo.js' %}"></script>
 {% endblock js %}
