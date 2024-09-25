@@ -19,8 +19,12 @@ class Command(BaseCommand):
         token = fetch_token()
 
         logger.info("saving token to db...")
-        obj = ModoToken.objects.first()
-        obj.token = token
-        obj.save()
+
+        if ModoToken.objects.exists():
+            obj = ModoToken.objects.first()
+            obj.token = token
+            obj.save()
+        else:
+            obj = ModoToken.objects.create(token=token)
 
         logger.info("All Done 💄✨🚀")
