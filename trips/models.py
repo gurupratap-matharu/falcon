@@ -660,6 +660,12 @@ class Seat(models.Model):
     passenger = models.ForeignKey(
         "orders.Passenger", on_delete=models.SET_NULL, related_name="+", null=True
     )
+    order_item = models.ForeignKey(
+        "orders.OrderItem",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="booked_seats",
+    )
     seat_number = models.PositiveIntegerField(
         _("seat number"), validators=[MinValueValidator(1), MaxValueValidator(60)]
     )
