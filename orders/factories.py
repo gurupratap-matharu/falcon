@@ -51,10 +51,11 @@ class OrderItemFactory(factory.django.DjangoModelFactory):
         model = OrderItem
 
     order = factory.SubFactory(OrderFactory)
-    # We provide dotted path to another factory to avoid circular import error
     trip = factory.SubFactory("trips.factories.TripFactory")
-    price = factory.LazyAttribute(lambda obj: obj.trip.price)
+    origin = factory.SelfAttribute("trip.origin")
+    destination = factory.SelfAttribute("trip.destination")
     quantity = factory.Faker("random_int", min=1, max=5)
+    price = 10
     # TODO: add seats here
 
 
