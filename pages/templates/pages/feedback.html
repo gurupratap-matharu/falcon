@@ -1,6 +1,6 @@
 {% extends "layouts/base-account.html" %}
 
-{% load i18n %}
+{% load static i18n %}
 
 {% block title %}
   {% translate "Feedback" %}
@@ -17,7 +17,7 @@
         {% for field in form.visible_fields %}
           <div class="mb-3">
             <span class="text-danger">{{ field.errors }}</span>
-            <label class="form-label text-sm visually-hidden" for="{{ field.auto_id }}{% if field.label == 'Captcha' %}_1{% endif %}">
+            <label class="form-label text-sm" for="{{ field.auto_id }}{% if field.label == 'Captcha' %}_1{% endif %}">
               {{ field.label }}
             </label>
             {{ field }}
@@ -28,8 +28,13 @@
         {% endfor %}
         <button type="submit" class="btn bg-gradient-primary w-100">{% translate "Send" %}</button>
       </form>
-      <p class="text-center">
-        <a href="{% url 'pages:home' %}" class="text-primary text-gradient">{% translate "Go back Home" %}</a>
+      <p class="icon-link icon-link-hover text-sm">
+        <a href="{% url 'pages:home' %}" class="text-primary text-gradient">
+          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+          </svg>
+          {% translate "Go back Home" %}
+        </a>
       </p>
     </div>
   </div>

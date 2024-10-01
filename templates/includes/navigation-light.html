@@ -3,7 +3,11 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-light shadow-none py-2">
     <div class="container">
-      <a class="navbar-brand fs-6" href="{% url 'pages:home' %}" rel="tooltip" title="Home" data-placement="bottom">
+      <a class="navbar-brand fs-6 cursor-pointer"
+         href="{% url 'pages:home' %}"
+         rel="tooltip"
+         title="Home"
+         data-placement="bottom">
 
         {% block brand %}
           Ventanita
@@ -36,24 +40,8 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav navbar-nav-hover mx-auto">
             <li class="nav-item mx-2">
-              <a class="nav-link ps-2 cursor-pointer">
-                Pages
-                <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
-                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
-                </svg>
-              </a>
-            </li>
-            <li class="nav-item mx-2">
-              <a class="nav-link ps-2 cursor-pointer">
-                Account
-                <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
-                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
-                </svg>
-              </a>
-            </li>
-            <li class="nav-item mx-2">
-              <a class="nav-link ps-2 cursor-pointer">
-                Blocks
+              <a class="nav-link ps-2 cursor-pointer" href="{% url 'pages:help' %}">
+                {% translate "Help" %}
                 <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-down" />
                 </svg>
