@@ -1,10 +1,13 @@
+import pdb
+import uuid
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
+from django.core import mail
 from django.test import Client, SimpleTestCase, TestCase
 from django.urls import resolve, reverse
 
-from orders.factories import OrderFactory, OrderItemFactory
+from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
 from payments.views import (
     PaymentCancelView,
     PaymentFailView,
@@ -13,6 +16,8 @@ from payments.views import (
     PaymentView,
     mercadopago_success,
 )
+from trips.factories import SeatFactory, TripPastFactory
+from trips.models import Seat
 
 
 class PaymentViewTests(TestCase):
@@ -68,76 +73,174 @@ class MercadoPagoSuccessView(TestCase):
 
     def setUp(self):
         self.url = reverse("payments:mercadopago_success")
-        self.order = OrderFactory(paid=True)
 
-        # MP success redirects to payment succes
+        size = 2  # num of passengers
+
+        SeatFactory.reset_sequence(1)
+        self.trip = TripPastFactory()
+        self.seats = SeatFactory.create_batch(
+            size=size, trip=self.trip, seat_status=Seat.AVAILABLE
+        )
+
+        self.passengers = PassengerFactory.create_batch(size=size)
+        self.order = OrderFactory(paid=False, passengers=self.passengers)
+        self.order_item = OrderItemFactory(
+            order=self.order, trip=self.trip, quantity=size, seats="1, 2"
+        )
+
         session = self.client.session
         session["order"] = str(self.order.id)
         session.save()
 
-    def test_mercadopago_payment_success_view_redirects_correctly(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, reverse("payments:success"), HTTPStatus.FOUND)
-
-    def test_mercadopago_payment_success_url_resolves_correct_view(self):
-        view = resolve(self.url)
-        self.assertEqual(view.func.__name__, mercadopago_success.__name__)
-
-    def test_mercadopago_payment_success_view_confirms_order_with_correct_query_params(
-        self,
-    ):
-        # TODO: this test is failing as we are not yet confirming the order in the
-        # services.
-        self.skipTest("Please complete my implementation 🥹")
-
-        order = OrderFactory(paid=False)
-        OrderItemFactory(order=order)
-
-        self.assertFalse(order.paid)
+    def test_redirect_for_successful_payment(self):
+        # Arrange
+        # MP response for a successful payment
         data = {
             "collection_id": 54650347595,
             "collection_status": "approved",
             "payment_id": 54650347595,
             "status": "approved",
-            "external_reference": str(order.id),
+            "external_reference": str(self.order.id),
             "payment_type": "account_money",
             "merchant_order_id": "7712864656",
             "preference_id": "1272408260-35ff1ef7-3eb8-4410-b219-4a98ef386ac0",
             "site_id": "MLA",
             "processing_mode": "aggregator",
         }
+
+        # Act
         response = self.client.get(self.url, data=data)
 
-        order.refresh_from_db()
-
+        # Assert
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertRedirects(response, reverse("payments:success"), HTTPStatus.FOUND)
-        self.assertTrue(order.paid)
 
-    def test_mercadopago_payment_success_view_does_not_confirm_order_with_incorrect_query_params(
-        self,
-    ):
-        # basically we set the status not equal to approved but yet have correct order id
-        order = OrderFactory(paid=False)
-        self.assertFalse(order.paid)
+    def test_redirect_to_failure_page_for_unsuccessful_payment(self):
+        # Arrange
+        data = {
+            "collection_id": 54650347595,
+            "collection_status": "rejected",
+            "payment_id": 54650347595,
+            "status": "rejected",  # <-- unsuccessful payment
+            "external_reference": str(self.order.id),
+            "payment_type": "credit_card",
+            "merchant_order_id": "7712864656",
+            "preference_id": "1272408260-35ff1ef7-3eb8-4410-b219-4a98ef386ac0",
+            "site_id": "MLA",
+            "processing_mode": "aggregator",
+        }
+
+        # Act
+        response = self.client.get(self.url, data=data)
+
+        # Assert
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response, reverse("payments:fail"), HTTPStatus.FOUND)
+
+    def test_mercadopago_payment_success_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, mercadopago_success.__name__)
+
+    def test_confirms_order_upon_successful_payment(self):
+        # this is a like an integration test for mercadopago
+
+        # first make sure that our order is unpaid, w/o payment_id, w/o passengers
+
+        self.assertFalse(self.order.paid)
+        self.assertEqual(self.order.payment_id, "")
+
+        self.assertTrue(self.seats[0].seat_status, Seat.AVAILABLE)
+        self.assertTrue(self.seats[1].seat_status, Seat.AVAILABLE)
+
+        self.assertIsNone(self.seats[0].passenger)
+        self.assertIsNone(self.seats[1].passenger)
+
+        # Arrange
+        PAYMENT_ID = "54650347595"
+        data = {
+            "collection_id": PAYMENT_ID,
+            "collection_status": "approved",
+            "payment_id": PAYMENT_ID,
+            "status": "approved",
+            "external_reference": str(self.order.id),
+            "payment_type": "account_money",
+            "merchant_order_id": "7712864656",
+            "preference_id": str(uuid.uuid4()),
+            "site_id": "MLA",
+            "processing_mode": "aggregator",
+        }
+
+        # Act
+        response = self.client.get(self.url, data=data, follow=True)
+
+        # Assert
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse("payments:success"), HTTPStatus.FOUND)
+        self.assertTemplateUsed(response, PaymentSuccessView.template_name)
+
+        self.order.refresh_from_db()
+        self.seats[0].refresh_from_db()
+        self.seats[1].refresh_from_db()
+
+        # now make sure order got paid with the same payment id attached to it
+
+        self.assertTrue(self.order.paid)
+        self.assertEqual(self.order.payment_id, PAYMENT_ID)
+
+        # make sure the seats are in booked status with passengers assigned to them
+
+        self.assertTrue(self.seats[0].seat_status, Seat.BOOKED)
+        self.assertTrue(self.seats[1].seat_status, Seat.BOOKED)
+
+        self.assertIn(self.seats[0].passenger, self.passengers)
+        self.assertIn(self.seats[1].passenger, self.passengers)
+
+        # lastly make sure emails are sent
+        self.assertEqual(len(mail.outbox), 2)
+
+    def test_does_not_confirm_order_upon_failed_payment(self):
+
+        self.assertFalse(self.order.paid)
+        self.assertEqual(self.order.payment_id, "")
+
+        self.assertEqual(self.seats[0].seat_status, Seat.AVAILABLE)
+        self.assertEqual(self.seats[1].seat_status, Seat.AVAILABLE)
+
+        self.assertIsNone(self.seats[0].passenger)
+        self.assertIsNone(self.seats[1].passenger)
+
+        # Arrange
         data = {
             "collection_id": 54650347595,
             "collection_status": "rejected",  # <-- we pass rejected and not approved
             "payment_id": 54650347595,
             "status": "rejected",  # <-- we pass rejected and not approved
-            "external_reference": str(order.id),  # type:ignore
+            "external_reference": str(self.order.id),
             "payment_type": "account_money",
             "merchant_order_id": "7712864656",
-            "preference_id": "1272408260-35ff1ef7-3eb8-4410-b219-4a98ef386ac0",
+            "preference_id": str(uuid.uuid4()),
             "site_id": "MLA",
             "processing_mode": "aggregator",
         }
-        response = self.client.get(self.url, data=data)
 
-        order.refresh_from_db()
+        # Act
+        response = self.client.get(self.url, data=data, follow=True)
 
-        self.assertRedirects(response, reverse("payments:success"), HTTPStatus.FOUND)
-        self.assertFalse(order.paid)  # <-- order should not be paid
+        # Assert
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse("payments:fail"), HTTPStatus.FOUND)
+        self.assertTemplateUsed(response, PaymentFailView.template_name)
+
+        self.order.refresh_from_db()
+        self.assertFalse(self.order.paid)
+        self.assertEqual(self.order.payment_id, "")
+
+        self.assertEqual(self.seats[0].seat_status, Seat.AVAILABLE)
+        self.assertEqual(self.seats[1].seat_status, Seat.AVAILABLE)
+
+        self.assertIsNone(self.seats[0].passenger)
+        self.assertIsNone(self.seats[1].passenger)
 
 
 class PaymentSuccessViewTests(TestCase):
