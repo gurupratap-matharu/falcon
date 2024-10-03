@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
@@ -37,7 +38,7 @@ class PaymentView(TemplateView):
 
     template_name: str = "payments/payment.html"
     order: Order = None
-    redirect_message = "Your session has expired. Please search again 🙏"
+    redirect_message = _("Your session has expired. Please search again 🙏")
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -412,6 +413,15 @@ def mercadopago_success(request):
 
 class ModoView(TemplateView):
     template_name = "payments/modo.html"
+    redirect_message = _("Your session has expired. Please search again 🙏")
+
+    def dispatch(self, request, *args, **kwargs):
+        order = request.session.get("order")
+        if not order:
+            messages.info(request, self.redirect_message)
+            return redirect("pages:home")
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
