@@ -376,6 +376,10 @@ def mercadopago_success(request):
     An example of successful query params is like this...
 
     /payments/success/?collection_id=54650347595&collection_status=approved&payment_id=54650347595&status=approved&external_reference=7a231700-d000-47d0-848b-65ff914a9a3e&payment_type=account_money&merchant_order_id=7712864656&preference_id=1272408260-35ff1ef7-3eb8-4410-b219-4a98ef386ac0&site_id=MLA&processing_mode=aggregator&merchant_account_id=null
+
+    An example of failed payment is this...
+
+    collection_id=89251709670&collection_status=rejected&payment_id=89251709670&status=rejected&external_reference=069850df-4cdc-4a4e-8e58-3f7b14e9a2a9&payment_type=credit_card&merchant_order_id=23373389653&preference_id=1272408260-cfa429f1-3421-47b5-9272-42008698ded3&site_id=MLA&processing_mode=aggregator&merchant_account_id=null
     """
 
     mp_response = request.GET
@@ -386,11 +390,20 @@ def mercadopago_success(request):
 
     logger.info("mercado pago says(🤝):%s" % mp_response)
 
+    # Remove webhook messages more than 1 week old
+    last_week = timezone.now() - timedelta(days=7)
+    WebhookMessage.objects.filter(received_at__lte=last_week).delete()
+
+    # Save webhook message to DB irrespective of status
+    WebhookMessage.objects.create(
+        provider=WebhookMessage.MERCADOPAGO,
+        received_at=timezone.now(),
+        payload=mp_response,
+    )
+
     # TODO: confirm order in webhook instead of this view for security.
     if (status == "approved") and order_id:
-
         logger.info("mercadopago(🤝) payment successful!!!")
-
         order_confirmed(order_id=order_id, payment_id=payment_id)
         return redirect(reverse_lazy("payments:success"))
 

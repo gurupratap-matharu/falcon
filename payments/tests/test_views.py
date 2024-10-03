@@ -7,6 +7,7 @@ from django.test import Client, SimpleTestCase, TestCase
 from django.urls import resolve, reverse
 
 from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
+from payments.models import WebhookMessage
 from payments.views import (
     PaymentCancelView,
     PaymentFailView,
@@ -154,6 +155,8 @@ class MercadoPagoSuccessView(TestCase):
         self.assertIsNone(self.seats[0].passenger)
         self.assertIsNone(self.seats[1].passenger)
 
+        self.assertFalse(WebhookMessage.objects.exists())
+
         # Arrange
         PAYMENT_ID = "54650347595"
         data = {
@@ -197,6 +200,13 @@ class MercadoPagoSuccessView(TestCase):
         # lastly make sure emails are sent
         self.assertEqual(len(mail.outbox), 2)
 
+        # make sure webhook data is saved to db
+        self.assertTrue(WebhookMessage.objects.exists())
+        webhook_message = WebhookMessage.objects.first()
+
+        self.assertEqual(webhook_message.provider, WebhookMessage.MERCADOPAGO)
+        self.assertEqual(webhook_message.payload, data)
+
     def test_does_not_confirm_order_upon_failed_payment(self):
 
         self.assertFalse(self.order.paid)
@@ -208,11 +218,14 @@ class MercadoPagoSuccessView(TestCase):
         self.assertIsNone(self.seats[0].passenger)
         self.assertIsNone(self.seats[1].passenger)
 
+        self.assertFalse(WebhookMessage.objects.exists())
+
         # Arrange
+        payment_id = "54650347595"
         data = {
-            "collection_id": 54650347595,
+            "collection_id": payment_id,
             "collection_status": "rejected",  # <-- we pass rejected and not approved
-            "payment_id": 54650347595,
+            "payment_id": payment_id,
             "status": "rejected",  # <-- we pass rejected and not approved
             "external_reference": str(self.order.id),
             "payment_type": "account_money",
@@ -231,15 +244,24 @@ class MercadoPagoSuccessView(TestCase):
         self.assertRedirects(response, reverse("payments:fail"), HTTPStatus.FOUND)
         self.assertTemplateUsed(response, PaymentFailView.template_name)
 
+        # assert order
         self.order.refresh_from_db()
         self.assertFalse(self.order.paid)
         self.assertEqual(self.order.payment_id, "")
 
+        # assert seats
         self.assertEqual(self.seats[0].seat_status, Seat.AVAILABLE)
         self.assertEqual(self.seats[1].seat_status, Seat.AVAILABLE)
 
         self.assertIsNone(self.seats[0].passenger)
         self.assertIsNone(self.seats[1].passenger)
+
+        # assert webhook
+        msg = WebhookMessage.objects.first()
+
+        self.assertTrue(WebhookMessage.objects.exists())
+        self.assertEqual(msg.provider, WebhookMessage.MERCADOPAGO)
+        self.assertEqual(msg.payload, data)
 
 
 class PaymentSuccessViewTests(TestCase):
