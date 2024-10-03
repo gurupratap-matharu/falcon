@@ -79,7 +79,7 @@ def order_confirmed(order_id, payment_id):
     item = context["item"]
 
     # Confirm the order
-    # order.confirm(payment_id=payment_id)
+    order.confirm(payment_id=payment_id)
 
     # User Email
     subject_path = "orders/emails/booking_confirmed_subject.txt"
