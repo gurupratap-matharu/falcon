@@ -1,14 +1,19 @@
+import pdb
 import uuid
 from http import HTTPStatus
+from unittest.mock import patch
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core import mail
 from django.test import Client, SimpleTestCase, TestCase
 from django.urls import resolve, reverse
+from django.utils import translation
 
 from orders.factories import OrderFactory, OrderItemFactory, PassengerFactory
-from payments.models import WebhookMessage
+from payments.models import ModoToken, WebhookMessage
 from payments.views import (
+    ModoView,
     PaymentCancelView,
     PaymentFailView,
     PaymentPendingView,
@@ -18,6 +23,8 @@ from payments.views import (
 )
 from trips.factories import SeatFactory, TripPastFactory
 from trips.models import Seat
+
+from .utils import ModoMock
 
 
 class PaymentViewTests(TestCase):
@@ -29,43 +36,61 @@ class PaymentViewTests(TestCase):
     def setUp(self):
         self.url = reverse("payments:home")
         self.template_name = "payments/payment.html"
-
-    def test_payment_home_page_works_for_valid_order_in_session(self):
-        # create an order and set it in the session as payment view expects it
         self.order = OrderFactory(paid=False)
+        self.order_item = OrderItemFactory(order=self.order)
+
         session = self.client.session
-        session["order"] = str(self.order.id)  # type:ignore
+        session["order"] = str(self.order.id)
         session.save()
-
-        response = self.client.get(self.url)
-
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, self.template_name)
-        self.assertContains(response, "Payment")
-        self.assertNotContains(response, "Hi there! I should not be on this page.")
-        self.assertContains(response, "mp_public_key")
-        self.assertContains(response, "preference")
-        self.assertEqual(response.context["order"], self.order)
-
-    def test_payment_home_page_redirect_to_home_if_order_not_found_in_session(self):
-        # create an order but DO NOT set it in the session
-        self.order = OrderFactory(paid=False)
-
-        response = self.client.get(self.url)
-
-        messages = list(get_messages(response.wsgi_request))
-
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, reverse("pages:home"), HTTPStatus.FOUND)
-
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), PaymentView.redirect_message)
-
-        self.assertTemplateNotUsed(response, self.template_name)
 
     def test_payment_home_page_url_resolves_payment_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PaymentView.as_view().__name__)
+
+    def test_payment_view_only_accepts_get_request(self):
+
+        response = self.client.post(self.url)  # try POST
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+    def test_payment_home_page_redirect_to_home_if_order_not_found_in_session(self):
+        # clear the order in session that we added in setup
+        session = self.client.session
+        session.clear()
+        session.save()
+
+        response = self.client.get(self.url, follow=True)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertRedirects(response, reverse("pages:home"), HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        self.assertTemplateUsed(response, "pages/home.html")
+        self.assertTemplateNotUsed(response, self.template_name)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), PaymentView.redirect_message)
+
+    def test_payment_home_page_works_for_valid_order_in_session(self):
+
+        # Arrange
+        # order already set in session in setup method
+
+        # Act
+        response = self.client.get(self.url)
+
+        # Assert
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+
+        self.assertContains(response, "Payment")
+        self.assertContains(response, "mp_public_key")
+        self.assertContains(response, "preference")
+
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+        self.assertEqual(response.context["order"], self.order)
+        self.assertEqual(response.context["mp_public_key"], settings.MP_PUBLIC_KEY)
 
 
 class MercadoPagoSuccessView(TestCase):
@@ -278,9 +303,16 @@ class PaymentSuccessViewTests(TestCase):
         session["order"] = str(self.order.id)
         session.save()
 
+    def tearDown(self):
+        translation.activate(settings.LANGUAGE_CODE)
+
     def test_payment_success_page_url_resolves_payment_success_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PaymentSuccessView.as_view().__name__)
+
+    def test_payment_success_view_only_accepts_get_request(self):
+        response = self.client.post(self.url)  # try POST
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_payment_success_view_works_correctly(self):
         response = self.client.get(self.url)
@@ -293,6 +325,42 @@ class PaymentSuccessViewTests(TestCase):
         self.assertContains(response, "Book Return Ticket")
         self.assertContains(response, "Add to calendar")
         self.assertContains(response, "Download")
+        self.assertContains(response, self.order.email)
+
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+        self.assertIn("order", response.context)
+        self.assertEqual(response.context["order"], self.order)
+
+    def test_payment_success_spanish_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "es"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+
+        self.assertContains(response, "Pago exitoso!")
+        self.assertContains(response, "Pasajes reservados!")
+        self.assertContains(response, "Reservar otro pasaje")
+        self.assertContains(response, "Añadir al calendario")
+        self.assertContains(response, "Descargar")
+        self.assertContains(response, self.order.email)
+
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+        self.assertIn("order", response.context)
+        self.assertEqual(response.context["order"], self.order)
+
+    def test_payment_success_portuguese_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "pt"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+
+        self.assertContains(response, "Pagamento exitoso!")
+        self.assertContains(response, "Ingressos reservados!")
+        self.assertContains(response, "Reservar outro ingresso")
+        self.assertContains(response, "Adicionar ao calendário")
+        self.assertContains(response, "Baixar")
         self.assertContains(response, self.order.email)
 
         self.assertNotContains(response, "Hi there! I should not be on this page.")
@@ -334,9 +402,16 @@ class PaymentCancelViewTests(SimpleTestCase):
         self.url = reverse("payments:cancel")
         self.template_name = PaymentCancelView.template_name
 
+    def tearDown(self):
+        translation.activate(settings.LANGUAGE_CODE)
+
     def test_payment_cancel_url_resolves_correct_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, PaymentCancelView.as_view().__name__)
+
+    def test_accepts_only_get_request(self):
+        response = self.client.post(self.url)  # try post
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_payment_cancel_view_works_correctly(self):
         response = self.client.get(self.url)
@@ -349,6 +424,28 @@ class PaymentCancelViewTests(SimpleTestCase):
         self.assertContains(response, "Go back home")
         self.assertNotContains(response, "Hi there! I should not be on this page.")
 
+    def test_spanish_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "es"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Pago cancelado")
+        self.assertContains(response, "escribirnos aquí")
+        self.assertContains(response, "Volver a home")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+    def test_portuguese_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "pt"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Pagamento cancelado")
+        self.assertContains(response, "entre em contato conosco aqui")
+        self.assertContains(response, "Volto para home")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
 
 class PaymentPendingViewTests(SimpleTestCase):
     """Test suite for payment pending view"""
@@ -356,6 +453,17 @@ class PaymentPendingViewTests(SimpleTestCase):
     def setUp(self):
         self.url = reverse("payments:pending")
         self.template_name = PaymentPendingView.template_name
+
+    def tearDown(self):
+        translation.activate(settings.LANGUAGE_CODE)
+
+    def test_payment_pending_page_url_resolves_payment_pending_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PaymentPendingView.as_view().__name__)
+
+    def test_accepts_only_get_request(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_payment_pending_view_works_correctly(self):
         response = self.client.get(self.url)
@@ -367,9 +475,25 @@ class PaymentPendingViewTests(SimpleTestCase):
         self.assertContains(response, "Go back home")
         self.assertNotContains(response, "Hi there! I should not be on this page.")
 
-    def test_payment_pending_page_url_resolves_payment_pending_view(self):
-        view = resolve(self.url)
-        self.assertEqual(view.func.__name__, PaymentPendingView.as_view().__name__)
+    def test_spanish_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "es"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Pago pendiente")
+        self.assertContains(response, "escribirnos aquí")
+        self.assertContains(response, "Volver a home")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+    def test_portuguese_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "pt"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Pagamento pendente")
+        self.assertContains(response, "entre em contato conosco aqui")
+        self.assertContains(response, "Volto para home")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
 
 
 class PaymentFailViewTests(SimpleTestCase):
@@ -378,6 +502,17 @@ class PaymentFailViewTests(SimpleTestCase):
     def setUp(self):
         self.url = reverse("payments:fail")
         self.template_name = PaymentFailView.template_name
+
+    def tearDown(self):
+        translation.activate(settings.LANGUAGE_CODE)
+
+    def test_payment_fail_page_url_resolves_payment_fail_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, PaymentFailView.as_view().__name__)
+
+    def test_payment_fail_view_only_accepts_get_request(self):
+        response = self.client.post(self.url)  # try POST
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_payment_fail_page_works_correctly(self):
         response = self.client.get(self.url)
@@ -390,9 +525,27 @@ class PaymentFailViewTests(SimpleTestCase):
         self.assertContains(response, "contact us here")
         self.assertNotContains(response, "Hi there! I should not be on this page.")
 
-    def test_payment_fail_page_url_resolves_payment_fail_view(self):
-        view = resolve(self.url)
-        self.assertEqual(view.func.__name__, PaymentFailView.as_view().__name__)
+    def test_spanish_language_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "es"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Pago no fue procesado")
+        self.assertContains(response, "Volver a home")
+        self.assertContains(response, "Probar de nuevo")
+        self.assertContains(response, "escribirnos aquí")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
+
+    def test_portuguese_language_render(self):
+        response = self.client.get(self.url, headers={"accept-language": "pt"})
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Pagamento sem sucesso")
+        self.assertContains(response, "Volto para home")
+        self.assertContains(response, "Tente novamente")
+        self.assertContains(response, "entre em contato conosco aqui")
+        self.assertNotContains(response, "Hi there! I should not be on this page.")
 
 
 class CheckoutViewTests(TestCase):
@@ -404,6 +557,45 @@ class CheckoutViewTests(TestCase):
     def test_checkout_page_is_not_accessible_via_get(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+
+@patch("payments.views.create_payment_intent", ModoMock)
+class ModoViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        ModoToken.objects.create(token=uuid.uuid4())
+
+    def setUp(self):
+        self.url = reverse("payments:modo")
+        self.template_name = ModoView.template_name
+        self.order = OrderFactory(paid=False)
+        self.order_item = OrderItemFactory(order=self.order)
+
+        session = self.client.session
+        session["order"] = str(self.order.id)
+        session.save()
+
+    def tearDown(self):
+        translation.activate(settings.LANGUAGE_CODE)
+
+    def test_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, ModoView.as_view().__name__)
+
+    def test_accepts_only_get_request(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+    def test_renders_correctly(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Pay with Modo")
+        self.assertNotContains(response, "Hi I should not be on this page")
+
+        self.assertEqual(response.context["order"], self.order)
+        self.assertContains(response, "payment_intent")
 
 
 class MercadoPagoWebhookTests(TestCase):
