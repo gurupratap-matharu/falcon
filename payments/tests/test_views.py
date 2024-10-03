@@ -586,6 +586,27 @@ class ModoViewTests(TestCase):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
+    def test_redirects_for_no_order_in_session(self):
+        # Arrange - remove the order set in session during setup()
+        session = self.client.session
+        session.clear()
+        session.save()
+
+        # Act
+        response = self.client.get(self.url, follow=True)
+
+        # Assert
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertRedirects(response, reverse("pages:home"), HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        self.assertTemplateUsed(response, "pages/home.html")
+        self.assertTemplateNotUsed(response, self.template_name)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), ModoView.redirect_message)
+
     def test_renders_correctly(self):
         response = self.client.get(self.url)
 
