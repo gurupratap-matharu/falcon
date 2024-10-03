@@ -1,11 +1,7 @@
-import logging
-
 from django.core.management.base import BaseCommand
 
 from payments.models import ModoToken
 from payments.modo import fetch_token
-
-logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -18,8 +14,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         token = fetch_token()
 
-        logger.info("saving token to db...")
-
         if ModoToken.objects.exists():
             obj = ModoToken.objects.first()
             obj.token = token
@@ -27,4 +21,4 @@ class Command(BaseCommand):
         else:
             obj = ModoToken.objects.create(token=token)
 
-        logger.info("All Done 💄✨🚀")
+        self.stdout.write("token fetch successful...")
