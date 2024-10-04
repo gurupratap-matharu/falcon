@@ -13,25 +13,23 @@
     <meta name="keywords" content="Bus, Argentina, Tickets, Travel, Pasajes" />
     <meta name="author" content="Ventanita Team" />
     {# djlint:off #}
-        <meta name="description" content="{% block description %}Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
+    <meta name="description" content="{% block description %}Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
+    {% block og_tags %}
 
-        {% block og_tags %}
+    <meta property="og:title" content="{% block og_title %}Ventanita{% endblock og_title %}" />
+    <meta property="og:description" content="{% block og_description %}{% spaceless %}Book your bus tickets for Argentina.{% endspaceless %}{% endblock og_description %}" />
+    <meta property="og:image" content="{% block og_img %}{% static "assets/img/logos/logo.svg" %}{% endblock og_img %}" />
+    <meta property="og:image:alt" content="{% block og_img_alt %}Ventanita logo{% endblock og_img_alt %}" />
+    <meta property="og:image:width" content="{% block og_img_w %}1200{% endblock og_img_w %}" />
+    <meta property="og:image:height" content="{% block og_img_h %}546{% endblock og_img_h %}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:site_name" content="Ventanita" />
 
-        <meta property="og:title" content="{% block og_title %}Ventanita{% endblock og_title %}" />
-        <meta property="og:description" content="{% block og_description %}{% spaceless %}Book your bus tickets for Argentina.{% endspaceless %}{% endblock og_description %}" />
-        <meta property="og:image" content="{% block og_img %}{% static "assets/img/logos/logo.svg" %}{% endblock og_img %}" />
-        <meta property="og:image:alt" content="{% block og_img_alt %}Ventanita logo{% endblock og_img_alt %}" />
-        <meta property="og:image:width" content="{% block og_img_w %}1200{% endblock og_img_w %}" />
-        <meta property="og:image:height" content="{% block og_img_h %}546{% endblock og_img_h %}" />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-        <meta property="og:site_name" content="Ventanita" />
-
-        <meta property="twitter:creator" content="Ventanita" />
-        <meta property="twitter:site" content="Ventanita" />
-        <meta property="twitter:card" content="{% block twitter_card %}Summary{% endblock twitter_card %}">
-
-        {% endblock og_tags %}
+    <meta property="twitter:creator" content="Ventanita" />
+    <meta property="twitter:site" content="Ventanita" />
+    <meta property="twitter:card" content="{% block twitter_card %}Summary{% endblock twitter_card %}">
+    {% endblock og_tags %}
 
     {# djlint:on #}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/icons/favicons/apple-touch-icon.png' %}" />
@@ -42,6 +40,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/png" href="{% static 'assets/img/logos/logo.svg' %}" />
     {# djlint:off #}
+    <link rel="canonical" href="{% block canonical_url %}{% endblock canonical_url %}" />
     <title>{% block title %}{% translate "Book Bus Tickets" %}{% endblock title %} | Ventanita</title>
     {# djlint:on #}
     {% if not debug %}

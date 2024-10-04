@@ -14,6 +14,10 @@
   {{ location }}
 {% endblock page_title %}
 
+{# djlint:off #}
+{% block canonical_url %}https://{{ request.get_host }}{{ request.get_full_path }}{% endblock canonical_url %}
+{# djlint:on #}
+
 {% block extra_css %}
   <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -40,9 +44,8 @@
   {{ location.name|json_script:"name" }}
   {{ location.latitude|json_script:"latitude" }}
   {{ location.longitude|json_script:"longitude" }}
-  <script async
-          src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
           crossorigin=""></script>
-  <script async type="text/javascript" src="{% static 'assets/js/maps/location-map.js' %}"></script>
+  <script type="text/javascript" src="{% static 'assets/js/maps/location-map.js' %}"></script>
 {% endblock js %}
