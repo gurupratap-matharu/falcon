@@ -16,6 +16,8 @@
 
 {# djlint:off #}
 {% block canonical_url %}https://{{ request.get_host }}{{ request.get_full_path }}{% endblock canonical_url %}
+
+
 {# djlint:on #}
 
 {% block extra_css %}
@@ -26,10 +28,11 @@
 {% endblock extra_css %}
 
 {% block content %}
+  <h1>{{ location }}</h1>
   <div class="row">
     <div class="col-12">
       <div class="card card-plain mx-3 mx-md-0">
-        <h2 class="mb-3">{% translate "Where is" %} {{ location }} ?</h2>
+        <h3 class="mb-3">{% translate "Where is" %} {{ location }} ?</h3>
         <div id="map" class="min-vh-50 rounded-3"></div>
         <div class="card-body px-1 pt-3">
           <h5>{% translate "Address" %}</h5>

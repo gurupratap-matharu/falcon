@@ -7,9 +7,9 @@
 {% endblock title %}
 
 {% block content %}
+<h1>{% translate "Terms and Conditions" %}</h1>
   <div class="card">
-    <div class="card-header d-flex justify-content-between">
-      <h3>{% translate "Terms and Conditions" %}</h3>
+    <div class="card-header d-flex justify-content-end">
       <button class="btn bg-gradient-primary icon-link icon-link-hover" onclick="window.print()">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#filetype-pdf" />
