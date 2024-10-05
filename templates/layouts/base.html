@@ -16,16 +16,17 @@
     <meta name="description" content="{% block description %}Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
     {% block og_tags %}
 
-    <meta property="og:title" content="{% block og_title %}Ventanita{% endblock og_title %}" />
+    <meta property="og:title" content="{% block og_title %}Explore Argentina by Bus{% endblock og_title %}" />
+    <meta property="og:url" content="{% block og_url %}https://ventanita.com.ar{% endblock og_url %}" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="{% block og_description %}{% spaceless %}Book your bus tickets for Argentina.{% endspaceless %}{% endblock og_description %}" />
+    <meta property="og:description" content="{% block og_description %}{% spaceless %}Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endspaceless %}{% endblock og_description %}" />
     <meta property="og:image" content="{% block og_img %}{% static "assets/img/og_image.jpg" %}{% endblock og_img %}" />
     <meta property="og:image:alt" content="{% block og_img_alt %}Ventanita{% endblock og_img_alt %}" />
     <meta property="og:image:width" content="{% block og_img_w %}1200{% endblock og_img_w %}" />
     <meta property="og:image:height" content="{% block og_img_h %}546{% endblock og_img_h %}" />
     <meta property="og:image:type" content="image/jpg" />
-    <meta property="og:url" content="https://ventanita.com.ar" />
     <meta property="og:site_name" content="Ventanita" />
+    <meta property="og:locale" content="{{ LANGUAGE_CODE }}" />
 
     <meta property="twitter:creator" content="Ventanita" />
     <meta property="twitter:site" content="Ventanita" />
