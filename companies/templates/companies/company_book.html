@@ -2,9 +2,14 @@
 
 {% load static i18n %}
 
-{% block title %}
-  {% translate "Book bus tickets with" %} {{ company }}
-{% endblock title %}
+{# djlint:off #}
+
+{% block description %}{% blocktranslate %}{{ company }} Bus Tickets — Visit Your Loved ones, Discover New Places or Travel with Your Friends with Ventanita. Buy your {{ company }} tickets now and save up to 60% by buying online!{% endblocktranslate %}{% endblock description %}
+
+{% block title %}{{ company }}{% endblock title %}
+
+
+{# djlint:on #}
 
 {% block content %}
   <h1 class="text-center">{{ company }}</h1>
