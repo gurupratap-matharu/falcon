@@ -45,7 +45,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/png" href="{% static 'assets/img/logos/logo.svg' %}" />
     {# djlint:off #}
-    <link rel="canonical" href="{% block canonical_url %}https://{{ request.get_host }}{{ request.get_full_path }}{% endblock canonical_url %}" />
+    <link rel="canonical" href="{% block canonical_url %}https://{{ request.get_host|cut:"www." }}{{ request.get_full_path }}{% endblock canonical_url %}" />
     <title>{% block title %}{% translate "Book Bus Tickets" %}{% endblock title %} | Ventanita</title>
     {# djlint:on #}
     {% if not debug %}
