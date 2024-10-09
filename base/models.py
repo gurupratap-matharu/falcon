@@ -16,7 +16,9 @@ class Settings(models.Model):
         max_digits=11, decimal_places=2, blank=True, null=True, default=None
     )
     date_time_val = models.DateTimeField(blank=True, null=True, default=None)
-    json_val = models.JSONField(null=True, default=dict, encoder=DjangoJSONEncoder)
+    json_val = models.JSONField(
+        blank=True, null=True, default=dict, encoder=DjangoJSONEncoder
+    )
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
