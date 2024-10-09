@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 
 from faker import Faker
 
+from base.models import Settings
 from coupons.factories import CouponFactory
 from orders.factories import (
     OrderFactory,
@@ -252,6 +253,29 @@ class OrderModelTests(TestCase):
 
         self.assertEqual(expected, actual)
         self.assertEqual(order.get_discount(), Decimal(0))
+
+    def test_order_cost_in_usd(self):
+        # Arrange: let's create an order in ARS
+
+        PRICE_ARS = 70000  # cost of ticket
+        USD_ARS = 950  # i.e 1 usd = 950 ars
+        QTY = 2  # num of passengers
+
+        order = OrderFactory(paid=False)
+        OrderItemFactory(order=order, price=PRICE_ARS, quantity=QTY)
+
+        Settings.objects.create(name="usd-ars", dec_val=USD_ARS)
+
+        self.assertEqual(order.get_total_cost(), PRICE_ARS * QTY)
+
+        # Act
+        cost_usd = (PRICE_ARS * QTY) / USD_ARS
+        cost_usd = Decimal(cost_usd)
+        expected = round(cost_usd, 2)
+        actual = order.get_total_cost_usd()
+
+        # Assert
+        self.assertEqual(actual, expected)
 
 
 class OrderItemModelTests(TestCase):
