@@ -16,7 +16,7 @@ from factory import fuzzy
 from faker import Faker
 
 from companies.factories import CompanyFactory
-from trips.models import Location, Route, Seat, Stop, Trip
+from trips.models import Location, Price, Route, Seat, Stop, Trip
 from trips.terminals import TERMINALS
 
 fake = Faker()
@@ -73,17 +73,25 @@ class RouteFactory(factory.django.DjangoModelFactory):
 class RouteWithStopsFactory(RouteFactory):
     @factory.post_generation
     def stops(self, create, extracted, **kwargs):
-        logger.info("create:%s, extracted:%s" % (create, extracted))
         if not create:
             # Simple build, or nothing to add, do nothing.
             return
 
         # Create stops for this route and add them
-        stops_first = StopFactory(route=self, name=self.origin)
-        stops_intermediate = StopFactory.create_batch(size=2, route=self)
-        stops_last = StopFactory(route=self, name=self.destination)
-        stops = [stops_first, *stops_intermediate, stops_last]
-        logger.info("stops:%s" % stops)
+        StopFactory(route=self, name=self.origin)
+        StopFactory.create_batch(size=2, route=self)
+        StopFactory(route=self, name=self.destination)
+
+
+class PriceFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Price
+
+    route = factory.SubFactory(RouteWithStopsFactory)
+    origin = factory.SubFactory(LocationFactory)
+    destination = factory.SubFactory(LocationFactory)
+    amount = fuzzy.FuzzyDecimal(low=10000, high=80000)
+    category = fuzzy.FuzzyChoice(Price.CATEGORY_CHOICES, getter=lambda c: c[0])
 
 
 class StopFactory(factory.django.DjangoModelFactory):
