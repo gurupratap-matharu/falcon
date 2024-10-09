@@ -201,11 +201,9 @@ class Passenger(models.Model):
 
     document_type = models.CharField(
         _("document type"), choices=DOCUMENT_TYPE_CHOICES, max_length=10
-    )  # Could this be a foreign key?
-    document_number = models.CharField(
-        _("document number"), max_length=50
-    )  # How can we verify this?
-    nationality = CountryField(_("nationality"), blank_label="(Nationality)")  # type: ignore
+    )
+    document_number = models.CharField(_("document number"), max_length=50, unique=True)
+    nationality = CountryField(_("nationality"), blank_label=_("(Nationality)"))
     first_name = models.CharField(_("first name"), max_length=50)
     last_name = models.CharField(_("last name"), max_length=50)
     gender = models.CharField(_("gender"), choices=GENDER_CHOICES, max_length=1)
@@ -219,7 +217,7 @@ class Passenger(models.Model):
     )
     phone_number = models.CharField(
         _("phone number"), validators=[phone_regex], max_length=17
-    )  # how to separate country code out?
+    )
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
