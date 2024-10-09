@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django_countries",
     "qr_code",
     # Local
+    "base.apps.BaseConfig",
     "pages.apps.PagesConfig",
     "users.apps.UsersConfig",
     "companies.apps.CompaniesConfig",
