@@ -1,4 +1,4 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 
 from django_countries import countries
 from faker import Faker
@@ -75,7 +75,7 @@ class OrderFormTests(SimpleTestCase):
         self.assertEqual(form.cleaned_data["email"], "romina@email.com")
 
 
-class PassengerFormTests(SimpleTestCase):
+class PassengerFormTests(TestCase):
     """Test suite for Passenger model form"""
 
     def setUp(self):
