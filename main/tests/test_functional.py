@@ -23,7 +23,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        cls.browser = webdriver.Firefox()
+        cls.browser = webdriver.Chrome()
         # cls.browser.implicitly_wait(2)
         # setup some location and trips
         cls.origin = LocationFactory(name="Buenos Aires")
@@ -76,7 +76,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertFalse(destination_ac.is_displayed())
 
         # She types in `Men` to search for `Mendoza` and sees the autocomplete popup
-        destination.send_keys("men")
+        destination.send_keys("mend")
         self.assertTrue(destination_ac.is_displayed)
 
         # She selects Mendoza from the dropdown autocomplete list

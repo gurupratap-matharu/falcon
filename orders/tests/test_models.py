@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -359,3 +360,18 @@ class PassengerModelTests(TestCase):
         ordering = self.p1._meta.ordering[0]
 
         self.assertEqual(ordering, "-created_on")
+
+    def test_passenger_document_number_is_unique(self):
+        # Arrange
+        Passenger.objects.all().delete()
+
+        # Act
+        DOC_NUM = "A1234567"
+        _ = PassengerFactory(document_number=DOC_NUM)
+
+        self.assertEqual(Passenger.objects.count(), 1)
+        self.assertEqual(Passenger.objects.first().document_number, DOC_NUM)
+
+        # Assert
+        with self.assertRaises(IntegrityError):
+            _ = PassengerFactory(document_number=DOC_NUM)
