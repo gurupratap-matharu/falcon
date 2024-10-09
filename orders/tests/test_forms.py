@@ -1,6 +1,12 @@
 from django.test import SimpleTestCase
 
+from django_countries import countries
+from faker import Faker
+
 from orders.forms import OrderForm, PassengerForm
+from orders.models import Passenger
+
+fake = Faker()
 
 
 class OrderFormTests(SimpleTestCase):
@@ -75,13 +81,17 @@ class PassengerFormTests(SimpleTestCase):
     def setUp(self):
         self.field_required_msg = "This field is required."
         self.form_data = {
-            "document_type": "DNI",
+            "document_type": fake.random_element(
+                [x[0] for x in Passenger.DOCUMENT_TYPE_CHOICES if x[0]]
+            ),
             "document_number": "95602823",
-            "nationality": "AR",
+            "nationality": fake.random_element(countries)[0],
             "first_name": "GiSEla",
             "last_name": "vIdAl",
-            "gender": "F",
-            "birth_date": "04/14/1989",  # <-- veer for now this is mm/dd/yyyy
+            "gender": fake.random_element(["F", "M"]),
+            "birth_date": fake.date_of_birth(minimum_age=2, maximum_age=98).strftime(
+                "%d/%m/%Y"
+            ),
             "phone_number": "5491150254190",
         }
 

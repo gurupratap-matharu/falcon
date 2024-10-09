@@ -15,7 +15,12 @@ from orders.forms import OrderForm, PassengerForm
 from orders.models import Order, OrderItem, Passenger
 from orders.views import OrderCheckInView, OrderCreateView, order_cancel
 from payments.views import PaymentView
-from trips.factories import LocationFactory, SeatFactory, TripTomorrowFactory
+from trips.factories import (
+    LocationFactory,
+    RouteFactory,
+    SeatFactory,
+    TripTomorrowFactory,
+)
 from trips.models import Seat, Trip
 from users.factories import CompanyOwnerFactory, UserFactory
 
@@ -30,22 +35,23 @@ class OrderCreateTests(TestCase):
         - 2. A trip(s) in cart
     """
 
-    search_query = {
-        "trip_type": "round_trip",
-        "num_of_passengers": "2",
-        "origin": "Alta Gracia",
-        "destination": "Anatuya",
-        "departure": "23-02-2023",
-        "return": "",
-    }
-
     def setUp(self):
-        self.origin, self.destination = LocationFactory.create_batch(size=2)
-        self.trip = TripTomorrowFactory(
-            origin=self.origin, destination=self.destination, status=Trip.ACTIVE
-        )
         self.url = reverse_lazy("orders:order_create")
-        self.template_name = "orders/order_form.html"
+        self.template_name = OrderCreateView.template_name
+
+        self.route = RouteFactory()
+        self.trip = TripTomorrowFactory(route=self.route, status=Trip.ACTIVE)
+        self.origin = self.route.origin
+        self.destination = self.route.destination
+
+        self.search_query = {
+            "trip_type": "one_way",
+            "num_of_passengers": "2",
+            "origin": self.origin.name,
+            "destination": self.destination.name,
+            "departure": self.trip.departure.strftime("%d-%m-%Y"),
+            "return": "",
+        }
 
         session = self.client.session
         session["q"] = self.search_query

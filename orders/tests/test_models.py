@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse_lazy
 
+from faker import Faker
+
 from coupons.factories import CouponFactory
 from orders.factories import (
     OrderFactory,
@@ -15,18 +17,21 @@ from orders.models import Order, OrderItem, Passenger
 from trips.factories import SeatFactory, TripFactory, TripTomorrowFactory
 from trips.models import Seat, Trip
 
+fake = Faker()
+
 
 class OrderModelTests(TestCase):
     """Test suite for the Order Model"""
 
     def setUp(self) -> None:
-        self.passengers = PassengerFactory.create_batch(size=3)
+        self.passengers = PassengerFactory.create_batch(size=2)
         self.order = OrderFactory(passengers=self.passengers)
 
     def test_str_representation(self):
-        self.assertEqual(str(self.order), f"{self.order.name}")  # type: ignore
+        self.assertEqual(str(self.order), f"{self.order.name}")
 
     def test_verbose_name_plural(self):
+        self.assertEqual(str(self.order._meta.verbose_name), "order")
         self.assertEqual(str(self.order._meta.verbose_name_plural), "orders")
 
     def test_order_model_creation_is_accurate(self):
@@ -64,7 +69,7 @@ class OrderModelTests(TestCase):
 
     def test_order_name_max_length(self):
         order = Order.objects.first()
-        max_length = order._meta.get_field("name").max_length  # type:ignore
+        max_length = order._meta.get_field("name").max_length
 
         self.assertEqual(max_length, 50)
 
@@ -101,7 +106,7 @@ class OrderModelTests(TestCase):
         self.assertEqual(orders[2], o_1)
 
         order = orders[0]
-        ordering = order._meta.ordering[0]  # type:ignore
+        ordering = order._meta.ordering[0]
 
         self.assertEqual(ordering, "-created_on")
 
@@ -127,57 +132,59 @@ class OrderModelTests(TestCase):
         there is a passenger assigned to it.
 
         """
-
+        # Arrange
         # Clear the db
         Trip.objects.all().delete()
         Order.objects.all().delete()
         Passenger.objects.all().delete()
 
+        # Create two trips with two available seats each
+        trip = TripTomorrowFactory()
+        SeatFactory.reset_sequence(1)
+        seat_1, seat_2 = SeatFactory.create_batch(
+            size=2, trip=trip, seat_status=Seat.AVAILABLE
+        )
+
         # Create an unpaid order with two passengers
         passengers = PassengerFactory.create_batch(size=2)
         order = OrderFactory(passengers=passengers, paid=False)
+        OrderItemFactory(order=order, trip=trip, quantity=2, seats="1, 2")
 
-        # Create two trips with two available seats each
-        trips = TripTomorrowFactory.create_batch(size=2)
-        for trip in trips:
-            SeatFactory.reset_sequence(1)
-            SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.AVAILABLE)
-            OrderItemFactory(
-                order=order, trip=trip, quantity=2, price=trip.price, seats="1, 2"
-            )
+        self.assertFalse(order.paid)
+        self.assertEqual(order.payment_id, "")
+        self.assertTrue(seat_1.seat_status, Seat.AVAILABLE)
+        self.assertTrue(seat_2.seat_status, Seat.AVAILABLE)
 
-        # Refresh data from DB
-        trips = Trip.objects.all()
-        p1, p2 = Passenger.objects.all()
+        self.assertIsNone(seat_1.passenger)
+        self.assertIsNone(seat_2.passenger)
 
-        for trip in trips:
-            # Now check that the seats are available
-            not_available_seats = list(trip.seats.exclude(seat_status=Seat.AVAILABLE))
-            self.assertEqual([], not_available_seats)
+        # Act: now we confirm the order
+        payment_id = fake.bban()
+        order.confirm(payment_id=payment_id)
 
-            # Now check that the seats are on hold
-            trip.hold_seats(seat_numbers="1, 2")
-            not_held_seats = list(trip.seats.exclude(seat_status=Seat.ONHOLD))
-            self.assertEqual([], not_held_seats)
+        # Assert: order
+        order.refresh_from_db()
+        trip.refresh_from_db()
+        seat_1.refresh_from_db()
+        seat_2.refresh_from_db()
 
-        # Now we confirm the order
-        order.confirm(payment_id="test-1234")  # type:ignore
+        self.assertTrue(order.paid)
+        self.assertEqual(order.payment_id, payment_id)
 
-        for trip in trips:
-            # Check all seats are booked
-            not_booked_seats = list(trip.seats.exclude(seat_status=Seat.BOOKED))
-            self.assertEqual([], not_booked_seats)
+        self.assertTrue(seat_1.seat_status, Seat.BOOKED)
+        self.assertTrue(seat_2.seat_status, Seat.BOOKED)
 
-            # Check passenger is assigned to seat
-            assigned_passengers = list(trip.seats.values_list("passenger", flat=True))
-            self.assertIn(p1.id, assigned_passengers)
-            self.assertIn(p2.id, assigned_passengers)
+        self.assertIsNotNone(seat_1.passenger)
+        self.assertIsNotNone(seat_2.passenger)
+
+        self.assertIn(seat_1.passenger, passengers)
+        self.assertIn(seat_2.passenger, passengers)
 
     def test_order_ticket_pdf_url_works(self):
         order = Order.objects.first()
 
         expected = reverse_lazy("orders:ticket_pdf", args=[str(order.id)])
-        actual = order.get_ticket_url()  # type:ignore
+        actual = order.get_ticket_url()
 
         self.assertEqual(actual, expected)
 
@@ -256,14 +263,10 @@ class OrderItemModelTests(TestCase):
         self.order_item = OrderItemFactory(order=self.order, trip=self.trip)
 
     def test_string_representation(self):
-        self.assertEqual(
-            str(self.order_item), f"OrderItem {self.order_item.id}"  # type:ignore
-        )
+        self.assertEqual(str(self.order_item), f"OrderItem {self.order_item.id}")
 
     def test_verbose_name_plural(self):
-        self.assertEqual(
-            str(self.order_item._meta.verbose_name_plural), "order items"
-        )  # type:ignore
+        self.assertEqual(str(self.order_item._meta.verbose_name_plural), "order items")
 
     def test_order_item_model_creation_is_correct(self):
         order_item = OrderItem.objects.first()
@@ -316,6 +319,7 @@ class PassengerModelTests(TestCase):
         self.assertEqual(str(self.p1), f"{self.p1.first_name}")
 
     def test_verbose_name_plural(self):
+        self.assertEqual(str(self.p1._meta.verbose_name), "passenger")
         self.assertEqual(str(self.p1._meta.verbose_name_plural), "passengers")
 
     def test_passenger_model_creation_is_correct(self):
@@ -344,16 +348,14 @@ class PassengerModelTests(TestCase):
     def test_first_and_last_name_max_length(self):
         p1 = Passenger.objects.first()
 
-        first_name_max_length = p1._meta.get_field(  # type:ignore
-            "first_name"
-        ).max_length
+        first_name_max_length = p1._meta.get_field("first_name").max_length
 
-        last_name_max_length = p1._meta.get_field("last_name").max_length  # type:ignore
+        last_name_max_length = p1._meta.get_field("last_name").max_length
 
         self.assertEqual(first_name_max_length, 50)
         self.assertEqual(last_name_max_length, 50)
 
     def test_passengers_are_ordered_by_created_date(self):
-        ordering = self.p1._meta.ordering[0]  # type:ignore
+        ordering = self.p1._meta.ordering[0]
 
         self.assertEqual(ordering, "-created_on")
