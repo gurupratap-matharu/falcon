@@ -6,10 +6,13 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
+
+from base.models import Settings
 
 from .validators import validate_birth_date
 
@@ -79,11 +82,11 @@ class Order(models.Model):
 
     def get_total_cost_usd(self):
         """Calculate the order cost in USD"""
-        # TODO: Remove the hardcoded value
-        cost_usd = self.get_total_cost() / 150
-        return round(
-            cost_usd, 2
-        )  # <-- Configure this to be automatically pulled via live exchange rate
+
+        usd_ars = get_object_or_404(Settings, name="usd-ars")
+        usd_cost = self.get_total_cost() / usd_ars.dec_val
+
+        return round(usd_cost, 2)
 
     def confirm(self, payment_id=None):
         """
