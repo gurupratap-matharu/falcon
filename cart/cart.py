@@ -19,7 +19,7 @@ class Cart:
         Initialize a cart.
         """
 
-        logger.info("initializing cart...")
+        logger.debug("initializing cart...")
 
         self.session = request.session
         self.cart = self.session.setdefault(settings.CART_SESSION_ID, {})
@@ -60,7 +60,7 @@ class Cart:
         if len(self.cart) == 1:
             raise CartException("Cannot add more than one trip to cart!")
 
-        logger.info("adding to cart... trip: %s quantity: %s" % (trip, quantity))
+        logger.debug("adding to cart... trip: %s quantity: %s" % (trip, quantity))
 
         trip_id = str(trip.id)
 
@@ -95,7 +95,7 @@ class Cart:
         Marks the session as `modified` to make sure it gets saved.
         """
 
-        logger.info("saving the cart...")
+        logger.debug("saving the cart...")
         self.session.modified = True
 
     def clear(self):
@@ -103,7 +103,7 @@ class Cart:
         Removes the cart from the session
         """
 
-        logger.info("clearing the cart...")
+        logger.debug("clearing the cart...")
 
         del self.session[settings.CART_SESSION_ID]
         self.save()
