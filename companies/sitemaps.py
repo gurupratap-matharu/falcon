@@ -6,6 +6,7 @@ from .models import Company
 class CompanySitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.9
+    protocol = "https"
 
     def items(self):
         return Company.objects.all()
