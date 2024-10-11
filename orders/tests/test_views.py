@@ -14,14 +14,16 @@ from orders.factories import OrderFactory, OrderItemFactory
 from orders.forms import OrderForm, PassengerForm
 from orders.models import Order, OrderItem, Passenger
 from orders.views import OrderCheckInView, OrderCreateView, order_cancel
+from pages.views import HomePageView
 from payments.views import PaymentView
 from trips.factories import (
     LocationFactory,
-    RouteFactory,
+    PriceFactory,
+    RouteWithStopsFactory,
     SeatFactory,
     TripTomorrowFactory,
 )
-from trips.models import Seat, Trip
+from trips.models import Price, Seat, Trip
 from users.factories import CompanyOwnerFactory, UserFactory
 
 
@@ -39,37 +41,90 @@ class OrderCreateTests(TestCase):
         self.url = reverse_lazy("orders:order_create")
         self.template_name = OrderCreateView.template_name
 
-        self.route = RouteFactory()
-        self.trip = TripTomorrowFactory(route=self.route, status=Trip.ACTIVE)
+        # Create a route with price and stops
+        self.route = RouteWithStopsFactory()
         self.origin = self.route.origin
         self.destination = self.route.destination
+        self.price = PriceFactory(
+            route=self.route,
+            origin=self.origin,
+            destination=self.destination,
+            amount=70000,
+            category=Price.SEMICAMA,
+        )
 
-        self.search_query = {
+        # add trip for that route
+        self.trip = TripTomorrowFactory(
+            route=self.route, status=Trip.ACTIVE, category=Trip.SEMICAMA
+        )
+
+        # create search query + cart and add them to session since order view expects them
+        num_passengers = 5
+
+        self.q = {
             "trip_type": "one_way",
-            "num_of_passengers": "2",
+            "num_of_passengers": str(num_passengers),
             "origin": self.origin.name,
             "destination": self.destination.name,
             "departure": self.trip.departure.strftime("%d-%m-%Y"),
             "return": "",
         }
 
+        self.cart = {
+            str(self.trip.id): {
+                "quantity": num_passengers,
+                "price": str(self.price.amount),
+                "origin": self.origin.name,
+                "destination": self.destination.name,
+            }
+        }
+
         session = self.client.session
-        session["q"] = self.search_query
+        session["q"] = self.q
+        session["cart"] = self.cart
+
         session.save()
 
-        # Add trip to cart
-        self.client.post(self.trip.get_add_to_cart_url())
-
-    # GET
     def test_order_create_page_works_via_get(self):
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
+
         self.assertTemplateUsed(response, self.template_name)
-        self.assertContains(response, "Order")
-        self.assertContains(response, "Passenger")
-        self.assertIn("cart", response.context)
+        self.assertTemplateNotUsed(response, HomePageView.template_name)
+
         self.assertNotContains(response, "Hi I should not be on this page!")
+        self.assertContains(response, "csrfmiddlewaretoken")
+
+        # Passenger form html
+        self.assertContains(response, "Passenger 1")
+        self.assertContains(response, "Passenger 2")
+        self.assertContains(response, "Passenger 3")
+        self.assertContains(response, "Passenger 4")
+        self.assertContains(response, "Passenger 5")
+        self.assertContains(response, "<form")
+        self.assertContains(response, 'type="hidden"', 1)
+        self.assertContains(response, 'type="text"', 2)
+        self.assertContains(response, 'type="radio"', 3)
+        self.assertContains(response, 'type="submit"', 1)
+
+        # Payer form html
+        self.assertContains(response, "Your Contact Information")
+        self.assertContains(response, "Order")
+
+        # Trip summary html
+        self.assertContains(response, "Trip Summary")
+        self.assertContains(response, "Company")
+
+        # Price summary html
+        self.assertContains(response, "Price Summary")
+
+        self.assertContains(response, self.origin)
+        self.assertContains(response, self.destination)
+
+        self.assertContains(response, self.trip.company)
+
+        self.assertIn("cart", response.context)
 
     def test_order_create_url_resolves_ordercreateview(self):
         view = resolve(self.url)
