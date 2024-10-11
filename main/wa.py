@@ -18,7 +18,7 @@ url = f"https://graph.facebook.com/v20.0/{settings.WA_PHONE_ID}/messages"
 def send_wa_message(data):
     try:
         logger.info("sending whatsapp message...")
-        response = requests.post(url, data=data, headers=headers)
+        response = requests.post(url, data=data, headers=headers, timeout=10)
         response.raise_for_status()
 
     except requests.exceptions.HTTPError as err:

@@ -39,7 +39,7 @@ def create_payment_intent(order):
         logger.info("calling modo api...")
 
         url = settings.MODO_PAYMENT_INTENT_URL
-        response = requests.post(url=url, json=payload, headers=headers)
+        response = requests.post(url=url, json=payload, headers=headers, timeout=10)
         response.raise_for_status()
 
     except requests.exceptions.HTTPError as err:
@@ -69,7 +69,7 @@ def fetch_token():
 
     try:
         logger.info("fetching modo token...")
-        response = requests.post(url=url, headers=headers, json=payload)
+        response = requests.post(url=url, headers=headers, json=payload, timeout=10)
         response.raise_for_status()
 
     except requests.exceptions.HTTPError as err:
