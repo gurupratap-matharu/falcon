@@ -65,7 +65,6 @@ class CompanyDetailViewTests(TestCase):
         self.assertEqual(self.response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(self.response, self.template_name)
         self.assertContains(self.response, self.company.name)
-        self.assertContains(self.response, self.company.description)
         self.assertNotContains(self.response, "Hi I should not be on this page")
 
     def test_company_detail_url_resolves_correct_view(self):

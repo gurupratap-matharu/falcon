@@ -1,4 +1,3 @@
-import pdb
 from http import HTTPStatus
 
 from django.conf import settings
@@ -11,7 +10,6 @@ from coupons.forms import CouponApplyForm
 from trips.factories import (
     PriceFactory,
     RouteWithStopsFactory,
-    TripFactory,
     TripTomorrowFactory,
 )
 from trips.models import Price, Trip
