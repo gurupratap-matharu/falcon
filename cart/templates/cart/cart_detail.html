@@ -15,88 +15,89 @@
 {% endblock page_title %}
 
 {% block content %}
-  <div class="card">
-    <div class="card-header">
-      <h5 class="card-title">{% translate "Cart" %}</h5>
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-borderless align-items-center align-middle mb-0">
-          <thead>
-            <tr>
-              {% with klass="ps-2 opacity-7" %}
-                <th class="{{ klass }}">{% translate "Company" %}</th>
-                <th class="{{ klass }}">{% translate "Origin" %}</th>
-                <th class="{{ klass }}">{% translate "Destination" %}</th>
-                <th class="{{ klass }}">{% translate "Quantity" %}</th>
-                <th class="{{ klass }}">{% translate "Unit Price" %}</th>
-                <th class="{{ klass }}">{% translate "Price" %}</th>
-                <th class="{{ klass }}">{% translate "Remove" %}</th>
-              {% endwith %}
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in cart %}
-              {% with trip=item.trip %}
-                {% get_departure trip origin as origin_departure %}
-                {% get_arrival trip destination as destination_arrival %}
-                {% get_duration trip origin destination as duration %}
-                {% get_price trip origin destination as price %}
+  {% if cart %}
+    <div class="card">
+      <div class="card-header pb-0">
+        <h1 class="card-title fs-3">{% translate "Cart" %}</h1>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-borderless align-items-center align-middle mb-0">
+            <thead>
+              <tr>
+                {% with klass="ps-2 opacity-7" %}
+                  <th class="{{ klass }}">{% translate "Company" %}</th>
+                  <th class="{{ klass }}">{% translate "Origin" %}</th>
+                  <th class="{{ klass }}">{% translate "Destination" %}</th>
+                  <th class="{{ klass }}">{% translate "Quantity" %}</th>
+                  <th class="{{ klass }}">{% translate "Unit Price" %}</th>
+                  <th class="{{ klass }}">{% translate "Price" %}</th>
+                  <th class="{{ klass }}">{% translate "Remove" %}</th>
+                {% endwith %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in cart %}
+                {% with trip=item.trip %}
+                  {% get_departure trip origin as origin_departure %}
+                  {% get_arrival trip destination as destination_arrival %}
+                  {% get_duration trip origin destination as duration %}
+                  {% get_price trip origin destination as price %}
+                  <tr>
+                    <td>
+                      <p class="mb-0">{{ trip.company.name }}</p>
+                    </td>
+                    <td>
+                      <p class="mb-0">{{ origin }}</p>
+                      <p class="mb-0">{{ origin_departure }}</p>
+                    </td>
+                    <td>
+                      <p class="mb-0">{{ destination }}</p>
+                      <p class="mb-0">{{ destination_arrival }}</p>
+                    </td>
+                    <td class="align-middle">
+                      <p class="mb-0">{{ item.quantity }}</p>
+                    </td>
+                    <td class="align-middle">
+                      <p class="mb-0">${{ item.price|floatformat:"-3g" }}</p>
+                    </td>
+                    <td class="align-middle">
+                      <p class="mb-0">${{ item.total_price|floatformat:"-3g" }}</p>
+                    </td>
+                    <td class="align-middle">
+                      <form action="{% url "cart:cart_remove" trip.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-dark">
+                          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                            <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
+                          </svg>
+                          <span class="visually-hidden">{% translate "Remove from cart" %}</span>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endwith %}
+              {% empty %}
                 <tr>
-                  <td>
-                    <p class="mb-0">{{ trip.company.name }}</p>
-                  </td>
-                  <td>
-                    <p class="mb-0">{{ origin }}</p>
-                    <p class="mb-0">{{ origin_departure }}</p>
-                  </td>
-                  <td>
-                    <p class="mb-0">{{ destination }}</p>
-                    <p class="mb-0">{{ destination_arrival }}</p>
-                  </td>
-                  <td class="align-middle">
-                    <p class="mb-0">{{ item.quantity }}</p>
-                  </td>
-                  <td class="align-middle">
-                    <p class="mb-0">${{ item.price|floatformat:"-3g" }}</p>
-                  </td>
-                  <td class="align-middle">
-                    <p class="mb-0">${{ item.total_price|floatformat:"-3g" }}</p>
-                  </td>
-                  <td class="align-middle">
-                    <form action="{% url "cart:cart_remove" trip.id %}" method="post">
-                      {% csrf_token %}
-                      <button type="submit" class="btn btn-outline-dark">
-                        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-                          <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
-                        </svg>
-                        <span class="visually-hidden">{% translate "Remove from cart" %}</span>
-                      </button>
-                    </form>
+                  <td class="p-5 text-center" colspan="8">
+                    <h5>{% translate "Cart is Empty 🛒" %}</h5>
                   </td>
                 </tr>
-              {% endwith %}
-            {% empty %}
+              {% endfor %}
               <tr>
-                <td class="p-5 text-center" colspan="8">
-                  <h5>{% translate "Cart is Empty 🛒" %}</h5>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <p class="mb-0">{% translate "Subtotal" %}</p>
                 </td>
+                <td>
+                  <p class="mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
+                </td>
+                <td></td>
               </tr>
-            {% endfor %}
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <p class="mb-0">{% translate "Subtotal" %}</p>
-              </td>
-              <td>
-                <p class="mb-0">${{ cart.get_total_price|floatformat:"-3g" }}</p>
-              </td>
-              <td></td>
-            </tr>
-            {% comment "complicated coupon logic" %} <tr>
+              {% comment "complicated coupon logic" %} <tr>
               <td></td>
               <td></td>
               <td></td>
@@ -108,34 +109,44 @@
                 <p class="mb-0">- $ {{ cart.get_discount|floatformat:"-3g" }}</p>
               </td>
               <td></td>
-            </tr> {% endcomment %}
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <p>{% translate "Total" %}</p>
-              </td>
-              <td>
-                <p>${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </tr> {% endcomment %}
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <p>{% translate "Total" %}</p>
+                </td>
+                <td>
+                  <p>${{ cart.get_total_price_after_discount|floatformat:"-3g" }}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="d-flex justify-content-end mt-4 me-3">
-    <button type="button" class="btn btn-link me-3" data-bs-toggle="modal" data-bs-target="#couponModal">
-      {% translate "I have coupon" %}
-    </button>
-    <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl icon-link icon-link-hover">{% translate "Checkout" %}
-      <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-        <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
-      </svg>
-    </a>
-  </div>
+    <div class="d-flex justify-content-end mt-4 me-3">
+      <button type="button" class="btn btn-outline-success me-3" data-bs-toggle="modal" data-bs-target="#couponModal">
+        {% translate "I have a coupon" %}
+      </button>
+      <a href="{% url 'orders:order_create' %}" class="btn bg-gradient-primary shadow-xl icon-link icon-link-hover">{% translate "Checkout" %}
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+        </svg>
+      </a>
+    </div>
+  {% else %}
+    <div class="d-flex flex-column align-items-center py-3">
+      <h3>{% translate "Cart is Empty 🛒" %}</h3>
+      <a href="{% url 'pages:home' %}" class="icon-link icon-link-hover">{% translate "Keep exploring" %}
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+        </svg>
+      </a>
+    </div>
+  {% endif %}
   {% if not request.session.coupon_id %}
     <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -159,9 +170,14 @@
                 </div>
               {% endfor %}
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-              <button type="submit" class="btn bg-gradient-primary">{% translate "Apply" %}</button>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+              <button type="submit" class="btn bg-gradient-primary icon-link icon-link-hover">
+                {% translate "Apply" %}
+                <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
+                </svg>
+              </button>
             </div>
           </form>
         </div>
