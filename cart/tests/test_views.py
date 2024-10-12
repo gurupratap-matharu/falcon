@@ -7,11 +7,7 @@ from django.urls import resolve, reverse_lazy
 
 from cart.views import cart_detail, cart_remove
 from coupons.forms import CouponApplyForm
-from trips.factories import (
-    PriceFactory,
-    RouteWithStopsFactory,
-    TripTomorrowFactory,
-)
+from trips.factories import PriceFactory, RouteWithStopsFactory, TripTomorrowFactory
 from trips.models import Price, Trip
 
 
