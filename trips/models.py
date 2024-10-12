@@ -1,4 +1,5 @@
 import logging
+import pdb
 import uuid
 from datetime import datetime, timedelta
 
@@ -376,7 +377,7 @@ class Trip(models.Model):
 
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
-            logger.info("slugifying %s:%s..." % (self.name, slugify(self.name)))
+            logger.debug("slugifying %s:%s..." % (self.name, slugify(self.name)))
             self.slug = slugify(self.name)
 
         return super().save(*args, **kwargs)
@@ -573,19 +574,21 @@ class Trip(models.Model):
 
         for departure in departures:
             arrival = departure + duration
+            schedule = self.route.get_schedule_for_date(departure.date())
+
             obj = Trip(
+                route=self.route,
                 name=self.name,
                 slug=self.slug,
                 company=self.company,
+                description=self.description,
                 origin=self.origin,
                 destination=self.destination,
                 departure=departure,
                 arrival=arrival,
-                price=self.price,
                 status=self.status,
                 mode=self.mode,
-                image=self.image,
-                description=self.description,
+                schedule=schedule,
             )
             objs.append(obj)
 

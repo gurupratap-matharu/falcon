@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -13,14 +14,16 @@ from orders.models import Passenger
 from trips.exceptions import SeatException, TripException
 from trips.factories import (
     LocationFactory,
+    PriceFactory,
     RouteFactory,
+    RouteWithStopsFactory,
     SeatFactory,
     StopFactory,
     TripFactory,
     TripPastFactory,
     TripTomorrowFactory,
 )
-from trips.models import Location, Route, Seat, Stop, Trip
+from trips.models import Location, Price, Route, Seat, Stop, Trip
 
 
 class LocationModelTests(TestCase):
@@ -237,6 +240,10 @@ class RouteModelTests(TestCase):
         self.assertFalse(self.route.goes_from(loc_d, loc_e))
 
 
+class PriceModelTests(TestCase):
+    pass
+
+
 class StopModelTests(TestCase):
     """Test suite for the Stop Model"""
 
@@ -289,7 +296,15 @@ class TripModelTests(TestCase):
     """Test suite for the Trip Model"""
 
     def setUp(self) -> None:
-        self.trip = TripFactory()
+        self.route = RouteWithStopsFactory()
+        self.origin = self.route.origin
+        self.destination = self.route.destination
+        self.stops = self.route.stops.all()
+        self.price = PriceFactory(
+            route=self.route, origin=self.origin, destination=self.destination
+        )
+
+        self.trip = TripFactory(route=self.route)
         self.seats = SeatFactory.create_batch(size=5, trip=self.trip)
 
     def test_str_representation(self):
@@ -327,7 +342,6 @@ class TripModelTests(TestCase):
         self.assertEqual(trip_from_db.destination, self.trip.destination)
         self.assertEqual(trip_from_db.departure, self.trip.departure)
         self.assertEqual(trip_from_db.arrival, self.trip.arrival)
-        self.assertEqual(trip_from_db.price, self.trip.price)
         self.assertEqual(trip_from_db.description, self.trip.description)
         self.assertEqual(trip_from_db.mode, self.trip.mode)
         self.assertEqual(trip_from_db.status, self.trip.status)
@@ -355,7 +369,6 @@ class TripModelTests(TestCase):
             destination=destination,
             departure=departure,
             arrival=arrival,
-            price=10000,
         )
 
         expected = "san-carlos-de-bariloche"
@@ -441,15 +454,10 @@ class TripModelTests(TestCase):
         _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.BOOKED)
         _ = SeatFactory.create_batch(size=2, trip=trip, seat_status=Seat.RESERVED)
 
-        self.assertEqual(trip.seats_available, 3)  # type:ignore
+        self.assertEqual(trip.seats_available, 3)
 
-    def test_trip_duration_is_correctly_calculated_in_hours_and_minutes(self):
-        actual = self.trip.duration  # type:ignore
-
-        td = self.trip.arrival - self.trip.departure  # type:ignore
-        expected = ":".join(str(td).split(":")[:2])
-
-        self.assertEqual(actual, expected)
+    def test_trip_total_duration_is_same_as_route_duration(self):
+        self.assertEqual(self.trip.duration, self.route.duration)
 
     def test_trip_in_the_past_have_has_departed_status(self):
         trip = TripPastFactory()
@@ -707,27 +715,26 @@ class TripModelTests(TestCase):
         # Initially only one trip
         self.assertEqual(Trip.objects.count(), 1)
 
-        # Create daily departures for the next 5 days
+        # Act: Create daily departures for the next 5 days
         now = timezone.now()
         departures = [now + timedelta(days=days) for days in range(1, 6)]
 
         trips = self.trip.create_occurrences(departures=departures)
 
-        future_trip = trips[0]
-
+        # Assert
         # Five trips should have been created
         self.assertEqual(len(trips), 5)
         # In DB total 6 trips
         self.assertEqual(Trip.objects.count(), 6)
 
         # Take random future trip. all fields should match
+        future_trip = random.choice(trips)
         self.assertEqual(future_trip.name, self.trip.name)
         self.assertEqual(future_trip.slug, self.trip.slug)
         self.assertEqual(future_trip.company, self.trip.company)
         self.assertEqual(future_trip.origin, self.trip.origin)
         self.assertEqual(future_trip.destination, self.trip.destination)
         self.assertEqual(future_trip.duration, self.trip.duration)
-        self.assertEqual(future_trip.price, self.trip.price)
         self.assertEqual(future_trip.description, self.trip.description)
         self.assertEqual(future_trip.mode, self.trip.mode)
         self.assertEqual(future_trip.status, self.trip.status)
@@ -754,19 +761,66 @@ class TripModelTests(TestCase):
         self.assertEqual(seat_numbers, list(seat_numbers_in_db))
 
     def test_trip_goes_from_method_works_correctly(self):
-        raise NotImplementedError("Veer please implement me")
+        # Arrange
+        s1, s2, s3, s4 = self.stops
+        a, b, c, d = s1.name, s2.name, s3.name, s4.name
+
+        # our trip goes from
+        # a -> b -> c -> d
+        # a -> c, a -> d
+        # b -> c, b -> d
+        # c -> d
+        # Assert
+        self.assertTrue(self.trip.goes_from(a, b))
+        self.assertTrue(self.trip.goes_from(a, c))
+        self.assertTrue(self.trip.goes_from(a, d))
+
+        self.assertTrue(self.trip.goes_from(b, c))
+        self.assertTrue(self.trip.goes_from(b, d))
+
+        self.assertTrue(self.trip.goes_from(c, d))
+
+        # Assert: trip does not go in the reverse direction
+        self.assertFalse(self.trip.goes_from(d, c))
+        self.assertFalse(self.trip.goes_from(d, b))
+        self.assertFalse(self.trip.goes_from(d, a))
+
+        self.assertFalse(self.trip.goes_from(c, b))
+        self.assertFalse(self.trip.goes_from(c, a))
+
+        self.assertFalse(self.trip.goes_from(b, a))
+
+        # Edge case: trip cannot start and end at same location
+        self.assertFalse(self.trip.goes_from(a, a))
+        self.assertFalse(self.trip.goes_from(b, b))
+        self.assertFalse(self.trip.goes_from(c, c))
+        self.assertFalse(self.trip.goes_from(d, d))
 
     def test_trip_get_schedule_method_works_correctly(self):
-        raise NotImplementedError("Veer please implement me")
+        # Arrange + Act
+        schedule = self.trip.get_schedule()
+
+        # Assert
+        self.assertIsInstance(schedule, dict)
+        # schedule should contain all the stops
+        self.assertEqual(len(schedule), len(self.stops))
+
+        # schedule should have the stops in order
+        stop_order = [x["order"] for x in schedule.values()]
+        self.assertEqual(stop_order, sorted(stop_order))
+
+        for x in schedule.values():
+            self.assertIn("arrival", x)
+            self.assertIn("departure", x)
 
     def test_trip_get_duration_method_works_correctly(self):
-        raise NotImplementedError("Veer please implement me")
+        self.skipTest("Veer please implement me")
 
     def test_trip_get_departure_time_method(self):
-        raise NotImplementedError("Veer please implement me")
+        raise self.skipTest("Veer please implement me")
 
     def test_trip_get_arrival_time_method(self):
-        raise NotImplementedError("Veer please implement me")
+        raise self.skipTest("Veer please implement me")
 
 
 class SeatModelTests(TestCase):

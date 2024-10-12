@@ -77,10 +77,19 @@ class RouteWithStopsFactory(RouteFactory):
             # Simple build, or nothing to add, do nothing.
             return
 
-        # Create stops for this route and add them
-        StopFactory(route=self, name=self.origin)
-        StopFactory.create_batch(size=2, route=self)
-        StopFactory(route=self, name=self.destination)
+        # First stop at origin starting now. Note departures are 10 mins later
+        StopFactory(route=self, name=self.origin, arrival=timezone.now())
+
+        # Second stop at random location arriving in an hour
+        StopFactory(route=self, arrival=timezone.now() + td(hours=1))
+
+        # Third stop at random location arriving in two hours
+        StopFactory(route=self, arrival=timezone.now() + td(hours=2))
+
+        # Last stop at destination arriving in three hours
+        StopFactory(
+            route=self, name=self.destination, arrival=timezone.now() + td(hours=3)
+        )
 
 
 class PriceFactory(factory.django.DjangoModelFactory):
