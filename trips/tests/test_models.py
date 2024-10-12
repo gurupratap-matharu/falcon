@@ -1,5 +1,6 @@
 import random
 from datetime import datetime, timedelta
+from decimal import Decimal
 from zoneinfo import ZoneInfo
 
 from django.core.exceptions import ValidationError
@@ -162,7 +163,6 @@ class RouteModelTests(TestCase):
         self.assertEqual(obj.company, self.route.company)
         self.assertEqual(obj.description, self.route.description)
         self.assertEqual(obj.image, self.route.image)
-        self.assertEqual(obj.category, self.route.category)
         self.assertEqual(obj.origin, self.route.origin)
         self.assertEqual(obj.destination, self.route.destination)
         self.assertEqual(obj.duration, self.route.duration)
@@ -241,7 +241,102 @@ class RouteModelTests(TestCase):
 
 
 class PriceModelTests(TestCase):
-    pass
+    """Our awesome test suite for the Price Model"""
+
+    def setUp(self):
+        self.route = RouteWithStopsFactory()
+        self.origin = self.route.origin
+        self.destination = self.route.destination
+        self.price = PriceFactory(
+            route=self.route,
+            origin=self.origin,
+            destination=self.destination,
+            category=Price.SEMICAMA,
+        )
+
+    def test_verbose_names(self):
+        self.assertEqual(self.price._meta.verbose_name, "price")
+        self.assertEqual(self.price._meta.verbose_name_plural, "prices")
+
+    def test_str_representation(self):
+        self.assertEqual(str(self.price), str(self.price.amount))
+
+    def test_double_pricing_not_allowed(self):
+        with self.assertRaises(IntegrityError):
+            PriceFactory(
+                route=self.route,
+                origin=self.origin,
+                destination=self.destination,
+                category=Price.SEMICAMA,
+            )
+
+    def test_price_cannot_be_set_for_stops_not_on_route(self):
+        # Arrange: let's create two locations that are not on our route
+        loc_a = LocationFactory(name="loc_a")
+        loc_b = LocationFactory(name="loc_b")
+
+        # Assert
+        with self.assertRaises(ValidationError):
+            p = PriceFactory(
+                route=self.route,
+                origin=loc_a,  # not on route
+                destination=self.destination,  # yes on route
+                category=Price.CAMA,
+            )
+            p.full_clean()
+
+        with self.assertRaises(ValidationError):
+            p = PriceFactory(
+                route=self.route,
+                origin=self.origin,  # yes on route
+                destination=loc_b,  # not on route
+                category=Price.CAMA,
+            )
+            p.full_clean()
+
+        with self.assertRaises(ValidationError):
+            p = PriceFactory(
+                route=self.route,
+                origin=loc_a,  # not on route
+                destination=loc_b,  # not on route
+                category=Price.CAMA,
+            )
+            p.full_clean()
+
+    def test_price_can_be_created_for_same_loc_pair_but_different_category(self):
+        # Arrange: clear all prices and take two intermediate stops of the route
+        Price.objects.all().delete()
+
+        s1, s2, s3, s4 = self.route.stops.all()
+        loc_1, loc_2 = s1.name, s2.name
+
+        # Act: create price for same pair but different category
+        PriceFactory(
+            route=self.route,
+            origin=loc_1,
+            destination=loc_2,
+            category=Price.SEMICAMA,
+            amount=1,
+        )
+        PriceFactory(
+            route=self.route,
+            origin=loc_1,
+            destination=loc_2,
+            category=Price.CAMA,
+            amount=2,
+        )
+
+        # Assert: no exception is raised and prices created successfully
+        price_semicama = Price.objects.get(
+            route=self.route, origin=loc_1, destination=loc_2, category=Price.SEMICAMA
+        )
+        price_cama = Price.objects.get(
+            route=self.route, origin=loc_1, destination=loc_2, category=Price.CAMA
+        )
+
+        self.assertEqual(Price.objects.count(), 2)
+        self.assertEqual(price_semicama.amount, Decimal(1))
+        self.assertEqual(price_cama.amount, Decimal(2))
 
 
 class StopModelTests(TestCase):
