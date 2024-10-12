@@ -65,7 +65,6 @@ class PaymentsFunctionalTests(StaticLiveServerTestCase):
         session = self.create_session_store()
         session["order"] = str(self.order.id)
         session.save()
-        pdb.set_trace()
         # Now add the session key to the cookie that will be sent back to the server.
         cookie = {"name": settings.SESSION_COOKIE_NAME, "value": session.session_key}
         self.browser.add_cookie(cookie)
