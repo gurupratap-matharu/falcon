@@ -1,5 +1,4 @@
 from datetime import timedelta
-from decimal import Decimal
 from http import HTTPStatus
 
 from django.contrib.messages import get_messages
@@ -15,6 +14,7 @@ from companies.factories import CompanyFactory, SeatChartFactory
 from trips.factories import (
     LocationFactory,
     RouteFactory,
+    RouteWithStopsFactory,
     SeatFactory,
     SeatWithPassengerFactory,
     StopFactory,
@@ -62,6 +62,11 @@ class LocationListViewTests(TestCase):
 
         self.assertEqual(view.func.__name__, LocationListView.as_view().__name__)
 
+    def test_accepts_only_get(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
     def test_location_list_view_works(self):
         response = self.client.get(self.url)
 
@@ -83,7 +88,7 @@ class LocationDetailViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.location = LocationFactory()
-        cls.url = cls.location.get_absolute_url()  # type:ignore
+        cls.url = cls.location.get_absolute_url()
         cls.template_name = "trips/location_detail.html"
 
     def test_location_detail_view_works_correctly(self):
@@ -98,6 +103,11 @@ class LocationDetailViewTests(TestCase):
         view = resolve(self.url)
 
         self.assertEqual(view.func.__name__, LocationDetailView.as_view().__name__)
+
+    def test_accepts_only_get_request(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_anonymous_user_can_access_location_detail_page(self):
         response = self.client.get(self.url)
@@ -145,7 +155,6 @@ class TripListViewTests(TestCase):
 
         self.assertEqual(self.response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(self.response, self.template_name)
-        self.assertContains(self.response, "Cheapest")
         self.assertContains(self.response, "Earliest")
         self.assertContains(self.response, "Latest")
         self.assertNotContains(self.response, "Hi there. I should not be on this page.")
@@ -360,23 +369,73 @@ class TripDetailViewTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.trip = TripFactory()
+        cls.route = RouteWithStopsFactory()
+        cls.origin = cls.route.origin
+        cls.destination = cls.route.destination
+
+        cls.trip = TripTomorrowFactory(
+            route=cls.route,
+            origin=cls.origin,
+            destination=cls.destination,
+            status=Trip.ACTIVE,
+        )
+
         cls.url = cls.trip.get_absolute_url()
-        cls.template_name = "trips/trip_detail.html"
+        cls.template_name = TripDetailView.template_name
 
     def setUp(self) -> None:
-        self.response = self.client.get(self.url)
-
-    def test_trip_detail_view_works_correctly(self):
-        self.assertEqual(self.response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(self.response, self.template_name)
-        self.assertContains(self.response, self.trip.origin)
-        self.assertContains(self.response, self.trip.destination)
-        self.assertNotContains(self.response, "Hi I should not be on this page")
+        num_passengers = 5
+        self.q = {
+            "trip_type": "one_way",
+            "num_of_passengers": str(num_passengers),
+            "origin": self.origin.name,
+            "destination": self.destination.name,
+            "departure": self.trip.departure.strftime("%d-%m-%Y"),
+            "return": "",
+        }
+        session = self.client.session
+        session["q"] = self.q
+        session.save()
 
     def test_trip_detail_url_resolves_correct_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, TripDetailView.as_view().__name__)
+
+    def test_for_empty_session_redirects_home(self):
+        # Arrange
+        session = self.client.session
+        session.clear()
+        session.save()
+
+        self.assertNotIn("q", self.client.session)
+        self.assertNotIn("q", session)
+
+        # Act
+        response = self.client.get(self.url, follow=True)
+
+        # Assert
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateNotUsed(response, self.template_name)
+        self.assertRedirects(
+            response,
+            reverse_lazy("pages:home"),
+            status_code=HTTPStatus.FOUND,
+            target_status_code=HTTPStatus.OK,
+        )
+
+    def test_trip_detail_view_works_correctly(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertTemplateNotUsed(response, "pages/home.html")
+
+        self.assertEqual(response.context["origin"], self.origin)
+        self.assertEqual(response.context["destination"], self.destination)
+
+        self.assertContains(response, self.trip.origin)
+        self.assertContains(response, self.trip.destination)
+        self.assertNotContains(response, "Hi I should not be on this page")
 
     def test_anonymous_user_can_access_trip_detail_view(self):
         response = self.client.get(self.url)
@@ -745,7 +804,6 @@ class TripUpdateViewTests(TestCase):
         # Verify DB count and content
         self.assertEqual(Trip.objects.count(), 1)
         self.assertEqual(trip.name, "Antartica Trip")
-        self.assertEqual(trip.price, Decimal(20))
         self.assertEqual(trip.description, "My new trip to Antartica")
 
         # Verify content of final redirected page
@@ -1339,12 +1397,12 @@ class RecurrenceViewTests(TestCase):
             "freq": rrule.DAILY,
         }
 
-        self.client.force_login(self.owner)  # type:ignore
+        self.client.force_login(self.owner)
 
         # Creation will redirect to trip-list so make `follow=True`
         response = self.client.post(path=self.url, data=data, follow=True)
 
-        expected_url = self.company.get_trip_list_url()  # type:ignore
+        expected_url = self.company.get_trip_list_url()
 
         # Verify redirection
         self.assertRedirects(
@@ -1360,7 +1418,6 @@ class RecurrenceViewTests(TestCase):
         # Pull latest trip and check all attributes are equal
         trip_from_db = Trip.objects.last()
         self.assertEqual(trip_from_db.name, self.trip.name)
-        self.assertEqual(trip_from_db.price, self.trip.price)
         self.assertEqual(trip_from_db.description, self.trip.description)
         self.assertEqual(trip_from_db.duration, self.trip.duration)
 

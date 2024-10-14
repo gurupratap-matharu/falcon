@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import Any, Dict
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.messages.views import SuccessMessageMixin
@@ -116,6 +117,12 @@ class TripDetailView(DetailView):
     context_object_name = "trip"
     template_name = "trips/trip_detail.html"
     pk_url_kwarg = "id"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.session.get("q"):
+            messages.info(request, settings.SESSION_EXPIRED_MESSAGE)
+            return redirect("pages:home")
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self):
         trip = get_object_or_404(

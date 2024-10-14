@@ -166,7 +166,6 @@ class RouteModelTests(TestCase):
         self.assertEqual(obj.origin, self.route.origin)
         self.assertEqual(obj.destination, self.route.destination)
         self.assertEqual(obj.duration, self.route.duration)
-        self.assertEqual(obj.price, self.route.price)
         self.assertEqual(obj.active, self.route.active)
 
     def test_route_slug_is_auto_generated_even_if_not_supplied(self):

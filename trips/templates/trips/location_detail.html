@@ -2,20 +2,15 @@
 
 {% load static i18n %}
 
-{% block title %}
-  {{ location }}
-{% endblock title %}
-
-{% block breadcrumb %}
-  {% translate "Location" %}
-{% endblock breadcrumb %}
-
-{% block page_title %}
-  {{ location }}
-{% endblock page_title %}
-
 {# djlint:off #}
-{% block canonical_url %}https://{{ request.get_host }}{{ request.get_full_path }}{% endblock canonical_url %}
+
+{% block title %}{{ location }}{% endblock title %}
+
+{% block breadcrumb %}{% translate "Location" %}{% endblock breadcrumb %}
+
+{% block page_title %}{{ location }}{% endblock page_title %}
+
+{% block canonical_url %}{% block spaceless %}https://{{ request.get_host }}{{ request.get_full_path }}{% endblock spaceless %}{% endblock canonical_url %}
 
 
 {# djlint:on #}
