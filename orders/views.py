@@ -2,6 +2,7 @@ import logging
 from typing import Any, Dict
 
 from django import http
+from django.conf import settings
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.http import HttpResponse
@@ -32,7 +33,6 @@ class OrderCreateView(CreateView):
     form_class = OrderForm
     template_name = "orders/order_form.html"
     success_url = reverse_lazy("payments:home")
-    redirect_message = "Your session has expired. Please search again 🙏"
 
     def get_initial(self):
         if self.request.user.is_authenticated:
@@ -51,7 +51,7 @@ class OrderCreateView(CreateView):
         cart = request.session.get("cart")
 
         if not (q and cart):
-            messages.info(request, self.redirect_message)
+            messages.info(request, settings.SESSION_EXPIRED_MESSAGE)
             return redirect("pages:home")
 
         return super().dispatch(request, *args, **kwargs)
@@ -181,7 +181,7 @@ def order_cancel(request, order_id=None):
     In the DB the order is not deleted. This view does not render a template.
     """
 
-    message = "Your session has expired. Please search again 🙏"
+    message = settings.SESSION_EXPIRED_MESSAGE
 
     cart = Cart(request)
     cart.clear()

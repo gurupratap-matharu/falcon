@@ -38,7 +38,6 @@ class PaymentView(TemplateView):
 
     template_name: str = "payments/payment.html"
     order: Order = None
-    redirect_message = _("Your session has expired. Please search again 🙏")
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -48,7 +47,7 @@ class PaymentView(TemplateView):
         order = request.session.get("order")
 
         if not order:
-            messages.info(request, self.redirect_message)
+            messages.info(request, settings.SESSION_EXPIRED_MESSSAGE)
             return redirect("pages:home")
 
         return super().dispatch(request, *args, **kwargs)
@@ -61,6 +60,8 @@ class PaymentView(TemplateView):
         context["order"] = self.order = get_object_or_404(Order, id=order_id)
         context["preference"] = self.get_mercado_pago_preference()
         context["mp_public_key"] = settings.MP_PUBLIC_KEY
+
+        logger.info("context generated ...", context)
 
         return context
 
@@ -126,8 +127,8 @@ class PaymentView(TemplateView):
 
         preference = mercado_pago.preference().create(preference_data)
 
-        logger.debug("MP preference_data:%s", preference_data)
-        logger.debug("MP response(💰):%s", preference)
+        logger.info("MP preference_data:%s", preference_data)
+        logger.info("MP response(💰):%s", preference)
 
         return preference["response"]
 

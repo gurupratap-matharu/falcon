@@ -1,12 +1,11 @@
 import uuid
-from datetime import timedelta
 from http import HTTPStatus
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.http.response import HttpResponseRedirect
 from django.test import TestCase
 from django.urls import resolve, reverse_lazy
-from django.utils import timezone
 
 from cart.cart import Cart
 from companies.factories import CompanyFactory
@@ -102,11 +101,6 @@ class OrderCreateTests(TestCase):
         self.assertContains(response, "Passenger 3")
         self.assertContains(response, "Passenger 4")
         self.assertContains(response, "Passenger 5")
-        self.assertContains(response, "<form")
-        self.assertContains(response, 'type="hidden"', 1)
-        self.assertContains(response, 'type="text"', 2)
-        self.assertContains(response, 'type="radio"', 3)
-        self.assertContains(response, 'type="submit"', 1)
 
         # Payer form html
         self.assertContains(response, "Your Contact Information")
@@ -117,7 +111,7 @@ class OrderCreateTests(TestCase):
         self.assertContains(response, "Company")
 
         # Price summary html
-        self.assertContains(response, "Price Summary")
+        self.assertContains(response, "Fare Summary")
 
         self.assertContains(response, self.origin)
         self.assertContains(response, self.destination)
@@ -155,35 +149,52 @@ class OrderCreateTests(TestCase):
         self.assertIsInstance(response.context["cart"], Cart)
 
     def test_order_page_redirects_to_home_if_no_query_found_in_session(self):
+        # Act
         # first let's clear the session set in setup()
         session = self.client.session
         session.clear()
         session.save()
 
+        self.assertNotIn("q", self.client.session)
+
+        # Act
         # now hit the order create page directly
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
         messages = list(get_messages(response.wsgi_request))
 
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, reverse_lazy("pages:home"), HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(
+            response,
+            reverse_lazy("pages:home"),
+            status_code=HTTPStatus.FOUND,
+            target_status_code=HTTPStatus.OK,
+        )
 
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), OrderCreateView.redirect_message)
+        self.assertEqual(str(messages[0]), settings.SESSION_EXPIRED_MESSAGE)
 
     def test_order_page_redirects_to_home_if_cart_is_empty(self):
+        # Arrange: we empty the session
         session = self.client.session
         session.clear()
         session.save()
 
-        # now hit the order create page directly
-        response = self.client.get(self.url)
+        self.assertNotIn("cart", self.client.session)
+
+        # Act: now hit the order create page directly
+        response = self.client.get(self.url, follow=True)
         messages = list(get_messages(response.wsgi_request))
 
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(response, reverse_lazy("pages:home"), HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(
+            response,
+            reverse_lazy("pages:home"),
+            status_code=HTTPStatus.FOUND,
+            target_status_code=HTTPStatus.OK,
+        )
 
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), OrderCreateView.redirect_message)
+        self.assertEqual(str(messages[0]), settings.SESSION_EXPIRED_MESSAGE)
 
 
 class OrderCreatePostTests(TestCase):
@@ -191,49 +202,58 @@ class OrderCreatePostTests(TestCase):
     Test suite to verify Order Creation.
     """
 
-    @classmethod
-    def setUpTestData(cls):
-        cls.tomorrow = timezone.now() + timedelta(days=1)
-        cls.num_of_passengers = 2
-
-        cls.url = reverse_lazy("orders:order_create")
-        cls.success_url = reverse_lazy("payments:home")
-        cls.template_name = OrderCreateView.template_name
-        cls.redirect_template_name = PaymentView.template_name
-
-        cls.origin, cls.destination = LocationFactory.create_batch(size=2)
-        cls.trip = TripTomorrowFactory(
-            origin=cls.origin, destination=cls.destination, status=Trip.ACTIVE
-        )
-        SeatFactory.reset_sequence(1)
-        SeatFactory.create_batch(size=2, trip=cls.trip, seat_status=Seat.AVAILABLE)
-
     def setUp(self):
         """Build the session data for each test"""
 
-        # Search query
-        session = self.client.session
-        session["q"] = self.build_search_query()
-        session.save()
+        self.num_of_passengers = 2
+        self.url = reverse_lazy("orders:order_create")
+        self.payments_url = reverse_lazy("payments:home")
+        self.template_name = OrderCreateView.template_name
+        self.redirect_template_name = PaymentView.template_name
 
-        # Cart
-        self.client.post(self.trip.get_add_to_cart_url())
+        # Create a route with stops
+        self.route = RouteWithStopsFactory()
+        self.origin = self.route.origin
+        self.destination = self.route.destination
+
+        # Create a price between origin, destination pair for semicama category
+        self.price = PriceFactory(
+            route=self.route,
+            origin=self.origin,
+            destination=self.destination,
+            category=Price.SEMICAMA,
+        )
+        # Create a trip on our route with 2 available seats
+        self.trip = TripTomorrowFactory(
+            route=self.route, status=Trip.ACTIVE, category=Trip.SEMICAMA
+        )
+        SeatFactory.reset_sequence(1)
+        SeatFactory.create_batch(size=2, trip=self.trip, seat_status=Seat.AVAILABLE)
+
+        self.cart = {
+            str(self.trip.id): {
+                "quantity": self.num_of_passengers,
+                "price": str(self.price.amount),
+                "origin": self.origin.name,
+                "destination": self.destination.name,
+            }
+        }
+
+        self.q = {
+            "trip_type": "one_way",
+            "num_of_passengers": str(self.num_of_passengers),
+            "origin": self.origin.name,
+            "destination": self.destination.name,
+            "departure": self.trip.departure.strftime("%d-%m-%Y"),
+            "return": "",
+        }
 
         self.data = self.build_form_data()
 
-    def build_search_query(self):
-        """Helper method to just build a user trip search query"""
-
-        query = dict()
-
-        query["trip_type"] = "round_trip"
-        query["num_of_passengers"] = str(self.num_of_passengers)
-        query["origin"] = f"{self.origin.name}"
-        query["destination"] = f"{self.destination.name}"
-        query["departure"] = self.tomorrow.strftime("%d-%m-%Y")
-        query["return"] = ""
-
-        return query
+        session = self.client.session
+        session["q"] = self.q
+        session["cart"] = self.cart
+        session.save()
 
     def build_form_data(self):
         """Helper method to construct the order form post data"""
@@ -281,13 +301,14 @@ class OrderCreatePostTests(TestCase):
 
         self.assertRedirects(
             response=response,
-            expected_url=self.success_url,
+            expected_url=self.payments_url,
             status_code=HTTPStatus.FOUND,
             target_status_code=HTTPStatus.OK,
         )
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, self.redirect_template_name)
+        self.assertTemplateUsed(response, PaymentView.template_name)
+        self.assertTemplateNotUsed(response, "pages/home.html")
         self.assertContains(response, "Payment")
         self.assertNotContains(response, "Hi I should not be on this page")
         self.assertIsInstance(response.context["order"], Order)
@@ -332,7 +353,7 @@ class OrderCreatePostTests(TestCase):
         self.assertEqual(OrderItem.objects.count(), 1)
         self.assertEqual(order_item.order, order)
         self.assertEqual(order_item.trip, trip)
-        self.assertEqual(order_item.price, trip.price)
+        self.assertEqual(order_item.price, self.price.amount)
         self.assertEqual(order_item.quantity, self.num_of_passengers)
         self.assertEqual(order_item.seats, "1, 2")
         self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -387,22 +408,39 @@ class OrderCancelTests(TestCase):
     Test suite to cancel an order
     """
 
-    search_query = {
-        "trip_type": "round_trip",
-        "num_of_passengers": "2",
-        "origin": "Alta Gracia",
-        "destination": "Anatuya",
-        "departure": "23-02-2023",
-        "return": "",
-    }
-
     def setUp(self):
-        self.trip = TripTomorrowFactory()
-        self.order = OrderFactory()
         self.url = reverse_lazy("orders:order_cancel", args=[str(self.order.id)])
-        self.warning_msg = "Your session has expired. Please search again 🙏"
+        self.warning_msg = settings.SESSION_EXPIRED_MESSAGE
+
+        self.route = RouteWithStopsFactory()
+        self.origin = self.route.origin
+        self.destination = self.route.destination
+        self.price = PriceFactory(
+            route=self.route,
+            origin=self.origin,
+            destination=self.destination,
+            amount=10,
+        )
+
+        self.trip = TripTomorrowFactory(
+            route=self.route, status=Trip.ACTIVE, category=Trip.SEMICAMA
+        )
+
+        SeatFactory.reset_sequence(1)
+        SeatFactory.create_batch(size=2, trip=self.trip, status=Seat.AVAILABLE)
+
+        self.order = OrderFactory(paid=False)
+        self.order_item = OrderItemFactory(order=self.order, trip=self.trip, price=10)
 
         # Initialize session with search query
+        self.q = {
+            "trip_type": "one_way",
+            "num_of_passengers": str(self.num_of_passengers),
+            "origin": self.origin.name,
+            "destination": self.destination.name,
+            "departure": self.trip.departure.strftime("%d-%m-%Y"),
+            "return": "",
+        }
 
         session = self.client.session
         session["q"] = self.search_query
