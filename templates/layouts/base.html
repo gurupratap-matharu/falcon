@@ -12,6 +12,8 @@
     <meta name="Copyright" content="Ventanita Team" />
     <meta name="keywords" content="Bus, Argentina, Tickets, Travel, Pasajes" />
     <meta name="author" content="Ventanita Team" />
+    <meta property="theme-color" content="#ffffff" />
+    <meta name="msapplication-config" content="{% static 'assets/icons/favicons/browserconfig.xml' %}" />
     {# djlint:off #}
     <meta name="description" content="{% block description %}Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
     {% block og_tags %}
@@ -28,11 +30,11 @@
     <meta property="og:site_name" content="Ventanita" />
     <meta property="og:locale" content="{{ LANGUAGE_CODE }}" />
 
-    <meta property="twitter:card" content="{% block twitter_card %}summary_large_image{% endblock twitter_card %}">
-    <meta property="twitter:creator" content="Ventanita" />
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:creator" content="@Ventanita" />
     <meta property="twitter:site" content="@Ventanita" />
-    <meta name="twitter:title" content="Explore Argentina by Bus" />
-    <meta name="twitter:image" content="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static "assets/img/og_image.jpg" %}" />
+    <meta name="twitter:title" content="{% block og_title %}Explore Argentina by Bus{% endblock og_title %}" />
+    <meta name="twitter:image" content="{{request.scheme}}://{{request.META.HTTP_HOST}}{% block og_img %}{% static "assets/img/og_image.jpg" %}{% endblock og_img %}" />
     <meta name="twitter:description" content="Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile." />
     {% endblock og_tags %}
 
@@ -44,6 +46,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/icons/favicons/apple-touch-icon.png' %}" />
     <meta name="apple-mobile-web-app-title" content="Ventanita" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta property="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="{% static 'assets/icons/favicons/site.webmanifest' %}" />
     <link rel="icon" type="image/svg+xml" href="{% static 'assets/img/logos/logo.svg' %}" />
     {# djlint:off #}
