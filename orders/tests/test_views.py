@@ -16,7 +16,6 @@ from orders.views import OrderCheckInView, OrderCreateView, order_cancel
 from pages.views import HomePageView
 from payments.views import PaymentView
 from trips.factories import (
-    LocationFactory,
     PriceFactory,
     RouteWithStopsFactory,
     SeatFactory,
