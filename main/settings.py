@@ -213,7 +213,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-GB"
+LANGUAGE_CODE = "es-AR"
 
 LANGUAGES = [
     ("en", _("English")),
@@ -225,7 +225,7 @@ LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Buenos_Aires"
 
 USE_I18N = True
 
@@ -385,6 +385,7 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
+    SECURE_REFERRER_POLICY = "same-origin"
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
