@@ -91,6 +91,11 @@ class RobotsTxtView(TemplateView):
     content_type = "text/plain"
 
 
+class IndexNow(TemplateView):
+    template_name = "3520839d70e34eb79e009ddb5fedef3b.txt"
+    content_type = "text/plain"
+
+
 @require_GET
 @cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
 def favicon(request: HttpRequest) -> FileResponse:

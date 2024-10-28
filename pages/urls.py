@@ -14,6 +14,11 @@ urlpatterns = [
     path("feedback/", views.FeedbackPageView.as_view(), name="feedback"),
     path("sitemap/", views.SitemapPageView.as_view(), name="sitemap"),
     path("robots.txt", views.RobotsTxtView.as_view(), name="robots"),
+    path(
+        "3520839d70e34eb79e009ddb5fedef3b.txt",
+        views.IndexNow.as_view(),
+        name="indexnow",
+    ),
     path("favicon.ico", views.favicon),
     path("landing/", views.LandingPageView.as_view(), name="landing"),
     path("help/", views.HelpPageView.as_view(), name="help"),
