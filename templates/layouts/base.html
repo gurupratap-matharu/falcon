@@ -87,6 +87,7 @@
     {% include "includes/sessions.html" %}
 
     {{ request.session.q|json_script:"q" }}
+    {{ LANGUAGE_CODE|json_script:"locale" }}
     <script async type="text/javascript" src="{% static 'assets/js/core/bootstrap.bundle.min.js' %}" defer></script>
     <script async type="text/javascript" src="{% static 'assets/js/main.js' %}" defer></script>
 

@@ -169,5 +169,9 @@
 {% endblock content %}
 
 {% block js %}
-  <script async type="text/javascript" src="{% static 'assets/js/home.js' %}" defer></script>
+  <script async type="text/javascript" src="{% static 'assets/js/autocomplete/autocomplete.min.js' %}" defer></script>
+  <script async type="text/javascript" src="{% static 'assets/js/autocomplete/config.js' %}" defer></script>
+  <script async type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}" defer></script>
+  <script async type="text/javascript" src="{% static 'assets/js/dates/es.js' %}" defer></script>
+  <script async type="text/javascript" src="{% static 'assets/js/dates/picker.js' %}" defer></script>
 {% endblock js %}
