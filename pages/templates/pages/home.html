@@ -166,6 +166,7 @@
              required />
     </div>
   </div>
+  {# Autocomplete offcanvas Origin #}
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasOrigin" aria-labelledby="offcanvasOriginLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasOriginLabel">{% translate "Origin" %}</h5>
@@ -173,7 +174,7 @@
     </div>
     <div class="offcanvas-body">
       <div class="form-group mb-1 mb-md-3">
-        <label for="origin" class="form-label visually-hidden">{% translate "Origin" %}</label>
+        <label for="originOC" class="form-label visually-hidden">{% translate "Origin" %}</label>
         <input class="form-control"
                type="search"
                name="originOC"
@@ -184,10 +185,45 @@
                id="originOC"
                value="{{ request.session.q.origin }}"
                placeholder='{% translate "Leaving from" %}'
-               autofocus
                required />
       </div>
-      <div class="search-results">
+      <div class="search-results-origin">
+        <p class="text-sm mt-3 ms-2">Suggestions</p>
+      </div>
+    </div>
+  </div>
+  {% comment %}
+  {# Autocomplete offcanvas Destination #}
+  <div class="d-flex justify-content-center mt-5">
+    <a class="me-3" data-bs-toggle="offcanvas" href="#offcanvasOrigin" role="button" aria-controls="offcanvasOrigin">
+      Open origin offcanvas
+    </a>
+    <a data-bs-toggle="offcanvas" href="#offcanvasDestination" role="button" aria-controls="offcanvasDestination">
+      Open destination offcanvas
+    </a>
+  </div>
+  {% endcomment %}
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDestination" aria-labelledby="offcanvasDestinationLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasDestinationLabel">{% translate "Destination" %}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="form-group mb-1 mb-md-3">
+        <label for="destinationOC" class="form-label visually-hidden">{% translate "Destination" %}</label>
+        <input class="form-control"
+               type="search"
+               name="destinationOC"
+               autocorrect="off"
+               autocapitalize="off"
+               autocomplete="off"
+               spellcheck="false"
+               id="destinationOC"
+               value="{{ request.session.q.destination }}"
+               placeholder='{% translate "Going to..." %}'
+               required />
+      </div>
+      <div class="search-results-destination">
         <p class="text-sm mt-3 ms-2">Suggestions</p>
       </div>
     </div>
