@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 from payments.models import ModoToken
 from payments.modo import fetch_token
@@ -21,4 +22,5 @@ class Command(BaseCommand):
         else:
             obj = ModoToken.objects.create(token=token)
 
-        self.stdout.write("token fetch successful...")
+        ts = timezone.now().strftime("%c")
+        self.stdout.write("[%s] token fetch successful..." % ts)

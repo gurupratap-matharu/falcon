@@ -10,6 +10,7 @@ with sensible defaults.
 from timeit import default_timer as timer
 
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 import factory
 
@@ -72,6 +73,7 @@ class Command(BaseCommand):
         self.stdout.write("Seats:%s" % Seat.objects.count())
 
         end = timer()
+        ts = timezone.now().strftime("%c")
 
         self.stdout.write("took:%0.2f seconds..." % (end - start))
-        self.success("All done!")
+        self.success("[%s] All done!\n\n" % (ts))
