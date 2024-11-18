@@ -28,7 +28,7 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     # Local apps
     path("trips/", include("trips.urls")),
-    path("locations/", include("trips.location_urls")),
+    # path("locations/", include("trips.location_urls")),
     path("cart/", include("cart.urls", namespace="cart")),
     path("orders/", include("orders.urls", namespace="orders")),
     path("payments/", include("payments.urls")),
