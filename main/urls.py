@@ -10,8 +10,6 @@ from trips.sitemaps import LocationSitemap
 
 sitemaps = {
     "static": StaticViewSitemap,
-    "companies": CompanySitemap,
-    "locations": LocationSitemap,
 }
 
 
