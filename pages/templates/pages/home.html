@@ -116,13 +116,11 @@
       </div>
     </div>
   </section>
-  {% comment "Offcanvas Departure" %}{% endcomment %}
-  {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDeparture" aria-controls="offcanvasDeparture">Departure</button>
-  <button class="btn btn-primary"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasReturn"
-          aria-controls="offcanvasReturn">Return</button> {% endcomment %}
+  {% comment %}
+  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDeparture" aria-controls="offcanvasDeparture">Departure</button>
+  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasReturn" aria-controls="offcanvasReturn">Return</button>
+  {% endcomment %}
+  {# Offcanvas Departure #}
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasDepartureLabel">{% translate "Departure" %}</h5>
@@ -142,7 +140,7 @@
              required />
     </div>
   </div>
-  {% comment "Offcanvas Return" %}{% endcomment %}
+  {# Offcanvas Return #}
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasReturnLabel">{% translate "Return" %}</h5>

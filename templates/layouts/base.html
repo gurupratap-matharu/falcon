@@ -5,23 +5,26 @@
 <html lang="{{ LANGUAGE_CODE }}" data-bs-theme="light">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
-    <meta name="ROBOTS" content="ALL" />
+    {# djlint:off #}
+    <link rel="canonical" href="{% block canonical_url %}https://{{ request.get_host|cut:"www." }}{{ request.get_full_path }}{% endblock canonical_url %}" />
+    <title>{% block title %}{% translate "Pasajes de Micro" %}{% endblock title %} | Ventanita</title>
+    <meta name="description" content="{% block description %}Busca y reserva tus pasajes de micro con facilidad, encuentra promociones y paga con tarjetas o efectivo."{% endblock description %}" />
+    {# djlint:on #}
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="MSSmartTagsPreventParsing" content="true" />
     <meta name="Copyright" content="Ventanita Team" />
-    <meta name="keywords" content="Bus, Argentina, Tickets, Travel, Pasajes" />
     <meta name="author" content="Ventanita Team" />
     <meta property="theme-color" content="#ffffff" />
     <meta name="msapplication-config" content="{% static 'assets/icons/favicons/browserconfig.xml' %}" />
     {# djlint:off #}
-    <meta name="description" content="{% block description %}Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endblock description %}" />
     {% block og_tags %}
 
     <meta property="og:title" content="{% block og_title %}Explore Argentina by Bus{% endblock og_title %}" />
-    <meta property="og:url" content="{% block og_url %}https://ventanita.com.ar{% endblock og_url %}" />
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock og_url %}" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="{% block og_description %}{% spaceless %}Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile.{% endspaceless %}{% endblock og_description %}" />
+    <meta property="og:description" content="{% block og_description %}{% spaceless %}Busca y reserva tus pasajes de micro con facilidad, encuentra promociones y paga con tarjetas o efectivo.{% endspaceless %}{% endblock og_description %}" />
     <meta property="og:image" content="{{request.scheme}}://{{request.META.HTTP_HOST}}{% block og_img %}{% static "assets/img/og_image.jpg" %}{% endblock og_img %}" />
     <meta property="og:image:alt" content="{% block og_img_alt %}Ventanita{% endblock og_img_alt %}" />
     <meta property="og:image:width" content="{% block og_img_w %}1200{% endblock og_img_w %}" />
@@ -35,7 +38,7 @@
     <meta property="twitter:site" content="@Ventanita" />
     <meta name="twitter:title" content="{% block tw_title %}Explore Argentina by Bus{% endblock tw_title %}" />
     <meta name="twitter:image" content="{{request.scheme}}://{{request.META.HTTP_HOST}}{% block tw_img %}{% static "assets/img/og_image.jpg" %}{% endblock tw_img %}" />
-    <meta name="twitter:description" content="Ventanita provides information about bus routes and their availability all over Argentina with easy booking service on both web and mobile." />
+    <meta name="twitter:description" content="Busca y reserva tus pasajes de micro con facilidad, encuentra promociones y paga con tarjetas o efectivo." />
     {% endblock og_tags %}
 
     {# djlint:on #}
@@ -46,14 +49,10 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/icons/favicons/apple-touch-icon.png' %}" />
     <meta name="apple-mobile-web-app-title" content="Ventanita" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta property="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="{% static 'assets/icons/favicons/site.webmanifest' %}" />
     <link rel="icon" type="image/svg+xml" href="{% static 'assets/img/logos/logo.svg' %}" />
-    {# djlint:off #}
-    <link rel="canonical" href="{% block canonical_url %}https://{{ request.get_host|cut:"www." }}{{ request.get_full_path }}{% endblock canonical_url %}" />
-    <title>{% block title %}{% translate "Book Bus Tickets" %}{% endblock title %} | Ventanita</title>
-    {# djlint:on #}
     {% if not debug %}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-FXKFW99W2Z"></script>
       <script>
@@ -72,7 +71,7 @@
     {% endblock extra_css %}
 
   </head>
-  <body class="g-sidenav-show">
+  <body>
 
     {% block basecontent %}
     {% endblock basecontent %}
@@ -87,7 +86,6 @@
     {% include "includes/sessions.html" %}
 
     {{ request.session.q|json_script:"q" }}
-    {{ LANGUAGE_CODE|json_script:"locale" }}
     <script async type="text/javascript" src="{% static 'assets/js/core/bootstrap.bundle.min.js' %}" defer></script>
     <script async type="text/javascript" src="{% static 'assets/js/main.js' %}" defer></script>
 
