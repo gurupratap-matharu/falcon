@@ -10,7 +10,7 @@
     {# djlint:off #}
     <link rel="canonical" href="{% block canonical_url %}https://{{ request.get_host|cut:"www." }}{{ request.get_full_path }}{% endblock canonical_url %}" />
     <title>{% block title %}{% translate "Pasajes de Micro" %}{% endblock title %} | Ventanita</title>
-    <meta name="description" content="{% block description %}Busca y reserva tus pasajes de micro con facilidad, encuentra promociones y paga con tarjetas o efectivo."{% endblock description %}" />
+    <meta name="description" content="{% block description %}Reserva tus pasajes de micro al mejor precio con Ventanita. Compara, elige y viaja con tranquiliadad por toda Argentina 🇦🇷. ¡Tu próxima aventura empieza aquí!{% endblock description %}" />
     {# djlint:on #}
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="MSSmartTagsPreventParsing" content="true" />
@@ -21,10 +21,10 @@
     {# djlint:off #}
     {% block og_tags %}
 
-    <meta property="og:title" content="{% block og_title %}Explore Argentina by Bus{% endblock og_title %}" />
+    <meta property="og:title" content="{% block og_title %}Pasajes en micro en Argentina 🇦🇷{% endblock og_title %}" />
     <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock og_url %}" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="{% block og_description %}{% spaceless %}Busca y reserva tus pasajes de micro con facilidad, encuentra promociones y paga con tarjetas o efectivo.{% endspaceless %}{% endblock og_description %}" />
+    <meta property="og:description" content="{% block og_description %}{% spaceless %}Reserva tus pasajes de micro al mejor precio con Ventanita. Compara, elige y viaja con tranquiliadad por toda Argentina 🇦🇷. ¡Tu próxima aventura empieza aquí!{% endspaceless %}{% endblock og_description %}" />
     <meta property="og:image" content="{{request.scheme}}://{{request.META.HTTP_HOST}}{% block og_img %}{% static "assets/img/og_image.jpg" %}{% endblock og_img %}" />
     <meta property="og:image:alt" content="{% block og_img_alt %}Ventanita{% endblock og_img_alt %}" />
     <meta property="og:image:width" content="{% block og_img_w %}1200{% endblock og_img_w %}" />
@@ -36,7 +36,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:creator" content="@Ventanita" />
     <meta property="twitter:site" content="@Ventanita" />
-    <meta name="twitter:title" content="{% block tw_title %}Explore Argentina by Bus{% endblock tw_title %}" />
+    <meta name="twitter:title" content="{% block tw_title %}Pasajes en micro en Argentina 🇦🇷{% endblock tw_title %}" />
     <meta name="twitter:image" content="{{request.scheme}}://{{request.META.HTTP_HOST}}{% block tw_img %}{% static "assets/img/og_image.jpg" %}{% endblock tw_img %}" />
     <meta name="twitter:description" content="Busca y reserva tus pasajes de micro con facilidad, encuentra promociones y paga con tarjetas o efectivo." />
     {% endblock og_tags %}
