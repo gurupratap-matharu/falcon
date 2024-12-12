@@ -131,14 +131,6 @@ class HelpPageView(TemplateView):
     template_name = "pages/help.html"
 
 
-class BasePageView(TemplateView):
-    template_name = "layouts/base.html"
-
-
-class BaseHeroPageView(TemplateView):
-    template_name = "layouts/base-hero.html"
-
-
 class IndexPageView(TemplateView):
     template_name = "layouts/index.html"
 

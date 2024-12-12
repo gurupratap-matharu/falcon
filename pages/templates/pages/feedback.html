@@ -1,4 +1,4 @@
-{% extends "layouts/base-account.html" %}
+{% extends "layouts/base-pages.html" %}
 
 {% load static i18n %}
 
@@ -7,35 +7,34 @@
 {% endblock title %}
 
 {% block content %}
-  <div class="card mt-7">
-    <div class="card-header pb-0">
-      <h1 class="fs-5 text-center">{% translate "Feedback" %}</h1>
-    </div>
-    <div class="card-body">
-      <form method="post">
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
-          <div class="mb-3">
-            <span class="text-danger">{{ field.errors }}</span>
-            <label class="form-label text-sm" for="{{ field.auto_id }}{% if field.label == 'Captcha' %}_1{% endif %}">
-              {{ field.label }}
-            </label>
-            {{ field }}
-            <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
-              <small>{{ field.help_text|safe }}</small>
+  <div class="row">
+    <div class="col-12 col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header pb-0">
+          <h1 class="display-6">{% translate "Feedback" %}</h1>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+              <div class="mb-3">
+                <span class="text-danger">{{ field.errors }}</span>
+                <label class="form-label text-sm" for="{{ field.auto_id }}{% if field.label == 'Captcha' %}_1{% endif %}">
+                  {{ field.label }}
+                </label>
+                {{ field }}
+                <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
+                  <small>{{ field.help_text|safe }}</small>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="d-flex justify-content-end">
+              <a href="{% url 'pages:home' %}" class="btn btn-light me-2">{% translate "Cancel" %}</a>
+              <button type="submit" class="btn bg-gradient-primary">{% translate "Send" %}</button>
             </div>
-          </div>
-        {% endfor %}
-        <button type="submit" class="btn bg-gradient-primary w-100">{% translate "Send" %}</button>
-      </form>
-      <p class="icon-link icon-link-hover text-sm">
-        <a href="{% url 'pages:home' %}" class="text-primary text-gradient">
-          <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-            <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
-          </svg>
-          {% translate "Go back Home" %}
-        </a>
-      </p>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock content %}
