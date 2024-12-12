@@ -4,9 +4,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
-from companies.sitemaps import CompanySitemap
 from pages.sitemaps import StaticViewSitemap
-from trips.sitemaps import LocationSitemap
 
 sitemaps = {
     "static": StaticViewSitemap,
