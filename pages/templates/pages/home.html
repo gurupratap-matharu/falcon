@@ -3,11 +3,12 @@
 {% load static i18n %}
 
 {% block content %}
-  {% comment "Search Form" %}{% endcomment %}
-  <section class="px-2">
-    <div class="container">
+  <article class="container col-12 col-xl-9 min-vh-75">
+    <h1 class="display-2 text-center">Bus</h1>
+    {# Search Form #}
+    <section class="py-3">
       <div class="row">
-        <div class="col-lg-10 border-radius-xl mx-auto py-3 bg-white shadow-xl">
+        <div class="col border-radius-xl py-3 bg-white shadow-xl">
           <form action="{% url 'trips:trip-list' %}" method="get" autocomplete="on">
             <div class="row gx-md-3 mb-1 mb-md-3">
               <div class="col-7 col-sm-4 col-lg-2">
@@ -114,79 +115,250 @@
           </form>
         </div>
       </div>
-    </div>
+    </section>
+    <section class="py-3">
+      <h2 class="fs-5 pb-3">Destinos Populares</h2>
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-6">
+        <div class="col">
+          <div class="card card-plain">
+            <img src="{% static 'assets/img/places/rosario.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <div class="ps-1 pt-1">
+              <a href="#" class="card-title text-sm stretched-link">Rosario</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card card-plain">
+            <img src="{% static 'assets/img/places/mardelplata.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <div class="ps-1 pt-1">
+              <a href="#" class="card-title text-sm stretched-link">Mar Del Plata</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card card-plain">
+            <img src="{% static 'assets/img/places/cordoba.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <div class="ps-1 pt-1">
+              <a href="#" class="card-title text-sm stretched-link">Cordoba</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card card-plain">
+            <img src="{% static 'assets/img/places/mendoza.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <div class="ps-1 pt-1">
+              <a href="#" class="card-title text-sm stretched-link">Mendoza</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card card-plain">
+            <img src="{% static 'assets/img/places/bariloche.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <div class="ps-1 pt-1">
+              <a href="#" class="card-title text-sm stretched-link">Bariloche</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card card-plain">
+            <img src="{% static 'assets/img/places/salta.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <div class="ps-1 pt-1">
+              <a href="#" class="card-title text-sm stretched-link">Salta</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-3">
+      <h2 class="fs-5 pb-3">{% translate "Preguntas Frecuentes" %}</h2>
+      <div class="accordion accordion-flush" id="accordionFAQ">
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button ps-0 collapsed font-weight-bold"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse1"
+                    aria-expanded="false"
+                    aria-controls="collapse1">¿Qué es Ventanita y cómo funciona?</button>
+          </h3>
+          <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+            <div class="accordion-body ps-0">
+              Ventanita es una plataforma de viajes en línea que te permite buscar, comparar y reservar boletos de micros de larga distancia en Argentina. Nos asociamos con operadores de autobuses para ofrecerte las mejores rutas, horarios y precios.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button ps-0 collapsed font-weight-bold"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse2"
+                    aria-expanded="false"
+                    aria-controls="collapse2">¿Por qué debería usar Ventanita para reservar pasajes de micros?</button>
+          </h3>
+          <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+            <div class="accordion-body ps-0">
+              Ventanita simplifica la planificación de tu viaje al brindar una plataforma fácil de usar para consultar rutas, comparar precios y comprar boletos, todo en un solo lugar.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button ps-0 collapsed font-weight-bold"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse3"
+                    aria-expanded="false"
+                    aria-controls="collapse3">¿Ventanita es una empresa de micros oficial?</button>
+          </h3>
+          <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+            <div class="accordion-body ps-0">
+              No, Ventanita no es un operador de autobuses. Trabajamos como una agencia de viajes en línea, conectándote con empresas de autobuses confiables en toda Argentina.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button ps-0 collapsed font-weight-bold"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse4"
+                    aria-expanded="false"
+                    aria-controls="collapse4">¿Cómo reservo un pasaje de micro en Ventanita?</button>
+          </h3>
+          <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+            <div class="accordion-body ps-0">
+              Para reservar un pasaje, ingresa las ciudades de salida y llegada, selecciona la fecha de viaje y elige entre las opciones de autobús disponibles. Completa el pago y recibirás tu boleto por correo electrónico.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button ps-0 collapsed font-weight-bold"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse5"
+                    aria-expanded="false"
+                    aria-controls="collapse5">
+              ¿Puedo cancelar o modificar mi pasaje de micro después de la reserva?
+            </button>
+          </h3>
+          <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+            <div class="accordion-body ps-0">
+              La cancelación y modificación de pasajes depende de las políticas del operador de micro. Consulta la política de cancelación al momento de realizar la reserva o contáctanos para recibir asistencia.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button ps-0 collapsed font-weight-bold"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse6"
+                    aria-expanded="false"
+                    aria-controls="collapse6">¿Qué métodos de pago acepta Ventanita?</button>
+          </h3>
+          <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+            <div class="accordion-body ps-0">
+              Aceptamos varios métodos de pago, incluidas tarjetas de crédito, tarjetas de débito y opciones de pago en línea comunes en Argentina como MercadoPago y Modo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-3">
+      <h2 class="fs-5 pb-3 text-center">Ventanita - Tu Travel Partner</h2>
+      <p class="text-sm text-center">
+        En Ventanita, te ofrecemos una plataforma sencilla y segura para la compra de pasajes de micros en Argentina.
+        Con nuestra amplia variedad de opciones de rutas, podrás planificar tu próximo viaje con facilidad.
+        Desde Buenos Aires hasta el norte, sur y oeste del país, selecciona entre las principales empresas de transporte,
+        compara precios y horarios, y adquiere tus boletos en solo unos clics.
+      </p>
+      <p class="text-sm text-center">
+        Descubre destinos como Córdoba, Mendoza,
+        Rosario y muchos más, y viaja cómodamente a precios competitivos.
+      </p>
+    </p>
+    <p class="text-sm text-center">
+      Además de la compra de pasajes, en Ventanita también encontrarás información detallada sobre las empresas de colectivos
+      y sus servicios, como las comodidades a bordo, políticas de equipaje, y promociones especiales. Si eres un viajero
+      frecuente, consulta nuestras opciones de billetes flexibles y descuentos para grupos. Accede a nuestra plataforma desde
+      cualquier dispositivo, ya sea para reservar tu viaje o para obtener detalles sobre los horarios y las mejores
+      conexiones de bus entre las principales ciudades de Argentina.
+    </p>
   </section>
-  {% comment %}
+</article>
+{% comment %}
   <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDeparture" aria-controls="offcanvasDeparture">Departure</button>
   <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasReturn" aria-controls="offcanvasReturn">Return</button>
-  {% endcomment %}
-  {# Offcanvas Departure #}
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasDepartureLabel">{% translate "Departure" %}</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <input class="form-control form-control-lg offcanvas-departure-date bg-white"
-             type="text"
-             name="offcanvas-departure"
-             id="offcanvas-departure"
+{% endcomment %}
+{# Offcanvas Departure #}
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasDepartureLabel">{% translate "Departure" %}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <input class="form-control form-control-lg offcanvas-departure-date bg-white"
+           type="text"
+           name="offcanvas-departure"
+           id="offcanvas-departure"
+           autocorrect="off"
+           autocapitalize="off"
+           autocomplete="off"
+           spellcheck="false"
+           maxlength="2048"
+           value="{{ request.session.q.departure }}"
+           required />
+  </div>
+</div>
+{# Offcanvas Return #}
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasReturnLabel">{% translate "Return" %}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <input class="form-control form-control-lg offcanvas-return-date bg-white"
+           type="text"
+           name="offcanvas-return"
+           id="offcanvas-return"
+           autocorrect="off"
+           autocapitalize="off"
+           autocomplete="off"
+           spellcheck="false"
+           maxlength="2048"
+           value="{{ request.session.q.return }}"
+           required />
+  </div>
+</div>
+{# Autocomplete offcanvas Origin #}
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasOrigin" aria-labelledby="offcanvasOriginLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasOriginLabel">{% translate "Origin" %}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="form-group mb-1 mb-md-3">
+      <label for="originOC" class="form-label visually-hidden">{% translate "Origin" %}</label>
+      <input class="form-control form-control-lg"
+             type="search"
+             name="originOC"
              autocorrect="off"
              autocapitalize="off"
              autocomplete="off"
              spellcheck="false"
-             maxlength="2048"
-             value="{{ request.session.q.departure }}"
+             id="originOC"
+             value="{{ request.session.q.origin }}"
+             placeholder='{% translate "Leaving from" %}'
              required />
     </div>
-  </div>
-  {# Offcanvas Return #}
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasReturnLabel">{% translate "Return" %}</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <input class="form-control form-control-lg offcanvas-return-date bg-white"
-             type="text"
-             name="offcanvas-return"
-             id="offcanvas-return"
-             autocorrect="off"
-             autocapitalize="off"
-             autocomplete="off"
-             spellcheck="false"
-             maxlength="2048"
-             value="{{ request.session.q.return }}"
-             required />
+    <div class="search-results-origin">
+      <p class="text-sm mt-3 ms-2">Suggestions</p>
     </div>
   </div>
-  {# Autocomplete offcanvas Origin #}
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasOrigin" aria-labelledby="offcanvasOriginLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasOriginLabel">{% translate "Origin" %}</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <div class="form-group mb-1 mb-md-3">
-        <label for="originOC" class="form-label visually-hidden">{% translate "Origin" %}</label>
-        <input class="form-control form-control-lg"
-               type="search"
-               name="originOC"
-               autocorrect="off"
-               autocapitalize="off"
-               autocomplete="off"
-               spellcheck="false"
-               id="originOC"
-               value="{{ request.session.q.origin }}"
-               placeholder='{% translate "Leaving from" %}'
-               required />
-      </div>
-      <div class="search-results-origin">
-        <p class="text-sm mt-3 ms-2">Suggestions</p>
-      </div>
-    </div>
-  </div>
-  {% comment %}
+</div>
+{% comment %}
   {# Autocomplete offcanvas Destination #}
   <div class="d-flex justify-content-center mt-5">
     <a class="me-3" data-bs-toggle="offcanvas" href="#offcanvasOrigin" role="button" aria-controls="offcanvasOrigin">
@@ -196,32 +368,32 @@
       Open destination offcanvas
     </a>
   </div>
-  {% endcomment %}
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDestination" aria-labelledby="offcanvasDestinationLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasDestinationLabel">{% translate "Destination" %}</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+{% endcomment %}
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDestination" aria-labelledby="offcanvasDestinationLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasDestinationLabel">{% translate "Destination" %}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="form-group mb-1 mb-md-3">
+      <label for="destinationOC" class="form-label visually-hidden">{% translate "Destination" %}</label>
+      <input class="form-control form-control-lg"
+             type="search"
+             name="destinationOC"
+             autocorrect="off"
+             autocapitalize="off"
+             autocomplete="off"
+             spellcheck="false"
+             id="destinationOC"
+             value="{{ request.session.q.destination }}"
+             placeholder='{% translate "Going to..." %}'
+             required />
     </div>
-    <div class="offcanvas-body">
-      <div class="form-group mb-1 mb-md-3">
-        <label for="destinationOC" class="form-label visually-hidden">{% translate "Destination" %}</label>
-        <input class="form-control form-control-lg"
-               type="search"
-               name="destinationOC"
-               autocorrect="off"
-               autocapitalize="off"
-               autocomplete="off"
-               spellcheck="false"
-               id="destinationOC"
-               value="{{ request.session.q.destination }}"
-               placeholder='{% translate "Going to..." %}'
-               required />
-      </div>
-      <div class="search-results-destination">
-        <p class="text-sm mt-3 ms-2">Suggestions</p>
-      </div>
+    <div class="search-results-destination">
+      <p class="text-sm mt-3 ms-2">Suggestions</p>
     </div>
   </div>
+</div>
 {% endblock content %}
 
 {% block js %}
