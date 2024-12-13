@@ -3,221 +3,235 @@
 {% load static i18n %}
 
 {% block title %}
-  {% translate "Terms and Conditions" %}
+  {% translate "Terminos y Condiciones" %}
 {% endblock title %}
 
 {% block content %}
-  <h1>{% translate "Terms and Conditions" %}</h1>
-  <div class="card">
-    <div class="card-header d-flex justify-content-end">
-      <button class="btn bg-gradient-primary icon-link icon-link-hover" onclick="window.print()">
-        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-          <use xlink:href="{% static 'assets/icons/icons.svg' %}#filetype-pdf" />
-        </svg>
-        {% translate "Print" %}
-      </button>
-    </div>
-    <div class="card-body">
-      <h4>Información General</h4>
-      <p>
-        Este documento se complementa con el de <a href="{% url 'pages:privacy' %}" target="_blank">Políticas de Privacidad</a> del sitio <a href="https://www.ventanita.com.ar" target="_blank">www.ventanita.com.ar</a> Mediante la aceptación de éstas Condiciones Generales, el visitante y/o usuario acepta las Políticas de Privacidad aquí mencionadas. La adquisición por medio electrónico de pasajes implica para el comprador el total conocimiento y expresa aceptación de todas y cada una de las condiciones que se detallan a continuación, conforme las disposiciones legales y reglamentarias vigentes.
-      </p>
-      <h5>Autorización de compras</h5>
-      <p>
-        Importante tener en cuenta que el usuario debe realizar la autorización de compra en un tiempo inferior a 5 minutos para luego poder seguir completando la operación, ya que una vez transcurrido ese lapso, el sistema de venta online cancela los servicios seleccionados.
-      </p>
-      <h5>Control del comprobante / Acreditación de identidad.</h5>
-      <p>
-        El usuario es responsable de ingresar datos veraces al momento de la compra. Todo dato falso ingresado por el usuario será completa responsabilidad del mismo. que de no coincidir la información del boleto con la documentación del pasaje y la respectiva hoja de ruta, no podrá viajar. Antes de concretar la compra y realizar la impresión del pasaje se debe corroborar los siguientes datos
-      </p>
-      <ol>
-        <li>Lugar de salida</li>
-        <li>Fecha y hora de viaje</li>
-        <li>Precio</li>
-        <li>Categoría de servicio</li>
-        <li>Destino</li>
-      </ol>
-      <p>
-        sin derecho a reclamo alguno. Recuerde que debe contar con la documentación correspondiente y acreditar su identidad al momento de abordar, la misma que se ingresó al momento de la compra por cada pasajero: DNI, libreta cívica, libreta de enrolamiento o pasaporte, según corresponda. El pasaje es válido solamente para el día, hora y servicios seleccionados en el mismo.
-      </p>
-      <h5>Requisitos para viajar</h5>
-      <p>
-        Recordar que al momento de viajar, es necesario contar con el pasaje impreso para ser presentado ante el conductor, quedando un talón del mismo en poder del pasajero como comprobante de viaje, así como también es necesario presentar la documentación correspondiente la cual permita acreditar identidad.
-      </p>
-      <h5>Impresión del pasaje.</h5>
-      <p>
-        Los pasajes vigentes comprados en nuestro sitio podrán ser impresos hasta 3 (tres) veces cada uno, en cualquier momento y lugar desde una PC conectada a una impresora, en una hoja tamaño A4 (210mm. x 297mm.).
-      </p>
-      <h5>Valor del pasaje</h5>
-      <p>
-        El costo será fijado por la empresa transportista. El servicio de adquisición electrónica del pasaje tendrá un costo adicional por boleto que se debitará en el resumen de su tarjeta de crédito conjuntamente con el costo del o de los pasajes adquiridos en dicha operación. El costo adicional se verá reflejado en la última pantalla del proceso de compra.
-        Toda la información exhibida en el sitio web o en la APP de Ventanita respecto a los pasajes de micro (itinerarios, disponiblidad, tarifas, etc.) es proporcionada y actualizada en línea por las empresas transportistas. Las empresas transportistas son responsables exclusivas de actualizar las tarifas, la disponibilidad y los datos de cada pasaje en micro que se refleja en el sitio web y en la APP. Por este motivo, en el período transcurrido entre la selección del pasaje en el listado de servicios disponibles y el resumen de la compra, las tarifas establecidas por la empresa de transporte podrían variar según disponibilidad. Los precios definitivos quedarán fijados a partir del ingreso a la pantalla "Resumen de tu viaje" en el sitio web y "Detalles de tu viaje" en la APP.
-      </p>
-      <h5>Comprobante de la compra</h5>
-      <p>
-        Las compras realizadas a través de esta web son realizadas por consumidores finales, sirviendo los pasajes como comprobante suficiente de tales transacciones.
-      </p>
-      <h5>Devolución del pasaje</h5>
-      <p>
-        Para realizar la devolución de pasajes online debe ingresar a <a href="https://www.ventanita.com.ar" target="_blank">www.ventanita.com.ar</a>, presionar en "Ayuda", completar la información requerida y presionar sobre el pasaje a devolver.
-        {% comment %} También es posible devolver pasajes desde la APP de . Ingresá a la sección “Mis Viajes”, elegir el pasaje a devolver, confirmar la información y presionar “Devolver”.{% endcomment %}La devolución de pasajes tendrá una retención obligatoria correspondiente a la empresa transportista según las condiciones dictadas por la resolución 1317/53 S.E.T.O.P.
-      </p>
-      <p>
-        Para <strong>servicios nacionales</strong>, será de un 10%, 20% o 30% según corresponda
-      </p>
-      <ul>
-        <li>Antes de las 48hs previas a la partida corresponde una retención de 10%</li>
-        <li>Desde las 48hs y hasta las 24hs previas a la partida corresponde una retención de 20%</li>
-        <li>Durante las 24hs previas a la partida corresponde una retención de 30%</li>
-      </ul>
-      <p>
-        Para <strong>servicios provinciales</strong>
-      </p>
-      <ul>
-        <li>Será de un 20%, antes de las 24hs previas a la partida</li>
-        <li>
-          Dentro de las 24hs
-          anteriores a la fecha de viaje no hay reintegro alguno
-          para compras de servicios provinciales y servicios de El Turista, Cauvi, Nossar, EGA.
-        </li>
-      </ul>
-      <p>Para todos tipos de devoluciones</p>
-      <ul>
-        <li>Las devoluciones tienen un cargo de 5% del valor de pasaje en concepto de gastos administrativos</li>
-        <li>El cargo de servicio por adquisición online no tiene devolución</li>
-        <li>Las devoluciones online pueden efectuarse hasta 1 (una) hora antes del horario de partida del viaje</li>
-      </ul>
-      <p>
-        Ante eventualidades en el proceso, podrá realizar la devolución vía email a <a href="mailto:devoluciones@ventanita.com.ar" target="_blank">devoluciones@ventanita.com.ar</a> indicando, sin excepción la fecha del pasaje en el asunto, en los siguientes horarios: Lunes a Viernes de 9 a 18 hs. y Sábados de 9 a 13 hs. hasta 48 horas antes del horario de partida que figura en el pasaje.
-      </p>
-      <p>
-        El procesamiento de toda devolución se realizará siempre y cuando se reciba la solicitud junto con la totalidad de la documentación. Si la solicitud o la documentación se reciben fuera del horario establecido, no se aceptará devolución alguna. No se aceptarán reclamos por solicitudes fuera del horario establecido o feriados.
-      </p>
-      <p>
-        Las devoluciones serán reintegradas a la misma tarjeta de crédito con la que se efectuó la compra. El importe devuelto en la tarjeta de crédito se podrá visualizar transcurridos 30 (treinta) días hábiles posteriores desde que Ventanita haya efectuado la devolución. Las devoluciones de pasajes pagados a través de Mercado Pago con dinero en cuenta o en efectivo (Rapipago, Pago Fácil o Cobro Express), se acreditarán en la cuenta de Mercado Pago utilizada en la compra. No tendrán reembolso alguno las solicitudes de devolución por pasajes expirados. En ningún caso se admitirá cambio de origen, destino, butacas, calidades, fecha u hora de viaje y son intransferibles.
-      </p>
-      <h5>Empresas transportistas y prestación del servicio</h5>
-      <p>
-        Las empresas transportistas se reservan el derecho de brindar el servicio adquirido mediante otra firma cuando razones técnicas u operativas le impidan hacerlo con sus unidades, debiendo respetar precio, calidad y categoría de servicio. Ello no se aplica cuando existan razones de fuerza mayor o caso fortuito.
-      </p>
-      <h5>Responsabilidad de las empresas transportistas</h5>
-      <p>
-        Las empresas transportistas no son responsables por los daños, gastos o perjuicios provocados por la demora en la salida, llegada o interrupciones durante el viaje, cuando ello se deba acaso fortuito o fuerza mayor. Asimismo por cierre del paso fronterizo o corte de ruta por fenómenos climáticos no será responsable del gasto personal de los pasajeros ni de su traslado, conforme a disposiciones del artículo 188 del código de comercio. Las empresas transportistas se reservan el derecho de hacer que el pasajero abandone el viaje en cualquier punto donde se encuentre, por cualquier motivo que constituya peligro o molestia para los restantes pasajeros o el personal.
-      </p>
-      <h5>Responsabilidad del pasajero</h5>
-      <p>
-        Es responsabilidad del pasajero consultar y cumplir las disposiciones aduaneras, sanitarias, fitosanitarias y de migraciones. Cualquier infracción a las normas o perjuicio personal por desconocimiento será de su absoluta responsabilidad.
-      </p>
-      <h5>Responsabilidad de la mayorista</h5>
-      <p>
-        El transporte de personas y mercaderías es realizado bajo exclusiva responsabilidad del pasajero y de las empresas de transporte contratadas. Ventanita S.A.S, siendo una empresa comercializadora de pasajes por cuenta y orden de terceros, resulta ajena a todo daño y perjuicio ocasionado por cualquier acto o hecho motivado en el servicio contratado. Ventanita S.A.S no se responsabiliza por cualquier daño, perjuicio o pérdida al usuario causados por fallas en el sistema, en los servidores, en la comunicación o en Internet. Ventanita S.A.S tampoco será responsable por cualquier código malicioso que pudiera infectar el equipo del usuario como consecuencia del acceso, uso o examen de su sitio web o a raíz de cualquier transferencia de datos, archivos, imágenes, textos, o audio contenidos en el mismo. Los usuarios no podrán imputarle responsabilidad alguna ni exigir pago por lucro cesante, punitorios, y/o daños y perjuicios, originados por dificultades técnicas o fallas en los sistemas, en la comunicación o en Internet por los cuales no esté obligado legalmente a responder. Ventanita S.A.S no garantiza el acceso y uso ininterrumpido de su sitio. Ventanita S.A.S no será responsable por ningún error u omisión contenidos en su sitio web y/o en sitios web de terceros. El sitio <a href="https://www.ventanita.com.ar">www.ventanita.com.ar</a> puede contener enlaces (vínculos) que comuniquen con otros sitios operados por terceros independientes de Ventanita S.A.S. Estos vínculos son puramente referenciales. Ventanita S.A.S no tiene ningún control sobre los mismos y no se responsabiliza de sus contenidos. La inclusión de estos sitios en <a href="https://www.ventanita.com.ar">www.ventanita.com.ar</a>, no implica ningún tipo de asociación con dichas terceras partes ni sus operadores.
-      </p>
-      <h4>Condiciones a tener en cuenta al momento de viajar</h4>
-      <h5>Equipaje</h5>
-      <p>
-        La adquisición del pasaje da derecho a transportar como equipaje: un bolso de mano pequeño que no exceda de 40 x 40 x 25 cm. y una valija que no exceda 80 x 80 x 30 cm. como máximo, y cuyo peso total (entre ambos) no supere los 15 Kg. (conforme Resol. 47/95 de la ST modif. por Resol. 212/2002). Cuando el equipaje transportado supere tales límites, el pasajero deberá abonar los importes correspondientes al exceso de equipaje que se rigen por los valores de servicios de encomiendas. Todo equipaje para su transporte se recibe en bulto cerrado, sin declaración de contenido o valor. No incluya en su equipaje artículos de valor (dinero, valores, alhajas, documentación, filmadoras, máquinas fotográficas, etc.) Dichos artículos no están sujetos a indemnización alguna en caso de pérdida o extravío. Cuando el pasajero lo desee podrá declarar el valor del bulto, en ese caso el equipaje será regulado por el régimen y valor de transporte de encomiendas. Por razones de seguridad no pueden transportarse elementos que de algún modo pongan en peligro la seguridad del vehículo, el pasajero transportado o el personal de la empresa. Todo reclamo relacionado con el equipaje transportado debe formularse indefectiblemente a la empresa transportadora, antes de abandonar la terminal o lugar donde concluya el viaje y dentro del plazo de 24 horas de finalizado el mismo; así como también deberá acreditar su propiedad mediante la presentación del correspondiente ticket o talón de control de equipaje (Resolución N 47/95). En caso de avería o pérdida de equipaje, La Empresa Transportista responderá de conformidad con las disposiciones vigentes en el país que ocurra el hecho, salvo caso fortuito o fuerza mayor. Las empresas transportistas no se responsabilizan por los equipajes transportados y no despachados.
-      </p>
-      <h5>Menores</h5>
-      <p>
-        Para viajes dentro de Argentina, los niños menores de CUATRO (4) años solo deben pagar un seguro de responsabilidad obligatorio y no tienen derecho a ocupar asiento. Los mayores de CINCO (5) años deben abonar el pasaje en su totalidad.
-      </p>
-      <p>
-        Para ingresar a Uruguay o Perú, los niños entre CERO (0) y DOS (2) años deben contratar un seguro de responsabilidad obligatorio y no tienen derecho a ocupar un asiento. Los niños mayores de TRES (3) años deben comprar un pasaje a precio completo.
-      </p>
-      <p>
-        Para ingresar a Brasil, Paraguay o Bolivia, los niños menores de CUATRO (4) años deben pagar un seguro de responsabilidad obligatorio y no tienen derecho a ocupar un asiento. Los niños mayores de CINCO (5) años deben abonar un pasaje a precio completo.
-      </p>
-      <p>
-        Los menores de DIECIOCHO (18) años que viajan solos, no podrán ocupar las butacas delanteras del piso superior, por lo general 1, 2, 3 y 4.
-        De acuerdo a la <a href="https://www.argentina.gob.ar/normativa/nacional/resolución-43-2016-264622" target="_blank">Resolución 43 - E/2016</a> de la Secretaría de Gestión de Transporte, publicada el 19/08/2016, si el pasajero fuese menor de DIECIOCHO (18) años de edad al momento de la prestación del servicio, se deberá dar cumplimiento a los siguientes extremos según su caso:
-      </p>
-      <ol>
-        <li>
-          En caso de que el menor se traslade con al menos un representante legal, se deberá acreditar tal vínculo mediante la exhibición de la documentación pertinente, según se detalla en el Artículo 4° de dicha resolución.
-        </li>
-        <li>
-          En caso de que el menor se traslade con una persona diferente a su representante legal, pero designada por éste, deberá hacerse constar la identificación del acompañante en la autorización aludida en el artículo precedente que podrá ser prestada al momento de la operación, o bien mediante instrumento suscripto por el representante legal, ante fedatario público.
-        </li>
-      </ol>
-      En caso de uso del servicio de menor no acompañado, se estará a lo establecido en el inciso c) del Artículo 7° de la presente resolución.
-      ARTÍCULO 4° — La autorización deberá ser otorgada por al menos UN (1) representante legal. A efectos de su verificación, quien la emita deberá acreditar dicha representación legal mediante Libreta de Matrimonio con el nacimiento asentado, Partida de Nacimiento, Acta de Nacimiento, Certificado de Nacimiento, Certificado de Nacionalidad, Pasaporte, Testimonio Judicial de adopción u otro instrumento público que dé plena fe del vínculo invocado, juntamente con los documentos de identidad del menor y del representante legal autorizante. El vínculo también podrá ser acreditado mediante la verificación del documento nacional de identidad del menor, siempre que éste contenga el nombre de sus representantes legales.
-      La autorización previa podrá ser otorgada en forma instrumental ante los siguientes funcionarios
-      <br />
-      <br />
-      <ol>
-        <li>Escribanos, cuya firma deberá estar legalizada por el Colegio de Escribanos correspondiente.</li>
-        <li>
-          Juez competente, que deberá emitir la pertinente Resolución Judicial, la que deberá acreditarse con testimonio o certificación de la respectiva resolución debidamente legalizada por la autoridad que corresponda a la jurisdicción, o por cualquier otro instrumento público en la que se trascriba la Resolución Judicial y haga plena fe de la misma.
-        </li>
-        <li>
-          Autoridad competente del Registro de Estado Civil y Capacidad de las Personas, Justicia de Paz y otras autoridades administrativas y judiciales especialmente habilitadas al efecto.
-        </li>
-      </ol>
-      Cuando los menores estuvieren emancipados por matrimonio, tal situación deberá acreditarse mediante Libreta o Acta de Matrimonio o, en su defecto, Certificado de Nacionalidad, Pasaporte, Cédula u otro documento que acredite identidad y en el que conste el estado civil referido.
-      <p>
-        ARTÍCULO 7° — Los menores de entre SEIS (6) y DOCE (12) años, inclusive, podrán viajar según las siguientes modalidades
-      </p>
-      <ol>
-        <li>Acompañados por al menos UN (1) representante legal</li>
-        <li>
-          Acompañado por un tercero autorizado por al menos UN (1) representante legal, de conformidad con lo establecido en el Artículo 4° de la presente resolución
-        </li>
-        <li>
-          Utilizando el Servicio Menor No Acompañado que las empresas de transporte podrán ofrecer. Este servicio poseerá una tarifa distinta e independiente a la del boleto de viaje que deberá ser publicada en forma similar a las tarifas regulares y consistirá en que una persona del servicio de a bordo tomará responsabilidad por el menor durante su traslado, desde su ascenso a la unidad de transporte y hasta su entrega a la persona designada por su representante legal. En este caso, un representante legal del menor transportado deberá designar un acompañante adulto que se encargará de acompañar al menor hasta la salida del traslado y un acompañante adulto que se encargará de esperar al menor en el lugar de destino. Estos acompañantes podrán ser quien o quienes ejerzan la responsabilidad parental, otra representación legal o un tercero autorizado a tal efecto y cuyos datos deberán hacerse constar en forma precisa en el instrumento de la autorización.
-        </li>
-      </ol>
-      <p>
-        Para optar por el servicio Menor No Acompañado, los menores de edad deben poder alimentarse y ser capaces de cubrir sus necesidades básicas de higiene; además de movilizarse en caso de evacuación y responder a las instrucciones de seguridad. En caso de que el menor de edad requiera atención o tratamiento especial no podrá viajar bajo la modalidad del servicio Menor No Acompañado.
-      </p>
-      <p>
-        Si el menor no fuera esperado por el responsable de acompañarlo en el lugar de destino, la transportista deberá requerir el auxilio de la fuerza pública a fin de asegurar la custodia del menor, con costo a cargo del representante legal.
-      </p>
-      <p>
-        Los menores de SEIS (6) años de edad únicamente podrán viajar bajo las modalidades previstas en los incisos a) y b) del presente artículo.
-      </p>
-      <p>
-        ARTÍCULO 8° - Los menores de entre TRECE (13) y DIECISIETE (17) años de edad podrán viajar según cualquiera de las modalidades previstas en el artículo anterior, o sin acompañante si contaren con autorización previa a tal efecto de conformidad con el Artículo 4° de la presente resolución.
-      </p>
-      <p>
-        Todos los pasajeros menores de 18 años, viajen solos o no, deberán cumplimentar en un todo con la Resolución 43 - E/2016. Caso contrario, no podrán viajar, perdiendo todo derecho a reclamo. <a href="https://www.argentina.gob.ar/viajar-con-menores-de-edad-en-micros-de-larga-distancia" target="_blank">Descargue aquí</a> el formulario de autorización para traslado de menores de edad.
-      </p>
-      <h5>Seguro</h5>
-      <p>
-        Este pasaje incluye un seguro de responsabilidad hacia pasajeros transportados de acuerdo a disposiciones legales vigentes. La aseguradora varía según la empresa transportista.
-      </p>
-      <h5>Extravío</h5>
-      <p>
-        En caso de pérdida (extravío, robo, etc.) total o parcial del pasaje adquirido, recordar que el/los pasajes se enviaron a la casilla de email ingresada en el proceso de compra, brindando la posibilidad para reimprimirlos hasta 3 (tres) veces cada uno, hasta 30 minutos antes de la partida del servicio, desde cualquier PC y/o impresora.
-      </p>
-      <h5>Documentación</h5>
-      <p>
-        En los servicios Nacionales e Internacionales, el pasajero tiene la obligación de satisfacer todas las exigencias gubernamentales en materia de documentos personales exigidos para viajar o tasas específicas, tanto en el transcurso del viaje, así como también a la salida o entrada de los países. Las empresas transportistas no se responsabilizan por los gastos e inconvenientes ocasionados por el incumplimiento por parte del pasajero de esas exigencias.
-      </p>
-      <h5>Servicios Internacionales</h5>
-      <p>
-        El pasajero debe presentarse una hora antes de la salida en la terminal, con la documentación requerida y exigida para realizar el pre embarque.
-      </p>
-      <h5>Restricciones</h5>
-      <p>
-        Cualquiera sea la empresa transportista está totalmente prohibido fumar dentro de los vehículos. (RESOL. 204/81 - SETOP).
-      </p>
-      <h5>Norma vigente</h5>
-      <p>
-        La compra del pasaje vía web de Ventanita y su utilización implican la aceptación de todas las condiciones anteriormente expuestas y de las normas vigentes en materia de transporte de pasajeros.
-      </p>
-      <h5>Importante</h5>
-      <p>
-        Los "Servicios Adicionales dentro del Coche" (Azafatas, Vianda, Cenas en Paradores, Tipos de Bebidas, Mantas o Privacidad), pueden variar en sus "formas y modos de prestación o presentación" según las diferentes Tarifas, Destinos o Empresas de Transporte. Las categorías Cama, Semi-Cama, Ejecutivo, Suite Bus, en general son semejantes en sus comodidades internas (Asientos reclinables y filas de butacas) entre sí, de todas las Empresas Transportadoras, pero pueden variar sus "Servicios Adicionales Internos" (Azafatas, Vianda, Cenas en paradores, Tipos de Bebidas, Mantas o Privacidad). Todos los datos y descripciones que aparecen en el sistema son los ofrecidos por las mismas Empresas de Transporte desde sus páginas de Internet y call center desde sus terminales de ventas.
-      </p>
-      <h5>Cupones</h5>
-      <p>
-        Para poder aplicar el cupón, el mismo debe ser menor al importe del pasaje.
-        El cupón aplicará según las condiciones informadas en su emisión.
-      </p>
-      <h5>Seguro Obligatorio de la Resolución 684/2022 del Ministerio de Transporte</h5>
-      <p>
-        A partir del 1 de septiembre de 2023, por Resolución 684/2022 del Ministerio de Transporte (RG684), los pasajes de jurisdicción nacional incluirán una tasa fija en pesos argentinos, correspondiente a la ampliación del Seguro Obligatorio. El costo se suma al importe del pasaje y se cobra por cuenta y orden de las mutuales de seguro vinculadas al transporte de pasajeros. La suma se irá actualizando según lo establezca el organismo regulador.
-      </p>
+  <div class="row">
+    <div class="col-12 col-md-9 mx-auto">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <h1 class="display-6">{% translate "Terminos y Condiciones" %}</h1>
+          <button class="btn bg-gradient-primary icon-link icon-link-hover" onclick="window.print()">
+            <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#filetype-pdf" />
+            </svg>
+            {% translate "Print" %}
+          </button>
+        </div>
+        <div class="card-body">
+          <h4>Información General</h4>
+          <p>
+            Este documento se complementa con la <a href="{% url 'pages:privacy' %}" target="_blank">Política de Privacidad</a> disponible
+            en nuestro sitio web <a href="https://ventanita.com.ar" target="_blank">www.ventanita.com.ar</a>. Al aceptar
+            estas Condiciones Generales, el visitante y/o usuario manifiesta su conocimiento y expresa aceptación de todas las
+            condiciones detalladas a continuación, según las disposiciones legales y reglamentarias vigentes.
+          </p>
+          <h5>Autorización de compras</h5>
+          <p>
+            Es importante destacar que el usuario debe realizar la autorización de compra dentro de un plazo de 5 minutos para poder
+            completar la operación. Una vez transcurrido ese lapso, nuestro sistema cancela los servicios seleccionados.
+          </p>
+          <h5>Control del comprobante / Acreditación de identidad.</h5>
+          <p>
+            El usuario es responsable de ingresar datos veraces al momento de la compra. Cualquier dato falso ingresado por el usuario
+            será completa responsabilidad suya. En caso de que la información del boleto no coincida con la documentación del pasaje y
+            la respectiva hoja de ruta, no podrá viajar. Antes de concretar la compra y realizar la impresión del pasaje, se recomienda
+            verificar los siguientes datos:
+          </p>
+          <ol>
+            <li>Lugar de salida</li>
+            <li>Fecha y hora de viaje</li>
+            <li>Precio</li>
+            <li>Categoría de servicio</li>
+            <li>Destino</li>
+          </ol>
+          <p>
+            Sin derecho a reclamo alguno, el usuario debe contar con la documentación correspondiente y acreditar su identidad al
+            momento de abordar, utilizando la misma información ingresada durante la compra para cada pasajero: DNI, libreta cívica,
+            libreta de enrolamiento o pasaporte, según corresponda. El pasaje es válido solo para el día, hora y servicios seleccionados
+            en el mismo.
+          </p>
+          <h5>Requisitos para viajar</h5>
+          <p>
+            Recordar que al momento de viajar, es necesario contar con el pasaje impreso para ser presentado ante el conductor, quedando un talón del mismo en poder del pasajero como comprobante de viaje, así como también es necesario presentar la documentación correspondiente la cual permita acreditar identidad.
+          </p>
+          <h5>Impresión del pasaje.</h5>
+          <p>
+            Los pasajes vigentes comprados en nuestro sitio podrán ser impresos hasta 3 (tres) veces cada uno, en cualquier momento y lugar desde una PC conectada a una impresora, en una hoja tamaño A4 (210mm. x 297mm.).
+          </p>
+          <h5>Valor del pasaje</h5>
+          <p>
+            El costo será fijado por la empresa transportista. El servicio de adquisición electrónica del pasaje tendrá un costo adicional por boleto que se debitará en el resumen de su tarjeta de crédito conjuntamente con el costo del o de los pasajes adquiridos en dicha operación. El costo adicional se verá reflejado en la última pantalla del proceso de compra.
+            Toda la información exhibida en el sitio web o en la APP de Ventanita respecto a los pasajes de micro (itinerarios, disponiblidad, tarifas, etc.) es proporcionada y actualizada en línea por las empresas transportistas. Las empresas transportistas son responsables exclusivas de actualizar las tarifas, la disponibilidad y los datos de cada pasaje en micro que se refleja en el sitio web y en la APP. Por este motivo, en el período transcurrido entre la selección del pasaje en el listado de servicios disponibles y el resumen de la compra, las tarifas establecidas por la empresa de transporte podrían variar según disponibilidad. Los precios definitivos quedarán fijados a partir del ingreso a la pantalla "Resumen de tu viaje" en el sitio web y "Detalles de tu viaje" en la APP.
+          </p>
+          <h5>Comprobante de la compra</h5>
+          <p>
+            Las compras realizadas a través de esta web son realizadas por consumidores finales, sirviendo los pasajes como comprobante suficiente de tales transacciones.
+          </p>
+          <h5>Devolución del pasaje</h5>
+          <p>
+            Para realizar la devolución de pasajes online debe ingresar a <a href="https://www.ventanita.com.ar" target="_blank">www.ventanita.com.ar</a>, presionar en "Ayuda", completar la información requerida y presionar sobre el pasaje a devolver.
+            {% comment %} También es posible devolver pasajes desde la APP de . Ingresá a la sección “Mis Viajes”, elegir el pasaje a devolver, confirmar la información y presionar “Devolver”.{% endcomment %}La devolución de pasajes tendrá una retención obligatoria correspondiente a la empresa transportista según las condiciones dictadas por la resolución 1317/53 S.E.T.O.P.
+          </p>
+          <p>
+            Para <strong>servicios nacionales</strong>, será de un 10%, 20% o 30% según corresponda
+          </p>
+          <ul>
+            <li>Antes de las 48hs previas a la partida corresponde una retención de 10%</li>
+            <li>Desde las 48hs y hasta las 24hs previas a la partida corresponde una retención de 20%</li>
+            <li>Durante las 24hs previas a la partida corresponde una retención de 30%</li>
+          </ul>
+          <p>
+            Para <strong>servicios provinciales</strong>
+          </p>
+          <ul>
+            <li>Será de un 20%, antes de las 24hs previas a la partida</li>
+            <li>
+              Dentro de las 24hs
+              anteriores a la fecha de viaje no hay reintegro alguno
+              para compras de servicios provinciales y servicios de El Turista, Cauvi, Nossar, EGA.
+            </li>
+          </ul>
+          <p>Para todos tipos de devoluciones</p>
+          <ul>
+            <li>Las devoluciones tienen un cargo de 5% del valor de pasaje en concepto de gastos administrativos</li>
+            <li>El cargo de servicio por adquisición online no tiene devolución</li>
+            <li>Las devoluciones online pueden efectuarse hasta 1 (una) hora antes del horario de partida del viaje</li>
+          </ul>
+          <p>
+            Ante eventualidades en el proceso, podrá realizar la devolución vía email a <a href="mailto:devoluciones@ventanita.com.ar" target="_blank">devoluciones@ventanita.com.ar</a> indicando, sin excepción la fecha del pasaje en el asunto, en los siguientes horarios: Lunes a Viernes de 9 a 18 hs. y Sábados de 9 a 13 hs. hasta 48 horas antes del horario de partida que figura en el pasaje.
+          </p>
+          <p>
+            El procesamiento de toda devolución se realizará siempre y cuando se reciba la solicitud junto con la totalidad de la documentación. Si la solicitud o la documentación se reciben fuera del horario establecido, no se aceptará devolución alguna. No se aceptarán reclamos por solicitudes fuera del horario establecido o feriados.
+          </p>
+          <p>
+            Las devoluciones serán reintegradas a la misma tarjeta de crédito con la que se efectuó la compra. El importe devuelto en la tarjeta de crédito se podrá visualizar transcurridos 30 (treinta) días hábiles posteriores desde que Ventanita haya efectuado la devolución. Las devoluciones de pasajes pagados a través de Mercado Pago con dinero en cuenta o en efectivo (Rapipago, Pago Fácil o Cobro Express), se acreditarán en la cuenta de Mercado Pago utilizada en la compra. No tendrán reembolso alguno las solicitudes de devolución por pasajes expirados. En ningún caso se admitirá cambio de origen, destino, butacas, calidades, fecha u hora de viaje y son intransferibles.
+          </p>
+          <h5>Empresas transportistas y prestación del servicio</h5>
+          <p>
+            Las empresas transportistas se reservan el derecho de brindar el servicio adquirido mediante otra firma cuando razones técnicas u operativas le impidan hacerlo con sus unidades, debiendo respetar precio, calidad y categoría de servicio. Ello no se aplica cuando existan razones de fuerza mayor o caso fortuito.
+          </p>
+          <h5>Responsabilidad de las empresas transportistas</h5>
+          <p>
+            Las empresas transportistas no son responsables por los daños, gastos o perjuicios provocados por la demora en la salida, llegada o interrupciones durante el viaje, cuando ello se deba acaso fortuito o fuerza mayor. Asimismo por cierre del paso fronterizo o corte de ruta por fenómenos climáticos no será responsable del gasto personal de los pasajeros ni de su traslado, conforme a disposiciones del artículo 188 del código de comercio. Las empresas transportistas se reservan el derecho de hacer que el pasajero abandone el viaje en cualquier punto donde se encuentre, por cualquier motivo que constituya peligro o molestia para los restantes pasajeros o el personal.
+          </p>
+          <h5>Responsabilidad del pasajero</h5>
+          <p>
+            Es responsabilidad del pasajero consultar y cumplir las disposiciones aduaneras, sanitarias, fitosanitarias y de migraciones. Cualquier infracción a las normas o perjuicio personal por desconocimiento será de su absoluta responsabilidad.
+          </p>
+          <h5>Responsabilidad de la mayorista</h5>
+          <p>
+            El transporte de personas y mercaderías es realizado bajo exclusiva responsabilidad del pasajero y de las empresas de transporte contratadas. Ventanita S.A.S, siendo una empresa comercializadora de pasajes por cuenta y orden de terceros, resulta ajena a todo daño y perjuicio ocasionado por cualquier acto o hecho motivado en el servicio contratado. Ventanita S.A.S no se responsabiliza por cualquier daño, perjuicio o pérdida al usuario causados por fallas en el sistema, en los servidores, en la comunicación o en Internet. Ventanita S.A.S tampoco será responsable por cualquier código malicioso que pudiera infectar el equipo del usuario como consecuencia del acceso, uso o examen de su sitio web o a raíz de cualquier transferencia de datos, archivos, imágenes, textos, o audio contenidos en el mismo. Los usuarios no podrán imputarle responsabilidad alguna ni exigir pago por lucro cesante, punitorios, y/o daños y perjuicios, originados por dificultades técnicas o fallas en los sistemas, en la comunicación o en Internet por los cuales no esté obligado legalmente a responder. Ventanita S.A.S no garantiza el acceso y uso ininterrumpido de su sitio. Ventanita S.A.S no será responsable por ningún error u omisión contenidos en su sitio web y/o en sitios web de terceros. El sitio <a href="https://www.ventanita.com.ar">www.ventanita.com.ar</a> puede contener enlaces (vínculos) que comuniquen con otros sitios operados por terceros independientes de Ventanita S.A.S. Estos vínculos son puramente referenciales. Ventanita S.A.S no tiene ningún control sobre los mismos y no se responsabiliza de sus contenidos. La inclusión de estos sitios en <a href="https://www.ventanita.com.ar">www.ventanita.com.ar</a>, no implica ningún tipo de asociación con dichas terceras partes ni sus operadores.
+          </p>
+          <h4>Condiciones a tener en cuenta al momento de viajar</h4>
+          <h5>Equipaje</h5>
+          <p>
+            La adquisición del pasaje da derecho a transportar como equipaje: un bolso de mano pequeño que no exceda de 40 x 40 x 25 cm. y una valija que no exceda 80 x 80 x 30 cm. como máximo, y cuyo peso total (entre ambos) no supere los 15 Kg. (conforme Resol. 47/95 de la ST modif. por Resol. 212/2002). Cuando el equipaje transportado supere tales límites, el pasajero deberá abonar los importes correspondientes al exceso de equipaje que se rigen por los valores de servicios de encomiendas. Todo equipaje para su transporte se recibe en bulto cerrado, sin declaración de contenido o valor. No incluya en su equipaje artículos de valor (dinero, valores, alhajas, documentación, filmadoras, máquinas fotográficas, etc.) Dichos artículos no están sujetos a indemnización alguna en caso de pérdida o extravío. Cuando el pasajero lo desee podrá declarar el valor del bulto, en ese caso el equipaje será regulado por el régimen y valor de transporte de encomiendas. Por razones de seguridad no pueden transportarse elementos que de algún modo pongan en peligro la seguridad del vehículo, el pasajero transportado o el personal de la empresa. Todo reclamo relacionado con el equipaje transportado debe formularse indefectiblemente a la empresa transportadora, antes de abandonar la terminal o lugar donde concluya el viaje y dentro del plazo de 24 horas de finalizado el mismo; así como también deberá acreditar su propiedad mediante la presentación del correspondiente ticket o talón de control de equipaje (Resolución N 47/95). En caso de avería o pérdida de equipaje, La Empresa Transportista responderá de conformidad con las disposiciones vigentes en el país que ocurra el hecho, salvo caso fortuito o fuerza mayor. Las empresas transportistas no se responsabilizan por los equipajes transportados y no despachados.
+          </p>
+          <h5>Menores</h5>
+          <p>
+            Para viajes dentro de Argentina, los niños menores de CUATRO (4) años solo deben pagar un seguro de responsabilidad obligatorio y no tienen derecho a ocupar asiento. Los mayores de CINCO (5) años deben abonar el pasaje en su totalidad.
+          </p>
+          <p>
+            Para ingresar a Uruguay o Perú, los niños entre CERO (0) y DOS (2) años deben contratar un seguro de responsabilidad obligatorio y no tienen derecho a ocupar un asiento. Los niños mayores de TRES (3) años deben comprar un pasaje a precio completo.
+          </p>
+          <p>
+            Para ingresar a Brasil, Paraguay o Bolivia, los niños menores de CUATRO (4) años deben pagar un seguro de responsabilidad obligatorio y no tienen derecho a ocupar un asiento. Los niños mayores de CINCO (5) años deben abonar un pasaje a precio completo.
+          </p>
+          <p>
+            Los menores de DIECIOCHO (18) años que viajan solos, no podrán ocupar las butacas delanteras del piso superior, por lo general 1, 2, 3 y 4.
+            De acuerdo a la <a href="https://www.argentina.gob.ar/normativa/nacional/resolución-43-2016-264622" target="_blank">Resolución 43 - E/2016</a> de la Secretaría de Gestión de Transporte, publicada el 19/08/2016, si el pasajero fuese menor de DIECIOCHO (18) años de edad al momento de la prestación del servicio, se deberá dar cumplimiento a los siguientes extremos según su caso:
+          </p>
+          <ol>
+            <li>
+              En caso de que el menor se traslade con al menos un representante legal, se deberá acreditar tal vínculo mediante la exhibición de la documentación pertinente, según se detalla en el Artículo 4° de dicha resolución.
+            </li>
+            <li>
+              En caso de que el menor se traslade con una persona diferente a su representante legal, pero designada por éste, deberá hacerse constar la identificación del acompañante en la autorización aludida en el artículo precedente que podrá ser prestada al momento de la operación, o bien mediante instrumento suscripto por el representante legal, ante fedatario público.
+            </li>
+          </ol>
+          En caso de uso del servicio de menor no acompañado, se estará a lo establecido en el inciso c) del Artículo 7° de la presente resolución.
+          ARTÍCULO 4° — La autorización deberá ser otorgada por al menos UN (1) representante legal. A efectos de su verificación, quien la emita deberá acreditar dicha representación legal mediante Libreta de Matrimonio con el nacimiento asentado, Partida de Nacimiento, Acta de Nacimiento, Certificado de Nacimiento, Certificado de Nacionalidad, Pasaporte, Testimonio Judicial de adopción u otro instrumento público que dé plena fe del vínculo invocado, juntamente con los documentos de identidad del menor y del representante legal autorizante. El vínculo también podrá ser acreditado mediante la verificación del documento nacional de identidad del menor, siempre que éste contenga el nombre de sus representantes legales.
+          La autorización previa podrá ser otorgada en forma instrumental ante los siguientes funcionarios
+          <br />
+          <br />
+          <ol>
+            <li>Escribanos, cuya firma deberá estar legalizada por el Colegio de Escribanos correspondiente.</li>
+            <li>
+              Juez competente, que deberá emitir la pertinente Resolución Judicial, la que deberá acreditarse con testimonio o certificación de la respectiva resolución debidamente legalizada por la autoridad que corresponda a la jurisdicción, o por cualquier otro instrumento público en la que se trascriba la Resolución Judicial y haga plena fe de la misma.
+            </li>
+            <li>
+              Autoridad competente del Registro de Estado Civil y Capacidad de las Personas, Justicia de Paz y otras autoridades administrativas y judiciales especialmente habilitadas al efecto.
+            </li>
+          </ol>
+          Cuando los menores estuvieren emancipados por matrimonio, tal situación deberá acreditarse mediante Libreta o Acta de Matrimonio o, en su defecto, Certificado de Nacionalidad, Pasaporte, Cédula u otro documento que acredite identidad y en el que conste el estado civil referido.
+          <p>
+            ARTÍCULO 7° — Los menores de entre SEIS (6) y DOCE (12) años, inclusive, podrán viajar según las siguientes modalidades
+          </p>
+          <ol>
+            <li>Acompañados por al menos UN (1) representante legal</li>
+            <li>
+              Acompañado por un tercero autorizado por al menos UN (1) representante legal, de conformidad con lo establecido en el Artículo 4° de la presente resolución
+            </li>
+            <li>
+              Utilizando el Servicio Menor No Acompañado que las empresas de transporte podrán ofrecer. Este servicio poseerá una tarifa distinta e independiente a la del boleto de viaje que deberá ser publicada en forma similar a las tarifas regulares y consistirá en que una persona del servicio de a bordo tomará responsabilidad por el menor durante su traslado, desde su ascenso a la unidad de transporte y hasta su entrega a la persona designada por su representante legal. En este caso, un representante legal del menor transportado deberá designar un acompañante adulto que se encargará de acompañar al menor hasta la salida del traslado y un acompañante adulto que se encargará de esperar al menor en el lugar de destino. Estos acompañantes podrán ser quien o quienes ejerzan la responsabilidad parental, otra representación legal o un tercero autorizado a tal efecto y cuyos datos deberán hacerse constar en forma precisa en el instrumento de la autorización.
+            </li>
+          </ol>
+          <p>
+            Para optar por el servicio Menor No Acompañado, los menores de edad deben poder alimentarse y ser capaces de cubrir sus necesidades básicas de higiene; además de movilizarse en caso de evacuación y responder a las instrucciones de seguridad. En caso de que el menor de edad requiera atención o tratamiento especial no podrá viajar bajo la modalidad del servicio Menor No Acompañado.
+          </p>
+          <p>
+            Si el menor no fuera esperado por el responsable de acompañarlo en el lugar de destino, la transportista deberá requerir el auxilio de la fuerza pública a fin de asegurar la custodia del menor, con costo a cargo del representante legal.
+          </p>
+          <p>
+            Los menores de SEIS (6) años de edad únicamente podrán viajar bajo las modalidades previstas en los incisos a) y b) del presente artículo.
+          </p>
+          <p>
+            ARTÍCULO 8° - Los menores de entre TRECE (13) y DIECISIETE (17) años de edad podrán viajar según cualquiera de las modalidades previstas en el artículo anterior, o sin acompañante si contaren con autorización previa a tal efecto de conformidad con el Artículo 4° de la presente resolución.
+          </p>
+          <p>
+            Todos los pasajeros menores de 18 años, viajen solos o no, deberán cumplimentar en un todo con la Resolución 43 - E/2016. Caso contrario, no podrán viajar, perdiendo todo derecho a reclamo. <a href="https://www.argentina.gob.ar/viajar-con-menores-de-edad-en-micros-de-larga-distancia" target="_blank">Descargue aquí</a> el formulario de autorización para traslado de menores de edad.
+          </p>
+          <h5>Seguro</h5>
+          <p>
+            Este pasaje incluye un seguro de responsabilidad hacia pasajeros transportados de acuerdo a disposiciones legales vigentes. La aseguradora varía según la empresa transportista.
+          </p>
+          <h5>Extravío</h5>
+          <p>
+            En caso de pérdida (extravío, robo, etc.) total o parcial del pasaje adquirido, recordar que el/los pasajes se enviaron a la casilla de email ingresada en el proceso de compra, brindando la posibilidad para reimprimirlos hasta 3 (tres) veces cada uno, hasta 30 minutos antes de la partida del servicio, desde cualquier PC y/o impresora.
+          </p>
+          <h5>Documentación</h5>
+          <p>
+            En los servicios Nacionales e Internacionales, el pasajero tiene la obligación de satisfacer todas las exigencias gubernamentales en materia de documentos personales exigidos para viajar o tasas específicas, tanto en el transcurso del viaje, así como también a la salida o entrada de los países. Las empresas transportistas no se responsabilizan por los gastos e inconvenientes ocasionados por el incumplimiento por parte del pasajero de esas exigencias.
+          </p>
+          <h5>Servicios Internacionales</h5>
+          <p>
+            El pasajero debe presentarse una hora antes de la salida en la terminal, con la documentación requerida y exigida para realizar el pre embarque.
+          </p>
+          <h5>Restricciones</h5>
+          <p>
+            Cualquiera sea la empresa transportista está totalmente prohibido fumar dentro de los vehículos. (RESOL. 204/81 - SETOP).
+          </p>
+          <h5>Norma vigente</h5>
+          <p>
+            La compra del pasaje vía web de Ventanita y su utilización implican la aceptación de todas las condiciones anteriormente expuestas y de las normas vigentes en materia de transporte de pasajeros.
+          </p>
+          <h5>Importante</h5>
+          <p>
+            Los "Servicios Adicionales dentro del Coche" (Azafatas, Vianda, Cenas en Paradores, Tipos de Bebidas, Mantas o Privacidad), pueden variar en sus "formas y modos de prestación o presentación" según las diferentes Tarifas, Destinos o Empresas de Transporte. Las categorías Cama, Semi-Cama, Ejecutivo, Suite Bus, en general son semejantes en sus comodidades internas (Asientos reclinables y filas de butacas) entre sí, de todas las Empresas Transportadoras, pero pueden variar sus "Servicios Adicionales Internos" (Azafatas, Vianda, Cenas en paradores, Tipos de Bebidas, Mantas o Privacidad). Todos los datos y descripciones que aparecen en el sistema son los ofrecidos por las mismas Empresas de Transporte desde sus páginas de Internet y call center desde sus terminales de ventas.
+          </p>
+          <h5>Cupones</h5>
+          <p>
+            Para poder aplicar el cupón, el mismo debe ser menor al importe del pasaje.
+            El cupón aplicará según las condiciones informadas en su emisión.
+          </p>
+          <h5>Seguro Obligatorio de la Resolución 684/2022 del Ministerio de Transporte</h5>
+          <p>
+            A partir del 1 de septiembre de 2023, por Resolución 684/2022 del Ministerio de Transporte (RG684), los pasajes de jurisdicción nacional incluirán una tasa fija en pesos argentinos, correspondiente a la ampliación del Seguro Obligatorio. El costo se suma al importe del pasaje y se cobra por cuenta y orden de las mutuales de seguro vinculadas al transporte de pasajeros. La suma se irá actualizando según lo establezca el organismo regulador.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock content %}
