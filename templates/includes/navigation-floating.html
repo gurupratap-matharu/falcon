@@ -1,9 +1,9 @@
 {% load static %}
 
 <header class="container position-sticky z-index-sticky top-0">
-  <nav class="navbar navbar-expand-lg blur blur-rounded border-radius-2xl top-0 shadow my-3 py-2 mx-2 position-absolute start-0 end-0">
+  <nav class="navbar navbar-expand-lg border-radius-2xl top-0 shadow my-3 py-2 mx-2 position-absolute start-0 end-0 bg-white">
     <div class="container-fluid pe-0">
-      <a class="navbar-brand font-weight-bolder d-flex align-items-center"
+      <a class="navbar-brand font-weight-bold d-flex align-items-center"
          href="{% url 'pages:home' %}"
          rel="tooltip"
          title="Ventanita"
@@ -23,7 +23,7 @@
       <div class="offcanvas offcanvas-start" id="navigation" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-            <a class="navbar-brand font-weight-bolder d-flex align-items-center"
+            <a class="navbar-brand font-weight-bold d-flex align-items-center"
                href="{% url 'pages:home' %}"
                rel="tooltip"
                title="Ventanita"
@@ -45,46 +45,8 @@
               </a>
             </li>
             <li class="nav-item d-flex align-items-center mb-2 mb-lg-0">
-              <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" href="">Get Listed</a>
+              <a class="btn btn-round btn-sm mb-0 bg-gradient-primary me-2" href="{% url 'pages:contact' %}">Contacto</a>
             </li>
-            {% if request.user.is_authenticated %}
-              <li class="nav-item d-flex align-items-center">
-                <div class="dropdown nav-link p-0">
-                  <a href="#"
-                     id="dropdownMenuButton"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false"
-                     aria-label="Open user menu"
-                     type="button">
-                    {% with avatar_url=request.user.socialaccount_set.all.0.get_avatar_url %}
-                      {% if avatar_url %}
-                        <img src="{{ avatar_url }}" alt="profile_image" class="avatar avatar-sm rounded-circle" />
-                      {% else %}
-                        <span class="avatar avatar-sm rounded-circle border border-primary text-dark">{{ request.user.email|slice:":2"|upper }}</span>
-                      {% endif %}
-                    {% endwith %}
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
-                    <li>
-                      <a class="dropdown-item border-radius-md" href="">Profile</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item border-radius-md" href="">Edit Profile</a>
-                    </li>
-                    <li>
-                      <hr class="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a class="dropdown-item border-radius-md" href="{% url 'account_logout' %}">Logout</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            {% else %}
-              <li class="nav-item d-flex align-items-center mb-2 mb-lg-0">
-                <a class="btn btn-round btn-sm mb-0 bg-gradient-primary me-2" href="{% url 'account_login' %}">Sign in</a>
-              </li>
-            {% endif %}
           </ul>
         </div>
       </div>

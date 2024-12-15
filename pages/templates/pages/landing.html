@@ -10,18 +10,13 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4 my-auto">
-          <h1 class="text-gradient text-primary mb-0">{% translate "Your Tech" %}</h1>
-          <h1 class="mb-4">{% translate "Partner" %}</h1>
+          <h1 class="text-gradient text-primary mb-0">{% translate "Tu partner" %}</h1>
+          <h1 class="mb-4">{% translate "tecnológico" %}</h1>
           <p class="lead">
-            {% translate "Scale your business by managing your routes, schedules and pricing in a simple platform, accepting online payments, integrating booking on your own website and analysing data to build a more profitable business." %}
+            {% translate "Escala tu negocio gestionando tus rutas, horarios y precios en una plataforma sencilla, aceptando pagos en línea, integrando reservas en tu propio sitio y analizando datos para construir un negocio más rentable." %}
           </p>
           <div class="d-flex">
-            <a href="{% url 'account_signup' %}" class="btn bg-gradient-primary btn-round icon-link icon-link-hover mt-4">{% translate "Start now" %}
-              <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
-              </svg>
-            </a>
-            <a href="{% url 'pages:contact' %}" class="btn btn-round btn-link icon-link icon-link-hover mt-4 ms-3 text-dark">{% translate "Contact Sales" %}
+            <a href="{% url 'pages:contact' %}" class="btn btn-round bg-gradient-primary icon-link icon-link-hover mt-4">{% translate "Contacto Commercial " %}
               <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
               </svg>
@@ -113,10 +108,9 @@
                     <use xlink:href="{% static 'assets/icons/icons.svg' %}#calendar4-week" />
                   </svg>
                 </div>
-                <h5 class="font-weight-bolder mt-3">Full Documentation</h5>
+                <h5 class="font-weight-bolder mt-3">Data Analytics + IA</h5>
                 <p class="pe-5">
-                  Built by developers for developers. Check the foundation and you will find everything
-                  inside our documentation.
+                  ¡Lo que no se mide no se puede mejorar! Usa el Dashboard de ventanita con tus datos en realtime para tomar decisiones estrategicas y optimiza tus rutas.
                 </p>
               </div>
             </div>
@@ -127,11 +121,8 @@
                     <use xlink:href="{% static 'assets/icons/icons.svg' %}#bank" />
                   </svg>
                 </div>
-                <h5 class="font-weight-bolder mt-3">Bootstrap 5 Ready</h5>
-                <p class="pe-3">
-                  The world’s most popular front-end open source toolkit, featuring Sass variables and
-                  mixins.
-                </p>
+                <h5 class="font-weight-bolder mt-3">Notificaciones en RealTime</h5>
+                <p class="pe-3">¿Cambio de horarios o demoras? Notifica tus pasajeros en real time con email, whatsapp o sms</p>
               </div>
             </div>
           </div>
@@ -143,10 +134,9 @@
                     <use xlink:href="{% static 'assets/icons/icons.svg' %}#stopwatch" />
                   </svg>
                 </div>
-                <h5 class="font-weight-bolder mt-3">Save Time & Money</h5>
+                <h5 class="font-weight-bolder mt-3">Motor de reservas</h5>
                 <p class="pe-5">
-                  Creating your design from scratch with dedicated designers can be very expensive. Start
-                  with our Design System.
+                  Diseñado con la última tecnología Ventanita lleva el poder de un sistema de reservas súper rápido a su propio sitio web
                 </p>
               </div>
             </div>
@@ -157,11 +147,8 @@
                     <use xlink:href="{% static 'assets/icons/icons.svg' %}#building-fill-up" />
                   </svg>
                 </div>
-                <h5 class="font-weight-bolder mt-3">Fully Responsive</h5>
-                <p class="pe-3">
-                  Regardless of the screen size, the website content will naturally fit the given
-                  resolution.
-                </p>
+                <h5 class="font-weight-bolder mt-3">Agencias y Revendedores</h5>
+                <p class="pe-3">Agregá tus agencias y revendedores con facilidad para aumentar su visibilidad y atraer más ventas</p>
               </div>
             </div>
           </div>
@@ -174,12 +161,12 @@
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#calendar4-week" />
                 </svg>
               </div>
-              <h2 class="up mb-0">
-                Feel the
+              <h3 class="up mb-0">
+                Quiero aumentar mis
                 <br />
-                Soft UI Design System
-              </h2>
-              <a href="#" target="_blank" class="btn btn-outline-primary btn-round mt-3">Start with Headers</a>
+                rendimientos
+              </h3>
+              <a href="{% url 'pages:contact' %}" class="btn btn-outline-primary btn-round mt-3">Reservar Demo</a>
             </div>
           </div>
         </div>
@@ -301,302 +288,6 @@
         </div>
       </div>
     </section>
-    <section class="py-5">
-      <div class="container">
-        <div class="row text-center my-sm-5 mt-5">
-          <div class="col-lg-6 mx-auto">
-            <h2 class="text-primary text-gradient mb-0">Boost creativity</h2>
-            <h2 class="">With our coded pages</h2>
-            <p class="lead">
-              The easiest way to get started is to use one of our
-              <br />
-              pre-built example pages.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="row mt-4">
-              <div class="col-md-4">
-                <a href=".//pages/coworking.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/coworking.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Coworking Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/rental.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/rental.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Rental Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/case-study.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/case-study.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Case Study</h6>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-md-4 mt-md-0 mt-4">
-                <a href="./pages/about-us.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/about-us.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">About Us Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/pricing.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/pricing.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Pricing Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/career.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/career.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Career Page</h6>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-md-4 mt-md-0 mt-4">
-                <a href="./pages/work-with-us.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/work-with-us.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Work With Us</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/terms.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/terms.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Terms & Conditions</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/help-center.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/help-center.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Help Center</h6>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-md-4 mt-md-0 mt-4">
-                <a href="./pages/help-center-basic.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/help-center-basic.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Help Center Basic</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/contact-us.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/contact-us.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Contact Us Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/contact-us-simple.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/contact-us-basic.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Contact Us Basic</h6>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-md-4 mt-md-0 mt-4">
-                <a href="./pages/faq.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/faq.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">FAQ Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/privacy.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/privacy.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Privacy Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/mobile-app.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/mobile-app.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Mobile App Page</h6>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-md-4 mt-md-0 mt-4">
-                <a href="./pages/desktop-app.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/desktop-app.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Desktop App Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/blog/single-article.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/single-article.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Single Article Blog</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/blog/blog-posts.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/blog-posts.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Blog Posts Page</h6>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-md-4 mt-md-0 mt-4">
-                <a href="./pages/blog/categories.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/categories.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Blog Categories</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/blog/author.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/author.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Author Blog Page</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4 mt-md-0 mt-5">
-                <a href="./pages/automotive.html">
-                  <div class="card">
-                    <img class="w-100"
-                         src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/presentation/section-pages/automotive.jpg"
-                         alt="" />
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">Automotive Page</h6>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 mx-auto mt-md-0 mt-5">
-            <div class="position-sticky" style="top:100px !important">
-              <h4 class="">Presentation Pages for Company, Landing Pages, Blogs and Support</h4>
-              <h6 class="text-secondary">
-                These is just a small selection of the multiple possibitilies you have. Focus on
-                the business, not on the design.
-              </h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     <div class="container mt-sm-5">
       <div class="page-header min-vh-50 my-sm-3 mb-3 border-radius-xl bg-gradient-dark">
         <div class="container">
@@ -609,8 +300,6 @@
                 full documentation. Play with the utility classes and you will create unlimited combinations for our
                 components.
               </p>
-              <a href="https://www.creative-tim.com/learning-lab/bootstrap/overview/soft-ui-design-system"
-                 class="text-white icon-move-right">Read docs</a>
             </div>
           </div>
         </div>
@@ -626,13 +315,10 @@
               </svg>
             </div>
             <div class="description ps-5">
-              <h5 class="text-white">Getting Started</h5>
+              <h5 class="text-white">Booking Widget</h5>
               <p class="text-white">
-                Check the possible ways of working with our product and the necessary files for
-                building your own project.
+                Agrega un widget de reservas en tu propio sitio web para que los pasajeros compren directamente
               </p>
-              <a href="https://www.creative-tim.com/learning-lab/bootstrap/overview/soft-ui-design-system"
-                 class="text-white icon-move-right">Let's start</a>
             </div>
           </div>
         </div>
@@ -644,12 +330,10 @@
               </svg>
             </div>
             <div class="description ps-5">
-              <h5>Plugins</h5>
+              <h5>Responsive Design</h5>
               <p>
-                Get inspiration and have an overview about the plugins that we used to create the Soft UI Design
-                System.
+                Plataforma optimizado para aceso movil y desktop y aumentar ventas con procesamiento rapido como core de su diseño
               </p>
-              <a href="#" class="text-primary icon-move-right">Read more</a>
             </div>
           </div>
         </div>
@@ -661,101 +345,24 @@
               </svg>
             </div>
             <div class="description ps-5">
-              <h5>Utility Classes</h5>
-              <p>Soft UI Design System is giving you a lot of pre-made elements for those who want flexibility</p>
-              <a href="#" class="text-primary icon-move-right">Read more</a>
+              <h5>Seat Maps</h5>
+              <p>Configura los asientos de tus unidades y controla las reservas en tiempo real.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <section class="py-7">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 mx-auto text-center">
-            <h2 class="mb-0">Trusted by over</h2>
-            <h2 class="text-gradient text-primary mb-3">1,435,000 web developers</h2>
-            <p class="lead">
-              Many Fortune 500 companies, startups, universities and governmental institutions love
-              Creative Tim's products.
-            </p>
-          </div>
-        </div>
-        <div class="row mt-6">
-          <div class="col-lg-4 col-md-8">
-            <div class="card card-plain">
-              <div class="card-body">
-                <div class="author">
-                  <div class="name">
-                    <h6 class="mb-0 font-weight-bolder">Nick Willever</h6>
-                    <div class="stats">1 day ago</div>
-                  </div>
-                </div>
-                <p class="mt-4">
-                  "This is an excellent product, the documentation is excellent and helped me get things
-                  done more efficiently."
-                </p>
-                <div class="rating mt-3"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-8 ms-md-auto">
-            <div class="card bg-gradient-primary">
-              <div class="card-body">
-                <div class="author align-items-center">
-                  <div class="name">
-                    <h6 class="text-white mb-0 font-weight-bolder">Shailesh Kushwaha</h6>
-                    <div class="stats text-white">1 week ago</div>
-                  </div>
-                </div>
-                <p class="mt-4 text-white">
-                  "I found solution to all my design needs from Creative Tim. I use them as a
-                  freelancer in my hobby projects for fun! And its really affordable, very humble guys !!!"
-                </p>
-                <div class="rating mt-3"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-8">
-            <div class="card card-plain">
-              <div class="card-body">
-                <div class="author">
-                  <div class="name">
-                    <h6 class="mb-0 font-weight-bolder">Samuel Kamuli</h6>
-                    <div class="stats">3 weeks ago</div>
-                  </div>
-                </div>
-                <p class="mt-4">
-                  "Great product. Helped me cut the time to set up a site. I used the components within
-                  instead of starting from scratch. I highly recommend for developers who want to spend more time on the
-                  backend!."
-                </p>
-                <div class="rating mt-3"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-sm-7" id="pricing-soft-ui">
+    <section class="py-sm-7">
       <div class="bg-gradient-primary position-relative m-3 border-radius-xl">
-        <img src="{% static 'assets/img/shapes/waves-white.svg' %}"
-             alt="pattern-lines"
-             class="position-absolute start-0 top-md-0 w-100 opacity-6" />
         <div class="container pb-lg-8 pb-7 pt-5 postion-relative z-index-2 position-relative">
           <div class="row">
             <div class="col-md-7 mx-auto text-center">
-              <span class="badge bg-gradient-dark mb-2">Pricing</span>
-              <h3 class="text-white">Ready to get Soft UI Design System?</h3>
-              <p class="text-white">
-                Based on the license you get, you will have direct access to our team
-                <br />
-                of developers who built the product.
-              </p>
+              <span class="badge bg-gradient-dark mb-2">Features</span>
+              <h3 class="text-white">¿Listo para actualizar el tech de tu empresa?</h3>
+              <p class="text-white">Conoce todos los componentes de Ventanita que te ayudan maximisar tu potencial</p>
             </div>
           </div>
         </div>
-        x
       </div>
       <div class="mt-lg-n8 mt-n6">
         <div class="container">
@@ -763,42 +370,39 @@
             <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
               <div class="card shadow-none border h-100">
                 <div class="card-header text-sm-start text-center pt-4 pb-3 px-4">
-                  <h5 class="mb-1">Freelancer</h5>
-                  <p class="mb-3 text-sm">Good for a personal or client web/mobile app.</p>
-                  <h3 class="font-weight-bolder mt-3">$79</h3>
-                  <a href="https://secure.avangate.com/order/checkout.php?PRODS=34081148&amp;OPTIONS34081148=FREELANCER&amp;CART=1&amp;CARD=2&amp;CLEAN_CART=1&amp;SHORT_FORM=1&amp;SRC=soft-ds-pro-presentation"
-                     class="btn btn-sm bg-gradient-dark w-100 border-radius-md mt-4 mb-2">Buy now</a>
+                  <h5 class="mb-1">Pagos</h5>
+                  <p class="mb-3 text-sm">Permiti a tus usuarios pagar con su billeteras favoritas</p>
                 </div>
                 <hr class="horizontal dark my-0" />
                 <div class="card-body">
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Complete documentation</span>
+                      <span class="text-sm">Integracion con Mercado Pago</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Full code</span>
+                      <span class="text-sm">Cobrar por Tarjetas de credito / debito</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Projects - 1</span>
+                      <span class="text-sm">Cobrar por QR</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Team Size - 1</span>
+                      <span class="text-sm">Integracion con MODO</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Support</span>
+                      <span class="text-sm">Processamiento seguro con SSL</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Free Updates - 6 months</span>
+                      <span class="text-sm">Posibilidad de comprar con Efectivo</span>
                     </div>
                   </div>
                 </div>
@@ -807,42 +411,29 @@
             <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
               <div class="card shadow-none border h-100">
                 <div class="card-header text-sm-start text-center pt-4 pb-3 px-4">
-                  <h5 class="mb-1">Startup</h5>
-                  <p class="mb-3 text-sm">Build your startup or client web/mobile app.</p>
-                  <h3 class="font-weight-bolder mt-3">$149</h3>
-                  <a href="https://secure.avangate.com/order/checkout.php?PRODS=34081148&amp;OPTIONS34081148=STARTUP&amp;CART=1&amp;CARD=2&amp;CLEAN_CART=1&amp;SHORT_FORM=1&amp;SRC=presentation"
-                     class="btn btn-sm bg-gradient-dark w-100 border-radius-md mt-4 mb-2">Buy now</a>
+                  <h5 class="mb-1">Multi Idioma y Usuario</h5>
+                  <p class="mb-3 text-sm">Provee acceso a agencias y revendedores</p>
                 </div>
                 <hr class="horizontal dark my-0" />
                 <div class="card-body">
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Complete documentation</span>
+                      <span class="text-sm">Dashboard customizado segun el role</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Full code</span>
+                      <span class="text-sm">Multi idioma para clientes internacionales</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Projects - 1</span>
+                      <span class="text-sm">Soporte dedicado para su agencias</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Team Size - up to 5</span>
-                    </div>
-                  </div>
-                  <div class="d-flex pb-3">
-                    <div class="ps-3">
-                      <span class="text-sm">Support</span>
-                    </div>
-                  </div>
-                  <div class="d-flex pb-3">
-                    <div class="ps-3">
-                      <span class="text-sm">Free Updates - 12 months</span>
+                      <span class="text-sm">Team Size - hasta 5 personas</span>
                     </div>
                   </div>
                 </div>
@@ -852,47 +443,29 @@
               <div class="card shadow-none border bg-gradient-dark h-100 overflow-hidden">
                 <img src="{% static 'assets/img/shapes/pattern-lines.svg' %}" alt="pattern-lines" class="position-absolute" />
                 <div class="card-header bg-transparent text-sm-start text-center pt-4 pb-3 px-4 z-index-2">
-                  <h5 class="mb-1 text-white">Company</h5>
-                  <p class="mb-3 text-sm text-white">Perfect for web/mobile apps or SaaS projects.</p>
-                  <h3 class="font-weight-bolder mt-3 text-white">$249</h3>
-                  <a href="https://secure.avangate.com/order/checkout.php?PRODS=34081148&amp;OPTIONS34081148=COMPANY&amp;CART=1&amp;CARD=2&amp;CLEAN_CART=1&amp;SHORT_FORM=1&amp;SRC=soft-ds-pro-presentation"
-                     class="btn btn-sm btn-white w-100 border-radius-md mt-4 mb-2">Buy now</a>
+                  <h5 class="mb-1 text-white">Seguridad y Backups</h5>
+                  <p class="mb-3 text-sm text-white">Sistema seguro y reesforzado contra cyber-attacks</p>
                 </div>
                 <hr class="horizontal light my-0" />
                 <div class="card-body z-index-2">
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm text-white">Complete documentation</span>
+                      <span class="text-sm text-white">Backup diario de datos criticos</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm text-white">Full code</span>
+                      <span class="text-sm text-white">Control de fraude en aceso y pagos</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm text-white">Use in SaaS</span>
+                      <span class="text-sm text-white">Aceso a datos historicos 24x7</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm text-white">Projects - unlimited</span>
-                    </div>
-                  </div>
-                  <div class="d-flex pb-3">
-                    <div class="ps-3">
-                      <span class="text-sm text-white">Team Size - up to 20</span>
-                    </div>
-                  </div>
-                  <div class="d-flex pb-3">
-                    <div class="ps-3">
-                      <span class="text-sm text-white">Priority support</span>
-                    </div>
-                  </div>
-                  <div class="d-flex pb-3">
-                    <div class="ps-3">
-                      <span class="text-sm text-white">Free Updates - 12 months</span>
+                      <span class="text-sm text-white">Aceso a base de clientes</span>
                     </div>
                   </div>
                 </div>
@@ -901,64 +474,38 @@
             <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
               <div class="card shadow-none border h-100">
                 <div class="card-header text-sm-start text-center pt-4 pb-3 px-4">
-                  <h5 class="mb-1">Enterprise</h5>
-                  <p class="mb-3 text-sm">Deploy large-scale projects which include redistribution rights.</p>
-                  <h3 class="font-weight-bolder mt-3">$599</h3>
-                  <a href="https://secure.avangate.com/order/checkout.php?PRODS=34081148&amp;OPTIONS34081148=ENTERPRISE&amp;CART=1&amp;CARD=2&amp;CLEAN_CART=1&amp;SHORT_FORM=1&amp;SRC=soft-ds-pro-presentation"
-                     class="btn btn-sm bg-gradient-dark w-100 border-radius-md mt-4 mb-2">Buy now</a>
+                  <h5 class="mb-1">Administrativo</h5>
+                  <p class="mb-3 text-sm">Accedo a tus cobros en realtime segun tu comodidad</p>
                 </div>
                 <hr class="horizontal dark my-0" />
                 <div class="card-body">
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Complete documentation</span>
+                      <span class="text-sm">Resumen de ventas brutos y pasajes diariamente</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Full code</span>
+                      <span class="text-sm">Analisar rutas populares y debiles</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Use in SaaS</span>
+                      <span class="text-sm">Liquidacion de saldos segun acuerdo</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Projects - unlimited</span>
+                      <span class="text-sm">Rendimiento de agencias</span>
                     </div>
                   </div>
                   <div class="d-flex pb-3">
                     <div class="ps-3">
-                      <span class="text-sm">Developers - more than 20</span>
-                    </div>
-                  </div>
-                  <div class="d-flex pb-3">
-                    <div class="ps-3">
-                      <span class="text-sm">Priority support</span>
-                    </div>
-                  </div>
-                  <div class="d-flex pb-3">
-                    <div class="ps-3">
-                      <span class="text-sm">Free Updates - 24 months</span>
+                      <span class="text-sm">Live location de micros por GPS</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <p class="text-center mt-5">
-                Secured Payment by <b>2Checkout</b> with:
-                <br />
-                <br />
-              </p>
-              <p class="text-center max-width-500 mx-auto">
-                <b>Info:</b> If you are a Registered Company inside the
-                European Union you will be able to add your VAT ID after your Press "Buy Now"
-              </p>
             </div>
           </div>
         </div>
@@ -968,12 +515,12 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7 col-12 my-auto">
-            <h3 class="text-gradient text-primary mb-0">{% translate "You can check our" %}</h3>
+            <h3 class="text-gradient text-primary mb-0">{% translate "Solicitar" %}</h3>
             <h3>{% translate "Free Demo" %}</h3>
             <p class="pe-md-5 mb-4">
-              {% translate "Do you want to test and experience the benefits of Ventanita to see if it fits your needs? It features an end-to-end flow of how you can commercialize your routes, schedules and pricing all in real time!" %}
+              {% translate "¿Quieres probar y experimentar los beneficios de Ventanita para ver si se adapta a tus necesidades? ¡Cuenta con un flujo de principio a fin de cómo puedes comercializar tus rutas, horarios y precios, todo en tiempo real!" %}
             </p>
-            <a href="{% url 'pages:contact' %}" class="text-primary mb-5 mb-sm-0 icon-link icon-link-hover">{% translate "Request for Demo" %}
+            <a href="{% url 'pages:contact' %}" class="text-dark mb-5 mb-sm-0 icon-link icon-link-hover">{% translate "Reservar mi demo" %}
               <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                 <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
               </svg>
@@ -983,40 +530,6 @@
             <img class="img-fluid w-100 border-radius-lg shadow-lg"
                  src="{% static 'assets/img/presentation/meeting.jpg' %}"
                  alt="Ventanita Demo Meeting" />
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="pt-lg-7 pt-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-5 col-md-8 order-2 order-md-2 order-lg-1">
-            <div class="position-relative ms-lg-5 mb-0 mb-md-7 mb-lg-0 d-none d-md-block d-lg-block d-xl-block h-75">
-              <div class="bg-gradient-primary w-100 h-100 border-radius-xl position-absolute d-lg-block d-none"></div>
-              <img src="{% static 'assets/img/curved-images/curved11.avif' %}"
-                   class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5"
-                   alt="" />
-            </div>
-          </div>
-          <div class="col-lg-5 col-md-12 ms-auto order-1 order-md-1 order-lg-1">
-            <div class="p-3 pt-0">
-              <div class="icon icon-shape bg-gradient-primary rounded-circle shadow text-center mb-4"></div>
-              <h4 class="text-gradient text-primary mb-0">Special Thanks</h4>
-              <h4 class="mb-4">
-                <a href="https://twitter.com/dnyivn" target="blank" rel="nofollow">3D Images by Danny
-                Ivan</a>
-              </h4>
-              <p>
-                We are more than happy to use the great images made by Danny inside Soft UI Design System. They come
-                with a high level of quality and bright colors, fitting perfect with our product's colors.
-                <br />
-                <br />
-                Danny is a important designer that is active into the 3D Image space. His war was awarded many times in
-                different categories in Behance, Digital Art or Motion Graphics.
-              </p>
-              <a href= "https://www.behance.net/dannyivan" target="blank" rel="nofollow" class="text-dark icon-move-right">Check
-              Danny's work</a>
-            </div>
           </div>
         </div>
       </div>
