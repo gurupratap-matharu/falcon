@@ -759,23 +759,6 @@ files = [
 Django = ">=3.2"
 
 [[package]]
-name = "django-qr-code"
-version = "3.1.1"
-description = "An application that provides tools for displaying QR codes on your Django site."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "django-qr-code-3.1.1.tar.gz", hash = "sha256:f47dee4636b5e44cb46915e14747f043be856f21e5e635a94c48939ed18c783f"},
-    {file = "django_qr_code-3.1.1-py3-none-any.whl", hash = "sha256:4819703d6384a7b0329014e036039d31c06be0723079be327316804249d44e9a"},
-]
-
-[package.dependencies]
-django = ">=3.2"
-pydantic = "*"
-pytz = "*"
-segno = ">=1.5"
-
-[[package]]
 name = "django-ranged-response"
 version = "0.2.0"
 description = "Modified Django FileResponse that adds Content-Range headers."
@@ -1948,17 +1931,6 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
-name = "pytz"
-version = "2024.2"
-description = "World timezone definitions, modern and historical"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pytz-2024.2-py2.py3-none-any.whl", hash = "sha256:31c7c1817eb7fae7ca4b8c7ee50c72f93aa2dd863de768e1ef4245d426aa0725"},
-    {file = "pytz-2024.2.tar.gz", hash = "sha256:2aa355083c50a0f93fa581709deac0c9ad65cca8a9e9beac660adcbd493c798a"},
-]
-
-[[package]]
 name = "pyyaml"
 version = "6.0.2"
 description = "YAML parser and emitter for Python"
@@ -2336,17 +2308,6 @@ packaging = ">=21.0"
 pydantic = "*"
 ruamel-yaml = ">=0.17.21"
 typing-extensions = ">=4.7.1"
-
-[[package]]
-name = "segno"
-version = "1.6.1"
-description = "QR Code and Micro QR Code generator for Python"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "segno-1.6.1-py3-none-any.whl", hash = "sha256:e90c6ff82c633f757a96d4b1fb06cc932589b5237f33be653f52252544ac64df"},
-    {file = "segno-1.6.1.tar.gz", hash = "sha256:f23da78b059251c36e210d0cf5bfb1a9ec1604ae6e9f3d42f9a7c16d306d847e"},
-]
 
 [[package]]
 name = "selenium"
@@ -2857,4 +2818,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2df8206470672158f37833caaeb64fd897442c6b3dc900701e469bd86fccdc02"
+content-hash = "72b508f4670e0e166b9e843bc04d1dc33be583c0a7a6f5a5392ad9a356298723"
