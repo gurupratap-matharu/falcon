@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "django_extensions",
     "django_countries",
-    "qr_code",
     # Local
     "base.apps.BaseConfig",
     "pages.apps.PagesConfig",
