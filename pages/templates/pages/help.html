@@ -7,6 +7,49 @@
 {% endblock title %}
 
 {% block content %}
-  <h1>Help</h1>
-  <p>Coming soon...</p>
+  <div class="row">
+      <div class="col-lg-4 px-lg-1 mt-lg-0 mt-4">
+        <div class="card bg-gray-100">
+          <div class="card-header bg-transparent pb-0">
+            <svg class="bi text-primary" width="32" height="32" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#x-lg" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <h5>{% translate "Cancelación de pasajes" %}</h5>
+            <p>Conoce como podes cancelar tu pasajes de micro</p>
+            <a href="{% url 'orders:order_cancel' %}" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 px-lg-1 mt-lg-0 mt-4">
+        <div class="card bg-gray-100">
+          <div class="card-header bg-transparent pb-0">
+            <svg class="bi text-primary" width="32" height="32" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#send" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <h5>{% translate "Re-enviar pasaje" %}</h5>
+            <p>Aca podes pedir para renviar la confirmación por email</p>
+            <a href="{% url 'orders:order_search' %}" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 px-lg-1 mt-lg-0 mt-4">
+        <div class="card bg-gray-100">
+          <div class="card-header bg-transparent pb-0">
+            <svg class="bi text-primary" width="32" height="32" fill="currentColor" aria-hidden="true">
+              <use xlink:href="{% static 'assets/icons/icons.svg' %}#exclamation-triangle-fill" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <h5>{% translate "Info útil" %}</h5>
+            <p>¿Tenes una duda? Conoce todas las respuestas en esta sección</p>
+            <a href="/ayuda/informacion-util/" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
