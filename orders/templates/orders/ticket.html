@@ -1,4 +1,4 @@
-{% load static i18n qr_code trips_extras %}
+{% load static i18n trips_extras %}
 
 {% get_departure trip origin as origin_departure %}
 {% get_arrival trip destination as destination_arrival %}
@@ -111,14 +111,10 @@
         </tbody>
       </table>
     </section>
+    {% comment %}
     <section>
       {% qr_from_text qr_url size="S" dark_color="#2a3239" %}
     </section>
-    <section class="conditions">
-      <ul>
-        <li></li>
-        <li></li>
-      </ul>
-    </section>
+    {% endcomment %}
   </body>
 </html>
