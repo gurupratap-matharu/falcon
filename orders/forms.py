@@ -55,7 +55,7 @@ class OrderForm(forms.ModelForm):
         return cleaned_email
 
 
-class OrderSearchForm(forms.Form):
+class OrderResendForm(forms.Form):
     DOCUMENT_TYPE_CHOICES = [
         ("Dni", "DNI"),
         ("Passport", "Pasaporte"),

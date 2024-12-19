@@ -18,7 +18,7 @@ from cart.cart import Cart
 from companies.mixins import OwnerMixin
 from trips.models import Location
 
-from .forms import OrderCancelForm, OrderForm, OrderSearchForm, PassengerForm
+from .forms import OrderCancelForm, OrderForm, OrderResendForm, PassengerForm
 from .models import Order, OrderItem, Passenger
 from .services import build_context
 
@@ -262,9 +262,9 @@ class OrderCheckInView(OwnerMixin, DetailView):
         return order_item
 
 
-class OrderSearchView(FormView):
-    template_name = "orders/order_search.html"
-    form_class = OrderSearchForm
+class OrderResendView(FormView):
+    template_name = "orders/order_resend.html"
+    form_class = OrderResendForm
 
 
 class OrderCancelView(FormView):
