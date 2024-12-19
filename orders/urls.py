@@ -6,7 +6,9 @@ app_name = "orders"
 
 urlpatterns = [
     path("create/", views.OrderCreateView.as_view(), name="order_create"),
-    path("<uuid:order_id>/cancel/", views.order_cancel, name="order_cancel"),
+    path("search/", views.OrderSearchView.as_view(), name="order_search"),
+    path("cancel/", views.OrderCancelView.as_view(), name="order_cancel"),
+    path("<uuid:order_id>/cancel/", views.order_cancel, name="order_cancel_confirm"),
     path("<uuid:order_id>/invoice/", views.InvoiceView.as_view(), name="invoice"),
     path(
         "<uuid:order_id>/invoice/pdf/",

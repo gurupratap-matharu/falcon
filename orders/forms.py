@@ -55,6 +55,69 @@ class OrderForm(forms.ModelForm):
         return cleaned_email
 
 
+class OrderSearchForm(forms.Form):
+    DOCUMENT_TYPE_CHOICES = [
+        ("Dni", "DNI"),
+        ("Passport", "Pasaporte"),
+        ("Other", "Otros"),
+    ]
+    document_type = forms.ChoiceField(
+        label=_("Tipo de documento"),
+        required=True,
+        choices=DOCUMENT_TYPE_CHOICES,
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
+    document_number = forms.CharField(
+        label=_("Numero de documento"),
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+
+    travel_date = forms.DateField(
+        label=_("Fecha de viaje"),
+        required=True,
+        widget=forms.DateInput(attrs={"class": "form-control travel-date"}),
+    )
+
+
+class OrderCancelForm(forms.Form):
+    DOCUMENT_TYPE_CHOICES = [
+        ("Dni", "DNI"),
+        ("Passport", "Pasaporte"),
+        ("Other", "Otros"),
+    ]
+    document_type = forms.ChoiceField(
+        label=_("Tipo de documento"),
+        required=True,
+        choices=DOCUMENT_TYPE_CHOICES,
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
+    document_number = forms.CharField(
+        label=_("Numero de documento"),
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+
+    travel_date = forms.DateField(
+        label=_("Fecha de viaje"),
+        required=True,
+        widget=forms.DateInput(attrs={"class": "form-control travel-date"}),
+    )
+
+    invoice_number = forms.CharField(
+        label=_("Numero del comprobante"),
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+
+    email = forms.EmailField(
+        required=True, widget=forms.EmailInput(attrs={"class": "form-control"})
+    )
+
+
 class PassengerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

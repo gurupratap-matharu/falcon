@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, FormView
 
 from django_weasyprint import WeasyTemplateResponseMixin
 
@@ -18,7 +18,7 @@ from cart.cart import Cart
 from companies.mixins import OwnerMixin
 from trips.models import Location
 
-from .forms import OrderForm, PassengerForm
+from .forms import OrderCancelForm, OrderForm, OrderSearchForm, PassengerForm
 from .models import Order, OrderItem, Passenger
 from .services import build_context
 
@@ -260,3 +260,13 @@ class OrderCheckInView(OwnerMixin, DetailView):
 
         logger.info("checking in:%s" % order_item)
         return order_item
+
+
+class OrderSearchView(FormView):
+    template_name = "orders/order_search.html"
+    form_class = OrderSearchForm
+
+
+class OrderCancelView(FormView):
+    template_name = "orders/order_cancel.html"
+    form_class = OrderCancelForm

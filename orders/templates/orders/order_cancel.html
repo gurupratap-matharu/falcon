@@ -1,0 +1,47 @@
+{% extends "layouts/base-pages.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+  {% translate "Devolución de pasajes" %}
+{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-9 col-lg-6 mx-auto">
+      <div class="card">
+        <div class="card-header pb-0">
+          <h1 class="fs-4">{% translate "Devolución de pasajes" %}</h1>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+              <div class="mb-3">
+                <span class="text-danger">{{ field.errors }}</span>
+                <label class="form-label text-sm" for="{{ field.auto_id }}{% if field.label == 'Captcha' %}_1{% endif %}">
+                  {{ field.label }}
+                </label>
+                {{ field }}
+                <div class="form-text ms-2" id="{{ field.auto_id }}_helptext">
+                  <small>{{ field.help_text|safe }}</small>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="d-flex justify-content-between mt-5">
+              <a href="{% url 'pages:home' %}" class="btn btn-round btn-outline-light text-dark me-1">{% translate "Cancel" %}</a>
+              <button class="btn btn-round bg-gradient-primary" type="submit">{% translate "Buscar" %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block js %}
+  <script type="text/javascript" src="{% static 'assets/js/dates/flatpickr.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'assets/js/dates/es.js' %}"></script>
+  <script type="text/javascript" src="{% static 'assets/js/dates/order_search.js' %}"></script>
+{% endblock js %}
+{{ form }}
