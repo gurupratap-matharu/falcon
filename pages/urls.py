@@ -21,7 +21,7 @@ urlpatterns = [
     ),
     path("favicon.ico", views.favicon),
     path("landing/", views.LandingPageView.as_view(), name="landing"),
-    path("help/", views.HelpPageView.as_view(), name="help"),
+    path("ayuda/", views.HelpPageView.as_view(), name="help"),
     path("profile/<str:slug>/", views.PublicProfilePageView.as_view(), name="profile"),
     path("index/", views.IndexPageView.as_view(), name="index"),
     path("alpine/", views.AlpinePageView.as_view(), name="alpine"),
