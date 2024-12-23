@@ -301,7 +301,7 @@ LOGGING = {
             "formatter": "verbose",
         },
         "mail_admins": {
-            "level": "ERROR",
+            "level": "WARNING",
             "class": "django.utils.log.AdminEmailHandler",
         },
     },
@@ -317,8 +317,13 @@ LOGGING = {
             "propagate": False,
         },
         "django.request": {
-            "handlers": ["mail_admins"],
-            "level": "ERROR",
+            "handlers": ["file", "mail_admins"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "django.security": {
+            "handlers": ["file", "mail_admins"],
+            "level": "WARNING",
             "propagate": False,
         },
     },
