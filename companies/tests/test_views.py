@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.http.response import HttpResponseRedirect
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.urls import resolve, reverse_lazy
 
 from companies.factories import CompanyFactory, SeatChartFactory
@@ -10,17 +10,13 @@ from companies.views import (
     CompanyBookView,
     CompanyDashboardView,
     CompanyDetailView,
+    CompanyHelpView,
     CompanyListView,
     LiveStatusView,
     SeatChartDetailView,
     SeatChartListView,
 )
-from users.factories import (
-    CompanyOwnerFactory,
-    StaffuserFactory,
-    SuperuserFactory,
-    UserFactory,
-)
+from users.factories import CompanyOwnerFactory, StaffuserFactory, SuperuserFactory, UserFactory
 
 
 class CompanyListTests(TestCase):
@@ -110,6 +106,30 @@ class CompanyBookViewTests(TestCase):
     def test_company_book_url_resolves_correct_view(self):
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, CompanyBookView.as_view().__name__)
+
+
+class CompanyHelpViewTests(SimpleTestCase):
+    """
+    Test suite for the company help page.
+    """
+
+    def setUp(self):
+        self.url = reverse_lazy("companies:company-help")
+        self.template_name = "companies/company_help.html"
+
+    def test_company_help_url_resolves_correct_view(self):
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, CompanyHelpView.as_view().__name__)
+
+    def test_company_help_view_works(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, self.template_name)
+        self.assertContains(response, "Whatsapp")
+        self.assertContains(response, "Email")
+        self.assertContains(response, "Telephone")
+        self.assertNotContains(response, "Hi I should not be on this page")
 
 
 class CompanyDashboardTests(TestCase):
