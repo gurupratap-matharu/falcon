@@ -18,13 +18,13 @@
   <div class="d-flex justify-content-center">
     <div class="card w-50">
       <div class="card-header pb-0">
-        <a href="{{ company.get_coupon_list_url }}" class="icon-link icon-link-hover">
+        <a href="{{ company.get_coupon_list_url }}" class="link-dark icon-link icon-link-hover">
           <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
             <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
           </svg>
           {% translate "Back" %}
         </a>
-        <h5 class="text-center">{% translate "Coupon Create" %}</h5>
+        <h5 class="text-center mb-0">{% translate "Coupon Create" %}</h5>
       </div>
       <div class="card-body">
         <form method="post">
@@ -40,7 +40,10 @@
               </div>
             </div>
           {% endfor %}
-          <button type="submit" class="btn bg-gradient-primary">{% translate "Save" %}</button>
+          <div class="d-flex justify-content-between">
+            <a href="{{ company.get_coupon_list_url }}" class="btn btn-light">{% translate "Cancel" %}</a>
+            <button type="submit" class="btn bg-gradient-primary">{% translate "Save" %}</button>
+          </div>
         </form>
       </div>
     </div>

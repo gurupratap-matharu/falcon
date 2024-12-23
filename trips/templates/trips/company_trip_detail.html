@@ -17,20 +17,20 @@
 {% block content %}
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between pb-0">
-      <a href="{{ company.get_trip_list_url }}" class="icon-link icon-link-hover">
+      <a href="{{ company.get_trip_list_url }}" class="link-dark icon-link icon-link-hover">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
         </svg>
         {% translate "All Trips" %}
       </a>
       <div>
-        <a href="{% url 'companies:trip-update' company.slug trip.id %}" class="icon-link icon-link-hover me-3">
+        <a href="{% url 'companies:trip-update' company.slug trip.id %}" class="link-dark icon-link icon-link-hover me-3">
           <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
             <use xlink:href="{% static 'assets/icons/icons.svg' %}#toggles" />
           </svg>
           {% translate "Update Trip" %}
         </a>
-        <a href="{% url 'companies:trip-recurrence' company.slug trip.id %}" class="icon-link icon-link-hover">
+        <a href="{% url 'companies:trip-recurrence' company.slug trip.id %}" class="link-dark icon-link icon-link-hover">
           <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
             <use xlink:href="{% static 'assets/icons/icons.svg' %}#alarm" />
           </svg>
@@ -105,7 +105,9 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between pb-0">
       <p>{% translate "Passengers" %}</p>
-      <a href="{% url 'companies:trip-passengers-pdf' company.slug trip.id %}" class="icon-link icon-link-hover" data-type="pdf">
+      <a href="{% url 'companies:trip-passengers-pdf' company.slug trip.id %}"
+         class="link-dark icon-link icon-link-hover"
+         data-type="pdf">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#filetype-pdf" />
         </svg>

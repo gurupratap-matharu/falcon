@@ -34,6 +34,10 @@ class CompanyBookView(DetailView):
     template_name = "companies/company_book.html"
 
 
+class CompanyHelpView(TemplateView):
+    template_name = "companies/company_help.html"
+
+
 # Company Facing Views
 
 

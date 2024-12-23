@@ -25,13 +25,13 @@
 {% block content %}
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between pb-0">
-      <a href="{{ company.get_route_list_url }}" class="icon-link icon-link-hover">
+      <a href="{{ company.get_route_list_url }}" class="link-dark icon-link icon-link-hover">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
         </svg>
         {% translate "All Routes" %}
       </a>
-      <a href="#" class="icon-link icon-link-hover" data-bs-toggle="modal" data-bs-target="#stopModal">
+      <a href="#" class="link-dark icon-link icon-link-hover" data-bs-toggle="modal" data-bs-target="#stopModal">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#toggles" />
         </svg>

@@ -188,7 +188,11 @@
         </nav>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item my-auto d-none d-md-inline">
-            <a class="nav-link" href="{% url 'pages:help' %}">{% translate "Help" %}</a>
+            <a class="nav-link" href="{% url 'companies:company-help' %}">{% translate "Ayuda" %}
+              <svg class="bi ms-1" width="16" height="16" fill="currentColor" aria-hidden="true">
+                <use xlink:href="{% static 'assets/icons/icons.svg' %}#question-circle" />
+              </svg>
+            </a>
           </li>
           <li class="nav-item">
             {% if request.user.is_authenticated %}

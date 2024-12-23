@@ -17,13 +17,13 @@
 {% block content %}
   <div class="card">
     <div class="card-header d-flex justify-content-between">
-      <a href="{{ company.get_admin_url }}" class="icon-link icon-link-hover">
+      <a href="{{ company.get_admin_url }}" class="link-dark icon-link icon-link-hover">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
         </svg>
         Dashboard
       </a>
-      <a href="{% url 'companies:trip-create' company.slug %}" class="icon-link icon-link-hover">
+      <a href="{% url 'companies:trip-create' company.slug %}" class="link-dark icon-link icon-link-hover">
         <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
           <use xlink:href="{% static 'assets/icons/icons.svg' %}#plus-lg" />
         </svg>
@@ -90,7 +90,7 @@
                     <p class="text-sm mb-0">{{ trip.availability }}</p>
                   </td>
                   <td>
-                    <a href="{% url 'companies:trip-detail' company.slug trip.id %}" class="icon-link icon-link-hover">
+                    <a href="{% url 'companies:trip-detail' company.slug trip.id %}" class="link-dark icon-link icon-link-hover">
                       <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
                         <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-right" />
                       </svg>

@@ -19,14 +19,14 @@
     <div class="col-md-6 mx-auto">
       <div class="card">
         <div class="card-header pb-0">
-          <a href="{{ company.get_trip_list_url }}">
-            <svg class="bi me-2" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <a href="{{ company.get_trip_list_url }}" class="link-dark icon-link icon-link-hover">
+            <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
               <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
             </svg>
             Back
           </a>
           <h5 class="text-center">{% translate "Create Recurrence" %}</h5>
-          <p class="text-center">{{ trip }}</p>
+          <p class="text-center mb-0">{{ trip }}</p>
         </div>
         <div class="card-body">
           <form method="post" id="recurrence-form">
