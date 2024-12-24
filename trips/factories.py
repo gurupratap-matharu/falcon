@@ -208,18 +208,13 @@ class SeatWithPassengerFactory(SeatFactory):
     passenger = factory.SubFactory("orders.factories.PassengerFactory")
 
 
-def make_trips(num_trips=20, num_seats=40):
+def make_trips(num_seats=50):
     """
     Helper method to create trips for all routes
     """
 
-    # Create locations
-    logger.info("creating all locations...")
-
-    for name in TERMINALS:
-        LocationFactory(name=name)
-
     routes = Route.objects.all()
+
     if not routes:
         raise ValidationError("Please load all routes first")
 
@@ -227,6 +222,7 @@ def make_trips(num_trips=20, num_seats=40):
     semicama = Trip.SEMICAMA
 
     # Create trips
+    trips = []
     for route in routes:
 
         logger.info("creating trips for route:%s" % route)
@@ -241,7 +237,7 @@ def make_trips(num_trips=20, num_seats=40):
             route=route, status=Trip.ACTIVE, category=cama
         )
 
-    trips = [trip_1, trip_2, trip_3, trip_4]
+        trips.extend((trip_1, trip_2, trip_3, trip_4))
 
     # Create seats in each trip
     logger.info("creating all seats...")
@@ -249,6 +245,8 @@ def make_trips(num_trips=20, num_seats=40):
     size = num_seats // 2
 
     for trip in trips:
+        logger.info("creating seats for trip:%s" % trip)
+
         SeatFactory.reset_sequence(1)
 
         # Create some booked seats with a passenger assigned to it

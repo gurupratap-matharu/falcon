@@ -55,18 +55,13 @@ class Command(BaseCommand):
         start = timer()
 
         locale = kwargs.get("locale")
-        num_trips = kwargs.get("trips") or 20
-        num_seats = kwargs.get("seats") or 40
 
         self.stdout.write("Locale: %s" % locale)
-        self.stdout.write("Total Trips: %s" % num_trips)
-        self.stdout.write("Seats Per Trip: %s" % num_seats)
-
         self.stdout.write("Creating new data...")
 
         with factory.Faker.override_default_locale(locale):
             self.success("\nCreating trips...")
-            make_trips(num_trips=int(num_trips), num_seats=int(num_seats))
+            make_trips()
 
         self.stdout.write("Locations:%s" % Location.objects.count())
         self.stdout.write("Trips:%s" % Trip.objects.count())
