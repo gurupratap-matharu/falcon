@@ -55,7 +55,7 @@ docstring-code-line-length = 72
 
 [tool.isort]
 profile = "black"
-skip = ["docs", "migrations"]
+skip = ["docs", "migrations", "static", "staticfiles", "media", "htmlcov"]
 known_django = "django"
 sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 
