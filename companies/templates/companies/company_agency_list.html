@@ -1,0 +1,24 @@
+{% extends "layouts/base-company.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+  {{ company.name }} | {% translate "Agencias" %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  {% translate "Agencias" %}
+{% endblock breadcrumb %}
+
+{% block page_title %}
+  {{ company.name }}
+{% endblock page_title %}
+
+{% block content %}
+  <div class="list-group">
+    <a href="{% url 'companies:agency-detail' company.slug %}" class="list-group-item list-group-item-action">Terminal de Retiro</a>
+    <a href="{% url 'companies:agency-detail' company.slug %}" class="list-group-item list-group-item-action">Rosario Centro</a>
+    <a href="{% url 'companies:agency-detail' company.slug %}" class="list-group-item list-group-item-action">La Aventura Tours & Travels</a>
+    <a href="{% url 'companies:agency-detail' company.slug %}" class="list-group-item list-group-item-action">La Puente Turismo</a>
+  </div>
+{% endblock content %}

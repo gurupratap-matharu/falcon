@@ -48,12 +48,19 @@ company_admin_patterns = [
         views.SeatChartDetailView.as_view(),
         name="seatchart-detail",
     ),
+    path("agencies/", views.AgencyListView.as_view(), name="agency-list"),
+    path(
+        "agencies/terminal-de-retiro/",
+        views.AgencyDetailView.as_view(),
+        name="agency-detail",
+    ),
     path(
         "orders/<uuid:order_id>/<int:orderitem_id>/checkin/",
         OrderCheckInView.as_view(),
         name="checkin",
     ),
     path("live/", views.LiveStatusView.as_view(), name="live-status"),
+    path("orders/", views.OrderListView.as_view(), name="order-list"),
     path("passengers/", views.PassengerListView.as_view(), name="passengers"),
 ]
 

@@ -1,0 +1,28 @@
+{% extends "layouts/base-company.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+  {{ company.name }} | {% translate "Agency Detail" %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  {% translate "Agency Detail" %}
+{% endblock breadcrumb %}
+
+{% block page_title %}
+  {{ company.name }}
+{% endblock page_title %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <a href="{% url 'companies:agency-list' company.slug %}" class="link-dark icon-link icon-link-hover">
+        <svg class="bi" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <use xlink:href="{% static 'assets/icons/icons.svg' %}#chevron-left" />
+        </svg>
+        {% translate "Back" %}
+      </a>
+    </div>
+  </div>
+{% endblock content %}

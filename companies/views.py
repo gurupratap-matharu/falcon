@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 from django.views.generic import DetailView, ListView, TemplateView
 
-from orders.models import Passenger
+from orders.models import Order, Passenger
 from trips.models import Trip
 
 from .mixins import OwnerMixin
@@ -74,6 +74,14 @@ class SeatChartDetailView(OwnerMixin, DetailView):
     context_object_name = "seatchart"
 
 
+class AgencyListView(OwnerMixin, TemplateView):
+    template_name = "companies/company_agency_list.html"
+
+
+class AgencyDetailView(OwnerMixin, TemplateView):
+    template_name = "companies/company_agency_detail.html"
+
+
 class LiveStatusView(OwnerMixin, TemplateView):
     template_name = "companies/live_status.html"
 
@@ -82,6 +90,13 @@ class PassengerListView(OwnerMixin, ListView):
     template_name = "companies/passengers.html"
     model = Passenger
     context_object_name = "passengers"
+    paginate_by = 20
+
+
+class OrderListView(OwnerMixin, ListView):
+    template_name = "companies/company_order_list.html"
+    model = Order
+    context_object_name = "orders"
     paginate_by = 20
 
 
