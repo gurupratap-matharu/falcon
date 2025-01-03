@@ -77,6 +77,25 @@ class SeatChartDetailView(OwnerMixin, DetailView):
 class AgencyListView(OwnerMixin, TemplateView):
     template_name = "companies/company_agency_list.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["agencies"] = [
+            {"name": "Las Toninas", "address": "Cordoba", "revenue": "1.67 M"},
+            {"name": "Santa Clara", "address": "Santa Marta", "revenue": "1.63 M"},
+            {"name": "Santa Teresita", "address": "Bahia Blanca", "revenue": "1.62 M"},
+            {"name": "Mar Del Tuyu", "address": "Mar del plata", "revenue": "1.60 M"},
+            {"name": "Quitilipi", "address": "Villa La Angostura", "revenue": "1.55 M"},
+            {"name": "Las Mercedes", "address": "San Rafael", "revenue": "1.51 M"},
+            {"name": "Machagai", "address": "Junin de los Andes", "revenue": "1.32 M"},
+            {"name": "Agencia Saenz Pena", "address": "Chascomus", "revenue": "1.22 M"},
+            {"name": "Resistencia", "address": "Resistencia", "revenue": "1.22 M"},
+            {"name": "Viajes Pinamar", "address": "Pinamar", "revenue": "1.01 M"},
+            {"name": "Ecopack Mendo Cargas", "address": "Mendoza", "revenue": "0.99 M"},
+            {"name": "Junin", "address": "Junin De Los Andes", "revenue": "0.75 M"},
+            {"name": "Agencia Mg Tandil", "address": "Tandil", "revenue": "0.75 M"},
+        ]
+        return context
+
 
 class AgencyDetailView(OwnerMixin, TemplateView):
     template_name = "companies/company_agency_detail.html"
