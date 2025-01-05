@@ -11,14 +11,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    FormView,
-    ListView,
-    UpdateView,
-    View,
-)
+from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView, View
 
 from django_weasyprint import WeasyTemplateResponseMixin
 
@@ -330,6 +323,11 @@ class TripPassengerPdfView(WeasyTemplateResponseMixin, CompanyTripDetailView):
 
     template_name = "trips/trip_passengers_pdf.html"
     pdf_filename = "passengers.pdf"
+
+    def get_pdf_filename(self):
+        context = self.get_context_data()
+        trip = context["trip"]
+        return f"{trip.name}-{trip.departure.strftime('%c')}.pdf"
 
 
 class LocationListView(ListView):
