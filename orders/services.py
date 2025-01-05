@@ -63,25 +63,13 @@ def build_context(order_id) -> dict:
     return context
 
 
-def order_confirmed(order_id, payment_id):
+def prepare_user_email(context):
     """
-    When an order is successfully confirmed / paid we
-        - book all seats in an order with passengers
-        - send tickets via e-mail to the payer.
-        - send notification email to the bus company
+    Prepare email message for the user.
     """
 
-    start = timer()
-
-    context = build_context(order_id=order_id)
-    context["payment_id"] = payment_id
     order = context["order"]
-    item = context["item"]
 
-    # Confirm the order
-    order.confirm(payment_id=payment_id)
-
-    # User Email
     subject_path = "orders/emails/booking_confirmed_subject.txt"
     body_path = "orders/emails/booking_confirmed_message.txt"
     html_path = "orders/emails/booking_confirmed_message.html"
@@ -117,13 +105,20 @@ def order_confirmed(order_id, payment_id):
         mimetype="application/pdf",
     )
 
-    # Company Notification Email
+    return user_email
+
+
+def prepare_company_email(context):
+    """
+    Prepare email message to be sent to the bus operator.
+    """
+
     subject_path = "orders/emails/booking_confirmed_company_subject.txt"
     body_path = "orders/emails/booking_confirmed_company_message.txt"
 
     subject = render_to_string(subject_path, context).strip()
     body = render_to_string(body_path, context).strip()
-    company_email = item.trip.company.email
+    company_email = context["item"].trip.company.email
 
     company_email = EmailMultiAlternatives(
         subject=subject,
@@ -132,6 +127,29 @@ def order_confirmed(order_id, payment_id):
         to=[company_email],
         cc=[settings.DEFAULT_TO_EMAIL],
     )
+
+    return company_email
+
+
+def order_confirmed(order_id, payment_id):
+    """
+    When an order is successfully confirmed / paid we
+        - book all seats in an order with passengers
+        - send tickets via e-mail to the payer.
+        - send notification email to the bus company
+    """
+
+    start = timer()
+
+    context = build_context(order_id=order_id)
+    context["payment_id"] = payment_id
+    order = context["order"]
+
+    # Confirm the order
+    order.confirm(payment_id=payment_id)
+
+    user_email = prepare_user_email(context=context)
+    company_email = prepare_company_email(context=context)
 
     # Send both emails in one go
     logger.info("sending booking emails...")
