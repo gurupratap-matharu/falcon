@@ -141,9 +141,6 @@
   <main class="main-content px-3 px-md-0 mt-1 border-radius-lg">
     <header>
       <nav class="navbar navbar-expand-md px-0 mx-md-4 mb-3 shadow-none">
-        <button class="navbar-toggler" type="button" onClick="toggleSideNav();" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
         <nav aria-label="breadcrumb" class="d-none d-md-inline">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm">
@@ -192,6 +189,9 @@
             {% endif %}
           </li>
         </ul>
+        <button class="navbar-toggler" type="button" onClick="toggleSideNav();" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </nav>
     </header>
 
@@ -208,9 +208,11 @@
       {% include "includes/footer.html" %}
 
     </div>
+    <button onclick="toggleSideNav()" class="btn bg-gradient-primary">Toggle Sidenav</button>
   </main>
   <script type="text/javascript">
        const toggleSideNav = () => {
+         console.log('toggling side nav...')
             const body = document.querySelector('body')
             const sideNav = document.querySelector('#sidenav-main')
 
