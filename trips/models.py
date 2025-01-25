@@ -42,7 +42,7 @@ class Location(models.Model):
     address_line1 = models.CharField(_("Address line 1"), max_length=128, blank=True)
     address_line2 = models.CharField(_("Address line 2"), max_length=128, blank=True)
     city = models.CharField(_("City"), max_length=64, blank=True)
-    state = models.CharField(_("State/Province"), max_length=40, blank=True)
+    state = models.CharField(_("State/Province"), max_length=200, blank=True)
     postal_code = models.CharField(_("Postal Code"), max_length=10, blank=True)
     country = CountryField(blank_label=_("(select country)"))
     latitude = models.DecimalField(
@@ -205,7 +205,10 @@ class Stop(models.Model):
     """
 
     name = models.ForeignKey(
-        "trips.Location", on_delete=models.CASCADE, related_name="route_stops"
+        "trips.Location",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="route_stops",
     )
     route = models.ForeignKey(
         "trips.Route", on_delete=models.CASCADE, related_name="stops"
