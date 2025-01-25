@@ -108,7 +108,7 @@
             {% url 'companies:agency-list' company.slug as url_agencies %}
             <a class="nav-link {% if request.path == url_agencies %}active{% endif %}" href="{{ url_agencies }}">
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center
-                          {% if request.path == url_agencies %}text-white{% endif %}">
+                          {% if request.path == url_agencies %}bg-gradient-primary text-white{% endif %}">
                 <svg class="bi" width="16" height="16" aria-hidden="true" fill="currentColor">
                   <use xlink:href="{% static 'assets/icons/icons.svg' %}#building-fill-up" />
                 </svg>
