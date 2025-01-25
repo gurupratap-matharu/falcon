@@ -16,7 +16,12 @@ from companies.views import (
     SeatChartDetailView,
     SeatChartListView,
 )
-from users.factories import CompanyOwnerFactory, StaffuserFactory, SuperuserFactory, UserFactory
+from users.factories import (
+    CompanyOwnerFactory,
+    StaffuserFactory,
+    SuperuserFactory,
+    UserFactory,
+)
 
 
 class CompanyListTests(TestCase):

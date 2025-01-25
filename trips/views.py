@@ -11,7 +11,14 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView, View
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    FormView,
+    ListView,
+    UpdateView,
+    View,
+)
 
 from django_weasyprint import WeasyTemplateResponseMixin
 

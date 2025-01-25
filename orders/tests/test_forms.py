@@ -3,7 +3,7 @@ from django.test import SimpleTestCase, TestCase
 from django_countries import countries
 from faker import Faker
 
-from orders.forms import OrderForm, PassengerForm
+from orders.forms import OrderForm, OrderSearchForm, PassengerForm
 from orders.models import Passenger
 
 fake = Faker()
@@ -73,6 +73,31 @@ class OrderFormTests(SimpleTestCase):
 
         self.assertTrue(is_valid)
         self.assertEqual(form.cleaned_data["email"], "romina@email.com")
+
+
+class OrderSearchFormTests(TestCase):
+    """
+    Test suite to verify the order search form used to find an upcoming valid
+    order works correctly.
+
+    A user will use this form asking to resend an order confirmation email.
+    """
+
+    elements = [x[0] for x in OrderSearchForm.DOCUMENT_TYPE_CHOICES]
+
+    def setUp(self):
+        self.field_required_msg = "This field is required."
+        self.form_data = {
+            "document_type": fake.random_element(self.elements),
+            "document_number": fake.passport_number(),
+            "travel_date": fake.date_this_month(
+                before_today=False, after_today=True
+            ).strftime("%d-%m-%y"),
+        }
+
+    def test_form_is_valid_for_valid_data(self):
+        form = OrderSearchForm(data=self.form_data)
+        self.assertTrue(form.is_valid())
 
 
 class PassengerFormTests(TestCase):
