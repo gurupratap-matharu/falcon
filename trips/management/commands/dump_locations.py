@@ -23,10 +23,16 @@ class Command(BaseCommand):
 
         filepath = JSON_DIR / filename
 
-        all_locations = [x.name for x in Location.objects.all()]
+        all_locations = [
+            {
+                "label": f"({x.abbr}) {x.name}  ({x.state}) ({x.country.name})",
+                "value": x.id,
+            }
+            for x in Location.objects.all()
+        ]
 
         with filepath.open("w", encoding="utf-8") as f:
-            json.dump(all_locations, f, ensure_ascii=False, sort_keys=True, indent=4)
+            json.dump(all_locations, f, ensure_ascii=False)
 
         self.stdout.write("saved to:%s" % filepath)
         self.stdout.write("All Done 🚀💄✨")
