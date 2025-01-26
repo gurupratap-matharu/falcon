@@ -89,6 +89,8 @@ class TripListView(ListView):
         try:
             form = self.form_class(q)
             self.origin, self.destination, self.departure = form.validate()
+            request.session["originName"] = self.origin.name
+            request.session["destinationName"] = self.destination.name
 
         except Exception as e:
             messages.info(request, str(e) + self.invalid_query_msg)

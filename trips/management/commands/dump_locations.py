@@ -3,6 +3,7 @@ import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.db.models.functions import Length
 
 from trips.models import Location
 
@@ -25,10 +26,10 @@ class Command(BaseCommand):
 
         all_locations = [
             {
-                "label": f"({x.abbr}) {x.name}  ({x.state}) ({x.country.name})",
+                "label": f"({x.abbr}) {x.name} ({x.state}) ({x.country.name})",
                 "value": x.id,
             }
-            for x in Location.objects.all()
+            for x in Location.objects.order_by(Length("abbr"))
         ]
 
         with filepath.open("w", encoding="utf-8") as f:

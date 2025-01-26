@@ -33,16 +33,17 @@
               <div class="col-12 col-md-3">
                 <div class="form-group mb-1 mb-md-3">
                   <label for="origin" class="form-label">{% translate "Origen" %}</label>
+                  <input id="originId" name="origin" type="hidden" value="{{ request.session.q.origin }}" />
                   <input class="form-control form-control-lg"
                          type="search"
-                         name="origin"
                          autocorrect="off"
                          autocapitalize="off"
                          autocomplete="off"
                          spellcheck="false"
                          id="origin"
-                         value="{{ request.session.q.origin }}"
+                         value="{{ request.session.originName }}"
                          placeholder='{% translate "¿Desde Donde?" %}'
+                         data-for="originId"
                          autofocus
                          required />
                 </div>
@@ -50,16 +51,17 @@
               <div class="col-12 col-md-3">
                 <div class="form-group mb-1 mb-md-3">
                   <label for="destination" class="form-label">{% translate "Destino" %}</label>
+                  <input id="destinationId" name="destination" type="hidden" value="{{ request.session.q.destination }}" />
                   <input class="form-control"
                          type="search"
-                         name="destination"
                          autocorrect="off"
                          autocapitalize="off"
                          autocomplete="off"
                          spellcheck="false"
                          id="destination"
-                         value="{{ request.session.q.destination }}"
+                         value="{{ request.session.destinationName }}"
                          placeholder='{% translate "¿A donde queres ir?" %}'
+                         data-for="destinationId"
                          required />
                 </div>
               </div>
