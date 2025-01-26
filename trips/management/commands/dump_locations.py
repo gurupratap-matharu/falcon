@@ -3,11 +3,14 @@ import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.db.models import Value
 from django.db.models.functions import Length
 
 from trips.models import Location
 
 logger = logging.getLogger(__name__)
+
+IMP_LOCATIONS = ["BUE", "DELE", "ROS", "MDP", "CBA", "MZA", "IGU", "SFE", "POS"]
 
 
 class Command(BaseCommand):
@@ -24,16 +27,28 @@ class Command(BaseCommand):
 
         filepath = JSON_DIR / filename
 
-        all_locations = [
+        imp_locs = Location.objects.filter(abbr__in=IMP_LOCATIONS).annotate(
+            custom_order=Value(1)
+        )
+
+        other_locs = Location.objects.exclude(abbr__in=IMP_LOCATIONS).annotate(
+            custom_order=Value(2)
+        )
+
+        all_locs = imp_locs.union(other_locs).order_by("custom_order")
+
+        data = [
             {
                 "label": f"({x.abbr}) {x.name} ({x.state}) ({x.country.name})",
                 "value": x.id,
             }
-            for x in Location.objects.order_by(Length("abbr"))
+            for x in all_locs
         ]
 
         with filepath.open("w", encoding="utf-8") as f:
-            json.dump(all_locations, f, ensure_ascii=False)
+            json.dump(data, f, ensure_ascii=False)
 
+        self.stdout.write("Important locations:%s" % IMP_LOCATIONS)
+        self.stdout.write("Total locations:%s" % len(data))
         self.stdout.write("saved to:%s" % filepath)
         self.stdout.write("All Done 🚀💄✨")
