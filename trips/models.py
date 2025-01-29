@@ -393,11 +393,7 @@ class Trip(models.Model):
             )
 
     def get_absolute_url(self):
-        # TODO: Veer can we make this <origin>/<destination>/<company>/<id>?
-        # Like how blog posts have unique urls
-        return reverse_lazy(
-            "trips:trip_detail", kwargs={"id": self.id, "slug": self.slug}
-        )
+        return reverse_lazy("trips:trip-detail", kwargs={"id": self.id})
 
     def get_add_to_cart_url(self):
         return reverse_lazy("cart:cart_add", kwargs={"trip_id": self.id})

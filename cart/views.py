@@ -31,8 +31,8 @@ def cart_add(request, trip_id=None):
     quantity = int(q["num_of_passengers"])
 
     trip = get_object_or_404(Trip, id=trip_id)
-    origin = get_object_or_404(Location, name__iexact=q["origin"])
-    destination = get_object_or_404(Location, name__iexact=q["destination"])
+    origin = get_object_or_404(Location, id=q["origin"])
+    destination = get_object_or_404(Location, id=q["destination"])
 
     price = trip.get_price(origin, destination)
 
@@ -89,8 +89,8 @@ def cart_detail(request):
     coupon_apply_form = CouponApplyForm()
 
     q = request.session.get("q")
-    origin = get_object_or_404(Location, name__iexact=q["origin"])
-    destination = get_object_or_404(Location, name__iexact=q["destination"])
+    origin = get_object_or_404(Location, id=q["origin"])
+    destination = get_object_or_404(Location, id=q["destination"])
 
     context = {
         "cart": cart,

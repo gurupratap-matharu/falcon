@@ -82,8 +82,8 @@ class OrderCreateView(CreateView):
 
         q = self.request.session.get("q")
 
-        origin = get_object_or_404(Location, name__iexact=q["origin"])
-        destination = get_object_or_404(Location, name__iexact=q["destination"])
+        origin = get_object_or_404(Location, id=q["origin"])
+        destination = get_object_or_404(Location, id=q["destination"])
 
         context["cart"] = Cart(self.request)
         context["formset"] = self.get_formset()
@@ -135,8 +135,8 @@ class OrderCreateView(CreateView):
         for item in cart:
             trip = item["trip"]
 
-            origin = get_object_or_404(Location, name__iexact=item["origin"])
-            destination = get_object_or_404(Location, name__iexact=item["destination"])
+            origin = get_object_or_404(Location, id=item["origin"])
+            destination = get_object_or_404(Location, id=item["destination"])
 
             # Extract seat numbers from POST data and clean them
             seat_numbers = self.request.POST.get(f"seats{trip.id}", "")

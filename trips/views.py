@@ -11,14 +11,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    FormView,
-    ListView,
-    UpdateView,
-    View,
-)
+from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView, View
 
 from django_weasyprint import WeasyTemplateResponseMixin
 
@@ -138,8 +131,8 @@ class TripDetailView(DetailView):
 
         q = self.request.session.get("q")
 
-        origin = get_object_or_404(Location, name__iexact=q["origin"])
-        destination = get_object_or_404(Location, name__iexact=q["destination"])
+        origin = get_object_or_404(Location, id=q["origin"])
+        destination = get_object_or_404(Location, id=q["destination"])
 
         context["origin"] = origin
         context["destination"] = destination
