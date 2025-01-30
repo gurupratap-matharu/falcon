@@ -4,7 +4,6 @@ import logging
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.models import Value
-from django.db.models.functions import Length
 
 from trips.models import Location
 
