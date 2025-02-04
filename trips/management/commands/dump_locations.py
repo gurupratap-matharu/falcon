@@ -39,7 +39,7 @@ class Command(BaseCommand):
         data = [
             {
                 "label": f"({x.abbr}) {x.name} ({x.state}) ({x.country.name})",
-                "value": x.id,
+                "value": x.abbr,
             }
             for x in all_locs
         ]
