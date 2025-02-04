@@ -134,15 +134,10 @@ class TripDetailView(DetailView):
         return trip
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-
         q = self.request.session.get("q")
 
-        origin = get_object_or_404(Location, id=q["origin"])
-        destination = get_object_or_404(Location, id=q["destination"])
-
-        context["origin"] = origin
-        context["destination"] = destination
+        context = super().get_context_data(**kwargs)
+        context["origin"], context["destination"] = Location.objects.parse_query(q)
 
         return context
 

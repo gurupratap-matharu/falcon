@@ -68,8 +68,8 @@ class Cart:
             self.cart[trip_id] = {
                 "quantity": 0,
                 "price": str(price),
-                "origin": origin.id,
-                "destination": destination.id,
+                "origin": origin.abbr,
+                "destination": destination.abbr,
             }
 
         if override_quantity:

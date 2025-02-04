@@ -58,7 +58,7 @@ class TripSearchForm:
         if isinstance(origin, list):
             origin = origin[0]
 
-        return get_object_or_404(Location, id=origin)
+        return get_object_or_404(Location, abbr__iexact=origin)
 
     def clean_destination(self):
         """Only allow destinations present in our database"""
@@ -68,7 +68,7 @@ class TripSearchForm:
         if isinstance(destination, list):
             destination = destination[0]
 
-        return get_object_or_404(Location, id=destination)
+        return get_object_or_404(Location, abbr__iexact=destination)
 
     def clean_departure(self):
         """

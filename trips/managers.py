@@ -7,6 +7,7 @@ from django.db.models import Case, Count, F, Q, Sum, When
 from django.db.models.fields import FloatField, IntegerField
 from django.db.models.fields.json import KT
 from django.db.models.functions import Cast, Round
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
@@ -15,6 +16,15 @@ logger = logging.getLogger(__name__)
 class LocationManager(models.Manager):
     def get_by_natural_key(self, abbr):
         return self.get(abbr=abbr)
+
+    def parse_query(self, q):
+        """
+        Handy method to find locations based on abbr code used in search query.
+        """
+        origin = get_object_or_404(self, abbr__iexact=q["origin"])
+        destination = get_object_or_404(self, abbr__iexact=q["destination"])
+
+        return origin, destination
 
 
 class PastManager(models.Manager):
