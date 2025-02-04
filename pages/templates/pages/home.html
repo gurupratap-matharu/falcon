@@ -123,7 +123,7 @@
       <div class="row row-cols-2 row-cols-sm-3 row-cols-md-6">
         <div class="col">
           <div class="card card-plain">
-            <img src="{% static 'assets/img/places/rosario.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <img src="{% static 'assets/img/places/rosario.avif' %}" alt="Rosario" loading="lazy" class="img-fluid shadow-xl rounded" />
             <div class="ps-1 pt-1">
               <a href="#" class="card-title text-sm stretched-link">Rosario</a>
             </div>
@@ -131,7 +131,10 @@
         </div>
         <div class="col">
           <div class="card card-plain">
-            <img src="{% static 'assets/img/places/mardelplata.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <img src="{% static 'assets/img/places/mardelplata.avif' %}"
+                 alt="Mar Del Plata"
+                 loading="lazy"
+                 class="img-fluid shadow-xl rounded" />
             <div class="ps-1 pt-1">
               <a href="#" class="card-title text-sm stretched-link">Mar Del Plata</a>
             </div>
@@ -139,7 +142,7 @@
         </div>
         <div class="col">
           <div class="card card-plain">
-            <img src="{% static 'assets/img/places/cordoba.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <img src="{% static 'assets/img/places/cordoba.avif' %}" alt="Cordoba" loading="lazy" class="img-fluid shadow-xl rounded" />
             <div class="ps-1 pt-1">
               <a href="#" class="card-title text-sm stretched-link">Cordoba</a>
             </div>
@@ -147,7 +150,7 @@
         </div>
         <div class="col">
           <div class="card card-plain">
-            <img src="{% static 'assets/img/places/mendoza.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <img src="{% static 'assets/img/places/mendoza.avif' %}" alt="Mendoza" loading="lazy" class="img-fluid shadow-xl rounded" />
             <div class="ps-1 pt-1">
               <a href="#" class="card-title text-sm stretched-link">Mendoza</a>
             </div>
@@ -155,7 +158,10 @@
         </div>
         <div class="col">
           <div class="card card-plain">
-            <img src="{% static 'assets/img/places/bariloche.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <img src="{% static 'assets/img/places/bariloche.avif' %}"
+                 alt="Bariloche"
+                 loading="lazy"
+                 class="img-fluid shadow-xl rounded" />
             <div class="ps-1 pt-1">
               <a href="#" class="card-title text-sm stretched-link">Bariloche</a>
             </div>
@@ -163,7 +169,7 @@
         </div>
         <div class="col">
           <div class="card card-plain">
-            <img src="{% static 'assets/img/places/salta.avif' %}" loading="lazy" class="img-fluid shadow-xl rounded" />
+            <img src="{% static 'assets/img/places/salta.avif' %}" alt="Salta" loading="lazy" class="img-fluid shadow-xl rounded" />
             <div class="ps-1 pt-1">
               <a href="#" class="card-title text-sm stretched-link">Salta</a>
             </div>
@@ -280,122 +286,59 @@
         Descubre destinos como Córdoba, Mendoza,
         Rosario y muchos más, y viaja cómodamente a precios competitivos.
       </p>
-    </p>
-    <p class="text-sm text-center">
-      Además de la compra de pasajes, en Ventanita también encontrarás información detallada sobre las empresas de colectivos
-      y sus servicios, como las comodidades a bordo, políticas de equipaje, y promociones especiales. Si eres un viajero
-      frecuente, consulta nuestras opciones de billetes flexibles y descuentos para grupos. Accede a nuestra plataforma desde
-      cualquier dispositivo, ya sea para reservar tu viaje o para obtener detalles sobre los horarios y las mejores
-      conexiones de bus entre las principales ciudades de Argentina.
-    </p>
-  </section>
-</article>
-{% comment %}
+      <p class="text-sm text-center">
+        Además de la compra de pasajes, en Ventanita también encontrarás información detallada sobre las empresas de colectivos
+        y sus servicios, como las comodidades a bordo, políticas de equipaje, y promociones especiales. Si eres un viajero
+        frecuente, consulta nuestras opciones de billetes flexibles y descuentos para grupos. Accede a nuestra plataforma desde
+        cualquier dispositivo, ya sea para reservar tu viaje o para obtener detalles sobre los horarios y las mejores
+        conexiones de bus entre las principales ciudades de Argentina.
+      </p>
+    </section>
+  </article>
+  {% comment %}
   <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDeparture" aria-controls="offcanvasDeparture">Departure</button>
   <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasReturn" aria-controls="offcanvasReturn">Return</button>
-{% endcomment %}
-{# Offcanvas Departure #}
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasDepartureLabel">{% translate "Departure" %}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <input class="form-control form-control-lg offcanvas-departure-date bg-white"
-           type="text"
-           name="offcanvas-departure"
-           id="offcanvas-departure"
-           autocorrect="off"
-           autocapitalize="off"
-           autocomplete="off"
-           spellcheck="false"
-           maxlength="2048"
-           value="{{ request.session.q.departure }}"
-           required />
-  </div>
-</div>
-{# Offcanvas Return #}
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasReturnLabel">{% translate "Return" %}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <input class="form-control form-control-lg offcanvas-return-date bg-white"
-           type="text"
-           name="offcanvas-return"
-           id="offcanvas-return"
-           autocorrect="off"
-           autocapitalize="off"
-           autocomplete="off"
-           spellcheck="false"
-           maxlength="2048"
-           value="{{ request.session.q.return }}"
-           required />
-  </div>
-</div>
-{# Autocomplete offcanvas Origin #}
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasOrigin" aria-labelledby="offcanvasOriginLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasOriginLabel">{% translate "Origin" %}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="form-group mb-1 mb-md-3">
-      <label for="originOC" class="form-label visually-hidden">{% translate "Origin" %}</label>
-      <input class="form-control form-control-lg"
-             type="search"
-             name="originOC"
+  {% endcomment %}
+  {# Offcanvas Departure #}
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDeparture" aria-labelledby="offcanvasDepartureLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasDepartureLabel">{% translate "Departure" %}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <input class="form-control form-control-lg offcanvas-departure-date bg-white"
+             type="text"
+             name="offcanvas-departure"
+             id="offcanvas-departure"
              autocorrect="off"
              autocapitalize="off"
              autocomplete="off"
              spellcheck="false"
-             id="originOC"
-             value="{{ request.session.q.origin }}"
-             placeholder='{% translate "Leaving from" %}'
+             maxlength="2048"
+             value="{{ request.session.q.departure }}"
              required />
     </div>
-    <div class="search-results-origin">
-      <p class="text-sm mt-3 ms-2">Suggestions</p>
+  </div>
+  {# Offcanvas Return #}
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasReturn" aria-labelledby="offcanvasReturnLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasReturnLabel">{% translate "Return" %}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-  </div>
-</div>
-{% comment %}
-  {# Autocomplete offcanvas Destination #}
-  <div class="d-flex justify-content-center mt-5">
-    <a class="me-3" data-bs-toggle="offcanvas" href="#offcanvasOrigin" role="button" aria-controls="offcanvasOrigin">
-      Open origin offcanvas
-    </a>
-    <a data-bs-toggle="offcanvas" href="#offcanvasDestination" role="button" aria-controls="offcanvasDestination">
-      Open destination offcanvas
-    </a>
-  </div>
-{% endcomment %}
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDestination" aria-labelledby="offcanvasDestinationLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasDestinationLabel">{% translate "Destination" %}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="form-group mb-1 mb-md-3">
-      <label for="destinationOC" class="form-label visually-hidden">{% translate "Destination" %}</label>
-      <input class="form-control form-control-lg"
-             type="search"
-             name="destinationOC"
+    <div class="offcanvas-body">
+      <input class="form-control form-control-lg offcanvas-return-date bg-white"
+             type="text"
+             name="offcanvas-return"
+             id="offcanvas-return"
              autocorrect="off"
              autocapitalize="off"
              autocomplete="off"
              spellcheck="false"
-             id="destinationOC"
-             value="{{ request.session.q.destination }}"
-             placeholder='{% translate "Going to..." %}'
+             maxlength="2048"
+             value="{{ request.session.q.return }}"
              required />
     </div>
-    <div class="search-results-destination">
-      <p class="text-sm mt-3 ms-2">Suggestions</p>
-    </div>
   </div>
-</div>
 {% endblock content %}
 
 {% block js %}
