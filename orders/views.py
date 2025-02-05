@@ -133,7 +133,6 @@ class OrderCreateView(CreateView):
 
         for item in cart:
             trip = item["trip"]
-            breakpoint()
 
             origin, destination = Location.objects.parse_query(item)
 
