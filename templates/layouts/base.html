@@ -13,7 +13,7 @@
     <meta name="description" content="{% block description %}Reserva tus pasajes de micro al mejor precio con Ventanita. Compara, elige y viaja con tranquiliadad por toda Argentina 🇦🇷. ¡Tu próxima aventura empieza aquí!{% endblock description %}" />
     {# djlint:on #}
     {# DISABLE SEARCH ENGINE INDEX #}
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="noindex, nofollow" />
     {# REMOVE THE ABOVE LINE TO START INDEXING #}
     {% comment %}
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -58,9 +58,7 @@
     <meta property="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="{% static 'assets/icons/favicons/site.webmanifest' %}" />
     <link rel="icon" type="image/svg+xml" href="{% static 'assets/img/logos/logo.svg' %}" />
-    {% if not debug %}
-    {# insert google tag here #}
-    {% endif %}
+    {% if not debug %}{# insert google tag here #}{% endif %}
     <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}" />
 
     {% block extra_css %}
