@@ -54,16 +54,7 @@
     <link rel="manifest" href="{% static 'assets/icons/favicons/site.webmanifest' %}" />
     <link rel="icon" type="image/svg+xml" href="{% static 'assets/img/logos/logo.svg' %}" />
     {% if not debug %}
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-FXKFW99W2Z"></script>
-      <script>
-           window.dataLayer = window.dataLayer || [];
-
-           function gtag() {
-                dataLayer.push(arguments);
-           }
-           gtag('js', new Date());
-           gtag('config', 'G-FXKFW99W2Z');
-      </script>
+    {# insert google tag here #}
     {% endif %}
     <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}" />
 
